@@ -13,7 +13,7 @@ function getTask()
 function loadTask()
 {
 	currentTask = getTask();
-	document.getElementById("task").innerHTML = "<span>" + currentTask.sentences[0] + "</span>";
+	//document.getElementById("task").innerHTML = "<span>" + currentTask.sentences[0] + "</span>";
 }
 
 window.onload = loadTask;
