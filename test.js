@@ -2,18 +2,9 @@ var currentTask;
 
 function getTask()
 {
-	var task = {"sentences" :
+	currentTask = {"sentences" :
 		["Зимой 2014 года в красивый курортный город Сочи впервые смогут приехать спортсмены из различных стран мира на Олимпийские игры.",
 		"Сколько спортсменов и тренеров из различных стран мира хотят приехать в город Сочи с 1 февраля 2014 года по 28 февраля 2014 года на Олимпийские игры?",
 		"1-го мая 2010 года необходимо срочно отправить в командировку в город Сочи на олимпийские объекты членов олимпийского комитета РФ."]
 	};
-	return task;
 }
-
-function loadTask()
-{
-	currentTask = getTask();
-	//document.getElementById("task").innerHTML = "<span>" + currentTask.sentences[0] + "</span>";
-}
-
-window.onload = loadTask;
