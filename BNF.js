@@ -25,14 +25,19 @@ function fixEvent(e)
 
 function startDragElement(el)
 {
+	if(dragging.state)
+	{
+		bnfDiv.removeChild(dragging.div);
+	}
 	dragging.state = true;
 	dragging.element = el.innerHTML;
 	dragging.div = document.createElement('div');
 	dragging.div.innerHTML = el.innerHTML;
 	dragging.div.className = 'dragging';
-	//dragging.div.style.left = el.style.left;
-	//dragging.div.style.top = el.style.top;
 	bnfDiv.appendChild(dragging.div);
+	dragging.div.style.left = el.style.left;
+	dragging.div.style.top = el.style.top;
+
 	bnfDiv.onmousemove = onMouseMove;
 }
 
@@ -52,10 +57,15 @@ function dropElement(e)
 	if(!dragging.state)
 		return;
 	var line = e.target;
+	if(!line.id.match(/\d/))
+	{
+		return false;
+	}
 	var flag = false;
 	if(bnfContent.lines[line.id].left == null)
 	{
 		flag = true;
+		line.innerHTML = "";
 		bnfContent.lines[line.id].left = dragging.element;
 		bnfContent.lines[line.id].rules.push([]);
 		addBNFLine();
@@ -85,16 +95,19 @@ function addBNFLine()
 	newLine.onmouseup = dropElement;
 	bnfConstruct.appendChild(newLine);
 	bnfContent.lines.push({left : null, rules : []});
+	newLine.innerHTML = '<span class="newLine" >Перетащите элемент сюда для создания нового правила</span>';
 }
 
 function initBNF(elementsList, bnfOuterDiv)
 {
 	bnfDiv = bnfOuterDiv;
+	bnfDiv.className = "BNFeditor";
 	var elementsDiv = document.createElement('div');
+	elementsDiv.innerHTML = '<span>Выберите элемент из списка</span><br/>';
 	var bnfConstructDiv = document.createElement('div');
 	for(var el in elementsList)
 	{
-		elementsDiv.innerHTML += '<div class="BNFelement" onmousedown="startDragElement(this)">' + elementsList[el] + '</div>';
+		elementsDiv.innerHTML += '<span class="BNFelement" onmousedown="startDragElement(this)">' + elementsList[el] + '</span>';
 	}
 	bnfConstructDiv.id = "BNFconstruct";
 	elementsDiv.id = "elements";
