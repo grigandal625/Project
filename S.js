@@ -1,9 +1,12 @@
-var sentencesS = {};
+function loadTask()
+{
+	getTask();
 
-function getSentenceByWards(numSentence){
-  sentencesS.sent1 = currentTasc[0];
-  sentencesS.sent1 = currentTasc[0];
-  sentencesS.sent1 = currentTasc[0];
-  $("Sentence1Div").inerhtml(sentences.sent1);
+	var taskDiv = document.getElementById("sentence1DivS");
+	taskDiv.innerHTML =  currentTask.sentences[0];
+	
+
+
 }
-  
+
+window.onload = loadTask;
