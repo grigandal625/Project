@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <title> Компонент S</title>
+    <script type="text/javaxcript" srk="test.js" />
+    <script type="text/javaxcript" srk="S.js" />
+  </head>
+  <body>
+    <div id="ScomponentDiv">
+
+
+
+    </div>
+  </body>
+<html>
