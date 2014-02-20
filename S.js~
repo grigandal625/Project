@@ -1,9 +1,0 @@
-var sentencesS = {};
-
-function getSentenceByWards(numSentence){
-  sentencesS.sent1 = currentTasc[0];
-  sentencesS.sent1 = currentTasc[0];
-  sentencesS.sent1 = currentTasc[0];
-  $("firstSentenceDivContainer").inerhtml(sentences.sent1);
-}
-  
