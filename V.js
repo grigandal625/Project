@@ -8,7 +8,7 @@ function loadTask()
 	taskDiv.innerHTML += "<span>" + currentTask.sentences[2] + "</span><br/>";
 
 	var list = ["&lt;Словарь&gt;", "&lt;Название словаря&gt;", "{&lt;Тело словаря&gt;}",
-		"&lt;Тело словаря&gt;", "&lt;Словарная статья&gt;", "&lt;Падеж&gt;"];
+		"&lt;Тело словаря&gt;", "&lt;Словарная статья&gt;", "&lt;Словарная статья понятий(сущ.)&gt;", "&lt;Падеж&gt;"];
 	initBNF(list, document.getElementById("BNF"));
 }
 
