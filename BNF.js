@@ -41,6 +41,20 @@ function startDragElement(el)
 	bnfDiv.onmousemove = onMouseMove;
 }
 
+function onMouseOver(e)
+{
+	if(dragging.state && (e.target.tagName == 'DIV'))
+	{
+		e.target.className = "BNFline BNFlineHighlighted";
+	}
+}
+
+function onMouseOut(e)
+{
+	if((e.target.tagName == 'DIV'))
+		e.target.className = "BNFline";
+}
+
 function onMouseMove(e)
 {
 	e = fixEvent(e);
@@ -101,6 +115,8 @@ function addBNFLine()
 	newLine.className = "BNFline";
 	newLine.id = bnfContent.lines.length;
 	newLine.onmouseup = dropElement;
+	newLine.onmouseover = onMouseOver;
+	newLine.onmouseout = onMouseOut;
 	bnfConstruct.appendChild(newLine);
 	bnfContent.lines.push({left : null, state : "empty", rules : []});
 	newLine.innerHTML = '<span class="newLine" >Перетащите элемент сюда для создания нового правила</span>';

@@ -57,8 +57,14 @@ div.BNFline
 	background-color: #F0F0F0;
 	min-height: 16pt;
 	border: 1px solid grey;
-	margin: 3px;
+	margin: 5px;
 	padding-right: 10px;
+}
+
+div.BNFlineHighlighted
+{
+	border: 2px solid green;
+	margin: 4px;
 }
 
 div#BNFconstruct
