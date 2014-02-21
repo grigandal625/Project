@@ -72,7 +72,7 @@ function dropElement(e)
 	if(bnfContent.lines[line.id].left == null)
 	{
 		flag = true;
-		line.innerHTML = '<img src="cross-icon.png" class="deleteIcon" onclick="deleteLine(' + line.id + ')" />';
+		line.innerHTML = '<img alt="Удалить" title="Удалить строку" src="cross-icon.png" class="deleteIcon" onclick="deleteLine(' + line.id + ')" />';
 		bnfContent.lines[line.id].left = dragging.element;
 		bnfContent.lines[line.id].rules.push([]);
 		bnfContent.lines[line.id].state = "filled";

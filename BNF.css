@@ -13,13 +13,14 @@ div.dragging
 	border-radius: 2px;
 	margin: 4px;
 	background-color: #A0A0A0;
+	cursor: pointer;
 	//white-space: nowrap;
 }
 
 .deleteIcon
 {
 	float: right;
-	vertical-align: bottom;
+	cursor: pointer;
 }
 
 div#elements
@@ -48,6 +49,7 @@ div.BNFeditor
 span.newLine
 {
 	opacity: 0.3;
+	cursor: default;
 }
 
 div.BNFline

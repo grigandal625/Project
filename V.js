@@ -7,8 +7,11 @@ function loadTask()
 	taskDiv.innerHTML += "<span>" + currentTask.sentences[1] + "</span><br/>";
 	taskDiv.innerHTML += "<span>" + currentTask.sentences[2] + "</span><br/>";
 
-	var list = ["&lt;Словарь&gt;", "&lt;Название словаря&gt;", "{&lt;Тело словаря&gt;}",
-		"&lt;Тело словаря&gt;", "&lt;Словарная статья&gt;", "&lt;Словарная статья понятий(сущ.)&gt;", "&lt;Падеж&gt;"];
+	var list = ["&lt;описание словаря&gt;", "&lt;имя словаря&gt;", "{&lt;тело словаря&gt;}",
+		"&lt;тело словаря&gt;", "&lt;словарная статья&gt;", "&lt;словарная статья понятий(сущ.)&gt;",
+		"&lt;падеж&gt;", "&lt;номер п/п&gt;", "&lt;словоформа&gt;", "&lt;словарная статья вопр. слов&gt;",
+		"&lt;словарная статья предикатов&gt;", "&lt;род&gt;", "&lt;число&gt;", "&lt;семантическая категория&gt;",
+		"&lt;семантический признак&gt;"];
 	initBNF(list, document.getElementById("BNF"));
 }
 
