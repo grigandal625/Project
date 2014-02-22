@@ -23,6 +23,12 @@ div.dragging
 	cursor: pointer;
 }
 
+.addIcon
+{
+	height: 12pt;
+	margin-bottom: -2px;
+}
+
 div#elements
 {
 	float: right;
@@ -31,7 +37,7 @@ div#elements
 	background-color: wheat;
 }
 
-div.BNFeditor
+div#BNF
 {
 	display: table;
 
@@ -59,12 +65,67 @@ div.BNFline
 	border: 1px solid grey;
 	margin: 5px;
 	padding-right: 10px;
+	padding-top: 2px;
+	line-height: 16pt;
 }
 
+span.BNFrule
+{
+	padding-right: 5px;
+	padding-left: 5px;
+	border: 1px solid grey;
+	border-radius: 2px;
+	margin: 4px;
+	background-color: #FFFFFF;
+	cursor: default;
+}
+
+span.freshRule
+{
+	padding-right: 5px;
+	padding-left: 5px;
+	border: 1px solid grey;
+	border-radius: 2px;
+	margin: 4px;
+	background0color: lightgreen;
+}
+
+span.BNFaddElement
+{
+	padding-right: 5px;
+	padding-left: 5px;
+	border: 1px solid darkgreen;
+	border-radius: 2px;
+	margin: 8px;
+	margin-right: 0;
+	background-color: #FFFFFF;
+	color: green;
+}
+
+span.BNFnewRule
+{
+	padding-right: 5px;
+	padding-left: 5px;
+	border: 1px solid green;
+	border-radius: 2px;
+	margin: 4px;
+	margin-left: 10px;
+	mergin-right: 10px;
+	background-color: #A0FFA0;
+	cursor: default;
+
+}
 div.BNFlineHighlighted
 {
 	border: 2px solid green;
 	margin: 4px;
+}
+
+span.BNFruleHighlighted
+{
+	border: 2px solid green;
+	background-color: lightgreen;
+	margin: 2px;
 }
 
 div#BNFconstruct

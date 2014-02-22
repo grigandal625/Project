@@ -12,6 +12,7 @@ function loadTask()
 		"&lt;падеж&gt;", "&lt;номер п/п&gt;", "&lt;словоформа&gt;", "&lt;словарная статья вопр. слов&gt;",
 		"&lt;словарная статья предикатов&gt;", "&lt;род&gt;", "&lt;число&gt;", "&lt;семантическая категория&gt;",
 		"&lt;семантический признак&gt;"];
+	list.sort();
 	initBNF(list, document.getElementById("BNF"));
 }
 
