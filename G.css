@@ -24,6 +24,7 @@
 	background : #FFFFFF;
 	border-bottom : 2px solid #000000;
 	cursor : pointer;
+	background-color : transparent;
 }
 
 #task {
@@ -36,6 +37,7 @@
 	-ms-user-select: none;
 	user-select: none;
 	border-right : 2px solid orange;
+	border-top : 2px solid orange;
 }
 
 #buttons {
