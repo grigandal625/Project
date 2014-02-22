@@ -126,8 +126,9 @@ function deleteLine(id)
 function addElementToRule(rule)
 {
 	var newEl = document.createElement('span');
-	//var lineN = $1;
-	//var ruleN = $2;
+	var lineN = rule.id.split(':')[0];
+	var ruleN = rule.id.split(':')[1];
+	bnfContent.lines[lineN].rules[ruleN].push(dragging.element);
 	newEl.innerHTML = dragging.element;
 	newEl.className = 'BNFelement';
 	var nextNewEl = document.createElement('span');
@@ -165,6 +166,25 @@ function dropElement(e)
 	else if(e.target.className == 'BNFaddElement')
 	{
 		addElementToRule(e.target.parentNode);
+	}
+	else if(e.target.className == 'BNFnewRule')
+	{
+		var tmp = e.target;
+		var line = e.target.parentNode;
+		line.removeChild(tmp);
+		var newRule = document.createElement('span');
+		newRule.className = 'BNFrule';
+		var ruleN = bnfContent.lines[line.id].rules.length;
+		newRule.id = line.id + ':' + ruleN;
+		newRule.innerHTML = '...';
+		bnfContent.lines[line.id].rules.push([]);
+		var stick = document.createElement('span');
+		stick.className = 'BNFstick';
+		stick.innerHTML = ' | ';
+		line.appendChild(stick);
+		line.appendChild(newRule);
+		line.appendChild(tmp);
+		addElementToRule(newRule);
 	}
 	else
 	{
