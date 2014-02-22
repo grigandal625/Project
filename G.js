@@ -8,6 +8,10 @@ var selected = {
 	sentence : -1,
 	status : false
 }
+var groupFlag = {
+	id : -1,
+	status : false
+}
 
 var Colors = ["white","black","red","blue","orange","gray","cyan","yellow","#007FFF","#E75480","#00A86B","#DA70D6","#AF4035","#CC8899","#704214","#D53E07","#FFCC99","#77DD77","#5D8AA8","#C7FCEC","#FF7518"];
 
@@ -69,7 +73,7 @@ function loadTask(){
 	buttonDiv.innerHTML += '<button class="button" id="creator" onclick="addNounGroup()">Добавить ИГ</button>';
 	document.getElementById("creator").style.borderColor = Colors[0];
 	buttonTable["cleanerS"] = {status : true};
-	buttonTable["cleanerG"] = {status : true};
+	//this is special & temp button buttonTable["cleanerG"] = {status : true};
 	//this is special button. // buttonTable["creator"] = {status : true};
 	buttonTable["but1"] = {status : true};
 	buttonTable["but2"] = {status : true};
@@ -89,6 +93,10 @@ function addNounGroup(){
 }
 
 function changeStatus(id){
+	if ( groupFlag.status == true ){
+		alert("СДЕЛАЙ ЧТО-ТО С ВЫДЕЛЕННОЙ ГРУППОЙ");
+		return;
+	}
 	if ( wordTable[id].type == "span" ){
 		if ( selected.status == false ){
 			if ( selected.id == -1 ){
@@ -172,7 +180,7 @@ function setGroup(idGroup){
 				sentence : currentSentence,
 				groupId : wordTable[id].groupId
 			}
-			newTask += '<span id="group' + newId +'" class="group">' + wordTable[id].data + '</span> ';
+			newTask += '<span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + '</span> ';
 			newId++;
 		}else{
 			if ( wordTable[id].status == 0 ){
@@ -204,7 +212,7 @@ function setGroup(idGroup){
 					sentence : currentSentence,
 					groupId : idGroup
 				}
-				newTask += '<span id="group' + newId + '" class="group">' + newData + '</span> ';
+				newTask += '<span id="group' + newId + '" class="group" onclick="selectGroup(' + newId + ')">' + newData + '</span> ';
 				newId++;
 			}
 		}
@@ -218,6 +226,32 @@ function setGroup(idGroup){
 	selected.sentence = -1;
 	selected.status = false;
 	setActiveButtons();
+}
+
+function selectGroup(id){
+	if ( selected.id != -1 ){
+		alert("СДЕЛАЙ ЧТО-ТО С ВЫДЕЛИЕМ СЛОВ");
+		return;
+	}
+	if ( wordTable[id].status == 0 ){
+		if ( groupFlag.status == true )
+			if ( groupFlag.id != id )
+				alert("УЖЕ ВЫДЕЛЕНА ГРУППА " + groupFlag.id);
+			else{
+				groupFlag.status = false;
+				groupFlag.id = -1;
+				document.getElementById("cleanerG").style.disabled = true;
+				document.getElementById("group" + id).style.color = "black";
+				//снять выделение
+			}
+		else{
+			groupFlag.status = true;
+			groupFlag.id = id;
+			document.getElementById("cleanerG").style.disabled = false;
+			document.getElementById("group" + id).style.color = "red";
+			//сменить стиль + включить кнопку
+		}
+	}
 }
 
 window.onload = loadTask;
