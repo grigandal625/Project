@@ -19,8 +19,10 @@ var td4 = 'удалить';
 
 function levelUpS(th){
 	var curLevel = parseInt($(th).prev().html());
-	if (curLevel < 5){
-		
+	var maxLevel = 5;
+	var lastLevel = parseInt($(th).parent().parent().prev().children().last().prev().children().first().next().html());
+	if (lastLevel < maxLevel) maxLevel = lastLevel + 1;
+	if (curLevel < maxLevel){	
 		$(th).prev().html(curLevel+1);
 		$(th).parent().prev().removeClass("class" + curLevel+"S").addClass("class" + (curLevel+1) + "S");	
 	} 
@@ -28,7 +30,10 @@ function levelUpS(th){
 
 function levelDownS(th){
 	var curLevel = parseInt($(th).next().html());
-	if (curLevel > 1){		
+	var minLevel = 1;
+	var nextLevel = parseInt($(th).parent().parent().next().children().last().prev().children().first().next().html());
+	if (nextLevel > minLevel) minLevel = nextLevel-1;
+	if (curLevel > minLevel){		
 		$(th).next().html(curLevel-1);
 		$(th).parent().prev().removeClass("class" + curLevel+"S").addClass("class" + (curLevel-1) + "S");	
 	} 
@@ -89,7 +94,7 @@ function putTd2class(){
 
 function putTd3(){
 	if (kolichestvoStrokS==0){
-		return 0;
+		return "<div></div><div>0</div><div></div>";
 	} else {
 		return CHLevel;
 	}
