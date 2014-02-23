@@ -3,18 +3,21 @@
 	color: black;
 	font-family: serif;
 	cursor : pointer;
+	text-align: center
 }
 .start-select {
 	height : 30px;
 	color : #FF0000;
 	font-family : serif;
 	cursor : pointer;
+	text-align: center
 }
 .end-select {
 	height : 30px;
 	color : #FF7700;
 	font-family : serif;
 	cursor : pointer;
+	text-align: center
 }
 
 .group {
@@ -25,6 +28,7 @@
 	border-bottom : 2px solid #000000;
 	cursor : pointer;
 	background-color : transparent;
+	text-align: center
 }
 
 #task {
@@ -51,4 +55,12 @@
 	margin-bottom : 4px;
 	cursor : pointer;
 	border-radius : 20px;
+}
+
+.cross {
+	cursor : pointer;
+	position : relative;
+	bottom : 9px;
+	left : 8px;
+	margin : -8px;
 }

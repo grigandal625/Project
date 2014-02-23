@@ -186,7 +186,7 @@ function setGroup(idGroup){
 				sentence : currentSentence,
 				groupId : wordTable[id].groupId
 			}
-			newTask += '<span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + '</span> ';
+			newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + '</span></span> ';
 			newId++;
 		}else{
 			if ( wordTable[id].status == 0 ){
@@ -218,7 +218,7 @@ function setGroup(idGroup){
 					sentence : currentSentence,
 					groupId : idGroup
 				}
-				newTask += '<span id="group' + newId + '" class="group" onclick="selectGroup(' + newId + ')">' + newData + '</span> ';
+				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId + '" class="group" onclick="selectGroup(' + newId + ')">' + newData + '</span></span> ';
 				newId++;
 			}
 		}
@@ -240,20 +240,22 @@ function selectGroup(id){
 		return;
 	}
 	if ( wordTable[id].status == 0 ){
-		if ( groupFlag.status == true )
+		if ( groupFlag.status == true ){
 			if ( groupFlag.id != id )
 				alert("УЖЕ ВЫДЕЛЕНА ГРУППА " + groupFlag.id);
 			else{
-				groupFlag.status = false;
-				groupFlag.id = -1;
 				document.getElementById("cleanerG").disabled = true;
 				document.getElementById("group" + id).style.color = "black";
+				document.getElementById("crossPlace" + id).removeChild(document.getElementById("cross" + id));
+				groupFlag.status = false;
+				groupFlag.id = -1;
 			}
-		else{
+		}else{
 			groupFlag.status = true;
 			groupFlag.id = id;
 			document.getElementById("cleanerG").disabled = false;
 			document.getElementById("group" + id).style.color = "red";
+			document.getElementById("crossPlace" + id).innerHTML += '<img id="cross' + groupFlag.id + '" class="cross" src="cross-icon.png" onclick="deleteGroup(' + groupFlag.id + ')"/>'
 		}
 	}
 }
@@ -301,7 +303,7 @@ function deleteGroup(){
 					sentence : currentSentence,
 					groupId : wordTable[id].groupId
 				}
-				newTask += '<span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + '</span> ';
+				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + '</span></span> ';
 				newId++;
 			}
 		}
