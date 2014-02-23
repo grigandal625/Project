@@ -37,7 +37,7 @@ div#elements
 	background-color: wheat;
 }
 
-div#BNF
+div.BNFeditor
 {
 	display: table;
 
@@ -47,6 +47,8 @@ div#BNF
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+
+	cursor: default;
 
 	border: 2px solid blue;
 	width: 80%;
@@ -130,8 +132,8 @@ span.BNFruleHighlighted
 
 div#BNFconstruct
 {
-	height: 300px;
-	max-width: 60%;
-	min-width: 500pt;
+	min-height: 300px;
+	max-width: 65%;
+	min-width: 50%;
 	float: left;
 }
