@@ -335,5 +335,20 @@ function showAnswer(){
 	document.getElementById("youranswer").innerHTML = ans;
 }
 
-window.onload = loadTask;
+function loadBNFEditor(){
+	var partsOfSpeech = ["Существительное","Глагол","Местоимение","Предлог","Союз","Прилагательное",
+	"Наречие","Числительное"];
+	var numIG = 1;
+	while ( numIG < ( maxGroups - constGroups ) ){
+		partsOfSpeech[partsOfSpeech.length] = "ИГ" + numIG;
+		numIG++;
+	}
+	initBNF(partsOfSpeech, document.getElementById("secondTask"));
+}
 
+function componentGInit(){
+	loadTask();
+	loadBNFEditor();
+}
+	
+window.onload = componentGInit;
