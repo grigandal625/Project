@@ -246,7 +246,7 @@ function selectGroup(id){
 			else{
 				groupFlag.status = false;
 				groupFlag.id = -1;
-				document.getElementById("cleanerG").style.disabled = true;
+				document.getElementById("cleanerG").disabled = true;
 				document.getElementById("group" + id).style.color = "black";
 			}
 		else{
@@ -313,6 +313,7 @@ function deleteGroup(){
 	for ( var id in wordTable )
 		if ( wordTable[id].type == "group" )
 			document.getElementById("group"+id).style.borderColor = Colors[wordTable[id].groupId];
+	document.getElementById("cleanerG").disabled = true;
 	setActiveButtons();
 }
 
