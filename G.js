@@ -310,6 +310,10 @@ function deleteGroup(){
 	document.getElementById("task").innerHTML = newTask;
 	groupFlag.id = -1;
 	groupFlag.status = false;
+	for ( var id in wordTable )
+		if ( wordTable[id].type == "group" )
+			document.getElementById("group"+id).style.borderColor = Colors[wordTable[id].groupId];
+	setActiveButtons();
 }
 
 function generateAnswer(){
