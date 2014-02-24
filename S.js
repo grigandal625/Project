@@ -45,7 +45,7 @@ $(document).mousemove(function(e) {
 });
 
 $(document).ready(function(){
-	$("#DraggingContainerS").css("top", -200);
+	$("#DraggingContainerS").css("top", -2000);
 	
 	getTask();
 	var strS=" ";
@@ -65,8 +65,8 @@ function dragS(th){
 	selectetAttrS = $(th).attr("q");
 	startClickY = currentCordsY;
 	startClickX = currentCordsX;
-	startCordY= $(th).offset().top-50;
-	startCordX = $(th).offset().left-50;
+	startCordY= $(th).offset().top-500;
+	startCordX = $(th).offset().left-500;
 	$("#DraggingContainerS").css("top", startCordY);
 	$("#DraggingContainerS").css("left", startCordX);
 	$("#DraggingContainerS").html($(th).html());
@@ -127,7 +127,7 @@ function deleteS(th){
 }
 
 function checkDragUpS(){	
-	$("#DraggingContainerS").css("top", -200);
+	$("#DraggingContainerS").css("top", -2000);
 	x = $(".dragHereS").offset().left;	
 	xw = x + $(".dragHereS").width();
 	y = $(".dragHereS").offset().top;	

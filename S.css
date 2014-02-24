@@ -6,13 +6,16 @@
   -ms-user-select: none;
    user-select: none;
 }
+body{
+	overflow: hidden;
+}
 #DraggingContainerS{
 
 	color:green;
 	font-size: 23px;
 	font-weight:bold;
 	position: absolute;
-	padding:50px;
+	padding:500px;
 	cursor: move;
 }
 textarea{
