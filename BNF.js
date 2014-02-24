@@ -233,9 +233,16 @@ function initBNF(elementsList, bnfOuterDiv)
 	var elementsDiv = document.createElement('div');
 	elementsDiv.innerHTML = '<span>Выберите элемент из списка</span><br/>';
 	var bnfConstructDiv = document.createElement('div');
-	for(var el in elementsList)
+	for(var group in elementsList)
 	{
-		elementsDiv.innerHTML += '<span class="BNFelement" style="float: left;" onmousedown="startDragElement(this)">' + elementsList[el] + '</span>';
+		var newDiv = document.createElement('div');
+		newDiv.className = 'elementsSubDiv';
+		for(var el in elementsList[group])
+		{
+			newDiv.innerHTML += '<span class="BNFelement" style="float: left;" onmousedown="startDragElement(this)">' + elementsList[group][el] + '</span>';
+		}
+		elementsDiv.appendChild(newDiv);
+		elementsDiv.innerHTML += '<br/>';
 	}
 	bnfConstructDiv.id = "BNFconstruct";
 	elementsDiv.id = "elements";
