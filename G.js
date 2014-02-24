@@ -140,7 +140,9 @@ function changeStatus(id){
 				selected.status = true;
 			}
 		}else{
-			alert("СДЕЛАЙ ЧТО-НИБУДЬ С ВЫДЕЛЕННЫМ");
+			//alert("СДЕЛАЙ ЧТО-НИБУДЬ С ВЫДЕЛЕННЫМ");
+			//вызвать снятие выделения
+			clearSelected();
 		}
 	}else{
 		if ( selected.id != -1 )
@@ -336,14 +338,17 @@ function showAnswer(){
 }
 
 function loadBNFEditor(){
-	var partsOfSpeech = ["Существительное","Глагол","Местоимение","Предлог","Союз","Прилагательное",
-	"Наречие","Числительное"];
+	var BNFdata = ["G", "Предложение типа вопрос", "Предложение типа сообщение", "Предложение типа команда", "Существительное","Глагол","Местоимение","Предлог","Союз","Прилагательное",
+	"Наречие","Числительное","Предикат","Наречие","Вопросительное слово"];
 	var numIG = 1;
 	while ( numIG < ( maxGroups - constGroups ) ){
-		partsOfSpeech[partsOfSpeech.length] = "ИГ" + numIG;
+		BNFdata[BNFdata.length] = "ИГ " + numIG;
 		numIG++;
 	}
-	initBNF(partsOfSpeech, document.getElementById("secondTask"));
+	for ( var i in BNFdata ){
+		BNFdata[i] = '&lt;' + BNFdata[i] + '&gt;';
+	}
+	initBNF(BNFdata, document.getElementById("secondTask"));
 }
 
 function componentGInit(){
