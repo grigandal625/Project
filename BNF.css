@@ -51,7 +51,9 @@ div.BNFeditor
 	cursor: default;
 
 	border: 2px solid blue;
-	width: 80%;
+	width: 90%;
+
+	font-size: 12pt;
 }
 
 span.newLine
@@ -134,6 +136,6 @@ div#BNFconstruct
 {
 	min-height: 300px;
 	max-width: 65%;
-	min-width: 50%;
+	min-width: 350pt;
 	float: left;
 }
