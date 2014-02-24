@@ -1,19 +1,16 @@
 .normal {
-	height : 45px;
 	color: black;
 	font-family: serif;
 	cursor : pointer;
 	text-align: center
 }
 .start-select {
-	height : 45px;
 	color : #FF0000;
 	font-family : serif;
 	cursor : pointer;
 	text-align: center
 }
 .end-select {
-	height : 45px;
 	color : #FF7700;
 	font-family : serif;
 	cursor : pointer;
@@ -21,7 +18,7 @@
 }
 
 .group {
-	height : 41px;
+	line-height : 45px;
 	color : #000000;
 	font-family : serif;
 	background : #FFFFFF;
@@ -43,6 +40,7 @@
 	border-right : 2px solid orange;
 	border-top : 2px solid orange;
 	font-size : 15pt;
+	line-height : 45px
 }
 
 #buttons {

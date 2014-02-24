@@ -51,7 +51,6 @@ function loadTask(){
 			id++;
 		}
 		Gdiv.innerHTML += "<br/>";
-		Gdiv.innerHTML += "<br/>";
 	}
 	buttonDiv.innerHTML += '<button class="button" id="cleanerS" onclick="clearSelected()">Снять выделение</button><br/>';
 	buttonDiv.innerHTML += '<button class="button" id="cleanerG" onclick="deleteGroup()" disabled=true>Удалить группу</button><br/>';
@@ -176,7 +175,7 @@ function setGroup(idGroup){
 	for ( var id in wordTable ){
 		if ( currentSentence != wordTable[id].sentence ){
 			if ( currentSentence != -1 )
-				newTask += "<br/><br/>";
+				newTask += "<br/>";
 			currentSentence = wordTable[id].sentence;
 			newTask += ( parseInt(currentSentence,10) + 1 ) + ". ";
 		}
@@ -270,7 +269,7 @@ function deleteGroup(){
 	for ( var id in wordTable ){
 		if ( wordTable[id].sentence != currentSentence ){
 			if ( currentSentence != -1 )
-				newTask += "<br/><br/>";
+				newTask += "<br/>";
 			currentSentence = wordTable[id].sentence;
 			newTask += parseInt(currentSentence, 10) + 1;
 			newTask += ". ";
@@ -338,15 +337,15 @@ function showAnswer(){
 }
 
 function loadBNFEditor(){
-	var BNFdata = ["G", "Предложение типа вопрос", "Предложение типа сообщение", "Предложение типа команда", "Существительное","Глагол","Местоимение","Предлог","Союз","Прилагательное",
-	"Наречие","Числительное","Предикат","Наречие","Вопросительное слово"];
+	var BNFdata = [["G", "Предложение типа вопрос", "Предложение типа сообщение", "Предложение типа команда", "Существительное","Глагол","Местоимение","Предлог","Союз","Прилагательное",
+	"Наречие","Числительное","Предикат","Наречие","Вопросительное слово"]];
 	var numIG = 1;
 	while ( numIG < ( maxGroups - constGroups ) ){
-		BNFdata[BNFdata.length] = "ИГ " + numIG;
+		BNFdata[0].push("ИГ " + numIG);
 		numIG++;
 	}
-	for ( var i in BNFdata ){
-		BNFdata[i] = '&lt;' + BNFdata[i] + '&gt;';
+	for ( var i in BNFdata[0] ){
+		BNFdata[0][i] = '&lt;' + BNFdata[0][i] + '&gt;';
 	}
 	initBNF(BNFdata, document.getElementById("secondTask"));
 }
