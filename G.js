@@ -2,7 +2,8 @@ var wordTable = {};
 var buttonTable = {};
 var constGroups = 4;
 var newGroup = 5;
-var maxGroups = 20;
+var maxGroups = 19;
+var groupCnt = 0;
 var selected = {
 	id : -1,
 	sentence : -1,
@@ -16,6 +17,19 @@ var groups = {};
 
 var Colors = ["white","black","red","blue","orange","gray","cyan","yellow","#007FFF","#E75480","#00A86B","#DA70D6","#AF4035","#CC8899","#704214","#D53E07","#FFCC99","#77DD77","#5D8AA8","#C7FCEC","#FF7518"];
 
+var helpStrings = { "start" : "Чтобы начать выделение слов, нажмите на первое или последнее слово будущей группы.<br/>",
+					"selection" : "Нажмите на другое слово в этом предложении, чтобы выделить все слова между ними. При повторном нажатии на первое слово будет выделено только оно.<br/>",
+					"groupwork" : "Для удаления созданной группы вопользуйтесь крестиком.<br/>Чтобы снять выделение, нажмите на любое слово выделенной группы.<br/>",
+					"groupcreation" : "Выберите категорию у выделенной группы справа.<br/> При необходимости добавьте новую Именную Группу кнопкой справа.<br/>Для снятия выделения нажмите на любое из выделенных слов.<br/>",
+					"groupexists" : "Чтобы выделить созданную группу, нажмите на любое слово.<br/>"
+};
+
+var errors = { "sentence" : "Выделяйте строго в пределах одного предложения.",
+				"group" : "Вы уже начали работу с группой.",
+				"words" : "Вы уже начали работу со словами.",
+				"solidselection" : "Выделяйте таким образом, чтобы между словами не было уже сформированной группы."
+}
+
 function setActiveButtons(){
 	if ( selected.status == true )
 		for ( var i in buttonTable )
@@ -26,8 +40,14 @@ function setActiveButtons(){
 }
 
 function loadTask(){
+	var dynamicHelp = document.getElementById("dynamicHelp");
 	var Gdiv = document.getElementById("task");
 	var buttonDiv = document.getElementById("buttons");
+	
+	document.getElementById("error").style.color = "red";
+	
+	dynamicHelp.innerHTML = helpStrings["start"];
+	
 	var task = ["Зимой 2014 года в красивый курортный город Сочи впервые смогут приехать спортсмены из раличных стран мира на Олимпийские игры.",
 			"Сколько спортсменов и тренеров из разных стран мира хотят приехать в город Сочи с 1 февраля 2014 года по 28 февраля 2014 года на Олимпийские игры?",
 			"1-го мая 2010 года необходимо срочно отправить в командировку в город Сочи на олимпийские объекты членов олимпийского комитета РФ."];
@@ -52,10 +72,6 @@ function loadTask(){
 		}
 		Gdiv.innerHTML += "<br/>";
 	}
-	buttonDiv.innerHTML += '<button class="button" id="cleanerS" onclick="clearSelected()">Снять выделение</button><br/>';
-	buttonDiv.innerHTML += '<button class="button" id="cleanerG" onclick="deleteGroup()" disabled=true>Удалить группу</button><br/>';
-	document.getElementById("cleanerS").style.borderColor = Colors[0];
-	document.getElementById("cleanerG").style.borderColor = Colors[0];
 	buttonDiv.innerHTML += "Основные группы</br>";
 	buttonDiv.innerHTML += '<button class="button" id="but1" onclick="setGroup(1)">Предикат</button>';
 	document.getElementById("but1").style.borderColor = Colors[1];
@@ -72,8 +88,6 @@ function loadTask(){
 	buttonDiv.innerHTML += "Именные группы</br>";
 	buttonDiv.innerHTML += '<button class="button" id="creator" onclick="addNounGroup()">Добавить ИГ</button>';
 	document.getElementById("creator").style.borderColor = Colors[0];
-	buttonTable["cleanerS"] = {status : true};
-	//this is special & temp button buttonTable["cleanerG"] = {status : true};
 	//this is special button. // buttonTable["creator"] = {status : true};
 	buttonTable["but1"] = {status : true};
 	buttonTable["but2"] = {status : true};
@@ -98,56 +112,62 @@ function addNounGroup(){
 }
 
 function changeStatus(id){
+	var dynamicHelp = document.getElementById("dynamicHelp");
+	var error = document.getElementById("error");
+	
 	if ( groupFlag.status == true ){
-		alert("СДЕЛАЙ ЧТО-ТО С ВЫДЕЛЕННОЙ ГРУППОЙ");
+		error.innerHTML = errors["group"];
 		return;
 	}
-	if ( wordTable[id].type == "span" ){
-		if ( selected.status == false ){
-			if ( selected.id == -1 ){
-				wordTable[id].status = 1;
-				document.getElementById("span"+id).className = "start-select";
-				selected.id = id;
-				selected.sentence = wordTable[id].sentence;
+	
+	if ( selected.status == false ){
+		if ( selected.id == -1 ){
+			wordTable[id].status = 1;
+			document.getElementById("span"+id).className = "start-select";
+			selected.id = id;
+			selected.sentence = wordTable[id].sentence;
+			dynamicHelp.innerHTML = helpStrings["selection"];
+			error.innerHTML = "";
+		}else{
+			if ( selected.sentence != wordTable[id].sentence ){
+				error.innerHTML = errors["sentence"];
+				return;
+			}
+			var from;
+			var to;
+			if ( id < selected.id ){
+				from = id;
+				to = selected.id;
 			}else{
-				if ( selected.sentence != wordTable[id].sentence ){
-					alert("В ОДНОМ ПРЕДЛОЖЕНИИ ВЫДЕЛЯЙ");
+				from = selected.id;
+				to = id;
+			}
+			var tmp = from;
+			while ( tmp <= to ){
+				if ( wordTable[tmp].type == "group" ){
+					error.innerHTML = errors["solidselection"];
 					return;
 				}
-				var from;
-				var to;
-				if ( id < selected.id ){
-					from = id;
-					to = selected.id;
-				}else{
-					from = selected.id;
-					to = id;
-				}
-				var tmp = from;
-				while ( tmp <= to ){
-					if ( wordTable[tmp].type == "group" ){
-						alert("ВЫДЕЛЯЙ НОРМАЛЬНО!");
-						return;
-					}
-					tmp++;
-				}
-				while ( from <= to ){
-					wordTable[from].status = 1;
-					document.getElementById("span"+from).className = "end-select";
-					from++;
-				}
-				selected.status = true;
+				tmp++;
 			}
-		}else{
-			//alert("СДЕЛАЙ ЧТО-НИБУДЬ С ВЫДЕЛЕННЫМ");
-			//вызвать снятие выделения
-			clearSelected();
+			while ( from <= to ){
+				wordTable[from].status = 1;
+				document.getElementById("span"+from).className = "end-select";
+				from++;
+			}
+			selected.status = true;
+			dynamicHelp.innerHTML = helpStrings["groupcreation"];
+			error.innerHTML = "";
 		}
 	}else{
-		if ( selected.id != -1 )
-			alert("СДЕЛАЙ ЧТО-НИБУДЬ С ВЫДЕЛЕННЫМ");
+		if ( wordTable[id].status == 0 )
+			error.innerHTML = errors["words"];
 		else{
-			//выделить группу
+			clearSelected();
+			error.innerHTML = "";
+			dynamicHelp.innerHTML = helpStrings["start"];
+			if ( groupCnt > 0 )
+				dynamicHelp.innerHTML += helpStrings["groupexists"];
 		}
 	}
 	setActiveButtons();
@@ -167,6 +187,7 @@ function clearSelected(){
 }
 
 function setGroup(idGroup){
+	groupCnt++;
 	var added = false;
 	var newTask = "";
 	var newWordTable = {};
@@ -233,35 +254,42 @@ function setGroup(idGroup){
 	selected.sentence = -1;
 	selected.status = false;
 	setActiveButtons();
+	document.getElementById("dynamicHelp").innerHTML = helpStrings["start"] + helpStrings["groupexists"];
+	document.getElementById("error").innerHTML = "";
 }
 
 function selectGroup(id){
 	if ( selected.id != -1 ){
-		alert("СДЕЛАЙ ЧТО-ТО С ВЫДЕЛИЕМ СЛОВ");
+		document.getElementById("error").innerHTML = errors["words"];
 		return;
 	}
-	if ( wordTable[id].status == 0 ){
-		if ( groupFlag.status == true ){
-			if ( groupFlag.id != id )
-				alert("УЖЕ ВЫДЕЛЕНА ГРУППА " + groupFlag.id);
-			else{
-				document.getElementById("cleanerG").disabled = true;
-				document.getElementById("group" + id).style.color = "black";
-				document.getElementById("crossPlace" + id).removeChild(document.getElementById("cross" + id));
-				groupFlag.status = false;
-				groupFlag.id = -1;
-			}
-		}else{
-			groupFlag.status = true;
-			groupFlag.id = id;
-			document.getElementById("cleanerG").disabled = false;
-			document.getElementById("group" + id).style.color = "red";
-			document.getElementById("crossPlace" + id).innerHTML += '<img id="cross' + groupFlag.id + '" class="cross" src="cross-icon.png" onclick="deleteGroup(' + groupFlag.id + ')"/>'
+	if ( groupFlag.status == true ){
+		if ( groupFlag.id != id )
+			document.getElementById("error").innerHTML = errors["group"];
+		else{
+			document.getElementById("cleanerG").disabled = true;
+			document.getElementById("group" + id).style.color = "black";
+			document.getElementById("crossPlace" + id).removeChild(document.getElementById("cross" + id));
+			groupFlag.status = false;
+			groupFlag.id = -1;
+			document.getElementById("dynamicHelp").innerHTML = helpStrings["start"];
+			if ( groupCnt > 0 )
+				document.getElementById("dynamicHelp").innerHTML += helpStrings["groupexists"];
+			document.getElementById("error").innerHTML = "";
 		}
+	}else{
+		groupFlag.status = true;
+		groupFlag.id = id;
+		document.getElementById("cleanerG").disabled = false;
+		document.getElementById("group" + id).style.color = "red";
+		document.getElementById("crossPlace" + id).innerHTML += '<img id="cross' + groupFlag.id + '" class="cross" src="cross-icon.png" onclick="deleteGroup(' + groupFlag.id + ')"/>'
+		document.getElementById("dynamicHelp").innerHTML = helpStrings["groupwork"];
+		document.getElementById("error").innerHTML = "";
 	}
 }
 
 function deleteGroup(){
+	groupCnt--;
 	var newWordTable = {};
 	var newTask = "";
 	var currentSentence = -1;
@@ -348,11 +376,26 @@ function loadBNFEditor(){
 		BNFdata[0][i] = '&lt;' + BNFdata[0][i] + '&gt;';
 	}
 	initBNF(BNFdata, document.getElementById("secondTask"));
+	document.getElementById("secondTask").style.background = "#FFFFFF";
 }
 
 function componentGInit(){
 	loadTask();
 	loadBNFEditor();
 }
-	
+
+function showHelp(){
+	var help = 'Краткое руководство.<br/>' + 
+		'Выделять группу: нажатие на первое и последнее слово ( порядок не важен ), если группа из одного слова, то 2 нажатия на него, следом необходимо выбрать группу справа.<br/>' +
+		'Очистка выделения справа.<br/>' + 
+		'Выделять можно сплошной участок ( не разделённый какой-либо группой ) в одном предложении.<br/>' +
+		'При выделении группы становится активной кнопка удаления группы ( временно, будет заменено крестиком в углу ), повторное нажатие снимает выделение.<br/>' +
+		'При выделении какого-либо объекта ( слово - группа ) другой нельзя выделить.';
+	document.getElementById("help").innerHTML += '<div id="helpdiv" class="help">' + help + '</div>';
+}
+
+function hideHelp(){
+	document.getElementById("help").removeChild(document.getElementById("helpdiv"));
+}
+
 window.onload = componentGInit;

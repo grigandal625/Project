@@ -12,30 +12,22 @@
 	</head>
 	<script src="BNF.js"></script>
 	<script src="G.js"></script>
-	<body>
+	<body class="body">
 		<div id="global">
 			<div id="help" width="100%">
-				Тут будут подсказки по необходимым действиям, в данный момент реализованы аллертами.<br/>
-				<br/>Краткое руководство.<br/>
-				Выделять группу: нажатие на первое и последнее слово ( порядок не важен ), если группа из одного слова, то 2 нажатия на него, следом необходимо выбрать группу справа.<br/>
-				Очистка выделения справа.<br/>
-				Выделять можно сплошной участок ( не разделённый какой-либо группой ) в одном предложении.<br/>
-				При выделении группы становится активной кнопка удаления группы ( временно, будет заменено крестиком в углу ), повторное нажатие снимает выделение.<br/>
-				При выделении какого-либо объекта ( слово - группа ) другой нельзя выделить.
+				<img src="help_icon.gif" id="help" class="icon" onmouseover="showHelp()" onmouseout="hideHelp()"></img>
+				<div class="dynhelp"><div id="dynamicHelp"></div><div id="error"></div></div>
 			</div>
-			<br/>
 			<div id="task" width="70%">
 			</div>
 			<div id="buttons" width="30%">
+			</div>
+			<div id="secondTask">
 			</div>
 			<div width="100%">
 				<button onclick="showAnswer()">Показать ответ</button>
 				<div id="youranswer">
 				</div>
-			</div>
-			<div id="secondTask">
-			</div>
-			<div id="thirdTask">
 			</div>
 		</div>
 	</body>
