@@ -267,7 +267,6 @@ function selectGroup(id){
 		if ( groupFlag.id != id )
 			document.getElementById("error").innerHTML = errors["group"];
 		else{
-			document.getElementById("cleanerG").disabled = true;
 			document.getElementById("group" + id).style.color = "black";
 			document.getElementById("crossPlace" + id).removeChild(document.getElementById("cross" + id));
 			groupFlag.status = false;
@@ -280,7 +279,6 @@ function selectGroup(id){
 	}else{
 		groupFlag.status = true;
 		groupFlag.id = id;
-		document.getElementById("cleanerG").disabled = false;
 		document.getElementById("group" + id).style.color = "red";
 		document.getElementById("crossPlace" + id).innerHTML += '<img id="cross' + groupFlag.id + '" class="cross" src="cross-icon.png" onclick="deleteGroup(' + groupFlag.id + ')"/>'
 		document.getElementById("dynamicHelp").innerHTML = helpStrings["groupwork"];
