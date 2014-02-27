@@ -7,7 +7,7 @@
    user-select: none;
 }
 body{
-	overflow: hidden;
+	
 }
 #DraggingContainerS{
 
@@ -15,7 +15,7 @@ body{
 	font-size: 23px;
 	font-weight:bold;
 	position: absolute;
-	padding:500px;
+	padding:150px;
 	cursor: move;
 }
 textarea{
@@ -35,6 +35,7 @@ form{
 	bottom: 0px;
 	height: 30px;
 	vertical-align: middle;
+	display: inline;
 }
 .RedS{
 	color:Red;

@@ -2,11 +2,11 @@ var CHChar = '<form><select name="vid" title="вид"><option value="0"></option
 var GLVid = '<form><select name="vid" title="вид"><option value="0"></option><option value="1">сов</option><option value="2">несов</option></select></form>';
 var GLTime = '<form><select name="time" title="вид"><option value="0"></option><option value="1">пр</option><option value="2">наст</option><option value="3">буд</option></select></form>';
 var CHLevel = '<div class="ChangeLevel" onclick="levelDownS(this)"> &lt; </div><div class="inline">1</div><div class="ChangeLevel" onclick="levelUpS(this)"> &gt; </div>';
-var kolichestvoStrokS = 0;
+var kolichestvoStrokS=[];
 var sentenceS = {};
 var startCordX, startClickX, currentCordsX;
 var startCordY, startClickY, currentCordsY;
-var selectedObjectS, selectetAttrS;
+var selectedObjectS, selectetAttrS, selectedDragNum;
 var x,y, xw,yh;
 var td2sy = '';
 var td2skaz  = '(<textarea rows="1" ></textarea>)(<div style="display: inline; ">MOD(' + GLTime + ')(' + GLVid + ')</div>)';
@@ -45,28 +45,45 @@ $(document).mousemove(function(e) {
 });
 
 $(document).ready(function(){
-	$("#DraggingContainerS").css("top", -2000);
-	
+	$("#DraggingContainerS").css("top", -500);
 	getTask();
-	var strS=" ";
-		
+	
+	for(var i = 1; i < 4; i++) kolichestvoStrokS[i] = 0;
+	
+	var strS="<br /><br />";		
 	sentenceS.sent1 = currentTask.sentences[0].split(' ');
 	sentenceS.sent2 = currentTask.sentences[1].split(' ');
 	sentenceS.sent3 = currentTask.sentences[2].split(' ');
 	for (var i = 0; i < sentenceS.sent1.length; i++) {
-		strS += '<div class="RedS" onMouseDown="dragS(this)" q="'+i+'">' +" "+ sentenceS.sent1[i] +"</div>";	
+		strS += '<div class="RedS" onMouseDown="dragS(this)" q="'+i+'" dragNum="1">' +" "+ sentenceS.sent1[i] +"</div>";	
 	}
+	strS += "<br /><br />";
 	$("#sentenceDrag1S").html(strS);
+	
+	strS="<br /><br />";
+	for (var i = 0; i < sentenceS.sent1.length; i++) {
+		strS += '<div class="RedS" onMouseDown="dragS(this)" q="'+i+'" dragNum="2">' +" "+ sentenceS.sent2[i] +"</div>";	
+	}
+	strS += "<br /><br />";
+	$("#sentenceDrag2S").html(strS);
+	
+	strS="<br /><br />";
+	for (var i = 0; i < sentenceS.sent1.length; i++) {
+		strS += '<div class="RedS" onMouseDown="dragS(this)" q="'+i+'" dragNum="3">' +" "+ sentenceS.sent3[i] +"</div>";	
+	}
+	strS += "<br /><br />";
+	$("#sentenceDrag3S").html(strS);
 });
 
 function dragS(th){
 	if(th.className == "GreenS") return 0;
 	selectedObjectS = th;
 	selectetAttrS = $(th).attr("q");
+	selectedDragNum = $(th).attr("dragNum");
 	startClickY = currentCordsY;
 	startClickX = currentCordsX;
-	startCordY= $(th).offset().top-500;
-	startCordX = $(th).offset().left-500;
+	startCordY= $(th).offset().top-150;
+	startCordX = $(th).offset().left-150;
 	$("#DraggingContainerS").css("top", startCordY);
 	$("#DraggingContainerS").css("left", startCordX);
 	$("#DraggingContainerS").html($(th).html());
@@ -77,7 +94,7 @@ function moveDragS(){
 	$("#DraggingContainerS").css("left", startCordX+ currentCordsX - startClickX);
 }
 function putTd2(){
-	if (kolichestvoStrokS==0){
+	if (kolichestvoStrokS[selectedDragNum]==0){
 		return td2skaz;
 	} else {
 		return td2Usual;
@@ -85,7 +102,7 @@ function putTd2(){
 }
 
 function putTd2class(){
-	if (kolichestvoStrokS==0){
+	if (kolichestvoStrokS[selectedDragNum]==0){
 		return "class0S";
 	} else {
 		return "class1S";
@@ -93,20 +110,21 @@ function putTd2class(){
 }
 
 function putTd3(){
-	if (kolichestvoStrokS==0){
+	if (kolichestvoStrokS[selectedDragNum]==0){
 		return "<div></div><div>0</div><div></div>";
 	} else {
 		return CHLevel;
 	}
 }
 
-function returnRedClass(q){
-	var chd = $("#sentenceDrag1S").children().first();
+function returnRedClass(q, num){
+	var chd = $("#sentenceDrag"+num+"S").children().first();
 	while(q != chd.attr("q")) chd = chd.next();	
 	chd.removeClass("GreenS").addClass("RedS");	
 }
 
 function deleteS(th){
+	var dragNum = $(th).attr("dragNum");
 	if($(th).parent().children().first().html() =="Вставьте следующее слово") return;
 	if($(th).parent().children().first().html() =="Перетащите первое слово") return;
 	var curLevel = parseInt($(th).prev().children().first().next().html());
@@ -116,9 +134,9 @@ function deleteS(th){
   	{
 		while(true){
 			var nextS = $(th).next();
-			returnRedClass($(th).attr("q"));
+			returnRedClass($(th).attr("q"), dragNum);
 			$(th).remove();
-			kolichestvoStrokS -= 1;
+			kolichestvoStrokS[dragNum] -= 1;
 			if($(nextS).children().first().html() =="Вставьте следующее слово") return;
 			if(parseInt($(nextS).children().last().prev().children().first().next().html()) <= curLevel) return; 
 			else th = nextS;		
@@ -127,19 +145,20 @@ function deleteS(th){
 }
 
 function checkDragUpS(){	
-	$("#DraggingContainerS").css("top", -2000);
-	x = $(".dragHereS").offset().left;	
-	xw = x + $(".dragHereS").width();
-	y = $(".dragHereS").offset().top;	
-	yh = y + $(".dragHereS").height();
+	$("#DraggingContainerS").css("top", -500);
+	var dragStr = ".dragHere"+selectedDragNum+"S";
+	x = $(dragStr).offset().left;	
+	xw = x + $(dragStr).width();
+	y = $(dragStr).offset().top;	
+	yh = y + $(dragStr).height();
 	if((currentCordsX>x) && (currentCordsX<xw) && (currentCordsY >y)&&
 	(currentCordsY < yh)){ 
-		$(".dragHereS").html($("#DraggingContainerS").html());
-		var addStrS = '<tr ><td class="dragHereS">Вставьте следующее слово</td><td class="td2S">&nbsp;</td><td class="td3S">&nbsp;</td><td class="td4S" onclick="deleteS(this)">&nbsp;</td></tr>';
-		$("#resultTable1S").append(addStrS);
-		$(".dragHereS").first().removeClass("dragHereS").addClass("td1S").next().html(putTd2()).addClass(putTd2class()).next().html(putTd3()).next().html(td4).parent().attr("q", selectetAttrS);
+		$(".dragHere"+selectedDragNum+"S").html($("#DraggingContainerS").html());
+		var addStrS = '<tr ><td class="dragHere'+selectedDragNum+'S">Вставьте следующее слово</td><td class="td2S">&nbsp;</td><td class="td3S">&nbsp;</td><td class="td4S" onclick="deleteS(this)">&nbsp;</td></tr>';
+		$("#resultTable"+selectedDragNum+"S").append(addStrS);
+		$(dragStr).first().removeClass("dragHere"+selectedDragNum+"S").addClass("td1S").next().html(putTd2()).addClass(putTd2class()).next().html(putTd3()).next().html(td4).attr("dragNum", selectedDragNum).parent().attr("q", selectetAttrS);
 		$(selectedObjectS).removeClass("RedS").addClass("GreenS");
-		kolichestvoStrokS += 1;
+		kolichestvoStrokS[selectedDragNum] += 1;
 	}
 }
 
