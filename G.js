@@ -58,9 +58,7 @@ function loadTask(){
 		var sentence = task[i].split(" ");
 		Gdiv.innerHTML +=  parseInt(i, 10) + 1 + ". ";
 		for ( var y in sentence ){
-			if ( y != 0 )
-				Gdiv.innerHTML += " ";
-			Gdiv.innerHTML += '<span id="span' + id + '" class="normal" onclick="changeStatus(' + id + ')">' + sentence[y];
+			Gdiv.innerHTML += '<span id="span' + id + '" class="normal" onclick="changeStatus(' + id + ')">' + ' ' + sentence[y];
 			Gdiv.innerHTML += "</span>";
 			wordTable[id] = {
 				type : "span",
@@ -208,7 +206,7 @@ function setGroup(idGroup){
 				sentence : currentSentence,
 				groupId : wordTable[id].groupId
 			}
-			newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + '</span></span> ';
+			newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + ' </span></span>';
 			newId++;
 		}else{
 			if ( wordTable[id].status == 0 ){
@@ -218,7 +216,7 @@ function setGroup(idGroup){
 					data : wordTable[id].data,
 					sentence : currentSentence
 				}
-				newTask += '<span id="span' + newId + '" class="normal" onclick="changeStatus(' + newId + ')">' + wordTable[id].data + '</span> ';
+				newTask += '<span id="span' + newId + '" class="normal" onclick="changeStatus(' + newId + ')">' + wordTable[id].data + ' </span>';
 				newId++;
 			}else{
 				var newData = "";
@@ -240,7 +238,7 @@ function setGroup(idGroup){
 					sentence : currentSentence,
 					groupId : idGroup
 				}
-				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId + '" class="group" onclick="selectGroup(' + newId + ')">' + newData + '</span></span> ';
+				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId + '" class="group" onclick="selectGroup(' + newId + ')">' + newData + ' </span></span>';
 				newId++;
 			}
 		}
@@ -307,7 +305,7 @@ function deleteGroup(){
 				data : wordTable[id].data,
 				sentence : currentSentence
 			}
-			newTask += '<span id="span' + newId + '" class="normal" onclick="changeStatus(' + newId + ')">' + wordTable[id].data + '</span> ';
+			newTask += '<span id="span' + newId + '" class="normal" onclick="changeStatus(' + newId + ')">' + wordTable[id].data + ' </span>';
 			newId++;
 		}else{
 			if ( groupFlag.id == id ){
@@ -319,7 +317,7 @@ function deleteGroup(){
 						data : newSpans[spanNum],
 						sentence : currentSentence
 					}
-					newTask += '<span id="span' + newId + '" class="normal" onclick="changeStatus(' + newId + ')">' + newSpans[spanNum] + '</span> ';
+					newTask += '<span id="span' + newId + '" class="normal" onclick="changeStatus(' + newId + ')">' + newSpans[spanNum] + ' </span>';
 					newId++;
 				}
 			}else{
@@ -330,7 +328,7 @@ function deleteGroup(){
 					sentence : currentSentence,
 					groupId : wordTable[id].groupId
 				}
-				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + '</span></span> ';
+				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + ' </span></span>';
 				newId++;
 			}
 		}
