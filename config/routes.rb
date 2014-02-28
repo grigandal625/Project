@@ -1,4 +1,5 @@
 UIR::Application.routes.draw do
+  get "tasks/get_v"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

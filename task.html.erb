@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Лексический компонент</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+
+  <%= stylesheet_link_tag "V.css" %>
+  <%= stylesheet_link_tag "BNF.css" %>
+
+  <%= javascript_include_tag "test.js" %>
+  <%= javascript_include_tag "BNF.js" %>
+  <%= javascript_include_tag "V.js" %>
+
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>
