@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Лексический компонент</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   
   <%= yield(:head) %>
+
+  <%= javascript_tag "var currentTask;
+
+	function getTask()
+	{
+		currentTask = {\"sentences\" :
+			[\" #{escape_javascript(@task.sentence1)} \",
+			\" #{escape_javascript(@task.sentence2)} \",
+			\" #{escape_javascript(@task.sentence3)} \"]
+		};
+	}"
+  %>
+
 
   <%= csrf_meta_tags %>
 </head>

@@ -1,11 +1,10 @@
 <% content_for(:head) do %>
-  <%if @taskType == 'V' %>
-    <%= stylesheet_link_tag "V.css" %>
-    <%= stylesheet_link_tag "BNF.css" %>
-    <%= javascript_include_tag "test.js" %>
-    <%= javascript_include_tag "BNF.js" %>
-    <%= javascript_include_tag "V.js" %>
-  <% end %>
+
+  <title>Лексический компонент</title>
+  <%= stylesheet_link_tag "V.css" %>
+  <%= stylesheet_link_tag "BNF.css" %>
+  <%= javascript_include_tag "BNF.js" %>
+  <%= javascript_include_tag "V.js" %>
 <% end %>
 
 <div id="task">
