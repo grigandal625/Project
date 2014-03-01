@@ -66,7 +66,23 @@ function hideNewLineText(parentDiv, flag)
 
 function onMouseOver(e)
 {
-	if(dragging.state && (e.target.tagName == 'DIV'))
+	if(e.target.className == 'BNFeditor')
+	{
+		var lines = e.target.lastChild.childNodes;
+		for(var line in lines)
+		{
+			lines[line].className = "BNFline";
+			for(var rule in lines[line].childNodes)
+			{
+				if(lines[line].childNodes[rule].className == 'BNFnewRule')
+				{
+					lines[line].childNodes[rule].hidden = true;
+				}
+			}
+		}
+	}
+	else if(dragging.state && 
+			(e.target.className == 'BNFline' || e.target.className == 'BNFline BNFlineHighlighted'))
 	{
 		e.target.className = "BNFline BNFlineHighlighted";
 		showNewRuleSpan(e.target);
@@ -116,6 +132,7 @@ function onMouseOut(e)
 	{
 		e.target.parentNode.className = 'BNFrule';
 	}
+
 }
 
 function onMouseMove(e)
@@ -123,8 +140,8 @@ function onMouseMove(e)
 	e = fixEvent(e);
 	if(dragging.state)
 	{
-		dragging.div.style.left = e.pageX + 10;
-		dragging.div.style.top = e.pageY + 10;
+		dragging.div.style.left = e.pageX + 10 + 'px';
+		dragging.div.style.top = e.pageY + 10 + 'px';
 	}
 	//document.getElementById('debug').innerHTML = JSON.stringify({x : e.pageX, y : e.pageY});
 }
@@ -133,7 +150,8 @@ function deleteLine(id)
 {
 	document.getElementById("BNFconstruct").removeChild(document.getElementById(id));
 	//document.getElementById(id).hidden = true;
-	bnfContent.lines[id].state = "deleted";
+	//bnfContent.lines[id].state = "deleted";
+	delete bnfContent.lines[id];
 }
 
 function addElementToRule(rule)
@@ -156,15 +174,14 @@ function addElementToRule(rule)
 
 function fillNewLine(line)
 {
-	line.innerHTML = '<img alt="Удалить" title="Удалить строку" src="cross-icon.png" class="deleteIcon" onclick="deleteLine(' + line.id + ')" />';
 	bnfContent.lines[line.id].left = dragging.element;
 	bnfContent.lines[line.id].rules.push([]);
-	bnfContent.lines[line.id].state = "filled";
+	//bnfContent.lines[line.id].state = "filled";
 
 	line.innerHTML = '<span class="BNFelement" >' + dragging.element + '</span>';
 	line.innerHTML += ' ::= ';
 	line.innerHTML += '<span class="BNFrule" id="' + line.id + ':' + '0" >...</span><span class="BNFnewRule" >| + Вариант </span>';
-	line.innerHTML += '<img alt="Удалить" title="Удалить строку" class="deleteIcon" onclick="deleteLine(' + line.id + ')" src="cross-icon.png" />';
+	line.innerHTML += '<img alt="Удалить" title="Удалить строку" class="deleteIcon" onclick="deleteLine(' + line.id + ')" src="/cross-icon.png" />';
 
 	addBNFLine();
 }
@@ -223,7 +240,7 @@ function addBNFLine()
 	newLine.onmouseover = onMouseOver;
 	newLine.onmouseout = onMouseOut;
 	bnfConstruct.appendChild(newLine);
-	bnfContent.lines[newLine.id] = {left : null, state : "empty", rules : []};
+	bnfContent.lines[newLine.id] = {left : null, /*state : "empty",*/ rules : []};
 	newLine.innerHTML = '<span class="newLine" >Перетащите элемент сюда для создания нового правила</span>';
 }
 
@@ -249,5 +266,6 @@ function initBNF(elementsList, bnfOuterDiv)
 	bnfDiv.appendChild(elementsDiv);
 	bnfDiv.appendChild(bnfConstructDiv);
 	bnfDiv.className = 'BNFeditor';
+	bnfDiv.onmouseover = onMouseOver;
 	addBNFLine();
 }
