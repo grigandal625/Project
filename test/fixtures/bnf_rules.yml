@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  left: MyText
+  right: MyText
+  bnf_id: 
+
+two:
+  left: MyText
+  right: MyText
+  bnf_id: 
