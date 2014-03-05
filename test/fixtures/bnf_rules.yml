@@ -1,11 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  left: MyText
-  right: MyText
-  bnf_id: 
+first:
+  left: '<описание словаря>'
+  right: '<имя словаря>{<тело словаря>}'
+  bnf: samplev
 
-two:
-  left: MyText
-  right: MyText
-  bnf_id: 
+second:
+  left: '<описание словаря>'
+  right: '<имя словаря>{<тело словаря>}'
+  bnf: samplev
+
+third:
+  left: '<описание словаря>'
+  right: '<имя>'
+  bnf: checkv
+

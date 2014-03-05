@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class VAnswerTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "check answer" do
+    testAnswer = v_answers(:first)
+    testBnf = bnfs(:checkv)
+    assert testAnswer.check_answer(testBnf)
+  end
 end
