@@ -8,10 +8,10 @@ first:
 second:
   left: '<описание словаря>'
   right: '<имя словаря>{<тело словаря>}'
-  bnf: samplev
+  bnf: checkv
 
 third:
   left: '<описание словаря>'
   right: '<имя>'
-  bnf: checkv
+  bnf: samplev
 

@@ -4,6 +4,8 @@ class VAnswerTest < ActiveSupport::TestCase
   test "check answer" do
     testAnswer = v_answers(:first)
     testBnf = bnfs(:checkv)
-    assert testAnswer.check_answer(testBnf)
+    ans = testAnswer.check_answer(testBnf)
+    puts "Errors = #{ans}"
+    assert ans
   end
 end
