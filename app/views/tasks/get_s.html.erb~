@@ -24,7 +24,7 @@
 			</div>			
         </div>
         <div id="sentence1resultS" class="sentenceResultS">
-          <table id="resultTable1S" class="resultTableS">
+          <table id="resultTable1S" class="resultTableS" sent="1">
 		    <tr q="no">
               <td class="firstTRS" width="220px">
 				слово
@@ -62,7 +62,7 @@
 			</div>			
         </div>
         <div id="sentence2resultS" class="sentenceResultS">
-          <table id="resultTable2S" class="resultTableS">
+          <table id="resultTable2S" class="resultTableS" sent="2">
 		    <tr q="no">
               <td class="firstTRS" width="220px">
 				слово
@@ -100,7 +100,7 @@
 			</div>			
         </div>
         <div id="sentence3resultS" class="sentenceResultS">
-          <table id="resultTable3S" class="resultTableS">
+          <table id="resultTable3S" class="resultTableS" sent="3">
 		    <tr q="no">
               <td class="firstTRS" width="220px">
 				слово
