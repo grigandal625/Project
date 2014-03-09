@@ -14,6 +14,8 @@ class TasksController < ApplicationController
   end
 
   def send_v
+    res = VResult.new
+
   end
 
 end
