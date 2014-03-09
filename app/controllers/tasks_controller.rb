@@ -10,6 +10,10 @@ class TasksController < ApplicationController
   end
 
   def get_s
-	@task = Task.find_by(variant: 1)
+    @task = Task.find_by(variant: 1)
   end
+
+  def send_v
+  end
+
 end

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  mark: 1
+  task_id: 
+  student_id: 
+
+two:
+  mark: 1
+  task_id: 
+  student_id: 
