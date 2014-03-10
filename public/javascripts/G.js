@@ -276,7 +276,7 @@ function selectGroup(id){
 		groupFlag.status = true;
 		groupFlag.id = id;
 		document.getElementById("group" + id).style.color = "red";
-		document.getElementById("crossPlace" + id).innerHTML += '<img id="cross' + groupFlag.id + '" class="cross" src="cross-icon.png" onclick="deleteGroup(' + groupFlag.id + ')"/>'
+		document.getElementById("crossPlace" + id).innerHTML += '<img id="cross' + groupFlag.id + '" class="cross" src="/cross-icon.png" onclick="deleteGroup(' + groupFlag.id + ')"/>'
 		document.getElementById("dynamicHelp").innerHTML = helpStrings["groupwork"];
 		document.getElementById("error").innerHTML = "";
 	}
@@ -343,12 +343,35 @@ function deleteGroup(){
 }
 
 function generateAnswer(){
-	var answer = "";
-	for ( var id in wordTable ){
-		answer += '<span>' + wordTable[id].type;
-		if ( wordTable[id].type == "group" )
-			answer += " " + groups[wordTable[id].groupId];
-		answer += ' : ' + wordTable[id].data + '</span><br/>';
+	var tmpTable = wordTable.slice();
+	var curId = constGroups + 1;
+	for ( var id in tmpTable ){
+		if ( tmpTable[id].type == "group" && tmpTable[id].groupId >= curId ){
+			var oldId = tmpTable[id].groupId;
+			for ( var i in tmpTable ){
+				if ( tmpTable[id].type == "group" && tmpTable[id].groupId == oldId ){
+					tmpTable[id].groupId = curId * ( -1 );
+				}
+			}
+			curId++;
+		}
+	}
+	
+	for ( var id in tmpTable ){
+		if ( tmpTable[id].type == "group" && tmpTable[id].groupId < 0 )
+			tmpTable[id].groupId *= -1;
+	}
+	
+	var answer = "[";
+	for ( var id in tmpTable ){
+		if ( tmpTable[id].data == "" )
+			continue;
+		answer += '[' + tmpTable[id].type + ',';
+		if ( tmpTable[id].type == "group" )
+			answer += tmpTable[id].groupId + ',';
+		else
+			answer += '-1,';
+		answer += tmpTable[id].data + ']';
 	}
 	return answer;
 }
@@ -359,7 +382,7 @@ function showAnswer(){
 }
 
 function loadBNFEditor(){
-	var BNFdata = [["G", "Предложение типа вопрос", "Предложение типа сообщение", "Предложение типа команда", "Существительное","Глагол","Местоимение","Предлог","Союз","Прилагательное",
+	var BNFdata = [["G", "Предложение типа вопрос", "Предложение типа сообщение", "Предложение типа команда", "Существительное","Глагол","Местоимение","Предлог","Союз","Прилагательное", "Причастие", "Деепричастие",
 	"Наречие","Числительное","Предикат","Наречие","Вопросительное слово"]];
 	var numIG = 1;
 	while ( numIG < ( maxGroups - constGroups ) ){

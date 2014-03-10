@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140307192238) do
+ActiveRecord::Schema.define(version: 20140310093004) do
 
   create_table "bnf_rules", force: true do |t|
     t.text     "left"
@@ -31,6 +31,17 @@ ActiveRecord::Schema.define(version: 20140307192238) do
   end
 
   add_index "bnfs", ["component_id", "component_type"], name: "index_bnfs_on_component_id_and_component_type"
+
+  create_table "g_answers", force: true do |t|
+    t.integer  "variant"
+    t.text     "groups"
+    t.text     "bnf"
+    t.integer  "task_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "g_answers", ["task_id"], name: "index_g_answers_on_task_id"
 
   create_table "tasks", force: true do |t|
     t.integer  "variant"
