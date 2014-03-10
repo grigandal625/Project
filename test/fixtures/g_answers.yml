@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  variant: 1
+  groups: MyText
+  bnf: MyText
+  task_id: 
+
+two:
+  variant: 1
+  groups: MyText
+  bnf: MyText
+  task_id: 
