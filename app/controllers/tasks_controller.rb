@@ -19,7 +19,6 @@ class TasksController < ApplicationController
     if session[:variant] == nil
       @task = Task.first(:offset => rand(Task.count))
       session[:variant] = @task.variant
-      #session[:component] = 'V'
     else
       @task = Task.find_by(variant: session[:variant])
     end
@@ -30,8 +29,13 @@ class TasksController < ApplicationController
     @task = Task.find_by(variant: session[:variant])
     case params[:component]
     when 'V'
+      v_answer_bnf = JSON.parse(params[:v_answer_bnf])
+      #render text: v_answer_bnf.inspect
+      #return
+      result = VResult.new
+      result.create_bnf
+      result.bnf.init_result_bnf(v_answer_bnf)
       #TODO result save and answer check
-      #render text: params[:v_answer_bnf]
       render 'tasks/get_g'
     when 'G'
       render 'tasks/get_s'
