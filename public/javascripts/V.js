@@ -40,7 +40,8 @@ function sendAnswer()
 		for(var rule in bnfContent.lines[line].rules)
 		{
 			for(var el in bnfContent.lines[line].rules[rule])
-			ans_line.right += bnfContent.lines[line].rules[rule][el] + ' | '
+				ans_line.right += bnfContent.lines[line].rules[rule][el];
+			ans_line.right += ' | ';
 		}
 		ans.push(ans_line);
 	}

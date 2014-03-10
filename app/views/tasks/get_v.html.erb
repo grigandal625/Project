@@ -15,8 +15,9 @@
 </div>
 <div id="answer_send">
 	<form id="answer" method="POST" action="next_component" >
-		<input id="answer_content" name="v_answer_bnf" type="hidden" />
+		<%= tag(:input, :type => "hidden", :id => "answer_content", :name => "v_answer_bnf") %>
 		<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+		<%= tag(:input, :type => "hidden", :name => "component", :value => "V") %>
 		<input type="submit" onmousedown="sendAnswer();" />
 	</form>
 </div>

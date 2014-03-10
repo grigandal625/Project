@@ -19,7 +19,7 @@ class TasksController < ApplicationController
     if session[:variant] == nil
       @task = Task.first(:offset => rand(Task.count))
       session[:variant] = @task.variant
-      session[:component] = 'V'
+      #session[:component] = 'V'
     else
       @task = Task.find_by(variant: session[:variant])
     end
@@ -28,17 +28,14 @@ class TasksController < ApplicationController
 
   def next_component
     @task = Task.find_by(variant: session[:variant])
-    case session[:component]
+    case params[:component]
     when 'V'
-      session[:component] = 'G'
+      #TODO result save and answer check
+      #render text: params[:v_answer_bnf]
       render 'tasks/get_g'
     when 'G'
-      session[:component] = 'S'
       render 'tasks/get_s'
     when 'S'
-      session[:component] = 'End'
-    when 'End'
-      render 'tasks/get_result' #temp shit
     end
 
   end
