@@ -13,3 +13,10 @@
 <div id="BNF">
 
 </div>
+<div id="answer_send">
+	<form id="answer" method="POST" action="next_component" >
+		<input id="answer_content" name="v_answer_bnf" type="hidden" />
+		<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+		<input type="submit" onmousedown="sendAnswer();" />
+	</form>
+</div>

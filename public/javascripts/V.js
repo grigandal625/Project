@@ -29,4 +29,22 @@ function loadTask()
 	initBNF(list, document.getElementById("BNF"));
 }
 
+function sendAnswer()
+{
+	var hid = document.getElementById('answer_content');
+	var ans = [];
+	for(var line in bnfContent.lines)
+	{
+		var ans_line = {left : '', right : ''};
+		ans_line.left = bnfContent.lines[line].left;
+		for(var rule in bnfContent.lines[line].rules)
+		{
+			for(var el in bnfContent.lines[line].rules[rule])
+			ans_line.right += bnfContent.lines[line].rules[rule][el] + ' | '
+		}
+		ans.push(ans_line);
+	}
+	hid.value = JSON.stringify(ans);
+}
+
 window.onload = loadTask;
