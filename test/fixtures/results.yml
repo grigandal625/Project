@@ -1,7 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  result_id: 
+  student_id: 
+  task_id: 
 
 two:
-  result_id: 
+  student_id: 
+  task_id: 

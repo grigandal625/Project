@@ -1,6 +1,4 @@
 class VResult < ActiveRecord::Base
-  belongs_to :task
-  belongs_to :student
+  belongs_to :result
   has_one :bnf, as: :component
-
 end
