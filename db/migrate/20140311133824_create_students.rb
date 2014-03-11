@@ -1,10 +1,9 @@
 class CreateStudents < ActiveRecord::Migration
   def change
     create_table :students do |t|
-      t.text :FIO
+      t.text :fio
       t.references :group, index: true
 
-      t.timestamps
     end
   end
 end

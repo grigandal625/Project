@@ -5,7 +5,6 @@ class CreateBnfRules < ActiveRecord::Migration
       t.text :right
       t.references :bnf, index: true
 
-      t.timestamps
     end
   end
 end

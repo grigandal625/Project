@@ -6,7 +6,6 @@ class CreateTasks < ActiveRecord::Migration
       t.text :sentence2
       t.text :sentence3
 
-      t.timestamps
     end
     add_index :tasks, :variant, unique: true
   end

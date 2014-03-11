@@ -3,7 +3,6 @@ class CreateBnfs < ActiveRecord::Migration
     create_table :bnfs do |t|
       t.references :component, polymorphic: true, index: true
 
-      t.timestamps
     end
   end
 end

@@ -6,7 +6,6 @@ class CreateGAnswers < ActiveRecord::Migration
       t.text :bnf
       t.references :task, index: true
 
-      t.timestamps
     end
   end
 end
