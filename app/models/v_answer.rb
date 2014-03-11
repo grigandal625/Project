@@ -38,6 +38,7 @@ class VAnswer < ActiveRecord::Base
         #TODO
       end
     end
+    return 100
   end
 
 end

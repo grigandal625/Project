@@ -6,7 +6,7 @@ class BnfTest < ActiveSupport::TestCase
              {"left" => nil, "right" => "wrong"}]
     result = VResult.new
     result.create_bnf
-    result.bnf.init_result_bnf(rules)
+    result.bnf.init_bnf(rules)
     p result.bnf.bnf_rules.inspect
     assert true
   end

@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 20140311133857) do
 
   create_table "v_results", force: true do |t|
     t.integer "result_id"
+    t.integer "mark"
   end
 
   add_index "v_results", ["result_id"], name: "index_v_results_on_result_id"
