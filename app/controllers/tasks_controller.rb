@@ -15,6 +15,14 @@ class TasksController < ApplicationController
   end
 #temp shit
 
+  def new
+  end
+
+  def create
+    sentences = params[:sentences].split("\r\n")
+    render text: sentences.inspect #temp shit
+  end
+
   def get_task
     if session[:variant] == nil
       @task = Task.first(:offset => rand(Task.count))

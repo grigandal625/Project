@@ -5,7 +5,7 @@
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   
   <%= yield(:head) %>
-
+  <% if @task != nil %>
   <%= javascript_tag "var currentTask;
 
 	function getTask()
@@ -17,6 +17,7 @@
 		};
 	}"
   %>
+  <% end %>
 
 
   <%= csrf_meta_tags %>
