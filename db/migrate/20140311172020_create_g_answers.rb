@@ -1,11 +1,8 @@
 class CreateGAnswers < ActiveRecord::Migration
   def change
     create_table :g_answers do |t|
-      t.integer :variant
-      t.text :groups
-      t.text :bnf
+      t.text :answer
       t.references :task, index: true
-
     end
   end
 end

@@ -375,7 +375,7 @@ function generateAnswer(){
 	for ( var id in tmpTable )
 		if ( tmpTable[id].type == "group" )
 			tmpTable[id].groupName = groups[tmpTable[id].groupId];
-	return JSON.stringify(bnf) + JSON.stringify(tmpTable);
+	return '{"bnf": "' + JSON.stringify(bnf) + '", "groups": "' + JSON.stringify(tmpTable) + '"}';
 }
 
 function sendAnswer()

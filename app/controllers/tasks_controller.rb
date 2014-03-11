@@ -48,6 +48,12 @@ class TasksController < ApplicationController
       result.save
       render 'tasks/get_g'
     when 'G'
+	  result = Result.find(session[:result_id])
+	  gresult = result.create_g_result
+	  gresult.answer = params[:g_answer]
+	  gresult.mark = @task.g_answer.check_answer(gresult.answer)
+	  gresult.save
+	  result.save
       render 'tasks/get_s'
     when 'S'
     end
