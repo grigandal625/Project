@@ -89,10 +89,10 @@ function loadTask(){
 	buttonTable["but2"] = {status : true};
 	buttonTable["but3"] = {status : true};
 	buttonTable["but4"] = {status : true};
-	groups[1] = "Предикат";
-	groups[2] = "Союз";
-	groups[3] = "Наречие";
-	groups[4] = "Вопросительное слово";
+	groups[1] = "П";
+	groups[2] = "С";
+	groups[3] = "Н";
+	groups[4] = "ВС";
 	setActiveButtons();
 }
 
@@ -100,7 +100,7 @@ function addNounGroup(){
 	document.getElementById("buttons").innerHTML += '<button class="button" id="but' + newGroup + '" onclick="setGroup(' + newGroup + ')">ИГ ' + (newGroup - constGroups) + '</button>';
 	document.getElementById("but" + newGroup).style.borderColor = Colors[newGroup];
 	buttonTable["but" + newGroup] = {status : true};
-	groups[newGroup] = "Именная группа " + newGroup;
+	groups[newGroup] = "ИГ " + (newGroup - constGroups);
 	newGroup++;
 	if ( newGroup > maxGroups )
 		document.getElementById("creator").disabled = true;
@@ -343,7 +343,10 @@ function deleteGroup(){
 }
 
 function generateAnswer(){
-	var tmpTable = wordTable.slice();
+	//Тут из-за смены нумерации считается что описание лишней именной группы равно двойному описанию именной группы
+	//Т.е описание несуществующей группы = ошибка в описании группы
+	var bnf = eval('(' + JSON.stringify(bnfContent["lines"]) + ')');
+	var tmpTable = eval('(' + JSON.stringify(wordTable) + ')');
 	var curId = constGroups + 1;
 	for ( var id in tmpTable ){
 		if ( tmpTable[id].type == "group" && tmpTable[id].groupId >= curId ){
@@ -353,32 +356,32 @@ function generateAnswer(){
 					tmpTable[id].groupId = curId * ( -1 );
 				}
 			}
+			for ( var line in bnf ){
+				if ( bnf[line].left == "&lt;" + groups[oldId] + "&gt;" )
+					bnf[line].left = curId * ( -1 );
+			}
 			curId++;
 		}
 	}
 	
-	for ( var id in tmpTable ){
+	for ( var line in bnf )
+		if ( bnf[line].left < 0 )
+			bnf[line].left = "&lt;" + groups[bnf[line].left * ( -1 )] + "&gt;";
+	
+	for ( var id in tmpTable )
 		if ( tmpTable[id].type == "group" && tmpTable[id].groupId < 0 )
 			tmpTable[id].groupId *= -1;
-	}
 	
-	var answer = "[";
-	for ( var id in tmpTable ){
-		if ( tmpTable[id].data == "" )
-			continue;
-		answer += '[' + tmpTable[id].type + ',';
+	for ( var id in tmpTable )
 		if ( tmpTable[id].type == "group" )
-			answer += tmpTable[id].groupId + ',';
-		else
-			answer += '-1,';
-		answer += tmpTable[id].data + ']';
-	}
-	return answer;
+			tmpTable[id].groupName = groups[tmpTable[id].groupId];
+	return JSON.stringify(bnf) + JSON.stringify(tmpTable);
 }
 
-function showAnswer(){
-	var ans = generateAnswer();
-	document.getElementById("youranswer").innerHTML = ans;
+function sendAnswer()
+{
+	var hid = document.getElementById('answer_content');
+	hid.value = generateAnswer();
 }
 
 function loadBNFEditor(){
