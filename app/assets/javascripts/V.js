@@ -41,8 +41,9 @@ function sendAnswer()
 		{
 			for(var el in bnfContent.lines[line].rules[rule])
 				ans_line.right += bnfContent.lines[line].rules[rule][el];
-			ans_line.right += ' | ';
+			ans_line.right += '|';
 		}
+		ans_line = ans_line.substr(0, ans_line.length - 1)
 		ans.push(ans_line);
 	}
 	hid.value = JSON.stringify(ans);
