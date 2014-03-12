@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   layout 'task'
+  helper :all
 
 #temp shit
   def get_v

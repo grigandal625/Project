@@ -9,8 +9,20 @@
 	<div>
 		<span>Компонент V</span><br/>
 		<span>Выберите нужные пункты для компонентов БНФ</span><br/>
+		<% list = bnf_elements_lists %>
+		<% list.each do |key, val| %>
+			<%= content_tag(:span, "#{key.first} ::= ") %>
+			<% i = 0 %>
+			<% val.each do |elem| %>
+				<% i += 1 %>
+				<%= check_box_tag("#{key.last}[]", elem, false, id: "#{key.last}#{i}") %>
+				<%= label_tag("#{key.last}#{i}", elem) %>
+			<% end %>
+			<br/>
+		<% end %>
+		<% if false %>
 		<span>Падеж</span>
-		<% for pad in @list.spadezh_list do %>
+		<% for pad in padezh_list do %>
 			<%= tag(:input, :id => pad, :type => "checkbox", :name => "padezh", :value => pad) %>
 			<%= content_tag(:label, pad,:for => pad) %>
 		<% end %>
@@ -75,6 +87,7 @@
 			<%= content_tag(:label, sem_mu,:for => sem_mu) %>
 		<% end %>
 		<br/>
+		<% end %>
 	</div>
 	<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
 	<br/>
