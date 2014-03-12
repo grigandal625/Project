@@ -65,13 +65,10 @@ ActiveRecord::Schema.define(version: 20140311172020) do
   add_index "students", ["group_id"], name: "index_students_on_group_id"
 
   create_table "tasks", force: true do |t|
-    t.integer "variant"
-    t.text    "sentence1"
-    t.text    "sentence2"
-    t.text    "sentence3"
+    t.text "sentence1"
+    t.text "sentence2"
+    t.text "sentence3"
   end
-
-  add_index "tasks", ["variant"], name: "index_tasks_on_variant", unique: true
 
   create_table "v_answers", force: true do |t|
     t.integer "task_id"

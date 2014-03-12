@@ -3,15 +3,15 @@ class TasksController < ApplicationController
 
 #temp shit
   def get_v
-    @task = Task.find_by(variant: 1)
+    @task = Task.find(1)
   end
 
   def get_g
-    @task = Task.find_by(variant: 1)
+    @task = Task.find(1)
   end
 
   def get_s
-    @task = Task.find_by(variant: 1)
+    @task = Task.find(1)
   end
 #temp shit
 
@@ -26,38 +26,35 @@ class TasksController < ApplicationController
   def get_task
     if session[:variant] == nil
       @task = Task.first(:offset => rand(Task.count))
-      session[:variant] = @task.variant
+      session[:task_id] = @task.id
       session[:result_id] = Result.create
     else
-      @task = Task.find_by(variant: session[:variant])
+      @task = Task.find(session[:task_id])
     end
     render 'tasks/get_v'
   end
 
   def next_component
-    @task = Task.find_by(variant: session[:variant])
+    @task = Task.find(session[:task_id])
+    result = Result.find(session[:result_id])
     case params[:component]
     when 'V'
       v_answer_bnf = JSON.parse(params[:v_answer_bnf])
-      result = Result.find(session[:result_id])
       vresult = result.create_v_result
       vresult.create_bnf
       vresult.bnf.init_bnf(v_answer_bnf)
       vresult.mark = @task.v_answer.check_answer(vresult.bnf)
       vresult.save
-      result.save
       render 'tasks/get_g'
     when 'G'
-	  result = Result.find(session[:result_id])
-	  gresult = result.create_g_result
-	  gresult.answer = params[:g_answer]
-	  gresult.mark = @task.g_answer.check_answer(gresult.answer)
-	  gresult.save
-	  result.save
+      gresult = result.create_g_result
+      gresult.answer = params[:g_answer]
+      gresult.mark = @task.g_answer.check_answer(gresult.answer)
+      gresult.save
       render 'tasks/get_s'
     when 'S'
     end
-
+    result.save
   end
 
 end
