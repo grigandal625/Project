@@ -19,8 +19,13 @@ class TasksController < ApplicationController
   end
 
   def create
-    sentences = params[:sentences].split("\r\n")
-    render text: sentences.inspect #temp shit
+    sentences = []
+    params[:sentences].split("\r\n").each{|sen| sentences << sen unless sen == ""}
+    render text: sentences.inspect
+    #Task.create(sentence1: sentences[0], sentence2: sentences[1], sentence3: sentences[2])
+  end
+
+  def edit
   end
 
   def get_task
