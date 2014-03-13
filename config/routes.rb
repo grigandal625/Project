@@ -1,11 +1,11 @@
 UIR::Application.routes.draw do
-  get "tasks/get_g"
   get "tasks/get_s"
   get "tasks/get_task"
   post "tasks/next_component"
   get "tasks/new"
-  get "tasks/edit"
+  get "tasks/edit/:id", to: "tasks#edit", as: "tasks_edit"
   post "tasks/create"
+  get "tasks", to: "tasks#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

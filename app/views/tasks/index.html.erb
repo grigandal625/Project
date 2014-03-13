@@ -1,0 +1,10 @@
+<% content_for(:head) do %>
+
+	<title>Задания</title>
+
+<% end %>
+
+<%= link_to "Создать новое задание", tasks_new_path %>
+<%= display_standard_table([{name: "id", display_name: "Номер"},
+							{name: "sentence1", display_name: "Задание"},
+							{name: "reference", display_name: ""}], @tasks) %>

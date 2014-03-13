@@ -1,3 +1,4 @@
+#coding: utf-8
 class TasksController < ApplicationController
   layout 'task'
   helper :all
@@ -7,6 +8,16 @@ class TasksController < ApplicationController
     @task = Task.find(1)
   end
 #temp shit
+
+  def index
+    @tasks = []
+    Task.find_each do |task|
+      @tasks << {"id" => task.id,
+                "sentence1" => task.sentence1[0..100] + '...',
+                "reference" => 
+                    "<a href=\"#{tasks_edit_path(task.id)}\">Редактировать</a>"}
+    end
+  end
 
   def new
   end
@@ -19,6 +30,7 @@ class TasksController < ApplicationController
   end
 
   def edit
+    @task = Task.find_by_id(params[:id])
   end
 
   def get_task

@@ -1,23 +1,51 @@
 <% content_for(:head) do %>
 
-  <title>Редактирование задания</title>
-  <style>
-  </style>
+	<title>Редактирование задания</title>
+	<style>
+		div.VComponent
+		{
+			margin-top: 3px;
+		}
+
+		span.VElement
+		{
+			border: 1px solid grey;
+			border-radius: 3px;
+			margin: 3px;
+			background-color: lightblue;
+		}
+	</style>
 <% end %>
 
+<div id="task">
+	<span>Текст задания:</span><br/>
+	<% if @task != nil %>
+		<span><%= @task.sentence1  %></span><br/>
+		<span><%= @task.sentence2  %></span><br/>
+		<span><%= @task.sentence3  %></span><br/>
+	<% else %>
+		<span>Task was not found!!!</span>
+	<% end %>
+</div>
+<br/>
 <form method="POST" action="update">
 	<div>
 		<span>Компонент V</span><br/>
 		<span>Выберите нужные пункты для компонентов БНФ</span><br/>
+		<% col ||= 'linen' %>
 		<% bnf_elements_lists.each do |key, val| %>
+			<% col = (col == 'wheat' ? 'linen' : 'wheat') %>
+		<div class="VComponent" style="background-color: <%= col %>;">
 			<%= content_tag(:span, "#{key.first} ::= ") %>
 			<% i = 0 %>
 			<% val.each do |elem| %>
 				<% i += 1 %>
+				<span class="VElement">
 				<%= check_box_tag("#{key.last}[]", elem, false, id: "#{key.last}#{i}") %>
 				<%= label_tag("#{key.last}#{i}", elem) %>
+				</span>
 			<% end %>
-			<br/>
+			</div>
 		<% end %>
 		<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
 	<br/>
