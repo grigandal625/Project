@@ -3,14 +3,6 @@ class TasksController < ApplicationController
   helper :all
 
 #temp shit
-  def get_v
-    @task = Task.find(1)
-  end
-
-  def get_g
-    @task = Task.find(1)
-  end
-
   def get_s
     @task = Task.find(1)
   end

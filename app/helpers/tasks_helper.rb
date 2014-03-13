@@ -5,7 +5,10 @@ module TasksHelper
     padezh_list = ["Именительный", "Родительный", "Винительный", "Дательный",
                    "Творительный", "Предложный"]
     gender_list = ["Мужской", "Женский", "Средний"]
-    return {["<падеж>", "padezh"] => padezh_list, ["<род>", "gender"] => gender_list}
+    number_list = ["Единственное", "Множественное"]
+    return {["<падеж>", "padezh"] => padezh_list,
+            ["<род>", "gender"] => gender_list,
+            ["<число>", "number"] => number_list}
   end
 
 end

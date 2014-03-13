@@ -9,8 +9,7 @@
 	<div>
 		<span>Компонент V</span><br/>
 		<span>Выберите нужные пункты для компонентов БНФ</span><br/>
-		<% list = bnf_elements_lists %>
-		<% list.each do |key, val| %>
+		<% bnf_elements_lists.each do |key, val| %>
 			<%= content_tag(:span, "#{key.first} ::= ") %>
 			<% i = 0 %>
 			<% val.each do |elem| %>
@@ -20,76 +19,7 @@
 			<% end %>
 			<br/>
 		<% end %>
-		<% if false %>
-		<span>Падеж</span>
-		<% for pad in padezh_list do %>
-			<%= tag(:input, :id => pad, :type => "checkbox", :name => "padezh", :value => pad) %>
-			<%= content_tag(:label, pad,:for => pad) %>
-		<% end %>
-		<br/>
-		<span>Род</span>
-		<% for gen in @list.gender_list do %>
-			<%= tag(:input, :id => gen, :type => "checkbox", :name => "gender", :value => gen) %>
-			<%= content_tag(:label, gen,:for => gen) %>
-		<% end %>
-		<br/>
-		<span>Число</span>
-		<% for num in @list.number_list do %>
-			<%= tag(:input, :id => num, :type => "checkbox", :name => "number", :value => num) %>
-			<%= content_tag(:label, num,:for => num) %>
-		<% end %>
-		<br/>
-		<span>Одушевленность</span>
-		<% for duh in @list.odush_list do %>
-			<%= tag(:input, :id => duh, :type => "checkbox", :name => "odush", :value => duh) %>
-			<%= content_tag(:label, duh,:for => duh) %>
-		<% end %>
-		<br/>
-		<span>Кодификатор части речи</span>
-		<% for cod in @list.codificator_list do %>
-			<%= tag(:input, :id => cod, :type => "checkbox", :name => "codificator", :value => cod) %>
-			<%= content_tag(:label, cod,:for => cod) %>
-		<% end %>
-		<br/>
-		<span>Семантический признак</span>
-		<% for sem in @list.semantic_list do %>
-			<%= tag(:input, :id => sem, :type => "checkbox", :name => "semantic", :value => sem) %>
-			<%= content_tag(:label, sem,:for => sem) %>
-		<% end %>
-		<br/>
-		<span>Вид</span>
-		<% for vid in @list.vid_list do %>
-			<%= tag(:input, :id => vid, :type => "checkbox", :name => "vid", :value => vid) %>
-			<%= content_tag(:label, vid,:for => vid) %>
-		<% end %>
-		<br/>
-		<span>МУ</span>
-		<% for mu in @list.mu_list do %>
-			<%= tag(:input, :id => mu, :type => "checkbox", :name => "mu", :value => mu) %>
-			<%= content_tag(:label, mu,:for => mu) %>
-		<% end %>
-		<br/>
-		<span>Имя семантической валентности</span>
-		<% for sem_val in @list.semantic_valent_list do %>
-			<%= tag(:input, :id => sem_val, :type => "checkbox", :name => "semantic_valent", :value => sem_val) %>
-			<%= content_tag(:label, sem_val,:for => sem_val) %>
-		<% end %>
-		<br/>
-		<span>Синтаксический компонент МУ</span>
-		<% for synt_mu in @list.syntax_mu_list do %>
-			<%= tag(:input, :id => synt_mu, :type => "checkbox", :name => "syntax_mu", :value => synt_mu) %>
-			<%= content_tag(:label, synt_mu,:for => synt_mu) %>
-		<% end %>
-		<br/>
-		<span>Семантический компонент МУ</span>
-		<% for sem_mu in @list.semantic_mu_list do %>
-			<%= tag(:input, :id => sem_mu, :type => "checkbox", :name => "semantic_mu", :value => sem_mu) %>
-			<%= content_tag(:label, sem_mu,:for => sem_mu) %>
-		<% end %>
-		<br/>
-		<% end %>
-	</div>
-	<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+		<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
 	<br/>
 	<input type="submit" />
 </form>
