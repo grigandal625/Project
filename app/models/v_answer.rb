@@ -1,4 +1,7 @@
 #coding: utf-8
+
+include ActionView::Helpers::TasksHelper
+
 class VAnswer < ActiveRecord::Base
   belongs_to :task
   has_one :bnf, as: :component
@@ -18,20 +21,32 @@ class VAnswer < ActiveRecord::Base
   end
 
   def check_answer(bnf_to_check) #TODO write algorithm
+    errors = {1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 1, 9 => 1}
     for rule in bnf_to_check.bnf_rules
       case rule.left
       when '<имя словаря>'
-        #TODO
+        errors[2] += 1 if right = rule.right.split('|').length > 6
+        V_name_list.each{ |vname| errors[1] += 1 unless rule.right.include?(vname) }
       when '<словарная статья>'
-        #TODO
+        errors[2] += 1 if right = rule.right.split('|').length > 6
       when '<словарная статья понятий>'
-        #TODO
+        errors[3] += 1 unless rule.right.include?("кодификатор части речи")
+        errors[3] += 1 unless rule.right.include?("род")
+        errors[3] += 1 unless rule.right.include?("число")
+        errors[3] += 1 unless rule.right.include?("падеж")
+        errors[3] += 1 unless rule.right.include?("одушевленность")
+        errors[9] -= 1
       when '<словарная статья предикатов>'
-        #TODO
-      when '<словарная статья вопросителmных слов>'
+        errors[1] += 1 unless rule.right.include?("кодификатор части речи")
+        errors[2] += 1 unless rule.right.include?("семантический признак")
+      when '<словарная статья вопросительных слов>'
         #TODO
       when '<словарная статья характеристик>'
-        #TODO
+        errors[3] += 1 unless rule.right.include?("кодификатор части речи")
+        errors[3] += 1 unless rule.right.include?("род")
+        errors[3] += 1 unless rule.right.include?("число")
+        errors[3] += 1 unless rule.right.include?("падеж")
+        errors[8] -= 1
       when '<словарная статья предлогов>'
         #TODO
       when '<словарная статья неизменяемых словоформ>'

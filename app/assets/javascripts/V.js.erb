@@ -15,8 +15,8 @@ function loadTask()
 			<%= val.inspect %>,
 		<% end %>
 
-		["словарь вопросительных слов", "словарь неизменяемых словоформ",
-		"словарь предикатов", "словарь характеристик", "словарь предлогов"]];
+		<%= V_name_list.inspect %>
+		];
 
 	list[0].sort();
 	initBNF(list, document.getElementById("BNF"));
