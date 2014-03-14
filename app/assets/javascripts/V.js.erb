@@ -28,15 +28,17 @@ function sendAnswer()
 	var ans = [];
 	for(var line in bnfContent.lines)
 	{
+		if(bnfContent.lines[line].left === null)
+			break;
 		var ans_line = {left : '', right : ''};
-		ans_line.left = bnfContent.lines[line].left;
+		ans_line.left = bnfContent.lines[line].left.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 		for(var rule in bnfContent.lines[line].rules)
 		{
 			for(var el in bnfContent.lines[line].rules[rule])
 				ans_line.right += bnfContent.lines[line].rules[rule][el];
 			ans_line.right += '|';
 		}
-		ans_line = ans_line.right.substr(0, ans_line.length - 1)
+		ans_line.right = ans_line.right.substr(0, ans_line.right.length - 1)
 		ans.push(ans_line);
 	}
 	hid.value = JSON.stringify(ans);

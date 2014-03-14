@@ -35,9 +35,9 @@ class TasksController < ApplicationController
 
   def get_task
     if session[:variant] == nil
-      @task = Task.first(:offset => rand(Task.count))
+      @task = Task.first(offset: rand(Task.count))
       session[:task_id] = @task.id
-      session[:result_id] = Result.create
+      session[:result_id] = @task.results.create.id
     else
       @task = Task.find(session[:task_id])
     end

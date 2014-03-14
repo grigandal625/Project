@@ -1,7 +1,5 @@
 #coding: utf-8
 
-include ActionView::Helpers::TasksHelper
-
 class VAnswer < ActiveRecord::Base
   belongs_to :task
   has_one :bnf, as: :component
@@ -21,14 +19,17 @@ class VAnswer < ActiveRecord::Base
   end
 
   def check_answer(bnf_to_check) #TODO write algorithm
-    errors = {1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 1, 9 => 1}
+    errors = {1 => 0, 2 => 0, 3 => 0, 4 => 2, 5 => 0, 6 => 0, 7 => 0, 8 => 1, 9 => 1}
     for rule in bnf_to_check.bnf_rules
+      puts rule.left
       case rule.left
       when '<имя словаря>'
-        errors[2] += 1 if right = rule.right.split('|').length > 6
+        errors[4] -= 1
+        errors[2] += 1 if rule.right.split('|').length > 6
         V_name_list.each{ |vname| errors[1] += 1 unless rule.right.include?(vname) }
       when '<словарная статья>'
-        errors[2] += 1 if right = rule.right.split('|').length > 6
+        errors[4] -= 1
+        errors[2] += 1 if rule.right.split('|').length != 6
       when '<словарная статья понятий>'
         errors[3] += 1 unless rule.right.include?("кодификатор части речи")
         errors[3] += 1 unless rule.right.include?("род")
@@ -53,6 +54,7 @@ class VAnswer < ActiveRecord::Base
         #TODO
       end
     end
+    logger.debug errors.inspect
     return 100
   end
 
