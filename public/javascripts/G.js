@@ -56,6 +56,9 @@ function loadTask(){
 		var sentence = task[i].split(" ");
 		Gdiv.innerHTML +=  parseInt(i, 10) + 1 + ". ";
 		for ( var y in sentence ){
+			if ( sentence[y] == "" ){
+				continue;
+			}
 			Gdiv.innerHTML += '<span id="span' + id + '" class="normal" onclick="changeStatus(' + id + ')">' + ' ' + sentence[y];
 			Gdiv.innerHTML += "</span>";
 			wordTable[id] = {

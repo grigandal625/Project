@@ -41,7 +41,7 @@ class TasksController < ApplicationController
     else
       @task = Task.find(session[:task_id])
     end
-    render 'tasks/get_v'
+    render 'tasks/get_g'
   end
 
   def next_component
@@ -55,13 +55,13 @@ class TasksController < ApplicationController
       vresult.bnf.init_bnf(v_answer_bnf)
       vresult.mark = @task.v_answer.check_answer(vresult.bnf)
       vresult.save
-      render 'tasks/get_g'
+      render 'tasks/get_s'
     when 'G'
       gresult = result.create_g_result
       gresult.answer = params[:g_answer]
       gresult.mark = @task.g_answer.check_answer(gresult.answer)
       gresult.save
-      render 'tasks/get_s'
+      render 'tasks/get_v'
     when 'S'
     end
     result.save
