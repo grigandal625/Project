@@ -10,7 +10,7 @@ class GAnswer < ActiveRecord::Base
     for sentence_id in ["0", "1", "2"]
       sentence = ""
       for group_id in groups
-        #logger.debug(group_id.inspect)
+        logger.debug(group_id.inspect)
         if group_id[1]["sentence"] == sentence_id
           sentence += group_id[1]["data"]
         end
@@ -37,12 +37,13 @@ class GAnswer < ActiveRecord::Base
     #Проверка правильности описания, по отсутствию лишних слов
     
     #Слово не принадлежащее групе - ошибка типа 10
-    for group_id in groups_to_check
-      #logger.debug(group_id.inspect)
-      group_id[1]["status"] = "0"
-      if group_id[1]["type"] != "group"
+    groups_to_check.each do |key,group_id|
+    #for group_id in groups_to_check
+      logger.debug(group_id.inspect)
+      group_id["status"] = "0"
+      if group_id["type"] != "group"
         mistakes[9] = mistakes[9] + 1
-        log << "Слово #{groups_to_check[group_id].data} не состоит ни в одной группе"
+        log << "Слово #{group_id["data"]} не состоит ни в одной группе"
       end
     end
     #берём каждое слово предложения, ищем группы, в которые оно входит
