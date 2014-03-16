@@ -8,10 +8,9 @@ class GAnswer < ActiveRecord::Base
     task = []
     for sentence_id in ["0", "1", "2"]
       sentence = ""
-      for group_id in groups
-        logger.debug(group_id.inspect)
-        if group_id[1]["sentence"] == sentence_id
-          sentence += group_id[1]["data"]
+      groups.each do |key, group|
+        if group["sentence"] == sentence_id
+          sentence += group["data"]
         end
       end
       sentence = sentence.split(" ")
@@ -28,7 +27,6 @@ class GAnswer < ActiveRecord::Base
     end
     t_answer = JSON.parse(answer_to_check)
     groups_to_check = t_answer["groups"]
-    #logger.debug(groups_to_check.inspect)
     bnf_to_check = t_answer["bnf"]
     standard_answer = JSON.parse(answer)
     standard_groups = standard_answer["groups"]
@@ -36,13 +34,11 @@ class GAnswer < ActiveRecord::Base
     #Проверка правильности описания, по отсутствию лишних слов
     
     #Слово не принадлежащее групе - ошибка типа 10
-    groups_to_check.each do |key,group_id|
-    #for group_id in groups_to_check
-      logger.debug(group_id.inspect)
-      group_id["status"] = "0"
-      if group_id["type"] != "group"
-        mistakes[9] = mistakes[9] + 1
-        log << "Слово #{group_id["data"]} не состоит ни в одной группе"
+    groups_to_check.each do |key, group|
+      group["status"] = "0"
+      if group["type"] != "group"
+        mistakes[9] += 1
+        log << "Слово #{group["data"]} не состоит ни в одной группе"
       end
     end
     #берём каждое слово предложения, ищем группы, в которые оно входит
