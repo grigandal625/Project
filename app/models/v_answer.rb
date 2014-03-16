@@ -19,9 +19,8 @@ class VAnswer < ActiveRecord::Base
   end
 
   def check_answer(bnf_to_check) #TODO write algorithm
-    errors = {1 => 0, 2 => 0, 3 => 0, 4 => 2, 5 => 0, 6 => 0, 7 => 0, 8 => 1, 9 => 1}
+    errors = {1 => 0, 2 => 0, 3 => 0, 4 => 5, 5 => 0, 6 => 0, 7 => 1, 8 => 1, 9 => 1, 10 => 1}
     for rule in bnf_to_check.bnf_rules
-      puts rule.left
       case rule.left
       when '<имя словаря>'
         errors[4] -= 1
@@ -38,10 +37,14 @@ class VAnswer < ActiveRecord::Base
         errors[3] += 1 unless rule.right.include?("одушевленность")
         errors[9] -= 1
       when '<словарная статья предикатов>'
-        errors[1] += 1 unless rule.right.include?("кодификатор части речи")
-        errors[2] += 1 unless rule.right.include?("семантический признак")
+        errors[3] += 1 unless rule.right.include?("вид")
+        errors[3] += 1 unless rule.right.include?("время")
+        errors[9] += 1 unless rule.right.include?("МУ")
+        errors[10] -= 1
       when '<словарная статья вопросительных слов>'
-        #TODO
+        errors[3] += 1 unless rule.right.include?("кодификатор части речи")
+        errors[2] += 1 unless rule.right.include?("семантический признак")
+        errors[4] -= 1
       when '<словарная статья характеристик>'
         errors[3] += 1 unless rule.right.include?("кодификатор части речи")
         errors[3] += 1 unless rule.right.include?("род")
@@ -49,14 +52,26 @@ class VAnswer < ActiveRecord::Base
         errors[3] += 1 unless rule.right.include?("падеж")
         errors[8] -= 1
       when '<словарная статья предлогов>'
-        #TODO
+        errors[3] += 1 unless rule.right.include?("кодификатор части речи")
+        errors[4] -= 1
       when '<словарная статья неизменяемых словоформ>'
-        #TODO
+        errors[3] += 1 unless rule.right.include?("кодификатор части речи")
+        errors[4] -= 1
+      when '<МУ>'
+        errors[7] -= 1
+      when '<актант>'
+        errors[5] += 1 unless rule.right.include?("имя семантической валентности")
+      when '<род>', '<число>', '<одушевленность>', '<вид>', '<время>',
+        '<предлог>', '<семантический признак>', '<кодификатор части речи>'
+        errors[1] += bnf.bnf_rules.find_by(left: rule.left).compare_rules(rule)
+      when '<падеж>', '<имя семантической валентности>'
+        errors[2] += bnf.bnf_rules.find_by(left: rule.left).compare_rules(rule)
       end
     end
     logger.debug errors.inspect
     mark = 0
     errors.each {|type, val| mark += Cost[type]*val }
+    puts "you have mark #{mark}"
     return 100 - mark
   end
 
