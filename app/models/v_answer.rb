@@ -55,7 +55,9 @@ class VAnswer < ActiveRecord::Base
       end
     end
     logger.debug errors.inspect
-    return 100
+    mark = 0
+    errors.each {|type, val| mark += Cost[type]*val }
+    return 100 - mark
   end
 
 end

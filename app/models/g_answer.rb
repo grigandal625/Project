@@ -1,7 +1,6 @@
 #coding: utf-8
 class GAnswer < ActiveRecord::Base
   belongs_to :task
-  @cost = [1, 2, 3, 5, 7, 8, 10, 12, 15, 20]
   @low_cost = ["C", "Н", "ВС"]
   @not_name = ["C", "Н", "ВС", "П"]
   
