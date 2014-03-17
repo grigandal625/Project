@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140311172020) do
+ActiveRecord::Schema.define(version: 20140317100132) do
 
   create_table "bnf_rules", force: true do |t|
     t.text    "left"
@@ -69,6 +69,17 @@ ActiveRecord::Schema.define(version: 20140311172020) do
     t.text "sentence2"
     t.text "sentence3"
   end
+
+  create_table "users", force: true do |t|
+    t.string   "login"
+    t.string   "pass"
+    t.string   "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "student_id"
+  end
+
+  add_index "users", ["student_id"], name: "index_users_on_student_id"
 
   create_table "v_answers", force: true do |t|
     t.integer "task_id"
