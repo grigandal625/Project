@@ -1,2 +1,152 @@
 #coding: utf-8
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  left: '<падеж>'
+  right: 'Именительный|Родительный'
+  bnf: samplev
+
+two:
+  left: '<имя словаря>'
+  right: "словарь вопросительных слов|словарь понятий|словарь неизменяемых словоформ|словарь предикатов|словарь характеристик|словарь предлогов"
+  bnf: checkv
+
+three:
+  left: '<словарная статья>'
+  right: '1|2|3|4|5|6'
+  bnf: checkv
+
+four:
+  left: '<словарная статья понятий>'
+  right: '<кодификатор части речи><род><число><падеж><одушевленность>'
+  bnf: checkv
+
+five:
+  left: '<словарная статья предикатов>'
+  right: 'вид время МУ'
+  bnf: checkv
+
+six:
+  left: '<словарная статья вопросительных слов>'
+  right: 'кодификатор части речи семантический признак'
+  bnf: checkv
+
+seven:
+  left: '<словарная статья характеристик>'
+  right: '<кодификатор части речи><род><число><падеж>'
+  bnf: checkv
+
+eight:
+  left: '<словарная статья предлогов>'
+  right: '<кодификатор части речи>'
+  bnf: checkv
+
+nine:
+  left: '<словарная статья неизменяемых словоформ>'
+  right: '<кодификатор части речи>'
+  bnf: checkv
+
+ten:
+  left: '<МУ>'
+  right: ''
+  bnf: checkv
+
+eleven:
+  left: '<актант>'
+  right: 'имя семантической валентности'
+  bnf: checkv
+
+twelve:
+  left: '<падеж>'
+  right: 'Именительный|Родительный'
+  bnf: checkv
+
+thirteen:
+  left: '<имя семантической валентности>'
+  right: 'A|D|R|F|T'
+  bnf: checkv
+
+fourteen:
+  left: '<имя семантической валентности>'
+  right: 'A|D|R|F|T'
+  bnf: samplev
+
+fifteen:
+  left: '<род>'
+  right: 'мужской'
+  bnf: checkv
+
+sixteen:
+  left: '<род>'
+  right: 'мужской'
+  bnf: samplev
+
+seventeen:
+  left: '<число>'
+  right: 'Единственное'
+  bnf: checkv
+
+eightteen:
+  left: '<число>'
+  right: 'Единственное'
+  bnf: samplev
+
+nineteen:
+  left: '<одушевленность>'
+  right: 'Неодушевленное'
+  bnf: checkv
+
+twenty:
+  left: '<одушевленность>'
+  right: 'Неодушевленное'
+  bnf: samplev
+
+twentyone:
+  left: '<вид>'
+  right: 'Совершенный|Несовершенный'
+  bnf: checkv
+
+twentytwo:
+  left: '<вид>'
+  right: 'Совершенный|Несовершенный'
+  bnf: samplev
+
+twentythree:
+  left: '<время>'
+  right: 'Будущее'
+  bnf: checkv
+
+twentyfour:
+  left: '<время>'
+  right: 'Будущее'
+  bnf: samplev
+
+twentyfive:
+  left: '<предлог>'
+  right: 'на|в|от|за'
+  bnf: checkv
+
+twentysix:
+  left: '<предлог>'
+  right: 'на|в|от|за'
+  bnf: samplev
+
+twentyseven:
+  left: '<семантический признак>'
+  right: 'Результат'
+  bnf: checkv
+
+twentyeight:
+  left: '<семантический признак>'
+  right: 'Результат'
+  bnf: samplev
+
+twentynine:
+  left: '<кодификатор части речи>'
+  right: 'Существительное'
+  bnf: checkv
+
+thirty:
+  left: '<кодификатор части речи>'
+  right: 'Существительное'
+  bnf: samplev
