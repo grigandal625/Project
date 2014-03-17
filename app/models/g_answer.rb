@@ -54,14 +54,15 @@ class GAnswer < ActiveRecord::Base
                 ch_words.each do |ch_word|
                   if ( ( word == ch_word ) )
                     #найдена группа в ответе студента с тем же словом
-                    if ( st_group["groupName"] not in Not_name ) &&
-                      ( ch_group["groupName"] not in Not_name )
-                      #сравнить 2 именные группы пословно, изменить флаг
-                    else
-                      if st_group["groupName"] == ch_group["groupName"]
-                      #сравнить группы пословно, изменить флаг
-                      end
-                    end
+                    #if ( st_group["groupName"] not in Not_name ) &&
+                    #  ( ch_group["groupName"] not in Not_name )
+                    #  #сравнить 2 именные группы пословно, изменить флаг
+                    #else
+                    #  if st_group["groupName"] == ch_group["groupName"]
+                    #  #сравнить группы пословно, изменить флаг
+                    #  end
+                    #end
+                  end
                 end
               end
             end

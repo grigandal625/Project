@@ -70,11 +70,11 @@ class VAnswer < ActiveRecord::Base
         errors[3] -= 1
       end
     end
-    puts errors.inspect
-    mark = 0
-    errors.each {|type, val| mark += Cost[type]*val }
-    puts "you have mark #{mark}"
-    return 100 - mark
+    #puts errors.inspect
+    mark = 100
+    errors.each {|type, val| mark -= Cost[type]*val }
+    #puts "you have mark #{mark}"
+    return mark
   end
 
 end

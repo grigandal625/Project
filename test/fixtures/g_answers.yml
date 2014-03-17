@@ -1,11 +1,1 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  groups: MyText
-  bnf: MyText
-  task_id: 
-
-two:
-  groups: MyText
-  bnf: MyText
-  task_id: 
