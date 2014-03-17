@@ -29,25 +29,8 @@
 </div>
 <br/>
 <form method="POST" action="update">
-	<div>
-		<span>Компонент V</span><br/>
-		<span>Выберите нужные пункты для компонентов БНФ</span><br/>
-		<% col ||= 'linen' %>
-		<% bnf_elements_lists.each do |key, val| %>
-			<% col = (col == 'wheat' ? 'linen' : 'wheat') %>
-		<div class="VComponent" style="background-color: <%= col %>;">
-			<%= content_tag(:span, "#{key.first} ::= ") %>
-			<% i = 0 %>
-			<% val.each do |elem| %>
-				<% i += 1 %>
-				<span class="VElement">
-				<%= check_box_tag("#{key.last}[]", elem, false, id: "#{key.last}#{i}") %>
-				<%= label_tag("#{key.last}#{i}", elem) %>
-				</span>
-			<% end %>
-			</div>
-		<% end %>
-		<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+	<%= render 'v_edit' %>
+	<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
 	<br/>
 	<input type="submit" />
 </form>
