@@ -1,17 +1,2 @@
+#coding: utf-8
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-first:
-  left: '<описание словаря>'
-  right: '<имя словаря>{<тело словаря>}'
-  bnf: samplev
-
-second:
-  left: '<описание словаря>'
-  right: '<имя словаря>{<тело словаря>}'
-  bnf: checkv
-
-third:
-  left: '<описание словаря>'
-  right: '<имя>'
-  bnf: samplev
-

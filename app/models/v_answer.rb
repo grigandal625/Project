@@ -19,7 +19,7 @@ class VAnswer < ActiveRecord::Base
   end
 
   def check_answer(bnf_to_check) #TODO write algorithm
-    errors = {1 => 0, 2 => 0, 3 => 0, 4 => 5, 5 => 0, 6 => 0, 7 => 1, 8 => 1, 9 => 1, 10 => 1}
+    errors = {1 => 0, 2 => 8, 3 => 2, 4 => 5, 5 => 0, 6 => 0, 7 => 1, 8 => 1, 9 => 1, 10 => 1}
     for rule in bnf_to_check.bnf_rules
       case rule.left
       when '<имя словаря>'
@@ -64,11 +64,13 @@ class VAnswer < ActiveRecord::Base
       when '<род>', '<число>', '<одушевленность>', '<вид>', '<время>',
         '<предлог>', '<семантический признак>', '<кодификатор части речи>'
         errors[1] += bnf.bnf_rules.find_by(left: rule.left).compare_rules(rule)
+        errors[2] -= 1
       when '<падеж>', '<имя семантической валентности>'
         errors[2] += bnf.bnf_rules.find_by(left: rule.left).compare_rules(rule)
+        errors[3] -= 1
       end
     end
-    logger.debug errors.inspect
+    puts errors.inspect
     mark = 0
     errors.each {|type, val| mark += Cost[type]*val }
     puts "you have mark #{mark}"

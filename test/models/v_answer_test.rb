@@ -5,7 +5,7 @@ class VAnswerTest < ActiveSupport::TestCase
     testAnswer = v_answers(:first)
     testBnf = bnfs(:checkv)
     ans = testAnswer.check_answer(testBnf)
-    puts "Errors = #{ans}"
-    assert ans
+    puts "Result mark is #{ans}"
+    assert ans == 1
   end
 end

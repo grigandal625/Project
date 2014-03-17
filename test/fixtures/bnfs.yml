@@ -5,5 +5,5 @@ samplev:
   component_type: VAnswer
 
 checkv:
-  component: second
-  component_type: VAnswer
+  component: one
+  component_type: VResult
