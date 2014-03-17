@@ -4,18 +4,20 @@
 	<%= stylesheet_link_tag 'v_editor.css' %>
 <% end %>
 
-<div id="task">
-	<span>Текст задания:</span><br/>
-	<% if @task != nil %>
-		<span><%= @task.sentence1  %></span><br/>
-		<span><%= @task.sentence2  %></span><br/>
-		<span><%= @task.sentence3  %></span><br/>
-	<% else %>
-		<span>Task was not found!!!</span>
-	<% end %>
-</div>
+
 <br/>
 <form method="POST" action="update">
+	<div id="task">
+		<span>Текст задания:</span><br/>
+		<% if @task != nil %>
+			<%= text_area_tag('sentences', @task.sentence1 + "\n" +
+							  @task.sentence2 + "\n" + @task.sentence3,
+							  size: "200x3") %>
+			<br/>
+		<% else %>
+			<span>Task was not found!!!</span>
+		<% end %>
+	</div>
 	<%= render 'v_edit' %>
 	<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
 	<br/>
