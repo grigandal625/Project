@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   private
   def check_auth
     if session[:user_id] == nil
-      redirect_to login_url(path: request.fullpath), stasus: :unauthorized
+      redirect_to login_url(path: request.fullpath), status: :unauthorized
     else
       @user = User.find(session[:user_id])
     end
