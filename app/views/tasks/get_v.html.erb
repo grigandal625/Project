@@ -6,7 +6,6 @@
   <%= javascript_include_tag "BNF.js" %>
   <%= javascript_include_tag "V.js" %>
 <% end %>
-
 <div id="task">
 
 </div>
@@ -14,10 +13,10 @@
 
 </div>
 <div id="answer_send">
-	<form id="answer" method="POST" action="next_component" >
-		<%= tag(:input, :type => "hidden", :id => "answer_content", :name => "v_answer_bnf") %>
+  <%= form_tag(next_component_path, method: "POST", id:"answer") do %>
+		<%= hidden_field_tag(:answer_content, :name => "v_answer_bnf") %>
 		<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
 		<%= tag(:input, :type => "hidden", :name => "component", :value => "V") %>
 		<input type="submit" onmousedown="sendAnswer();" />
-	</form>
+  <% end %>
 </div>

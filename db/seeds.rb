@@ -16,5 +16,5 @@ task.v_answer.bnf.bnf_rules.create([{left: '<род>', right: 'мужской | 
   {left: '<число>', right: 'единственное | множественное'}])
 k6_224 = Group.create(number: 'K6-224')
 st = k6_224.students.create(fio: "Test Student")
-testuser = User.create(login: 'student0', pass: Digest::MD5.hexdigest('lolka'),
-                      role: 'studant')
+testuser = st.create_user(login: 'student0', pass: Digest::MD5.hexdigest('lolka'),
+                      role: 'student')

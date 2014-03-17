@@ -10,16 +10,23 @@ class TasksController < ApplicationController
 #temp shit
 
   def index
-    @tasks = []
-    Task.find_each do |task|
-      @tasks << {"id" => task.id,
-                "sentence1" => task.sentence1[0..100] + '...',
-                "reference" => 
-                    "<a href=\"#{tasks_edit_path(task.id)}\">Редактировать</a>"}
+    if @user.role == 'admin'
+      @tasks = []
+      Task.find_each do |task|
+        @tasks << {"id" => task.id,
+                   "sentence1" => task.sentence1[0..100] + '...',
+                   "reference" => 
+        "<a href=\"#{tasks_edit_path(task.id)}\">Редактировать</a>"}
+      end
+    else
+      render status: :forbidden, text: "You aren't allowed to see this page"
     end
   end
 
   def new
+    if @user.role != 'admin'
+      render status: :forbidden, text: "You aren't allowed to see this page"
+    end
   end
 
   def create
@@ -30,18 +37,28 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = Task.find_by_id(params[:id])
+    if @user.role == 'admin'
+      @task = Task.find_by_id(params[:id])
+    else
+      render status: :forbidden, text: "You aren't allowed to see this page"
+    end
   end
 
   def get_task
-    if session[:variant] == nil
-      @task = Task.first(offset: rand(Task.count))
+    if @user.role == 'student'
+      if session[:task_id] == nil
+        @task = Task.first(offset: rand(Task.count))
+      else
+        @task = Task.find(session[:task_id])
+      end
       session[:task_id] = @task.id
-      session[:result_id] = @task.results.create.id
+      result = @task.results.create
+      result.student = @user.student
+      session[:result_id] = result.id
+      render 'tasks/get_g'
     else
-      @task = Task.find(session[:task_id])
+      render status: :forbidden, text: "You aren't a student"
     end
-    render 'tasks/get_g'
   end
 
   def next_component
