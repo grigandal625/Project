@@ -1,7 +1,7 @@
 UIR::Application.routes.draw do
   get "test/get_s" #tmp shit
-  get "test/do", to: "test#get_task"
-  post "test/do", to: "test#next_component", as: "next_component"
+  get "test", to: "test#get_task"
+  post "test", to: "test#next_component", as: "next_component"
 
   get "auth/login", to: "auth#login", as: "login"
   post "auth/authentificate"
@@ -9,6 +9,7 @@ UIR::Application.routes.draw do
 
   resources :tasks, only: [:index, :new, :create, :edit, :destroy]
 
+  root 'test#get_task'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

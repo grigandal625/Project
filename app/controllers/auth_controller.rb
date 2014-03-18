@@ -13,7 +13,7 @@ class AuthController < ApplicationController
   end
 
   def login
-    @path = params[:path] || '/tasks'
+    @path = params[:path] || root_path
   end
 
   def logout
