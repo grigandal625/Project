@@ -1,3 +1,4 @@
+#coding utf-8
 class TestController < ApplicationController
   layout 'test'
   helper :all
@@ -10,20 +11,16 @@ class TestController < ApplicationController
 #temp shit
 
   def get_task
-    if @user.role == 'student'
-      if session[:task_id] == nil
-        @task = Task.first(offset: rand(Task.count))
-      else
-        @task = Task.find(session[:task_id])
-      end
-      session[:task_id] = @task.id
-      result = @task.results.create
-      result.student = @user.student
-      session[:result_id] = result.id
-      render 'get_g'
+    if session[:task_id] == nil
+      @task = Task.first(offset: rand(Task.count))
     else
-      render status: :forbidden, text: "You aren't a student"
+      @task = Task.find(session[:task_id])
     end
+    session[:task_id] = @task.id
+    result = @task.results.create
+    result.student = @user.student
+    session[:result_id] = result.id
+    render 'get_g'
   end
 
   def next_component
@@ -52,7 +49,8 @@ class TestController < ApplicationController
   private
   def check_student
     if @user.role != 'student'
-      render status: :forbidden, text: "You aren't allowed to see this page"
+      render status: :forbidden,
+        text: "You aren't allowed to see this page<br/><a href=#{tasks_path}>Admin tools</a>"
     end
   end
 

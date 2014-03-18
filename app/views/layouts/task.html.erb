@@ -10,7 +10,23 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= yield %>
 
+<div id="header">
+  <%= form_tag(logout_path, method: "POST") do %>
+    <%= hidden_field_tag(:path, request.fullpath) %>
+    <%= content_tag(:span, @user.login) %>
+    <%= submit_tag("Выход") %>
+  <% end %>
+</div>
+
+<table id="body_table">
+  <tr>
+    <td id="menu">
+      <span>Навигация:</span><br/>
+      <%= link_to("Задания", tasks_path) %><br/>
+    </td>
+    <td><%= yield %></td>
+  </tr>
+</table>
 </body>
 </html>
