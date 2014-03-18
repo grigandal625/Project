@@ -48,11 +48,10 @@ ActiveRecord::Schema.define(version: 20140318102305) do
   end
 
   create_table "logs", force: true do |t|
-    t.text     "data"
-    t.integer  "component_id"
-    t.string   "component_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.text    "mistakes"
+    t.text    "data"
+    t.integer "component_id"
+    t.string  "component_type"
   end
 
   add_index "logs", ["component_id", "component_type"], name: "index_logs_on_component_id_and_component_type"

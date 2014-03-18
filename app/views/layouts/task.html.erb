@@ -10,6 +10,13 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div id="header">
+  <%= form_tag(logout_path, method: "POST") do %>
+    <%= hidden_field_tag(:path, request.fullpath) %>
+    <%= content_tag(:span, @user.login) %>
+    <%= submit_tag("Выход") %>
+  <% end %>
+</div>
 <%= yield %>
 
 </body>

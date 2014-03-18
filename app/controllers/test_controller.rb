@@ -41,7 +41,8 @@ class TestController < ApplicationController
     when 'G'
       gresult = result.create_g_result
       gresult.answer = params[:g_answer]
-      gresult.mark = @task.g_answer.check_answer(gresult.answer)
+      gresult.create_log
+      gresult.mark, gresult.log.mistakes, gresult.log.data = @task.g_answer.check_answer(gresult.answer)
       gresult.save
       render 'get_v'
     when 'S'
