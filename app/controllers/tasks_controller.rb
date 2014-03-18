@@ -1,8 +1,5 @@
 #coding: utf-8
-class TasksController < ApplicationController
-  layout 'admin'
-  helper :all
-  before_action :check_admin
+class TasksController < AdminToolsController
 
   def index
     @tasks = []
@@ -42,13 +39,6 @@ class TasksController < ApplicationController
                 sentence3: sentences[2])
     task.save
     redirect_to tasks_path
-  end
-
-  private
-  def check_admin
-    if @user.role != 'admin'
-      render status: :forbidden, text: "You aren't allowed to see this page"
-    end
   end
 
 end

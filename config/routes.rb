@@ -9,6 +9,8 @@ UIR::Application.routes.draw do
 
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
 
+  resources :groups, only: [:index, :new, :create, :edit, :update, :destroy]
+
   root 'test#get_task'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
