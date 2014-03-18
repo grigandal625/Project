@@ -33,9 +33,9 @@ class GAnswer < ActiveRecord::Base
     
     #Слово не принадлежащее групе - ошибка типа 10
     groups_to_check.each do |key, group|
-      group["status"] = "0"
       if group["type"] != "group"
-        mistakes[10] += 1
+        #ошибка типа 6 в связи с тем, что будет накинут штраф за неправильную группу
+        mistakes[6] += 1
         log << "Слово #{group["data"]} не состоит ни в одной группе"
       end
     end
