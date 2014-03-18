@@ -1,11 +1,14 @@
 UIR::Application.routes.draw do
-  get "tasks/get_s"
-  get "tasks/get_task"
-  post "tasks/next_component"
-  get "tasks/new"
-  get "tasks/edit/:id", to: "tasks#edit", as: "tasks_edit"
-  post "tasks/create"
-  get "tasks", to: "tasks#index"
+  get "test/get_s" #tmp shit
+  get "test/do", to: "test#get_task"
+  post "test/do", to: "test#next_component", as: "next_component"
+
+  get "auth/login", to: "auth#login", as: "login"
+  post "auth/authentificate"
+  post "auth/logout", as: "logout"
+
+  resources :tasks, only: [:index, :new, :create, :edit, :destroy]
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
