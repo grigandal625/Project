@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  
+  <% if @task != nil %>
+  <%= javascript_tag "var currentTask;
+
+	function getTask()
+	{
+		currentTask = {\"sentences\" :
+			[\" #{escape_javascript(@task.sentence1)} \",
+			\" #{escape_javascript(@task.sentence2)} \",
+			\" #{escape_javascript(@task.sentence3)} \"]
+		};
+	}"
+  %>
+  <% end %>
+  <%= yield(:head) %>
+
+
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div id="header">
+  <%= form_tag(logout_path, method: "POST") do %>
+    <%= hidden_field_tag(:path, request.fullpath) %>
+    <%= content_tag(:span, @user.student.fio) %>
+    <%= submit_tag("Выход") %>
+  <% end %>
+</div>
+<%= yield %>
+
+</body>
+</html>
