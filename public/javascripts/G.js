@@ -341,7 +341,6 @@ function deleteGroup(){
 	for ( var id in wordTable )
 		if ( wordTable[id].type == "group" )
 			document.getElementById("group"+id).style.borderColor = Colors[wordTable[id].groupId];
-	document.getElementById("cleanerG").disabled = true;
 	setActiveButtons();
 }
 
@@ -360,7 +359,7 @@ function generateAnswer(){
 				}
 			}
 			for ( var line in bnf ){
-				if ( bnf[line].left == "&lt;" + groups[oldId] + "&gt;" )
+				if ( bnf[line] != null && bnf[line].left == "&lt;" + groups[oldId] + "&gt;" )
 					bnf[line].left = curId * ( -1 );
 			}
 			curId++;
@@ -368,7 +367,7 @@ function generateAnswer(){
 	}
 	
 	for ( var line in bnf )
-		if ( bnf[line].left < 0 )
+		if ( bnf[line] != null && bnf[line].left < 0 )
 			bnf[line].left = "&lt;" + groups[bnf[line].left * ( -1 )] + "&gt;";
 	
 	for ( var id in tmpTable )

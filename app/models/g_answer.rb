@@ -26,6 +26,7 @@ class GAnswer < ActiveRecord::Base
     t_answer = JSON.parse(answer_to_check)
     groups_to_check = t_answer["groups"]
     bnf_to_check = t_answer["bnf"]
+    puts bnf_to_check
     standard_answer = JSON.parse(answer)
     standard_groups = standard_answer["groups"]
     standard_bnf = standard_answer["bnf"]
