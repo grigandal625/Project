@@ -1,6 +1,6 @@
 #coding: utf-8
 class TasksController < ApplicationController
-  layout 'task'
+  layout 'admin'
   helper :all
   before_action :check_admin
 
