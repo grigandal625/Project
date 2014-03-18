@@ -7,9 +7,13 @@ UIR::Application.routes.draw do
   post "auth/authentificate"
   post "auth/logout", as: "logout"
 
+  post "students", to: "groups#new_student", as: "students"
+
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
 
-  resources :groups, only: [:index, :new, :create, :edit, :update, :destroy]
+  resources :groups do
+    resources :students, only: [:create, :show]
+  end
 
   root 'test#get_task'
   # The priority is based upon order of creation: first created -> highest priority.
