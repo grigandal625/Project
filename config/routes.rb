@@ -7,7 +7,7 @@ UIR::Application.routes.draw do
   post "auth/authentificate"
   post "auth/logout", as: "logout"
 
-  resources :tasks, only: [:index, :new, :create, :edit, :destroy]
+  resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
 
   root 'test#get_task'
   # The priority is based upon order of creation: first created -> highest priority.

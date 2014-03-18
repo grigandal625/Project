@@ -4,18 +4,17 @@ class VAnswer < ActiveRecord::Base
   belongs_to :task
   has_one :bnf, as: :component
 
-  def compare_bnf(bnf_to_check) #temporary
-    errors = 0
-    for rule in bnf_to_check.bnf_rules
-      flag = false
-      for check_rule in bnf.bnf_rules.where(left: rule.left)
-        if rule.right == check_rule.right
-          flag = true; break
-        end
+  def set_rules(bnf_hash)
+    bnf_hash.each do |left, right|
+      rule = bnf.bnf_rules.where(left: left).first
+      puts rule.inspect
+      if rule != nil
+        rule.right = right.join('|')
+      else
+        rule = bnf.bnf_rules.create(left: left, right: right.join('|'))
       end
-      errors += 1 unless flag
+      rule.save
     end
-    return errors
   end
 
   def check_answer(bnf_to_check) #TODO write algorithm

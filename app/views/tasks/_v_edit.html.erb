@@ -10,7 +10,7 @@
 		<% val.each do |elem| %>
 			<% i += 1 %>
 		<span class="VElement">
-			<%= check_box_tag("#{key.last}[]", elem, false, id: "#{key.last}#{i}") %>
+			<%= check_box_tag("bnf[#{key.first}][]", elem, false, id: "#{key.last}#{i}") %>
 			<%= label_tag("#{key.last}#{i}", elem) %>
 		</span>
 	<% end %>
