@@ -345,11 +345,9 @@ function deleteGroup(){
 }
 
 function generateAnswer(){
-	//Тут из-за смены нумерации считается что описание лишней именной группы равно двойному описанию именной группы
-	//Т.е описание несуществующей группы = ошибка в описании группы
 	var bnf = eval('(' + JSON.stringify(bnfContent["lines"]) + ')');
 	var tmpTable = eval('(' + JSON.stringify(wordTable) + ')');
-	var curId = constGroups + 1;
+	/*var curId = constGroups + 1;
 	for ( var id in tmpTable ){
 		if ( tmpTable[id].type == "group" && tmpTable[id].groupId >= curId ){
 			var oldId = tmpTable[id].groupId;
@@ -373,7 +371,7 @@ function generateAnswer(){
 	for ( var id in tmpTable )
 		if ( tmpTable[id].type == "group" && tmpTable[id].groupId < 0 )
 			tmpTable[id].groupId *= -1;
-	
+	*/
 	for ( var id in tmpTable )
 		if ( tmpTable[id].type == "group" )
 			tmpTable[id].groupName = groups[tmpTable[id].groupId];
