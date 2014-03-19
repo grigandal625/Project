@@ -7,9 +7,13 @@ class StudentsController < ApplicationController
     redirect_to edit_group_path(id: params[:group_id])
   end
 
+  def show
+    @student = Student.find(params[:id])
+  end
+
   private
   def make_user_data(student)
-    return {login: student.group.number + student.fio.gsub(' ', '_') +
+    return {login: student.group.number[-3...-1] + student.fio.gsub(' ', '_') +
             Random.rand(10..100000).to_s,
       pass: Digest::MD5.hexdigest(rand(36**10).to_s(36))}
   end

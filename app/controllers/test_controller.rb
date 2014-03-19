@@ -19,6 +19,7 @@ class TestController < ApplicationController
     session[:task_id] = @task.id
     result = @task.results.create
     result.student = @user.student
+    result.save
     session[:result_id] = result.id
     render 'get_g'
   end

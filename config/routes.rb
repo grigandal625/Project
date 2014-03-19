@@ -7,7 +7,7 @@ UIR::Application.routes.draw do
   post "auth/authentificate"
   post "auth/logout", as: "logout"
 
-  post "students", to: "groups#new_student", as: "students"
+  get "groups/:id/generate_pass", to: "groups#generate_pass", as: "pass_gen"
 
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
 

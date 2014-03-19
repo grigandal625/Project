@@ -10,7 +10,28 @@ class GroupsController < AdminToolsController
     end
   end
 
+  def show
+    @group = Group.find(params[:id])
+    @students = []
+    Student.where(group: @group).each do |student|
+      @students << {"fio" => "<a href=\"#{group_student_path(@group, student)}\">#{student.fio}</a>",
+                    "login" => student.user.login}
+    end
+  end
+
   def new
+  end
+
+  def generate_pass
+    group = Group.find(params[:id])
+    ans = ""
+    group.students.each do |student|
+      pass = rand(36**10).to_s(36)
+      ans << "#{student.fio}\t#{student.user.login}\t#{pass}\n"
+      student.user.pass = Digest::MD5.hexdigest(pass)
+      student.user.save
+    end
+    render text: ans, content_type: "text/plain; charset=utf-8" 
   end
 
   def create
