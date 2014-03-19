@@ -51,6 +51,9 @@ class GroupsController < AdminToolsController
   end
 
   def update
+    group = Group.find(params[:id])
+    group.number = params[:number]
+    group.save
     redirect_to groups_path(group)
   end
 

@@ -8,7 +8,7 @@
   <%= content_tag :span, "Компонент V: #{result.v_result.mark}"  %>
   <%= content_tag :span, "Компонент G: #{result.g_result.mark}"  %>
   <%= content_tag :span, "Компонент S: 100"  %><br/>
-  <%= content_tag :span, "Оценка: #{(result.v_result.mark + result.g_result.mark + 100)/3}" %> <br/>
+  <%= content_tag :span, "Оценка: #{result.mark}" %> <br/>
   <%= content_tag :span, "Дата: #{result.updated_at.to_date.inspect}"  %><br/>
   <br/>
 <% end %>

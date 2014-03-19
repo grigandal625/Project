@@ -6,7 +6,8 @@ class AdminToolsController < ApplicationController
   private
   def check_admin
     if @user.role != 'admin'
-      render status: :forbidden, text: "You aren't allowed to see this page"
+      #render status: :forbidden, text: "You aren't allowed to see this page"
+      redirect_to get_task_path
     end
   end
 

@@ -17,17 +17,20 @@ class TestController < ApplicationController
       @task = Task.find(session[:task_id])
     end
     session[:task_id] = @task.id
-    result = @task.results.create
-    result.student = @user.student
-    result.save
-    session[:result_id] = result.id
-    render 'get_g'
+    session[:result_id] ||= 0
   end
 
   def next_component
     @task = Task.find(session[:task_id])
-    result = Result.find(session[:result_id])
+    result = Result.find_by_id(session[:result_id])
+    if result == nil
+      result = @task.results.create
+      result.student = @user.student
+      session[:result_id] = result.id
+    end
     case params[:component]
+    when 'start'
+      render 'get_g'
     when 'V'
       v_answer_bnf = JSON.parse(params[:answer_content])
       vresult = result.create_v_result
