@@ -8,6 +8,7 @@ UIR::Application.routes.draw do
   post "auth/logout", as: "logout"
 
   get "groups/:id/generate_pass", to: "groups#generate_pass", as: "pass_gen"
+  get "groups/:id/generate_report", to: "groups#generate_report", as: "report_gen"
 
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
 

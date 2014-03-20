@@ -1,27 +1,14 @@
 <% content_for(:head) do %>
-
   <title>Новое задание</title>
-  <style>
-textarea
-{
-	min-width: 60%;
-	min-height: 300pt;
-}
-
-form
-{
-	width: 100%;
-}
-  </style>
 <% end %>
 
 <div>
-	Введите три предложения, каждое на новой строке.<br/>
-	Можно оставлять пустые строки.<br/>
+  Введите три предложения, каждое на новой строке.<br/>
 </div>
 <%= form_tag(tasks_path, method: "POST") do %>
-	<textarea name="sentences" type="text" placeholder="Введите здесь предложения" ></textarea>
-	<br/>
-	<input type="submit" />
+  <%= text_area_tag('sentences', nil, size: "200x3",
+                   placeholder: "Введите здесь предложения") %>
+  <br/>
+  <input type="submit" />
 <% end %>
 

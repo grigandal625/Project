@@ -2,10 +2,11 @@
 	<span>Компонент V</span><br/>
 	<span>Выберите нужные пункты для компонентов БНФ</span><br/>
 	<% col ||= 'linen' %>
-	<% bnf_elements_lists.each do |key, val| %>
+	<% Bnf_elements_lists.each do |key, val| %>
 		<% col = (col == 'wheat' ? 'linen' : 'wheat') %>
 	<div class="VComponent" style="background-color: <%= col %>;">
 		<%= content_tag(:span, "#{key.first} ::= ") %>
+    <%= hidden_field_tag "bnf[#{key.first}][]", 0, id: "#{key.last}#{0}"%>
 		<% i = 0 %>
 		<% val.each do |elem| %>
 			<% i += 1 %>
