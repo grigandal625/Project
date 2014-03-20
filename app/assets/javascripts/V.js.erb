@@ -11,7 +11,7 @@ function loadTask()
 	var list = [
 		<%= Bnf_list.inspect %>,
 
-		<% bnf_elements_lists.each do |key, val| %>
+		<% Bnf_elements_lists.each do |key, val| %>
 			<%= val.inspect %>,
 		<% end %>
 
