@@ -36,7 +36,8 @@ class GroupsController < AdminToolsController
                      "S" => "-",
                      "avr" => 0}
       else
-        @results << {"fio" => student.fio,
+        @results << {"fio" => "<a href=\"#{group_student_path(@group, student)}\">" +
+          student.fio + "</a>",
                     "G" => cur_res.g_result.mark,
                     "V" => cur_res.v_result.mark,
                     "S" => 100,
@@ -47,14 +48,17 @@ class GroupsController < AdminToolsController
 
   def generate_pass
     group = Group.find(params[:id])
-    ans = ""
+    ans = "<style>td{border: 1px solid; padding: 5px;}</style>"
+    ans << "Группа #{group.number}<br/>"
+    ans << "<table style='border-collapse: collapse;' ><tr><th>ФИО</th><th>Логин</th><th>Пароль</th></tr>"
     group.students.each do |student|
       pass = rand(36**10).to_s(36)
-      ans << "#{student.fio}\t#{student.user.login}\t#{pass}\n"
+      ans << "<tr><td>#{student.fio}</td><td>#{student.user.login}</td><td>#{pass}</td></tr>"
       student.user.pass = Digest::MD5.hexdigest(pass)
       student.user.save
     end
-    render text: ans, content_type: "text/plain; charset=utf-8" 
+    ans << "</table>"
+    render text: ans#, content_type: "text/html; charset=utf-8"
   end
 
   def create

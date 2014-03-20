@@ -6,6 +6,7 @@ class VAnswer < ActiveRecord::Base
 
   def set_rules(bnf_hash)
     bnf_hash.each do |left, right|
+      right.delete("0")
       rule = bnf.bnf_rules.where(left: left).first
       if rule != nil
         rule.right = right.join('|')
