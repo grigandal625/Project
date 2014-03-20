@@ -2,6 +2,12 @@
   <title>Оценки группы <%= @group.number %></title>
 <% end %>
 
+<%= form_tag report_gen_path(@group), method: "GET" do %>
+  <%= label_tag :date, "Дата контрольной работы:" %>
+  <%= date_field :date, nil, value: @date.to_s %>
+  <%= submit_tag "Найти" %>
+<% end %>
+
 <%= display_standard_table([{name: "fio", display_name: "ФИО"},
                             {name: "V", display_name: "Компонент V"},
                             {name: "G", display_name: "Компонент G"},

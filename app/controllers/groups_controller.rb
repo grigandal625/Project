@@ -24,9 +24,12 @@ class GroupsController < AdminToolsController
 
   def generate_report
     @group = Group.find(params[:id])
+    @date = (params[:date]|| [Date.today.to_s]).last.to_date
     @results = []
     @group.students.each do |student|
-      if student.results.last == nil
+      cur_res = student.results.where("updated_at >= ? AND updated_at <= ?",
+                               @date, @date.advance(days: 1)).last
+      if cur_res == nil
         @results << {"fio" => student.fio,
                      "G" => "-",
                      "V" => "-",
@@ -34,10 +37,10 @@ class GroupsController < AdminToolsController
                      "avr" => 0}
       else
         @results << {"fio" => student.fio,
-                    "G" => student.results.last.g_result.mark,
-                    "V" => student.results.last.v_result.mark,
+                    "G" => cur_res.g_result.mark,
+                    "V" => cur_res.v_result.mark,
                     "S" => 100,
-                    "avr" => student.results.last.mark}
+                    "avr" => cur_res.mark}
       end
     end
   end
