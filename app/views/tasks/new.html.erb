@@ -19,10 +19,9 @@ form
 	Введите три предложения, каждое на новой строке.<br/>
 	Можно оставлять пустые строки.<br/>
 </div>
-<form method="POST" action="create">
+<%= form_tag(tasks_path, method: "POST") do %>
 	<textarea name="sentences" type="text" placeholder="Введите здесь предложения" ></textarea>
-	<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
 	<br/>
 	<input type="submit" />
-</form>
+<% end %>
 

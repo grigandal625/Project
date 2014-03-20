@@ -1,0 +1,9 @@
+<% content_for(:head) do %>
+  <title>Новая группа</title>
+<% end %>
+
+<%= form_tag groups_path, method: "POST" do %>
+  <%= label_tag :number, "Номер группы:" %>
+<%= text_field_tag :number %><br/>
+  <%= submit_tag "Создать" %>
+<% end %>

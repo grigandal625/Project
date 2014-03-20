@@ -4,21 +4,19 @@ class VAnswer < ActiveRecord::Base
   belongs_to :task
   has_one :bnf, as: :component
 
-  def compare_bnf(bnf_to_check) #temporary
-    errors = 0
-    for rule in bnf_to_check.bnf_rules
-      flag = false
-      for check_rule in bnf.bnf_rules.where(left: rule.left)
-        if rule.right == check_rule.right
-          flag = true; break
-        end
+  def set_rules(bnf_hash)
+    bnf_hash.each do |left, right|
+      rule = bnf.bnf_rules.where(left: left).first
+      if rule != nil
+        rule.right = right.join('|')
+      else
+        rule = bnf.bnf_rules.create(left: left, right: right.join('|'))
       end
-      errors += 1 unless flag
+      rule.save
     end
-    return errors
   end
 
-  def check_answer(bnf_to_check) #TODO write algorithm
+  def check_answer(bnf_to_check)
     errors = {1 => 0, 2 => 8, 3 => 2, 4 => 5, 5 => 0, 6 => 0, 7 => 1, 8 => 1, 9 => 1, 10 => 1}
     for rule in bnf_to_check.bnf_rules
       case rule.left
@@ -74,7 +72,7 @@ class VAnswer < ActiveRecord::Base
     mark = 100
     errors.each {|type, val| mark -= Cost[type]*val }
     #puts "you have mark #{mark}"
-    return mark
+    return mark > 0 ? mark : 0
   end
 
 end

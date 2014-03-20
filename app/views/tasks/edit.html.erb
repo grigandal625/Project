@@ -4,23 +4,18 @@
 	<%= stylesheet_link_tag 'v_editor.css' %>
 <% end %>
 
-
-<br/>
-<form method="POST" action="update">
-	<div id="task">
-		<span>Текст задания:</span><br/>
-		<% if @task != nil %>
-			<%= text_area_tag('sentences', @task.sentence1 + "\n" +
-							  @task.sentence2 + "\n" + @task.sentence3,
-							  size: "200x3") %>
-			<br/>
-		<% else %>
-			<span>Task was not found!!!</span>
-		<% end %>
-	</div>
-	<%= render 'v_edit' %>
-	<%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
-	<br/>
-	<input type="submit" />
-</form>
-
+<%= form_tag(task_path(@task), method: "PUT") do %>
+  <div id="task">
+  <span>Текст задания:</span><br/>
+  <%= text_area_tag('sentences', @task.sentence1 + "\n" +
+                    @task.sentence2 + "\n" + @task.sentence3,
+                    size: "200x3") %>
+  <br/>
+  </div>
+  <%= render 'v_edit' %>
+  <br/>
+  <input type="submit" />
+<% end %>
+<%= form_tag(task_path(@task), method: "DELETE") do %>
+  <input type="submit" value="Удалить задание" />
+<% end %>

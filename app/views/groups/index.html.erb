@@ -1,0 +1,9 @@
+<% content_for(:head) do %>
+  <title>Группы</title>
+<% end %>
+
+<%= link_to "Создать группу", new_group_path %>
+<%= display_standard_table([{name: "number", display_name: "Номер"},
+                            {name: "show_ref", display_name: "Просмотр"},
+                            {name: "edit_ref", display_name: "Редактировать"}],
+                          @groups) %>
