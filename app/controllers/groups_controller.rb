@@ -22,6 +22,26 @@ class GroupsController < AdminToolsController
   def new
   end
 
+  def generate_report
+    @group = Group.find(params[:id])
+    @results = []
+    @group.students.each do |student|
+      if student.results.last == nil
+        @results << {"fio" => student.fio,
+                     "G" => "-",
+                     "V" => "-",
+                     "S" => "-",
+                     "avr" => 0}
+      else
+        @results << {"fio" => student.fio,
+                    "G" => student.results.last.g_result.mark,
+                    "V" => student.results.last.v_result.mark,
+                    "S" => 100,
+                    "avr" => student.results.last.mark}
+      end
+    end
+  end
+
   def generate_pass
     group = Group.find(params[:id])
     ans = ""
