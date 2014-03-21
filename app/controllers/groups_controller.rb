@@ -24,7 +24,7 @@ class GroupsController < AdminToolsController
 
   def generate_report
     @group = Group.find(params[:id])
-    @date = params[:date].last.to_date
+    @date = (params[:date] || [""]).last.to_date
     @date ||= Date.today
     @results = []
     @group.students.each do |student|

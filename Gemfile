@@ -38,6 +38,9 @@ group :development, :test do
     gem 'railroady'
 end
 
+#for transliteration
+#gem "the_string_to_slug", "~> 0.0.5"
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
