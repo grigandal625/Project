@@ -7,5 +7,7 @@
 
 <%= display_standard_table([{name: "fio", display_name: "ФИО"},
                             {name: "login", display_name: "Логин"}], @students) %>
-<%= link_to "Сгенерировать пароли", pass_gen_path, target: "_blank" %>
-<%= link_to "Результаты группы", report_gen_path, target: "_blank" %>
+<% if @showmenu == true %>
+  <%= link_to "Сгенерировать пароли", pass_gen_path, target: "_blank" %>
+  <%= link_to "Результаты группы", report_gen_path, target: "_blank" %>
+<% end %>
