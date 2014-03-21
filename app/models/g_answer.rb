@@ -2,6 +2,83 @@
 class GAnswer < ActiveRecord::Base
   belongs_to :task
   Not_name = ["C", "Н", "ВС", "П"]
+  Question = "Предложение типа вопрос"
+  Order = "Предложение типа команда"
+  Message = "Предложение типа сообщение"
+  G = "G"
+  
+  def exist_pairs(first, second)
+    flag = true
+    first.each do |line_in_first|
+      line_flag = false
+      second.each do |line_in_second|
+        if line_in_first.to_s == line_in_second.to_s
+          line_flag = true
+        end
+      end
+      flag = flag and line_flag
+    end
+    second.each do |line_in_second|
+      line_flag = false
+      first.each do |line_in_first|
+        if line_in_first.to_s == line_in_second.to_s
+          line_flag = true
+        end
+      end
+      flag = flag and line_flag
+    end
+    return flag
+  end
+  
+  def check_g_part(standard_bnf, bnf_to_check, left, log, mistakes)
+    #puts bnf_to_check.inspect
+    #puts standard_bnf
+    #puts left
+    g_cnt = 0
+    standard_bnf.each do |st_line|
+      if st_line != nil && st_line["left"] == left
+        st_line["status"] = 1
+        bnf_to_check.each do |ch_line|
+          if ch_line != nil && ch_line["left"] == left
+            ch_line["status"] = 1
+            g_cnt += 1
+            #if !st_line["rules"].eql?(ch_line["rules"])
+            if !exist_pairs(st_line["rules"], ch_line["rules"])
+              mistakes[3] += 1
+              ch_line["status"] = 1
+              description = ch_line["left"]
+              description += " ::= "
+              _cnt = 0
+              if ch_line["rules"] != nil
+                ch_line["rules"].each do |var|
+                  if var != nil
+                    if _cnt > 0
+                      description += '| '
+                    end
+                    var.each do |elem|
+                      description += elem
+                      description += " "
+                    end
+                  end
+                  _cnt += 1
+                end
+              end
+              log << "БНФ : строка \"#{description}\" неверна"
+            end
+          end
+        end
+      end
+    end
+    if g_cnt > 1
+      log << "Более одной строки описывают #{left}"
+      mistakes[3] += 1
+    else
+      if g_cnt == 0
+        mistakes[3] += 1
+        log << "Строка с описанием #{left} отсутствует"
+      end
+    end
+  end
   
   def generate_task(groups)
     task = []
@@ -18,15 +95,20 @@ class GAnswer < ActiveRecord::Base
   end
   
   def clear_bnf(bnf)
-    #TODO добавить поле статуса
+    #добавляет поле статуса
     bnf.each do |line|
       if line != nil && line["left"] != nil
+        line["status"] = 0
         line["left"].gsub! '&lt;', ''
         line["left"].gsub! '&gt;', ''
-        if line["right"] != nil
-          line["right"].each do |word|
-            word.gsub! '&lt;', ''
-            word.gsub! '&gt;', ''
+        if line["rules"] != nil
+          line["rules"].each do |variant|
+            if variant != nil
+              variant.each do |word|
+                word.gsub! '&lt;', ''
+                word.gsub! '&gt;', ''
+              end
+            end
           end
         end
       end
@@ -46,7 +128,6 @@ class GAnswer < ActiveRecord::Base
     standard_answer = JSON.parse(answer)
     standard_groups = standard_answer["groups"]
     standard_bnf = clear_bnf(standard_answer["bnf"])
-    puts bnf_to_check.inspect
     #Слово не принадлежащее групе - ошибка типа 10
     groups_to_check.each do |key, group|
       if group["type"] != "group"
@@ -120,17 +201,19 @@ class GAnswer < ActiveRecord::Base
                           bnf_flag = false
                           bnf_correct = false
                           standard_bnf.each do |st_line|
-                            if st_line != nil && st_line["left"] == st_group["groupName"]
+                            if st_line != nil && st_line["left"] == st_group["groupName"] && !bnf_correct
                               #нашли нужную строку в эталоне
                               bnf_to_check.each do |ch_line|
-                              if ch_line != nil && ch_line["left"] == ch_group["groupName"]
-                                #нашли нужную строку в ответе студента
-                                #проставить ей статус
-                                bnf_flag = true
-                                if st_line["right"].eql?(ch_line["right"])
-                                  bnf_correct = true
+                                if ch_line != nil && ch_line["left"] == ch_group["groupName"] && !bnf_correct
+                                  #нашли нужную строку в ответе студента
+                                  #проставить ей статус
+                                  bnf_flag = true
+                                  if st_line["rules"].eql?(ch_line["rules"])
+                                    bnf_correct = true
+                                    st_line["status"] = ch_line["status"] = 1
+                                  end
+                                  #если найдено корректное соответствие, то там выставлен статуc 1
                                 end
-                                #если не корректна накинуть ошибку
                               end
                             end
                           end
@@ -206,7 +289,60 @@ class GAnswer < ActiveRecord::Base
         end
       end
     end
-    #TODO проверка БНФ для G
+    #проверка БНФ для G
+    check_g_part(standard_bnf, bnf_to_check, G, log, mistakes)
+    check_g_part(standard_bnf, bnf_to_check, Order, log, mistakes)
+    check_g_part(standard_bnf, bnf_to_check, Question, log, mistakes)
+    check_g_part(standard_bnf, bnf_to_check, Message, log, mistakes)
+    #прибавка ошибок из-за лишних/несовпадающих/отсутствующих строк
+    standard_bnf.each do |line|
+      if line["status"] == 0 && line["left"] != nil
+        mistakes[3] += 1
+        description = line["left"]
+        description += " ::= "
+        _cnt = 0
+        if line["rules"] != nil
+          line["rules"].each do |var|
+            if var != nil
+              if _cnt > 0
+                description += '|'
+              end
+              var.each do |elem|
+                description += elem
+                description += " "
+              end
+            end
+            _cnt += 1
+          end
+        end
+        log << "БНФ : строка #{description} отсутствует, несовпадает или группа слов, описываемая этой строкой несовпадает"
+      end
+    end
+    
+    bnf_to_check.each do |line|
+      if line["status"] == 0 && line["left"] != nil
+        mistakes[3] += 1
+        description = line["left"]
+        description += " ::= "
+        _cnt = 0
+        if line["rules"] != nil
+          line["rules"].each do |var|
+            if var != nil
+              if _cnt > 0
+                description += '|'
+              end
+              var.each do |elem|
+                description += elem
+                description += " "
+              end
+            end
+            _cnt += 1
+          end
+        end
+        log << "БНФ : строка #{description} лишняя, несовпадает или группа слов, описываемая этой строкой несовпадает"
+      end
+    end
+    
     puts log
     puts mistakes
     mark = 100
