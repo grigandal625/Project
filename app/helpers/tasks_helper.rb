@@ -2,7 +2,12 @@
 module TasksHelper
 
   def check_bnf_element(v_answer, left, elem)
-    v_answer.bnf.bnf_rules.where(left: left).first.right.include?(elem)
+    rule = v_answer.bnf.bnf_rules.where(left: left)
+    if rule.first == nil
+      return false
+    else
+      rule.first.right.include?(elem)
+    end
   end
 
   def display_standard_table(columns, collection = {})
