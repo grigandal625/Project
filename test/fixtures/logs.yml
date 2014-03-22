@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  data: MyText
+  component_id: 
+  component_type: Component
+
+two:
+  data: MyText
+  component_id: 
+  component_type: Component

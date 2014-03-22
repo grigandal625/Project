@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140317100132) do
+ActiveRecord::Schema.define(version: 20140318102305) do
 
   create_table "bnf_rules", force: true do |t|
     t.text    "left"
@@ -46,6 +46,15 @@ ActiveRecord::Schema.define(version: 20140317100132) do
   create_table "groups", force: true do |t|
     t.text "number"
   end
+
+  create_table "logs", force: true do |t|
+    t.text    "mistakes"
+    t.text    "data"
+    t.integer "component_id"
+    t.string  "component_type"
+  end
+
+  add_index "logs", ["component_id", "component_type"], name: "index_logs_on_component_id_and_component_type"
 
   create_table "results", force: true do |t|
     t.integer  "student_id"
