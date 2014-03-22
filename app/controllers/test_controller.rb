@@ -31,7 +31,7 @@ class TestController < ApplicationController
         vresult = result.create_v_result
         vresult.create_bnf
         vresult.bnf.init_bnf(v_answer_bnf)
-        vresult.mark = @task.v_answer.check_answer(vresult.bnf)
+        vresult.mark, log = @task.v_answer.check_answer(vresult.bnf)
         vresult.save
       end
       render 'get_s'
