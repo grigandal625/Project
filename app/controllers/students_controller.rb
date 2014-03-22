@@ -11,6 +11,11 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
   end
 
+  def destroy
+    Student.find(params[:id]).destroy
+    redirect_to edit_group_path(params[:group_id])
+  end
+
   private
   def make_user_data(student)
     return {login: student.group.number[-3..-1] +

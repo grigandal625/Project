@@ -73,10 +73,12 @@ class GroupsController < AdminToolsController
     @students = []
     Student.where(group: @group).each do |student|
       @students << {"fio" => student.fio,
-                    "login" => student.user.login}
+                    "login" => student.user.login,
+                    "delete" => "<a data-method=\"delete\" href=\"#{group_student_path(@group, student)}\">Удалить</a>"}
     end
     @students << {"fio" =>'<input type="textbox" name="fio" placeholder="ФИО" />',
-      "login" => '<input type="submit" value="Добавить">'}
+      "login" => '<input type="submit" value="Добавить">',
+      "delete" => ""}
   end
 
   def update

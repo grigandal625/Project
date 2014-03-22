@@ -2,12 +2,16 @@ class ResultsController < AdminToolsController
   skip_before_action :check_admin, only: [:show]
 
   def show
-    @result = Result.find(params[:id])
     if @user.role == 'admin' || @user.student.id == @result.student.id
       @showmenu = false
     else
       redirect_to :back
     end
+    @result = Result.find(params[:id])
+  end
+
+  def edit
+    @result = Result.find(params[:id])
   end
 
   def index
@@ -38,12 +42,13 @@ class ResultsController < AdminToolsController
         else
           res.each do |cur_res|
             @results << {"group" => group.number,
-                         "fio" => "<a href=\"#{result_path(cur_res)}\">" +
-                         student.fio + "</a>",
-                         "G" => cur_res.g_result.mark,
-                         "V" => cur_res.v_result.mark,
-                         "S" => 100,
-                         "avr" => cur_res.mark}
+                         "fio" =>
+              "<a href=\"#{@user.role == 'admin' ? edit_result_path(cur_res) : result_path(cur_res)}\">" +
+              student.fio + "</a>",
+              "G" => cur_res.g_result.mark,
+              "V" => cur_res.v_result.mark,
+              "S" => 100,
+              "avr" => cur_res.mark}
           end
         end
       end

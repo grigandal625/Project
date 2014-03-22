@@ -4,12 +4,6 @@ class TestController < ApplicationController
   helper :all
   before_action :check_student
 
-#temp shit
-  def get_s
-    @task = Task.find(1)
-  end
-#temp shit
-
   def get_task
     if session[:task_id] == nil
       @task = Task.first(offset: rand(Task.count))
@@ -32,12 +26,14 @@ class TestController < ApplicationController
     when 'start'
       render 'get_g'
     when 'V'
-      v_answer_bnf = JSON.parse(params[:answer_content])
-      vresult = result.create_v_result
-      vresult.create_bnf
-      vresult.bnf.init_bnf(v_answer_bnf)
-      vresult.mark = @task.v_answer.check_answer(vresult.bnf)
-      vresult.save
+      if result.v_result == nil
+        v_answer_bnf = JSON.parse(params[:answer_content])
+        vresult = result.create_v_result
+        vresult.create_bnf
+        vresult.bnf.init_bnf(v_answer_bnf)
+        vresult.mark = @task.v_answer.check_answer(vresult.bnf)
+        vresult.save
+      end
       render 'get_s'
     when 'G'
       gresult = result.create_g_result

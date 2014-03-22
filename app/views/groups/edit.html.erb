@@ -10,5 +10,6 @@
 
 <%= form_tag group_students_path(@group), method: "POST" do %>
   <%= display_standard_table([{name: "fio", display_name: "ФИО"},
-                            {name: "login", display_name: "Логин"}], @students) %>
+                              {name: "login", display_name: "Логин"},
+                              {name: "delete", display_name: "Удалить"}], @students) %>
 <% end %>
