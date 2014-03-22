@@ -46,6 +46,10 @@ class TestController < ApplicationController
       gresult.save
       render 'get_v'
     when 'S'
+      sresult = result.create_s_result
+      sresult.answer = params[:answer_content]
+      sresult.mark = @task.s_answer.check_answer(sresult.answer)
+      sresult.save
     end
     result.save
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140317100132) do
+ActiveRecord::Schema.define(version: 20140322112142) do
 
   create_table "bnf_rules", force: true do |t|
     t.text    "left"
@@ -56,6 +56,25 @@ ActiveRecord::Schema.define(version: 20140317100132) do
 
   add_index "results", ["student_id"], name: "index_results_on_student_id"
   add_index "results", ["task_id"], name: "index_results_on_task_id"
+
+  create_table "s_answers", force: true do |t|
+    t.integer  "task_id"
+    t.text     "answer"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "s_answers", ["task_id"], name: "index_s_answers_on_task_id"
+
+  create_table "s_results", force: true do |t|
+    t.integer  "result_id"
+    t.integer  "mark"
+    t.text     "answer"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "s_results", ["result_id"], name: "index_s_results_on_result_id"
 
   create_table "students", force: true do |t|
     t.text    "fio"
