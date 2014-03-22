@@ -4,9 +4,9 @@ class SAnswer < ActiveRecord::Base
   belongs_to :task
 
   def check_answer(answer_to_check)
-    st_answer = JSON.parse(answer_to_check)
-    standart_answer = JSON.parse(answer)
+    c_answer = JSON.parse(answer_to_check) 
     mark = 100
+    standart_answer = JSON.parse(answer)
     for i in 0..2
       if c_answer[i] == nil
         mark = 0
@@ -81,6 +81,7 @@ class SAnswer < ActiveRecord::Base
             end 
             if parents[c_answer[i][t][:level]] != c_answer[i][t][:num] 
               mark -= 2
+            end
             c_answer[i][k][:seen] = 1
           end 
 
