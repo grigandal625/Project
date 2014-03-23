@@ -33,16 +33,15 @@ class TestController < ApplicationController
         vresult.bnf.init_bnf(v_answer_bnf)
         vresult.create_log
         vresult.mark, vresult.log.data = @task.v_answer.check_answer(vresult.bnf)
-        vresult.log.save
-        vresult.save
       end
       render 'get_s'
     when 'G'
-      gresult = result.create_g_result
-      gresult.answer = params[:g_answer]
-      gresult.create_log
-      gresult.mark, gresult.log.mistakes, gresult.log.data = @task.g_answer.check_answer(gresult.answer)
-      gresult.save
+      if result.g_result == nil
+        gresult = result.create_g_result
+        gresult.answer = params[:g_answer]
+        gresult.create_log
+        gresult.mark, gresult.log.mistakes, gresult.log.data = @task.g_answer.check_answer(gresult.answer)
+      end
       render 'get_v'
     when 'S'
     end

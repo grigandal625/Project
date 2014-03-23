@@ -11,7 +11,7 @@ UIR::Application.routes.draw do
 
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
 
-  resources :results, only: [:index, :show, :edit]
+  resources :results, only: [:index, :show, :edit, :update]
 
   resources :groups do
     resources :students, only: [:create, :show, :destroy]

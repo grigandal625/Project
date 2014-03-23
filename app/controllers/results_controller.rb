@@ -14,6 +14,16 @@ class ResultsController < AdminToolsController
     @result = Result.find(params[:id])
   end
 
+  def update
+    result = Result.find(params[:id])
+    result.v_result.log.data = params[:v_log]
+    result.v_result.mark = params[:v_mark]
+    result.g_result.log.data = params[:g_log]
+    result.g_result.mark = params[:g_mark]
+    result.save
+    redirect_to :back
+  end
+
   def index
     if params[:date] == nil
       @date_from = 1.year.ago
