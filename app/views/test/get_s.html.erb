@@ -131,3 +131,10 @@
 		</div>
 	  </div>
     </div>
+<div id="answer_send">
+	<%= form_tag(next_component_path, method: "POST", id:"answer") do %>
+		<%= hidden_field_tag(:answer_content) %>
+		<%= tag(:input, type: "hidden", name: "component", value: "S") %>
+		<input type="submit" onmousedown="sendAnswer();" />
+  	<% end %>
+</div>

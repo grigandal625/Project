@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  
+  <%= yield(:head) %>
+
+
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div id="header">
+  <%= form_tag(logout_path, method: "POST") do %>
+    <%= hidden_field_tag(:path, request.fullpath) %>
+    <%= content_tag(:span, @user.login) %>
+    <%= submit_tag("Выход") %>
+  <% end %>
+</div>
+<%= yield %>
+
+</body>
+</html>

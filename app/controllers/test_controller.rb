@@ -44,6 +44,14 @@ class TestController < ApplicationController
       end
       render 'get_v'
     when 'S'
+#      if result.s_result == nil
+        sresult = result.create_s_result
+        sresult.answer = params[:answer_content]
+        sresult.mark = 0
+        sresult.save
+        sresult.mark = @task.s_answer.check_answer(sresult.answer)
+        sresult.save
+#      end
     end
     result.save
   end
