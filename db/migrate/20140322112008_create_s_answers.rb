@@ -4,7 +4,6 @@ class CreateSAnswers < ActiveRecord::Migration
       t.references :task, index: true
       t.text :answer
 
-      t.timestamps
     end
   end
 end

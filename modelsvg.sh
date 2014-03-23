@@ -1,3 +1,3 @@
 #!/bin/bash
 railroady -o models.dot -M
-dot -Tpng models.dot
+dot -Tsvg models.dot

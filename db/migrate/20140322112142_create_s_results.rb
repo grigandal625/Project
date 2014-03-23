@@ -5,7 +5,6 @@ class CreateSResults < ActiveRecord::Migration
       t.integer :mark
       t.text :answer
 
-      t.timestamps
     end
   end
 end
