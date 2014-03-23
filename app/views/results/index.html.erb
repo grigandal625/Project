@@ -1,0 +1,20 @@
+<% if @showmenu == true %>
+  <%= form_tag results_path, method: "GET" do %>
+    <%= label_tag nil, "С:" %>
+    <%= date_field :date, :from, value: @date_from.to_s %>
+    <%= label_tag nil, "По:" %>
+    <%= date_field :date, :to, value: @date_to.to_s %>
+    <%= label_tag nil, "Группа:" %>
+    <%= select_tag :group,
+      options_from_collection_for_select(@groups, "id", "number"),
+      include_blank: true%>
+    <%= submit_tag "Найти" %>
+  <% end %>
+<% end %>
+
+<%= display_standard_table([{name: "group", display_name: "Группа"},
+                            {name: "fio", display_name: "ФИО"},
+                            {name: "V", display_name: "Компонент V"},
+                            {name: "G", display_name: "Компонент G"},
+                            {name: "S", display_name: "Компонент S"},
+                            {name: "avr", display_name: "Итого"}], @results) %>

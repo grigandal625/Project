@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  
+  <%= yield(:head) %>
+
+
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<% if @showmenu == true %>
+<div id="header">
+  <%= form_tag(logout_path, method: "POST") do %>
+    <%= hidden_field_tag(:path, request.fullpath) %>
+    <%= content_tag(:span, @user.login) %>
+    <%= submit_tag("Выход") %>
+  <% end %>
+  <%= link_to "Версия для печати", @for_print, target: "_blank" %>
+</div>
+<% end %>
+
+<% if @user.role == 'admin' && @showmenu == true %>
+  <table id="body_table">
+  <tr>
+    <td id="menu">
+      <span>Навигация:</span><br/>
+      <%= link_to("Задания", tasks_path) %><br/>
+      <%= link_to("Группы", groups_path) %><br/>
+      <%= link_to("Результаты", results_path) %><br/>
+    </td>
+    <td><%= yield %></td>
+  </tr>
+</table>
+<% else %>
+  <%= yield %>
+<% end %>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<% content_for(:head) do %>
+  <title>Контрольная работа</title>
+<% end %>
+
+<%= form_tag next_component_path, method: "POST" do %>
+  <%= content_tag :span, "Вам выдано задание номер #{@task.id}." %><br/>
+  <%= hidden_field_tag :component, "start" %>
+  <%= submit_tag "Начать работу" %>
+<% end %>

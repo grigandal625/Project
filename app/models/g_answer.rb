@@ -353,7 +353,7 @@ class GAnswer < ActiveRecord::Base
       mark = 0
     end
     puts "mark " + mark.to_s
-    return mark, mistakes.to_s, log
+    return mark, mistakes.to_s, log.join("\n")
   end
   
 end
