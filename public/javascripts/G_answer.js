@@ -52,7 +52,7 @@ function initG(){
 	document.getElementById("buttons").innerHTML = "";
 }
 
-function loadTask(){
+function GloadTask(){
 	var Gdiv = document.getElementById("gtask");
 	var buttonDiv = document.getElementById("buttons");
 	
@@ -361,7 +361,7 @@ function loadBNFEditor(){
 }
 
 function componentGInit(){
-	loadTask();
+	GloadTask();
 	loadBNFEditor();
 }
 

@@ -67,20 +67,16 @@ ActiveRecord::Schema.define(version: 20140322112142) do
   add_index "results", ["task_id"], name: "index_results_on_task_id"
 
   create_table "s_answers", force: true do |t|
-    t.integer  "task_id"
-    t.text     "answer"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "task_id"
+    t.text    "answer"
   end
 
   add_index "s_answers", ["task_id"], name: "index_s_answers_on_task_id"
 
   create_table "s_results", force: true do |t|
-    t.integer  "result_id"
-    t.integer  "mark"
-    t.text     "answer"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "result_id"
+    t.integer "mark"
+    t.text    "answer"
   end
 
   add_index "s_results", ["result_id"], name: "index_s_results_on_result_id"
