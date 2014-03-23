@@ -2,12 +2,12 @@ class ResultsController < AdminToolsController
   skip_before_action :check_admin, only: [:show]
 
   def show
+    @result = Result.find(params[:id])
     if @user.role == 'admin' || @user.student.id == @result.student.id
       @showmenu = false
     else
       redirect_to :back
     end
-    @result = Result.find(params[:id])
   end
 
   def edit
@@ -20,6 +20,8 @@ class ResultsController < AdminToolsController
     result.v_result.mark = params[:v_mark]
     result.g_result.log.data = params[:g_log]
     result.g_result.mark = params[:g_mark]
+    result.s_result.log.data = params[:s_log]
+    result.s_result.mark = params[:s_mark]
     result.save
     redirect_to :back
   end

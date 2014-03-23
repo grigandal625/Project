@@ -1,4 +1,4 @@
 <span>Компонент G</span><br/>
-<p>Тут будет лог проверки для компонента G</p>
+<p><%= @result.g_result.log.data.gsub("\n", "<br/>").html_safe %></p>
 <span>Оценка за компонент: </span><%= @result.g_result.mark %>
 <hr/>

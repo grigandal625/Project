@@ -6,7 +6,6 @@ class Result < ActiveRecord::Base
   has_one :s_result, autosave: true
 
   def mark
-    #TODO change 100 to s_result.mark
-    return (v_result.mark + g_result.mark + 100) / 3
+    (v_result.mark + g_result.mark + s_result.mark) / 3
   end
 end
