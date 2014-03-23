@@ -18,7 +18,7 @@ var groups = {};
 var Colors = ["white","black","red","blue","orange","gray","cyan","yellow","#007FFF","#E75480","#00A86B","#DA70D6","#AF4035","#CC8899","#704214","#D53E07","#FFCC99","#77DD77","#5D8AA8","#C7FCEC","#FF7518"];
 
 function getTask(){
-	var task = document.getElementById("sentences").innerHTML.split('\n');
+	var task = document.getElementById("sentences").value.split('\n');
 	return task
 }
 
@@ -31,9 +31,32 @@ function setActiveButtons(){
 			document.getElementById(i).disabled = true;
 }
 
+function initG(){
+	wordTable = {};
+	buttonTable = {};
+	constGroups = 4;
+	newGroup = 5;
+	maxGroups = 19;
+	groupCnt = 0;
+	selected = {
+		id : -1,
+		sentence : -1,
+		status : false
+	}
+	groupFlag = {
+		id : -1,
+		status : false
+	}
+	groups = {};
+	document.getElementById("gtask").innerHTML = "";
+	document.getElementById("buttons").innerHTML = "";
+}
+
 function loadTask(){
 	var Gdiv = document.getElementById("gtask");
 	var buttonDiv = document.getElementById("buttons");
+	
+	initG();
 	
 	var task = getTask();
 	
@@ -83,6 +106,7 @@ function loadTask(){
 	groups[3] = "Н";
 	groups[4] = "ВС";
 	setActiveButtons();
+	return false;
 }
 
 function addNounGroup(){
