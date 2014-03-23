@@ -24,11 +24,13 @@ class GroupsController < AdminToolsController
 
   def generate_report
     @group = Group.find(params[:id])
-    @date = (params[:date]|| [Date.today.to_s]).last.to_date
+    @date = (params[:date] || [""]).last.to_date
+    @date ||= Date.today
     @results = []
     @group.students.each do |student|
       cur_res = student.results.where("updated_at >= ? AND updated_at <= ?",
-                               @date, @date.advance(days: 1)).last
+                                      @date.beginning_of_day,
+                                      @date.end_of_day).last
       if cur_res == nil
         @results << {"fio" => student.fio,
                      "G" => "-",
@@ -40,7 +42,7 @@ class GroupsController < AdminToolsController
           student.fio + "</a>",
                     "G" => cur_res.g_result.mark,
                     "V" => cur_res.v_result.mark,
-                    "S" => 100,
+                    "S" => cur_res.s_result.mark,
                     "avr" => cur_res.mark}
       end
     end
@@ -71,10 +73,12 @@ class GroupsController < AdminToolsController
     @students = []
     Student.where(group: @group).each do |student|
       @students << {"fio" => student.fio,
-                    "login" => student.user.login}
+                    "login" => student.user.login,
+                    "delete" => "<a data-method=\"delete\" href=\"#{group_student_path(@group, student)}\">Удалить</a>"}
     end
     @students << {"fio" =>'<input type="textbox" name="fio" placeholder="ФИО" />',
-      "login" => '<input type="submit" value="Добавить">'}
+      "login" => '<input type="submit" value="Добавить">',
+      "delete" => ""}
   end
 
   def update

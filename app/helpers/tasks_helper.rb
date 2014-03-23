@@ -1,6 +1,15 @@
 #coding: utf-8
 module TasksHelper
 
+  def check_bnf_element(v_answer, left, elem)
+    rule = v_answer.bnf.bnf_rules.where(left: left)
+    if rule.first == nil
+      return false
+    else
+      rule.first.right.include?(elem)
+    end
+  end
+
   def display_standard_table(columns, collection = {})
 
     thead = content_tag :thead, style: "background-color: wheat;" do

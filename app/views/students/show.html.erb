@@ -4,10 +4,10 @@
 <% @student.results.each do |result| %>
   <br/>
   <%= content_tag :span, "Задание: "%>
-  <%= link_to "Задание ##{result.task.id}", task_path(result.task) %><br/>
+  <%= link_to "Задание ##{result.task.id}", result_path(result) %><br/>
   <%= content_tag :span, "Компонент V: #{result.v_result.mark}"  %>
   <%= content_tag :span, "Компонент G: #{result.g_result.mark}"  %>
-  <%= content_tag :span, "Компонент S: 100"  %><br/>
+  <%= content_tag :span, "Компонент S: #{result.s_result.mark}"  %><br/>
   <%= content_tag :span, "Оценка: #{result.mark}" %> <br/>
   <%= content_tag :span, "Дата: #{result.updated_at.to_date.inspect}"  %><br/>
   <br/>

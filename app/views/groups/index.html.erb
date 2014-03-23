@@ -2,7 +2,10 @@
   <title>Группы</title>
 <% end %>
 
-<%= link_to "Создать группу", new_group_path %>
+<% if @showmenu == true%>
+  <%= link_to "Создать группу", new_group_path %>
+<% end %>
+
 <%= display_standard_table([{name: "number", display_name: "Номер"},
                             {name: "show_ref", display_name: "Просмотр"},
                             {name: "edit_ref", display_name: "Редактировать"}],

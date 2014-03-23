@@ -23,6 +23,7 @@ class TasksController < AdminToolsController
     task.create_v_answer
     task.v_answer.create_bnf
     task.create_g_answer
+    task.create_s_answer
     redirect_to edit_task_path(task)
   end
 

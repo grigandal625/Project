@@ -2,10 +2,15 @@
   <title>Оценки группы <%= @group.number %></title>
 <% end %>
 
-<%= form_tag report_gen_path(@group), method: "GET" do %>
-  <%= label_tag :date, "Дата контрольной работы:" %>
-  <%= date_field :date, nil, value: @date.to_s %>
-  <%= submit_tag "Найти" %>
+<% if @showmenu == true%>
+  <%= form_tag report_gen_path(@group), method: "GET" do %>
+    <%= label_tag :date, "Дата контрольной работы:" %>
+    <%= date_field :date, nil, value: @date.to_s %>
+    <%= submit_tag "Найти" %>
+  <% end %>
+<% else %>
+  <%= label_tag nil, "Группа #{@group.number}" %><br/>
+  <%= label_tag nil, "Дата контрольной: #{@date.inspect}" %>
 <% end %>
 
 <%= display_standard_table([{name: "fio", display_name: "ФИО"},

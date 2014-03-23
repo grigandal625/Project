@@ -1,5 +1,4 @@
 UIR::Application.routes.draw do
-  get "test/get_s" #tmp shit
   get "test", to: "test#get_task", as: "get_task"
   post "test", to: "test#next_component", as: "next_component"
 
@@ -12,8 +11,10 @@ UIR::Application.routes.draw do
 
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
 
+  resources :results, only: [:index, :show, :edit, :update]
+
   resources :groups do
-    resources :students, only: [:create, :show]
+    resources :students, only: [:create, :show, :destroy]
   end
 
   root 'groups#index'

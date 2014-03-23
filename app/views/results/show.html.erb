@@ -1,0 +1,22 @@
+Результат выполнения студентом <%= @result.student.fio %>
+группы <%= @result.student.group.number %>
+задания №<%= @result.task.id %>:<br/>
+
+<p>
+Текст задания:<br/>
+<%= @result.task.sentence1 %><br/>
+<%= @result.task.sentence2 %><br/>
+<%= @result.task.sentence3 %><br/>
+</p>
+
+<hr/>
+
+<%= render 'show_g_result' %>
+<br/>
+
+<%= render 'show_v_result' %>
+<br/>
+
+<%= render 'show_s_result' %>
+<br/>
+<span>Итоговая оценка: </span><%= @result.mark %>

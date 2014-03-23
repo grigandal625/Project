@@ -1,0 +1,24 @@
+Редактирование результата выполнения студентом <%= @result.student.fio %>
+группы <%= @result.student.group.number %>
+задания №<%= @result.task.id %>:<br/>
+
+<p>
+Текст задания:<br/>
+<%= @result.task.sentence1 %><br/>
+<%= @result.task.sentence2 %><br/>
+<%= @result.task.sentence3 %><br/>
+</p>
+
+<hr/>
+
+<%= form_tag result_path(@result), method: "PUT" do %>
+  <%= render 'edit_g_result' %>
+  <br/>
+
+  <%= render 'edit_v_result' %>
+  <br/>
+
+  <%= render 'edit_s_result' %>
+  <br/>
+  <%= submit_tag "Сохранить" %>
+<% end %>
