@@ -42,14 +42,19 @@ class TestController < ApplicationController
     when 'G'
       gresult = result.create_g_result
       gresult.answer = params[:g_answer]
-      gresult.mark = @task.g_answer.check_answer(gresult.answer)
+      gresult.create_log
+      gresult.mark, gresult.log.mistakes, gresult.log.data = @task.g_answer.check_answer(gresult.answer)
       gresult.save
       render 'get_v'
     when 'S'
-      sresult = result.create_s_result
-      sresult.answer = params[:answer_content]
-      sresult.mark = @task.s_answer.check_answer(sresult.answer)
-      sresult.save
+#      if result.s_result == nil
+        sresult = result.create_s_result
+        sresult.answer = params[:answer_content]
+        sresult.mark = 0
+        sresult.save
+        sresult.mark = @task.s_answer.check_answer(sresult.answer)
+        sresult.save
+#      end
     end
     result.save
   end

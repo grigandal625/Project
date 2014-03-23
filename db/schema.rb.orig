@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20140322112142) do
+=======
+ActiveRecord::Schema.define(version: 20140318102305) do
+>>>>>>> fb4f1286a7f389d13e56c1091d4e588979f8d074
 
   create_table "bnf_rules", force: true do |t|
     t.text    "left"

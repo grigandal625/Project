@@ -24,11 +24,11 @@ class SAnswer < ActiveRecord::Base
         mark -= 5
       end
 
-      len = c_answer[i].length
+      len = standart_answer[i].length
       parents = []
       for j in 1...len
         parents[standart_answer[i][j]["level"].to_i] = standart_answer[i][j]["num"]
-        if standart_answer[i][j]["level"] == 1
+        if standart_answer[i][j]["level"].to_i == 1
           k = 1
           while k < c_answer[i].length
             if c_answer[i][k]["num"] == standart_answer[i][j]["num"]
@@ -36,7 +36,7 @@ class SAnswer < ActiveRecord::Base
             end
             k += 1
           end
-          if k == c_answer[k].length
+          if k == c_answer[i].length
             mark -= 5
           else
             if c_answer[i][k]["word"] != standart_answer[i][j]["word"]
@@ -58,6 +58,8 @@ class SAnswer < ActiveRecord::Base
             end
             k += 1
           end 
+puts k
+puts c_answer[i].length
           if k == c_answer[i].length
             mark -= 2
           else
@@ -67,19 +69,24 @@ class SAnswer < ActiveRecord::Base
             if c_answer[i][k]["level"] != standart_answer[i][j]["level"]
               mark -= 2
             end
-            if c_answer[i][k]["level"] == 1
+            if c_answer[i][k]["level"].to_i == 1
               mark -= 3
             end
             if c_answer[i][k]["param"] != standart_answer[i][j]["param"]
               mark -= 2
             end
             t = k
-            while c_answer[i][k]["level"] >= c_answer[i][t]["level"]             
+            while c_answer[i][k]["level"] <= c_answer[i][t]["level"]             
               t -= 1
             end 
+puts mark
+puts c_answer[i][t]["level"]
+puts parents[c_answer[i][t]["level"].to_i]
+puts c_answer[i][t]["num"]
             if parents[c_answer[i][t]["level"].to_i] != c_answer[i][t]["num"] 
               mark -= 2
             end
+puts mark
             c_answer[i][k]["seen"] = 1
           end 
 
@@ -89,7 +96,7 @@ class SAnswer < ActiveRecord::Base
       len = c_answer[i].length
       for j in 1...len
         if c_answer[i][j]["seen"] == nil
-          if c_answer[i][j]["level"] == 1
+          if c_answer[i][j]["level"].to_i == 1
             mark -= 5
           else
             mark -= 3
