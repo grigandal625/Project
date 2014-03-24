@@ -35,7 +35,6 @@ class TasksController < AdminToolsController
     task = Task.find(params[:id])
     task.v_answer.set_rules(params[:bnf])
     task.g_answer.answer = params[:Ganswer]
-    task.g_answer.save
     sentences = []
     params[:sentences].split("\r\n").each{|sen| sentences << sen unless sen == ""}
     task.update_attributes(sentence1: sentences[0], sentence2: sentences[1],
