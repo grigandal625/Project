@@ -25,7 +25,6 @@ function getTask(){
   currentTask.sentences[0] = task[0];
   currentTask.sentences[1] = task[1];
   currentTask.sentences[2] = task[2];
-  alert(currentTask.sentences[0]);
 	return task
 }
 
