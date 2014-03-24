@@ -3,7 +3,9 @@
 samplev:
   component: first
   component_type: VAnswer
+  bnf_json: {}
 
 checkv:
   component: one
   component_type: VResult
+  bnf_json: {}

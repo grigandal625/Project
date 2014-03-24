@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140322112142) do
+ActiveRecord::Schema.define(version: 20140324091445) do
 
   create_table "bnf_rules", force: true do |t|
     t.text    "left"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20140322112142) do
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
     t.string  "component_type"
+    t.text    "bnf_json"
   end
 
   add_index "bnfs", ["component_id", "component_type"], name: "index_bnfs_on_component_id_and_component_type"

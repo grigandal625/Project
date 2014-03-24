@@ -29,8 +29,7 @@ class TestController < ApplicationController
       if result.v_result == nil
         v_answer_bnf = JSON.parse(params[:answer_content])
         vresult = result.create_v_result
-        vresult.create_bnf
-        vresult.bnf.init_bnf(v_answer_bnf)
+        vresult.create_bnf(bnf_json: Bnf.init_bnf(v_answer_bnf))
         vresult.create_log
         vresult.mark, vresult.log.data = @task.v_answer.check_answer(vresult.bnf)
       end
