@@ -1,3 +1,11 @@
+<% content_for(:head) do %>
+
+  <title>Семантический компонент</title>
+  <%= stylesheet_link_tag "reset.css" %>
+  <%= stylesheet_link_tag "S.css" %>
+  <%= javascript_include_tag "S.js" %>
+<% end %>
+
 <div id="ScomponentDiv">
 	  <div id="DraggingContainerS" onMouseMove="moveDragS()" 	   onMouseUp="checkDragUpS()">Error
 	  		
@@ -122,3 +130,7 @@
 		</div>
 	  </div>
     </div>
+<div id="answer_send">
+		<%= hidden_field_tag(:answer_content) %>
+		<%= tag(:input, type: "hidden", name: "component", value: "S") %>
+</div>
