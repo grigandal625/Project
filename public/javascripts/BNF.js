@@ -66,73 +66,14 @@ function hideNewLineText(parentDiv, flag)
 
 function onMouseOver(e)
 {
-	if(e.target.className == 'BNFeditor')
-	{
-		var lines = e.target.lastChild.childNodes;
-		for(var line in lines)
-		{
-			lines[line].className = "BNFline";
-			for(var rule in lines[line].childNodes)
-			{
-				if(lines[line].childNodes[rule].className == 'BNFnewRule')
-				{
-					lines[line].childNodes[rule].hidden = true;
-				}
-			}
-		}
-	}
-	else if(dragging.state && 
-			(e.target.className == 'BNFline' || e.target.className == 'BNFline BNFlineHighlighted'))
-	{
-		e.target.className = "BNFline BNFlineHighlighted";
-		showNewRuleSpan(e.target);
+	if(dragging.state && e.target.className == 'BNFline')
 		hideNewLineText(e.target, true);
-	}
-	else if(dragging.state && (e.target.className == 'BNFnewRule'))
-	{
-		e.target.hidden = false;
-		e.target.style.opacity = 1;
-		e.target.parentNode.className = "BNFline BNFlineHighlighted";
-	}
-	else if(dragging.state && e.target.className == 'BNFrule')
-	{
-		e.target.parentNode.className = "BNFline BNFlineHighlighted";
-		e.target.className = 'BNFrule BNFruleHighlighted';
-		showNewRuleSpan(e.target.parentNode);
-	}
-	else if(dragging.state &&
-			e.target.className == 'BNFaddElement' &&
-			e.target.parentNode.className == 'BNFrule')
-	{
-		showNewRuleSpan(e.target.parentNode.parentNode);
-		e.target.parentNode.parentNode.className = "BNFline BNFlineHighlighted";
-		e.target.parentNode.className = 'BNFrule BNFruleHighlighted';
-	}
 }
 
 function onMouseOut(e)
 {
-	if((e.target.tagName == 'DIV'))
-	{
-		e.target.className = "BNFline";
-		for(var rule in e.target.childNodes)
-		{
-			if(e.target.childNodes[rule].className == 'BNFnewRule')
-			{
-				e.target.childNodes[rule].hidden = true;
-			}
-		}
+	if((e.target.className == 'BNFline'))
 		hideNewLineText(e.target, false);
-	}
-	else if(e.target.className == 'BNFrule BNFruleHighlighted')
-	{
-		e.target.className = 'BNFrule';
-	}
-	else if(e.target.parentNode.className == 'BNFrule BNFruleHighlighted')
-	{
-		e.target.parentNode.className = 'BNFrule';
-	}
-
 }
 
 function onMouseMove(e)
@@ -223,7 +164,11 @@ function dropElement(e)
 	else if(e.target.className == 'BNFaddElement')
 		addElementToRule(e.target.parentNode);
 	else if(e.target.className == 'BNFnewRule')
+	{
 		addNewRule(e.target.parentNode, e.target);
+		e.target.onmouseover = null;
+		e.target.onmouseout = null;
+	}
 	else
 		return;
 	dragging.state = false;
@@ -266,6 +211,5 @@ function initBNF(elementsList, bnfOuterDiv)
 	bnfDiv.appendChild(elementsDiv);
 	bnfDiv.appendChild(bnfConstructDiv);
 	bnfDiv.className = 'BNFeditor';
-	bnfDiv.onmouseover = onMouseOver;
 	addBNFLine();
 }

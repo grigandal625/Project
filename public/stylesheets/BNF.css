@@ -13,8 +13,12 @@ div.dragging
 	border-radius: 2px;
 	margin: 4px;
 	background-color: #A0A0A0;
-	cursor: pointer;
 	//white-space: nowrap;
+}
+
+.BNFelement:hover
+{
+	background-color: lightgreen;
 }
 
 .elementsSubDiv
@@ -64,7 +68,6 @@ div.BNFeditor
 span.newLine
 {
 	opacity: 0.3;
-	cursor: default;
 }
 
 div.BNFline
@@ -78,6 +81,13 @@ div.BNFline
 	line-height: 16pt;
 }
 
+div.BNFline:hover
+{
+	border: 2px solid green;
+	margin: 4px;
+}
+
+
 span.BNFrule
 {
 	padding-right: 5px;
@@ -89,6 +99,12 @@ span.BNFrule
 	cursor: default;
 }
 
+span.BNFrule:hover
+{
+	border: 2px solid green;
+	margin: 2px;
+}
+
 span.freshRule
 {
 	padding-right: 5px;
@@ -96,7 +112,7 @@ span.freshRule
 	border: 1px solid grey;
 	border-radius: 2px;
 	margin: 4px;
-	background0color: lightgreen;
+	background-color: lightgreen;
 }
 
 span.BNFaddElement
@@ -111,6 +127,11 @@ span.BNFaddElement
 	color: green;
 }
 
+span.BNFaddElement:hover
+{
+	background-color: lightgreen;
+}
+
 span.BNFnewRule
 {
 	padding-right: 5px;
@@ -121,20 +142,13 @@ span.BNFnewRule
 	margin-left: 10px;
 	mergin-right: 10px;
 	background-color: #A0FFA0;
+	opacity: 0.4;
 	cursor: default;
-
-}
-div.BNFlineHighlighted
-{
-	border: 2px solid green;
-	margin: 4px;
 }
 
-span.BNFruleHighlighted
+span.BNFnewRule:hover
 {
-	border: 2px solid green;
-	background-color: lightgreen;
-	margin: 2px;
+	opacity: 1.0;
 }
 
 div#BNFconstruct

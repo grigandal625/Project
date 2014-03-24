@@ -13,14 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20140324091445) do
 
-  create_table "bnf_rules", force: true do |t|
-    t.text    "left"
-    t.text    "right"
-    t.integer "bnf_id"
-  end
-
-  add_index "bnf_rules", ["bnf_id"], name: "index_bnf_rules_on_bnf_id"
-
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
     t.string  "component_type"
