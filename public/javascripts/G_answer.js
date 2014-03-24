@@ -20,7 +20,7 @@ var groups = {};
 var Colors = ["white","black","red","blue","orange","gray","cyan","yellow","#007FFF","#E75480","#00A86B","#DA70D6","#AF4035","#CC8899","#704214","#D53E07","#FFCC99","#77DD77","#5D8AA8","#C7FCEC","#FF7518"];
 
 function getTask(){
-	task = document.getElementById("sentences").value.split('\n');
+	var task = document.getElementById("sentences").value.split('\n');
   
   currentTask.sentences[0] = task[0];
   currentTask.sentences[1] = task[1];
