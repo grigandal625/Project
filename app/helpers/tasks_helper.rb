@@ -2,11 +2,11 @@
 module TasksHelper
 
   def check_bnf_element(v_answer, left, elem)
-    rule = v_answer.bnf.bnf_rules.where(left: left)
-    if rule.first == nil
+    rule = JSON.parse(v_answer.bnf.bnf_json)[left]
+    if rule == nil
       return false
     else
-      rule.first.right.include?(elem)
+      rule.include?(elem)
     end
   end
 
