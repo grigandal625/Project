@@ -3,8 +3,10 @@
 	<title>Редактирование задания</title>
 	<%= javascript_include_tag "BNF.js" %>
 	<%= javascript_include_tag "G_answer.js" %>
+
 	<%= stylesheet_link_tag "G_answer.css" %>
 	<%= stylesheet_link_tag "BNF.css" %>
+
 <% end %>
 
 <%= form_tag(task_path(@task), method: "PUT") do %>
@@ -17,7 +19,9 @@
   </div>
   <%= render 'v_edit' %>
   <br/>
-  <input type="submit" />
+  <%= render 's_edit' %>
+  <br/>
+  <input type="submit" onmousedown="sendAnswer();" />
 <% end %>
 <%= form_tag(task_path(@task), method: "DELETE") do %>
   <input type="submit" value="Удалить задание" />
