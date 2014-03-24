@@ -1,11 +1,12 @@
 class Bnf < ActiveRecord::Base
   belongs_to :component, polymorphic: true
-  has_many :bnf_rules
 
-  def init_bnf(v_answer_bnf)
+  def self.init_bnf(v_answer_bnf)
+    bnf_rules = {}
     for rule in v_answer_bnf
-      bnf_rules.create(left: rule["left"], right: rule["right"])
+      bnf_rules[rule["left"]] = rule["right"]
     end
+    bnf_rules.to_json
   end
 
 end

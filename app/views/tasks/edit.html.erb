@@ -3,12 +3,18 @@
 	<title>Редактирование задания</title>
 	<%= javascript_include_tag "BNF.js" %>
 	<%= javascript_include_tag "G_answer.js" %>
-
+  <%= javascript_include_tag "S.js" %>
+  <%= javascript_include_tag "S_admin.js" %>
+  <%= stylesheet_link_tag "reset.css" %>
+  <%= stylesheet_link_tag "S.css" %>
 	<%= stylesheet_link_tag "G_answer.css" %>
 	<%= stylesheet_link_tag "BNF.css" %>
 
 <% end %>
 
+<br/>
+<button onclick="GloadTask()">Обновить предложения в компоненте G</button>
+<br/>
 <%= form_tag(task_path(@task), method: "PUT") do %>
   <div id="task">
   <span>Текст задания:</span><br/>
@@ -18,6 +24,8 @@
   <br/>
   </div>
   <%= render 'v_edit' %>
+  <%= render 'g_edit' %>
+  <%= render 's_edit' %>
   <br/>
   <%= render 's_edit' %>
   <br/>
@@ -26,3 +34,4 @@
 <%= form_tag(task_path(@task), method: "DELETE") do %>
   <input type="submit" value="Удалить задание" />
 <% end %>
+

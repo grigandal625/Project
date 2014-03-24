@@ -4,6 +4,8 @@ var constGroups = 4;
 var newGroup = 5;
 var maxGroups = 19;
 var groupCnt = 0;
+var currentTask={};
+currentTask.sentences = [];
 var selected = {
 	id : -1,
 	sentence : -1,
@@ -18,7 +20,11 @@ var groups = {};
 var Colors = ["white","black","red","blue","orange","gray","cyan","yellow","#007FFF","#E75480","#00A86B","#DA70D6","#AF4035","#CC8899","#704214","#D53E07","#FFCC99","#77DD77","#5D8AA8","#C7FCEC","#FF7518"];
 
 function getTask(){
-	var task = document.getElementById("sentences").innerHTML.split('\n');
+	var task = document.getElementById("sentences").value.split('\n');
+  
+  currentTask.sentences[0] = task[0];
+  currentTask.sentences[1] = task[1];
+  currentTask.sentences[2] = task[2];
 	return task
 }
 
@@ -31,9 +37,32 @@ function setActiveButtons(){
 			document.getElementById(i).disabled = true;
 }
 
-function loadTask(){
+function initG(){
+	wordTable = {};
+	buttonTable = {};
+	constGroups = 4;
+	newGroup = 5;
+	maxGroups = 19;
+	groupCnt = 0;
+	selected = {
+		id : -1,
+		sentence : -1,
+		status : false
+	}
+	groupFlag = {
+		id : -1,
+		status : false
+	}
+	groups = {};
+	document.getElementById("gtask").innerHTML = "";
+	document.getElementById("buttons").innerHTML = "";
+}
+
+function GloadTask(){
 	var Gdiv = document.getElementById("gtask");
 	var buttonDiv = document.getElementById("buttons");
+	
+	initG();
 	
 	var task = getTask();
 	
@@ -83,6 +112,7 @@ function loadTask(){
 	groups[3] = "Н";
 	groups[4] = "ВС";
 	setActiveButtons();
+	return false;
 }
 
 function addNounGroup(){
@@ -337,7 +367,7 @@ function loadBNFEditor(){
 }
 
 function componentGInit(){
-	loadTask();
+	GloadTask();
 	loadBNFEditor();
 }
 
