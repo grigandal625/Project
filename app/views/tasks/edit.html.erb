@@ -1,16 +1,14 @@
 <% content_for(:head) do %>
-
-	<title>Редактирование задания</title>
-	<%= javascript_include_tag "BNF.js" %>
 	<%= javascript_include_tag "G_answer.js" %>
 	<%= stylesheet_link_tag "G_answer.css" %>
+	<title>Редактирование задания</title>
+	<%= javascript_include_tag "BNF.js" %>
 	<%= stylesheet_link_tag "BNF.css" %>
 <% end %>
 
 <br/>
-<button onclick="GloadTask()">Обновить предложения в компоненте G</button>
-<br/>
 <%= form_tag(task_path(@task), method: "PUT") do %>
+  <%= tag(:input, :type => "hidden", :id => "Ganswer_content", :name => "Ganswer") %>
   <div id="task">
   <span>Текст задания:</span><br/>
   <%= text_area_tag('sentences', @task.sentence1 + "\n" +
@@ -21,7 +19,7 @@
   <%= render 'v_edit' %>
   <%= render 'g_edit' %>
   <br/>
-  <input type="submit" />
+  <input type="submit" onclick="sendAnswer()" />
 <% end %>
 <%= form_tag(task_path(@task), method: "DELETE") do %>
   <input type="submit" value="Удалить задание" />

@@ -81,20 +81,20 @@ function GloadTask(){
 		Gdiv.innerHTML += "<br/>";
 	}
 	buttonDiv.innerHTML += "Основные группы</br>";
-	buttonDiv.innerHTML += '<button class="button" id="but1" onclick="setGroup(1)">Предикат</button>';
+	buttonDiv.innerHTML += '<button class="button" id="but1" onclick="setGroup(1)" type="button">Предикат</button>';
 	document.getElementById("but1").style.borderColor = Colors[1];
 	buttonDiv.innerHTML += '<br/>';
-	buttonDiv.innerHTML += '<button class="button" id="but2" onclick="setGroup(2)">Союз</button>';
+	buttonDiv.innerHTML += '<button class="button" id="but2" onclick="setGroup(2)" type="button">Союз</button>';
 	document.getElementById("but2").style.borderColor = Colors[2];
 	buttonDiv.innerHTML += '<br/>';
-	buttonDiv.innerHTML += '<button class="button" id="but3" onclick="setGroup(3)">Наречие</button>';
+	buttonDiv.innerHTML += '<button class="button" id="but3" onclick="setGroup(3)" type="button">Наречие</button>';
 	document.getElementById("but3").style.borderColor = Colors[3];
 	buttonDiv.innerHTML += '<br/>';
-	buttonDiv.innerHTML += '<button class="button" id="but4" onclick="setGroup(4)">Вопросительное слово</button>';
+	buttonDiv.innerHTML += '<button class="button" id="but4" onclick="setGroup(4)" type="button">Вопросительное слово</button>';
 	document.getElementById("but4").style.borderColor = Colors[4];
 	buttonDiv.innerHTML += '<br/>';
 	buttonDiv.innerHTML += "Именные группы</br>";
-	buttonDiv.innerHTML += '<button class="button" id="creator" onclick="addNounGroup()">Добавить ИГ</button>';
+	buttonDiv.innerHTML += '<button class="button" id="creator" onclick="addNounGroup()" type="button">Добавить ИГ</button>';
 	document.getElementById("creator").style.borderColor = Colors[0];
 	//this is special button. // buttonTable["creator"] = {status : true};
 	buttonTable["but1"] = {status : true};
@@ -106,11 +106,10 @@ function GloadTask(){
 	groups[3] = "Н";
 	groups[4] = "ВС";
 	setActiveButtons();
-	return false;
 }
 
 function addNounGroup(){
-	document.getElementById("buttons").innerHTML += '<button class="button" id="but' + newGroup + '" onclick="setGroup(' + newGroup + ')">ИГ ' + (newGroup - constGroups) + '</button>';
+	document.getElementById("buttons").innerHTML += '<button class="button" id="but' + newGroup + '" onclick="setGroup(' + newGroup + ')" type="button">ИГ ' + (newGroup - constGroups) + '</button>';
 	document.getElementById("but" + newGroup).style.borderColor = Colors[newGroup];
 	buttonTable["but" + newGroup] = {status : true};
 	groups[newGroup] = "ИГ " + (newGroup - constGroups);
@@ -341,7 +340,7 @@ function generateAnswer(){
 
 function sendAnswer()
 {
-	var hid = document.getElementById('answer_content');
+	var hid = document.getElementById('Ganswer_content');
 	hid.value = generateAnswer();
 }
 
@@ -361,6 +360,9 @@ function loadBNFEditor(){
 }
 
 function componentGInit(){
+	document.getElementById("Gglobal").innerHTML = '<div id="gtask" width="70%"></div>';
+	document.getElementById("Gglobal").innerHTML += '<div id="buttons" width="30%"></div></br>';
+	document.getElementById("Gglobal").innerHTML += '<div id="secondTask"></div>';
 	GloadTask();
 	loadBNFEditor();
 }
