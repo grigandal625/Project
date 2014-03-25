@@ -1,10 +1,11 @@
-<% content_for(:head) do %>
-
-  <title>Семантический компонент</title>
-  <%= stylesheet_link_tag "reset.css" %>
-  <%= stylesheet_link_tag "S.css" %>
-  <%= javascript_include_tag "S.js" %>
-<% end %>
+<script>
+  alert(1);
+  var str = JSON('<%= @task.s_answer.answer.to_json %>');
+  alert(str);
+  var SAnswerData = 1;
+  
+  alert(3);
+</script>
 
 <div id="ScomponentDiv">
 	  <div id="DraggingContainerS" onMouseMove="moveDragS()" 	   onMouseUp="checkDragUpS()">Error

@@ -26,3 +26,13 @@ function initS(){
 	strS += "<br /><br />";
 	$("#sentenceDrag3S").html(strS);
 }
+
+function fillData(){
+  for(var i = 0; i < 3; i++){}
+
+
+
+
+
+
+}

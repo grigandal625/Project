@@ -112,6 +112,7 @@ function GloadTask(){
 	groups[3] = "Н";
 	groups[4] = "ВС";
 	setActiveButtons();
+  initS();
 	return false;
 }
 
