@@ -343,8 +343,6 @@ class GAnswer < ActiveRecord::Base
       end
     end
     
-    puts log
-    puts mistakes
     mark = 100
     for id in 0..10
       mark -= mistakes[id]*Cost[id]

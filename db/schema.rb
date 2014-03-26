@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140324091445) do
+ActiveRecord::Schema.define(version: 20140325120204) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20140324091445) do
     t.integer  "task_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "results_mask"
   end
 
   add_index "results", ["student_id"], name: "index_results_on_student_id"

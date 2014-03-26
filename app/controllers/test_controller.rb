@@ -18,24 +18,34 @@ class TestController < ApplicationController
     @task = Task.find(session[:task_id])
     result = Result.find_by_id(session[:result_id])
     if result == nil
-      result = @task.results.create
+      result = @task.results.create(results_mask: 0)
+      result.create_g_result(mark: 0)
+      result.g_result.create_log(data: "", mistakes: "")
+      result.create_v_result(mark: 0)
+      result.v_result.create_log(data: "", mistakes: "")
+      result.create_s_result(mark: 0)
+      result.s_result.create_log(data: "", mistakes: "")
       result.student = @user.student
       session[:result_id] = result.id
+      result.save
     end
     case params[:component]
     when 'start'
       render 'get_g'
     when 'V'
-      if result.v_result == nil
+      puts (result.has_v_result?)
+      if not result.has_v_result?
+        result.results_mask |= 2
         v_answer_bnf = JSON.parse(params[:answer_content])
-        vresult = result.create_v_result
-        vresult.create_bnf(bnf_json: Bnf.init_bnf(v_answer_bnf))
-        vresult.create_log
-        vresult.mark, vresult.log.data = @task.v_answer.check_answer(vresult.bnf)
+        result.v_result.create_bnf(bnf_json: Bnf.init_bnf(v_answer_bnf))
+        result.v_result.create_log
+        result.v_result.mark, result.v_result.log.data = @task.v_answer.check_answer(result.v_result.bnf)
       end
       render 'get_s'
     when 'G'
-      if result.g_result == nil
+      puts (result.has_g_result?)
+      if not result.has_g_result?
+        result.results_mask |= 1
         gresult = result.create_g_result
         gresult.answer = params[:g_answer]
         gresult.create_log
@@ -43,16 +53,14 @@ class TestController < ApplicationController
       end
       render 'get_v'
     when 'S'
-      if result.s_result == nil
-        sresult = result.create_s_result
-        sresult.answer = params[:answer_content]
-        sresult.mark = 0
-        sresult.save
-        sresult.mark = @task.s_answer.check_answer(sresult.answer)
-        sresult.create_log(data: "")
-        sresult.save
-        redirect_to result_path(result)
+      if !result.has_s_result?
+        result.results_mask |= 4
+        result.s_result.answer = params[:answer_content]
+        result.s_result.mark = @task.s_answer.check_answer(result.s_result.answer)
+        result.s_result.create_log(data: "")
+        result.s_result.save
       end
+      redirect_to result_path(result)
     end
     result.save
   end

@@ -8,4 +8,17 @@ class Result < ActiveRecord::Base
   def mark
     (v_result.mark + g_result.mark + s_result.mark) / 3
   end
+
+  def has_g_result?
+    (results_mask & 1) != 0
+  end
+
+  def has_v_result?
+    (results_mask & 2) != 0
+  end
+
+  def has_s_result?
+    (results_mask & 4) != 0
+  end
+
 end

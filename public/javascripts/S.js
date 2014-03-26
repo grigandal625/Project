@@ -51,11 +51,6 @@ function getSAnswer(){
 	return SObject;
 }
 
-function sendAnswer(){
-	$("#answer_content").val(JSON.stringify(getSAnswer()));
-}
-
-
 function recountSkobki(sentNum){
 	var th = $("#resultTable" + sentNum + "S").children().first().children().first().next();
 	var lastLevel = 1;

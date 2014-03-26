@@ -1,24 +1,25 @@
 <% content_for(:head) do %>
 
-	<title>Редактирование задания</title>
+  <title>Редактирование задания</title>
   <script>
     SAnswerData = <%= @task.s_answer.answer.html_safe %>;
   </script>
-	<%= javascript_include_tag "BNF.js" %>
-	<%= javascript_include_tag "G_answer.js" %>
+  <%= javascript_include_tag "BNF.js" %>
+  <%= javascript_include_tag "G_answer.js" %>
   <%= javascript_include_tag "S.js" %>
   <%= javascript_include_tag "S_admin.js" %>
   <%= stylesheet_link_tag "reset.css" %>
   <%= stylesheet_link_tag "S.css" %>
-	<%= stylesheet_link_tag "G_answer.css" %>
-	<%= stylesheet_link_tag "BNF.css" %>
+  <%= stylesheet_link_tag "G_answer.css" %>
+  <%= javascript_include_tag "BNF.js" %>
+  <%= stylesheet_link_tag "BNF.css" %>
 
 <% end %>
 
 <br/>
-<button onclick="GloadTask()">Обновить предложения в компоненте G</button>
-<br/>
 <%= form_tag(task_path(@task), method: "PUT") do %>
+  <%= tag(:input, :type => "hidden", :id => "Ganswer_content", :name => "Ganswer") %>
+  <%= tag(:input, :type => "hidden", :id => "Sanswer_content", :name => "Sanswer") %>
   <div id="task">
   <span>Текст задания:</span><br/>
   <%= text_area_tag('sentences', @task.sentence1 + "\n" +

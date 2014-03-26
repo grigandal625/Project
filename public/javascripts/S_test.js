@@ -28,3 +28,9 @@ $(document).ready(function(){
 	strS += "<br /><br />";
 	$("#sentenceDrag3S").html(strS);
 });
+
+function sendAnswer(){
+	$("#answer_content").val(JSON.stringify(getSAnswer()));
+}
+
+
