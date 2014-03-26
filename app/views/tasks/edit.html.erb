@@ -1,10 +1,18 @@
 <% content_for(:head) do %>
 
 	<title>Редактирование задания</title>
+  <script>
+    SAnswerData = <%= @task.s_answer.answer.html_safe %>;
+  </script>
 	<%= javascript_include_tag "BNF.js" %>
 	<%= javascript_include_tag "G_answer.js" %>
+  <%= javascript_include_tag "S.js" %>
+  <%= javascript_include_tag "S_admin.js" %>
+  <%= stylesheet_link_tag "reset.css" %>
+  <%= stylesheet_link_tag "S.css" %>
 	<%= stylesheet_link_tag "G_answer.css" %>
 	<%= stylesheet_link_tag "BNF.css" %>
+
 <% end %>
 
 <br/>
@@ -20,8 +28,9 @@
   </div>
   <%= render 'v_edit' %>
   <%= render 'g_edit' %>
+  <%= render 's_edit' %>
   <br/>
-  <input type="submit" />
+  <input type="submit" onmousedown="sendAnswer();" />
 <% end %>
 <%= form_tag(task_path(@task), method: "DELETE") do %>
   <input type="submit" value="Удалить задание" />

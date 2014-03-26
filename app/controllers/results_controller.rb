@@ -59,7 +59,7 @@ class ResultsController < AdminToolsController
               student.fio + "</a>",
               "G" => cur_res.g_result.mark,
               "V" => cur_res.v_result.mark,
-              "S" => cur_res.s_result.mark,
+              #"S" => cur_res.s_result.mark,
               "avr" => cur_res.mark}
           end
         end

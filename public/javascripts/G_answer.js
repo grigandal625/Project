@@ -4,6 +4,8 @@ var constGroups = 4;
 var newGroup = 5;
 var maxGroups = 19;
 var groupCnt = 0;
+var currentTask={};
+currentTask.sentences = [];
 var selected = {
 	id : -1,
 	sentence : -1,
@@ -19,6 +21,10 @@ var Colors = ["white","black","red","blue","orange","gray","cyan","yellow","#007
 
 function getTask(){
 	var task = document.getElementById("sentences").value.split('\n');
+  
+  currentTask.sentences[0] = task[0];
+  currentTask.sentences[1] = task[1];
+  currentTask.sentences[2] = task[2];
 	return task
 }
 
@@ -106,6 +112,7 @@ function GloadTask(){
 	groups[3] = "Н";
 	groups[4] = "ВС";
 	setActiveButtons();
+  initS();
 	return false;
 }
 
@@ -363,6 +370,7 @@ function loadBNFEditor(){
 function componentGInit(){
 	GloadTask();
 	loadBNFEditor();
+  fillData();
 }
 
 window.onload = componentGInit;
