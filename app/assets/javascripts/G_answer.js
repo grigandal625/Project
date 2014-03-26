@@ -5,6 +5,7 @@ var newGroup = 5;
 var maxGroups = 19;
 var groupCnt = 0;
 var currentTask={};
+var SFlag = 1;
 currentTask.sentences = [];
 var selected = {
 	id : -1,
@@ -374,7 +375,10 @@ function componentGInit(){
 	document.getElementById("Gglobal").innerHTML += '<div id="secondTask"></div>';
 	GloadTask();
 	loadBNFEditor();
-  fillData();
+  if(SFlag == 1){
+    fillData();
+    SFlag = 0;
+  }
 }
 
 window.onload = componentGInit;
