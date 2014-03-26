@@ -21,9 +21,10 @@ class TasksController < AdminToolsController
     task = Task.create(sentence1: sentences[0], sentence2: sentences[1],
                 sentence3: sentences[2])
     task.create_v_answer
-    task.v_answer.create_bnf
+    task.v_answer.create_bnf(bnf_json: "{}")
     task.create_g_answer
     task.create_s_answer
+    task.save
     redirect_to edit_task_path(task)
   end
 
