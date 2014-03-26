@@ -15,14 +15,14 @@ $(document).ready(function(){
 	$("#sentenceDrag1S").html(strS);
 	
 	strS="<br /><br />";
-	for (var i = 0; i < sentenceS.sent1.length; i++) {
+	for (var i = 0; i < sentenceS.sent2.length; i++) {
 		strS += '<div class="RedS" onMouseDown="dragS(this)" q="'+i+'" dragNum="2">' +" "+ sentenceS.sent2[i] +"</div>";	
 	}
 	strS += "<br /><br />";
 	$("#sentenceDrag2S").html(strS);
 	
 	strS="<br /><br />";
-	for (var i = 0; i < sentenceS.sent1.length; i++) {
+	for (var i = 0; i < sentenceS.sent3.length; i++) {
 		strS += '<div class="RedS" onMouseDown="dragS(this)" q="'+i+'" dragNum="3">' +" "+ sentenceS.sent3[i] +"</div>";	
 	}
 	strS += "<br /><br />";

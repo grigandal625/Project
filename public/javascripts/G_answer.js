@@ -370,6 +370,7 @@ function loadBNFEditor(){
 function componentGInit(){
 	GloadTask();
 	loadBNFEditor();
+  fillData();
 }
 
 window.onload = componentGInit;
