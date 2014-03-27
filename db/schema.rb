@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140325120204) do
+ActiveRecord::Schema.define(version: 20140327064028) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(version: 20140325120204) do
   end
 
   add_index "bnfs", ["component_id", "component_type"], name: "index_bnfs_on_component_id_and_component_type"
+
+  create_table "etalons", force: true do |t|
+    t.string   "name"
+    t.text     "etalonjson"
+    t.text     "nodejson"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "g_answers", force: true do |t|
     t.text    "answer"
@@ -74,6 +82,16 @@ ActiveRecord::Schema.define(version: 20140325120204) do
   end
 
   add_index "s_results", ["result_id"], name: "index_s_results_on_result_id"
+
+  create_table "semanticnetworks", force: true do |t|
+    t.integer  "etalon_id"
+    t.text     "json"
+    t.integer  "rating"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "semanticnetworks", ["etalon_id"], name: "index_semanticnetworks_on_etalon_id"
 
   create_table "students", force: true do |t|
     t.text    "fio"

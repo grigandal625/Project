@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  etalon_id: 
+  json: MyText
+  rating: 1
+
+two:
+  etalon_id: 
+  json: MyText
+  rating: 1

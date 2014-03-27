@@ -16,6 +16,15 @@ UIR::Application.routes.draw do
   resources :groups do
     resources :students, only: [:create, :show, :destroy]
   end
+  
+  
+  resources :semantictests
+  resources :semanticanswers
+  post "semanticanswers/create"
+  post "semanticanswers/updatesemanticjson"
+  post "semantictests/updateJson"
+  get  "semanticanswers/new"
+  
 
   root 'groups#index'
   # The priority is based upon order of creation: first created -> highest priority.
