@@ -16,7 +16,7 @@ var groupFlag = {
 var groups = {};
 
 var Colors = ["white","black","red","blue","orange","gray","cyan","yellow","#007FFF","#E75480","#00A86B","#DA70D6","#AF4035","#CC8899","#704214","#D53E07","#FFCC99","#77DD77","#5D8AA8","#C7FCEC","#FF7518"];
-var Labels = ["-", "label_P", "label_C", "label_N", "label_VS", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two"]
+var Labels = ["-", "label_P", "label_C", "label_N", "label_VS", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two"];
 
 var helpStrings = { "start" : "Чтобы начать выделение слов, нажмите на первое или последнее слово будущей группы.<br/>",
 					"selection" : "Нажмите на другое слово в этом предложении, чтобы выделить все слова между ними. При повторном нажатии на первое слово будет выделено только оно.<br/>",
