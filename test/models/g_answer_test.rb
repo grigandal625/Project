@@ -9,4 +9,8 @@ class GAnswerTest < ActiveSupport::TestCase
     g_answers(:one).check_answer(g_results(:two).answer)
     assert true
   end
+  test "second_task_levon_answer" do
+    g_answers(:second).check_answer(g_results(:three).answer)
+    assert true
+  end
 end
