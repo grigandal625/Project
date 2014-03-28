@@ -29,7 +29,7 @@ function getSAnswer(){
 			SObject[i][0] = {
 				"num":$(th).attr("q"),
 				"word":$(thChd).children().first().val(), 					
-				"param":($(thChd).children().first().next().val() * 10 + $(thChd).children().first().next().next().val()),
+				"param":($(thChd).children().first().next().val() + $(thChd).children().first().next().next().val()),
 				"level":"0"
 			};	
 			j = 1;
