@@ -27,13 +27,11 @@ class TestController < ApplicationController
       result.s_result.create_log(data: "", mistakes: "")
       result.student = @user.student
       session[:result_id] = result.id
-      result.save
     end
     case params[:component]
     when 'start'
       render 'get_g'
     when 'V'
-      puts (result.has_v_result?)
       if not result.has_v_result?
         result.results_mask |= 2
         v_answer_bnf = JSON.parse(params[:answer_content])
@@ -43,13 +41,14 @@ class TestController < ApplicationController
       end
       render 'get_s'
     when 'G'
-      puts (result.has_g_result?)
       if not result.has_g_result?
         result.results_mask |= 1
-        gresult = result.create_g_result
-        gresult.answer = params[:g_answer]
-        gresult.create_log
-        gresult.mark, gresult.log.mistakes, gresult.log.data = @task.g_answer.check_answer(gresult.answer)
+        result.g_result.answer = params[:g_answer]
+        result.g_result.create_log
+        result.g_result.mark,
+          result.g_result.log.mistakes,
+          result.g_result.log.data =
+          @task.g_answer.check_answer(result.g_result.answer)
       end
       render 'get_v'
     when 'S'

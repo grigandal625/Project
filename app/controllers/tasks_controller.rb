@@ -21,7 +21,7 @@ class TasksController < AdminToolsController
     task = Task.create(sentence1: sentences[0], sentence2: sentences[1],
                 sentence3: sentences[2])
     task.create_v_answer
-    task.v_answer.create_bnf
+    task.v_answer.create_bnf(bnf_json: "{}")
     task.create_g_answer
     task.create_s_answer
     task.save
@@ -36,7 +36,7 @@ class TasksController < AdminToolsController
     task = Task.find(params[:id])
     task.v_answer.set_rules(params[:bnf])
     task.g_answer.answer = params[:Ganswer]
-    task.s_answer.answer = params[:Sanswer]
+    task.g_answer.answer = params[:Ganswer] unless params[:ignore_g]
     sentences = []
     params[:sentences].split("\r\n").each{|sen| sentences << sen unless sen == ""}
     task.update_attributes(sentence1: sentences[0], sentence2: sentences[1],
