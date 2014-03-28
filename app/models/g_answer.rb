@@ -137,7 +137,7 @@ class GAnswer < ActiveRecord::Base
       end
     end
     #берём каждое слово предложения, ищем группы, в которые оно входит
-    sen_id = -1;
+    sen_id = -1
     generate_task(standard_groups).each do |sentence|
       sen_id += 1
       sentence.split(" ").each do |word|
@@ -149,10 +149,9 @@ class GAnswer < ActiveRecord::Base
         standard_groups.each do |key, st_group|
           words = st_group["data"].split(" ")
           words.each do |pret_word|
-            #TODO проверка того, что всё происходит в одном предложении
             if ( ( word == pret_word ) && ( sen_id.to_s == st_group["sentence"] ) )
               #найдена группа, в составе которой находится текущее слово
-              if pret_word["type"] != "group"
+              if st_group["type"] != "group"
                 w_mistakes = 1
                 gr_flag = "Слово"
                 flag = true
@@ -240,9 +239,8 @@ class GAnswer < ActiveRecord::Base
         #Если для любой потенциальной группы есть ошибка хотя бы в одно слово, то ошибка ценой 1 слова
         if !flag
           #WTF?
-          mistakes[6] += 1
-          #TODO исправить текст лога
-          log << "Слово \"#{word}\" отнесено ИГ, а должно быть наоборот"
+          mistakes[4] += 1
+          log << "Слово \"#{word}\" отнесено к разным типам групп ИГ/не ИГ"
         else
           if Not_name.include?(gr_flag)
             #выставить ошибку описания неименной группы
@@ -296,7 +294,7 @@ class GAnswer < ActiveRecord::Base
     check_g_part(standard_bnf, bnf_to_check, Message, log, mistakes)
     #прибавка ошибок из-за лишних/несовпадающих/отсутствующих строк
     standard_bnf.each do |line|
-      if line["status"] == 0 && line["left"] != nil
+      if line != nil && line["status"] == 0 && line["left"] != nil
         mistakes[3] += 1
         description = line["left"]
         description += " ::= "
@@ -320,7 +318,7 @@ class GAnswer < ActiveRecord::Base
     end
     
     bnf_to_check.each do |line|
-      if line["status"] == 0 && line["left"] != nil
+      if line != nil && line["status"] == 0 && line["left"] != nil
         mistakes[3] += 1
         description = line["left"]
         description += " ::= "
@@ -351,6 +349,7 @@ class GAnswer < ActiveRecord::Base
       mark = 0
     end
     puts "mark " + mark.to_s
+    #puts log
     return mark, mistakes.to_s, log.join("\n")
   end
   

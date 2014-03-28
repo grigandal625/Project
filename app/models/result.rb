@@ -6,9 +6,6 @@ class Result < ActiveRecord::Base
   has_one :s_result, autosave: true
 
   def mark
-    puts "gmark #{g_result.mark}"
-    puts "vmark #{v_result.mark}"
-    puts "smark #{s_result.mark}"
     (v_result.mark + g_result.mark + s_result.mark) / 3
   end
 
