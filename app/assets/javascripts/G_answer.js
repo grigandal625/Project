@@ -19,6 +19,7 @@ var groupFlag = {
 var groups = {};
 
 var Colors = ["white","black","red","blue","orange","gray","cyan","yellow","#007FFF","#E75480","#00A86B","#DA70D6","#AF4035","#CC8899","#704214","#D53E07","#FFCC99","#77DD77","#5D8AA8","#C7FCEC","#FF7518"];
+var Labels = ["-", "label_P", "label_C", "label_N", "label_VS", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two"];
 
 function getTask(){
 	var task = document.getElementById("sentences").value.split('\n');
@@ -38,7 +39,7 @@ function setActiveButtons(){
 			document.getElementById(i).disabled = true;
 }
 
-function initG(){
+function initG(flag){
 	wordTable = {};
 	buttonTable = {};
 	constGroups = 4;
@@ -57,35 +58,41 @@ function initG(){
 	groups = {};
 	document.getElementById("gtask").innerHTML = "";
 	document.getElementById("buttons").innerHTML = "";
+	if (flag){
+		getGAnswer();
+		wordTable = eval('(' + JSON.stringify(currentGAnswer["groups"]) + ')');
+	}
 }
 
-function GloadTask(){
+function GloadTask(flag){
 	var Gdiv = document.getElementById("gtask");
 	var buttonDiv = document.getElementById("buttons");
 	
-	initG();
+	initG(flag);
 	
 	var task = getTask();
 	
 	var id = 0;
-	for ( var i in task ){
-		var sentence = task[i].split(" ");
-		Gdiv.innerHTML +=  parseInt(i, 10) + 1 + ". ";
-		for ( var y in sentence ){
-			if ( sentence[y] == "" ){
-				continue;
+	if (!flag ){
+		for ( var i in task ){
+			var sentence = task[i].split(" ");
+			Gdiv.innerHTML +=  parseInt(i, 10) + 1 + ". ";
+			for ( var y in sentence ){
+				if ( sentence[y] == "" ){
+					continue;
+				}
+				Gdiv.innerHTML += '<span id="span' + id + '" class="normal" onclick="changeStatus(' + id + ')">' + ' ' + sentence[y];
+				Gdiv.innerHTML += "</span>";
+				wordTable[id] = {
+					type : "span",
+					status : 0,
+					sentence : i,
+					data : sentence[y]
+				};
+				id++;
 			}
-			Gdiv.innerHTML += '<span id="span' + id + '" class="normal" onclick="changeStatus(' + id + ')">' + ' ' + sentence[y];
-			Gdiv.innerHTML += "</span>";
-			wordTable[id] = {
-				type : "span",
-				status : 0,
-				sentence : i,
-				data : sentence[y]
-			};
-			id++;
+			Gdiv.innerHTML += "<br/>";
 		}
-		Gdiv.innerHTML += "<br/>";
 	}
 	buttonDiv.innerHTML += "Основные группы</br>";
 	buttonDiv.innerHTML += '<button class="button" id="but1" onclick="setGroup(1)" type="button">Предикат</button>';
@@ -113,8 +120,18 @@ function GloadTask(){
 	groups[3] = "Н";
 	groups[4] = "ВС";
 	setActiveButtons();
+	while ( newGroup <= maxGroups )
+		addNounGroup();
+	setGroup(-1);
 	initS();
 	return false;
+}
+
+function addLabel(id){
+	var data = '<span class="label ';
+	data += Labels[id];
+	data += '"><sup>' + groups[id] + '</sup></span>';
+	return data;
 }
 
 function addNounGroup(){
@@ -208,7 +225,7 @@ function setGroup(idGroup){
 				sentence : currentSentence,
 				groupId : wordTable[id].groupId
 			}
-			newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + ' </span></span>';
+			newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + addLabel(newWordTable[newId].groupId) + ' </span></span>';
 			newId++;
 		}else{
 			if ( wordTable[id].status == 0 ){
@@ -240,7 +257,7 @@ function setGroup(idGroup){
 					sentence : currentSentence,
 					groupId : idGroup
 				}
-				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId + '" class="group" onclick="selectGroup(' + newId + ')">' + newData + ' </span></span>';
+				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId + '" class="group" onclick="selectGroup(' + newId + ')">' + newData + addLabel(newWordTable[newId].groupId) + ' </span></span>';
 				newId++;
 			}
 		}
@@ -322,7 +339,7 @@ function deleteGroup(){
 					sentence : currentSentence,
 					groupId : wordTable[id].groupId
 				}
-				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + ' </span></span>';
+				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + addLabel(newWordTable[newId].groupId) + ' </span></span>';
 				newId++;
 			}
 		}
@@ -369,11 +386,11 @@ function loadBNFEditor(){
 	document.getElementById("secondTask").style.background = "#FFFFFF";
 }
 
-function componentGInit(){
+function componentGInit(flag){
 	document.getElementById("Gglobal").innerHTML = '<div id="gtask" width="70%"></div>';
 	document.getElementById("Gglobal").innerHTML += '<div id="buttons" width="30%"></div></br>';
 	document.getElementById("Gglobal").innerHTML += '<div id="secondTask"></div>';
-	GloadTask();
+	GloadTask(flag);
 	loadBNFEditor();
   if(SFlag == 1){
     fillData();

@@ -4,6 +4,12 @@
   <script>
     SAnswerData = <%= @task.s_answer.answer.html_safe %>;
   </script>
+  <%= javascript_tag "var currentGAnswer;
+    function getGAnswer()
+    {
+        currentGAnswer = #{@gans};
+    }"
+  %>
   <%= javascript_include_tag "BNF.js" %>
   <%= javascript_include_tag "G_answer.js" %>
   <%= javascript_include_tag "S.js" %>
@@ -30,6 +36,7 @@
   <%= render 'v_edit' %>
   <br/>
   <%= render 'g_edit' %>
+  <br/>
   <%= render 's_edit' %>
   <br/>
   <input type="submit" onmousedown="sendAnswer();" />

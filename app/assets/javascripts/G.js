@@ -16,6 +16,7 @@ var groupFlag = {
 var groups = {};
 
 var Colors = ["white","black","red","blue","orange","gray","cyan","yellow","#007FFF","#E75480","#00A86B","#DA70D6","#AF4035","#CC8899","#704214","#D53E07","#FFCC99","#77DD77","#5D8AA8","#C7FCEC","#FF7518"];
+var Labels = ["-", "label_P", "label_C", "label_N", "label_VS", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two"];
 
 var helpStrings = { "start" : "Чтобы начать выделение слов, нажмите на первое или последнее слово будущей группы.<br/>",
 					"selection" : "Нажмите на другое слово в этом предложении, чтобы выделить все слова между ними. При повторном нажатии на первое слово будет выделено только оно.<br/>",
@@ -41,7 +42,7 @@ function setActiveButtons(){
 
 function loadTask(){
 	var dynamicHelp = document.getElementById("dynamicHelp");
-	var Gdiv = document.getElementById("task");
+	var Gdiv = document.getElementById("gtask");
 	var buttonDiv = document.getElementById("buttons");
 	
 	document.getElementById("error").style.color = "red";
@@ -97,6 +98,13 @@ function loadTask(){
 	groups[3] = "Н";
 	groups[4] = "ВС";
 	setActiveButtons();
+}
+
+function addLabel(id){
+	var data = '<span class="label ';
+	data += Labels[id];
+	data += '"><sup>' + groups[id] + '</sup></span>';
+	return data;
 }
 
 function addNounGroup(){
@@ -207,7 +215,7 @@ function setGroup(idGroup){
 				sentence : currentSentence,
 				groupId : wordTable[id].groupId
 			}
-			newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + ' </span></span>';
+			newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + addLabel(newWordTable[newId].groupId) + ' </span></span>';
 			newId++;
 		}else{
 			if ( wordTable[id].status == 0 ){
@@ -239,12 +247,12 @@ function setGroup(idGroup){
 					sentence : currentSentence,
 					groupId : idGroup
 				}
-				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId + '" class="group" onclick="selectGroup(' + newId + ')">' + newData + ' </span></span>';
+				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId + '" class="group" onclick="selectGroup(' + newId + ')">' + newData + addLabel(newWordTable[newId].groupId) + ' </span></span>';
 				newId++;
 			}
 		}
 	}
-	document.getElementById("task").innerHTML = newTask;
+	document.getElementById("gtask").innerHTML = newTask;
 	wordTable = newWordTable;
 	for ( var id in wordTable )
 		if ( wordTable[id].type == "group" )
@@ -329,13 +337,13 @@ function deleteGroup(){
 					sentence : currentSentence,
 					groupId : wordTable[id].groupId
 				}
-				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + ' </span></span>';
+				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + addLabel(newWordTable[newId].groupId) + ' </span></span>';
 				newId++;
 			}
 		}
 	}
 	wordTable = newWordTable;
-	document.getElementById("task").innerHTML = newTask;
+	document.getElementById("gtask").innerHTML = newTask;
 	groupFlag.id = -1;
 	groupFlag.status = false;
 	for ( var id in wordTable )

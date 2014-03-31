@@ -30,6 +30,7 @@ class TasksController < AdminToolsController
 
   def edit
     @task = Task.find_by_id(params[:id])
+    @gans = Task.find_by_id(params[:id]).g_answer.answer
   end
 
   def update
