@@ -32,7 +32,7 @@ function setActiveButtons(){
 			document.getElementById(i).disabled = true;
 }
 
-function initG(){
+function initG(flag){
 	wordTable = {};
 	buttonTable = {};
 	constGroups = 4;
@@ -51,35 +51,41 @@ function initG(){
 	groups = {};
 	document.getElementById("gtask").innerHTML = "";
 	document.getElementById("buttons").innerHTML = "";
+	if (flag){
+		getGAnswer();
+		wordTable = eval('(' + JSON.stringify(currentGAnswer["groups"]) + ')');
+	}
 }
 
-function GloadTask(){
+function GloadTask(flag){
 	var Gdiv = document.getElementById("gtask");
 	var buttonDiv = document.getElementById("buttons");
 	
-	initG();
+	initG(flag);
 	
 	var task = getTask();
 	
 	var id = 0;
-	for ( var i in task ){
-		var sentence = task[i].split(" ");
-		Gdiv.innerHTML +=  parseInt(i, 10) + 1 + ". ";
-		for ( var y in sentence ){
-			if ( sentence[y] == "" ){
-				continue;
+	if (!flag ){
+		for ( var i in task ){
+			var sentence = task[i].split(" ");
+			Gdiv.innerHTML +=  parseInt(i, 10) + 1 + ". ";
+			for ( var y in sentence ){
+				if ( sentence[y] == "" ){
+					continue;
+				}
+				Gdiv.innerHTML += '<span id="span' + id + '" class="normal" onclick="changeStatus(' + id + ')">' + ' ' + sentence[y];
+				Gdiv.innerHTML += "</span>";
+				wordTable[id] = {
+					type : "span",
+					status : 0,
+					sentence : i,
+					data : sentence[y]
+				};
+				id++;
 			}
-			Gdiv.innerHTML += '<span id="span' + id + '" class="normal" onclick="changeStatus(' + id + ')">' + ' ' + sentence[y];
-			Gdiv.innerHTML += "</span>";
-			wordTable[id] = {
-				type : "span",
-				status : 0,
-				sentence : i,
-				data : sentence[y]
-			};
-			id++;
+			Gdiv.innerHTML += "<br/>";
 		}
-		Gdiv.innerHTML += "<br/>";
 	}
 	buttonDiv.innerHTML += "Основные группы</br>";
 	buttonDiv.innerHTML += '<button class="button" id="but1" onclick="setGroup(1)" type="button">Предикат</button>';
@@ -107,6 +113,9 @@ function GloadTask(){
 	groups[3] = "Н";
 	groups[4] = "ВС";
 	setActiveButtons();
+	while ( newGroup <= maxGroups )
+		addNounGroup();
+	setGroup(-1);
 }
 
 function addLabel(id){
@@ -367,11 +376,11 @@ function loadBNFEditor(){
 	document.getElementById("secondTask").style.background = "#FFFFFF";
 }
 
-function componentGInit(){
+function componentGInit(flag){
 	document.getElementById("Gglobal").innerHTML = '<div id="gtask" width="70%"></div>';
 	document.getElementById("Gglobal").innerHTML += '<div id="buttons" width="30%"></div></br>';
 	document.getElementById("Gglobal").innerHTML += '<div id="secondTask"></div>';
-	GloadTask();
+	GloadTask(flag);
 	loadBNFEditor();
 }
 

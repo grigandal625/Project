@@ -42,7 +42,7 @@ function setActiveButtons(){
 
 function loadTask(){
 	var dynamicHelp = document.getElementById("dynamicHelp");
-	var Gdiv = document.getElementById("task");
+	var Gdiv = document.getElementById("gtask");
 	var buttonDiv = document.getElementById("buttons");
 	
 	document.getElementById("error").style.color = "red";
@@ -252,7 +252,7 @@ function setGroup(idGroup){
 			}
 		}
 	}
-	document.getElementById("task").innerHTML = newTask;
+	document.getElementById("gtask").innerHTML = newTask;
 	wordTable = newWordTable;
 	for ( var id in wordTable )
 		if ( wordTable[id].type == "group" )
@@ -343,7 +343,7 @@ function deleteGroup(){
 		}
 	}
 	wordTable = newWordTable;
-	document.getElementById("task").innerHTML = newTask;
+	document.getElementById("gtask").innerHTML = newTask;
 	groupFlag.id = -1;
 	groupFlag.status = false;
 	for ( var id in wordTable )

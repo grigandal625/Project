@@ -1,9 +1,15 @@
 <% content_for(:head) do %>
-	<%= javascript_include_tag "G_answer.js" %>
-	<%= stylesheet_link_tag "G_answer.css" %>
-	<title>Редактирование задания</title>
-	<%= javascript_include_tag "BNF.js" %>
-	<%= stylesheet_link_tag "BNF.css" %>
+  <%= javascript_tag "var currentGAnswer;
+    function getGAnswer()
+    {
+        currentGAnswer = #{@gans};
+    }"
+  %>
+  <%= javascript_include_tag "G_answer.js" %>
+  <%= stylesheet_link_tag "G_answer.css" %>
+  <title>Редактирование задания</title>
+  <%= javascript_include_tag "BNF.js" %>
+  <%= stylesheet_link_tag "BNF.css" %>
 <% end %>
 
 <br/>
