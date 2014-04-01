@@ -22,11 +22,13 @@
   <%= stylesheet_link_tag "GLib.css" %>
   <%= stylesheet_link_tag "G_answer.css" %>
   <%= stylesheet_link_tag "BNF.css" %>
+  <%= stylesheet_link_tag "tasks" %>
 
 <% end %>
 
 <br/>
 <%= form_tag(task_path(@task), method: "PUT") do %>
+  <div id="taskEditor">
   <%= tag(:input, :type => "hidden", :id => "Ganswer_content", :name => "Ganswer") %>
   <%= tag(:input, :type => "hidden", :id => "Sanswer_content", :name => "Sanswer") %>
   <div id="task">
@@ -43,6 +45,7 @@
   <%= render 's_edit' %>
   <br/>
   <input type="submit" onmousedown="sendAnswer();" />
+  </div>
 <% end %>
 <%= form_tag(task_path(@task), method: "DELETE") do %>
   <input type="submit" value="Удалить задание" />

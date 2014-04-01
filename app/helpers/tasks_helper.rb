@@ -31,7 +31,7 @@ module TasksHelper
       }.join().html_safe
     end
 
-    content_tag :table, thead.concat(tbody)
+    content_tag :table, thead.concat(tbody), class: "standardTable"
 
   end
 

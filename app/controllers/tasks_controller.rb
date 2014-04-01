@@ -7,7 +7,8 @@ class TasksController < AdminToolsController
       @tasks << {"id" => task.id,
                  "sentence1" => task.sentence1[0..100] + '...',
                  "reference" => 
-      "<a href=\"#{edit_task_path(task.id)}\">Редактировать</a>"}
+      "<a target=\"_blanc\" href=\"#{edit_task_path(task.id,
+                                     showmenu: false)}\">Редактировать</a>"}
     end
   end
 
@@ -30,7 +31,8 @@ class TasksController < AdminToolsController
 
   def edit
     @task = Task.find_by_id(params[:id])
-    @gans = Task.find_by_id(params[:id]).g_answer.answer
+    @gans = @task.g_answer.answer
+    @showmenu = false
   end
 
   def update

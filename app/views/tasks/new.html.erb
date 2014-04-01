@@ -6,7 +6,7 @@
   Введите три предложения, каждое на новой строке.<br/>
 </div>
 <%= form_tag(tasks_path, method: "POST") do %>
-  <%= text_area_tag('sentences', nil, size: "200x3",
+  <%= text_area_tag('sentences', nil, size: "100x5",
                    placeholder: "Введите здесь предложения") %>
   <br/>
   <input type="submit" />

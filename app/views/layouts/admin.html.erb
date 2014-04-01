@@ -13,6 +13,7 @@
 <body>
 
 <% if @showmenu == true %>
+<div id="page">
 <div id="header">
   <%= form_tag(logout_path, method: "POST") do %>
     <%= hidden_field_tag(:path, request.fullpath) %>
@@ -32,11 +33,12 @@
       <%= link_to("Группы", groups_path) %><br/>
       <%= link_to("Результаты", results_path) %><br/>
     </td>
-    <td><%= yield %></td>
+    <td id="content"><%= yield %></td>
   </tr>
 </table>
 <% else %>
   <%= yield %>
 <% end %>
+</div>
 </body>
 </html>

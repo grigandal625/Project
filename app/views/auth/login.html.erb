@@ -6,14 +6,15 @@
     </tr>
     <tr>
       <td><%= text_field_tag(:login, nil, autofocus: true,
-                             placeholder: "Login", required: true ) %></td>
+                             placeholder: "Login", required: true,
+                             class: "big_letters") %></td>
     </tr>
     <tr>
       <td><%= password_field_tag(:pass, nil, placeholder: "Password",
-                                 required: true) %></td>
+                                 required: true, class: "big_letters") %></td>
     </tr>
     <tr>
-      <td><%= submit_tag("Login") %></td>
+      <td><%= submit_tag("Login", class: "big_letters") %></td>
     </tr>
   </table>
 <% end %>
