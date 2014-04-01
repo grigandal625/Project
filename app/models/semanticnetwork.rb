@@ -1,5 +1,6 @@
 class Semanticnetwork < ActiveRecord::Base
   belongs_to :etalon
+  belongs_to :student
   #метод работает
   def check_predicat(answer, etalon)
   	s_answer = JSON.parse(answer) 

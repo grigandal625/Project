@@ -1,0 +1,9 @@
+<div id="header">
+  <%= form_tag(logout_path, method: "POST") do %>
+    <%= hidden_field_tag(:path, request.fullpath) %>
+    <%= submit_tag("Выход") %>
+  <% end %>
+</div>
+
+
+<%= yield %>

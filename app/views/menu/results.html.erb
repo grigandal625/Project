@@ -1,0 +1,22 @@
+<% @semantic.each do |test| %>
+    
+    
+   
+				 
+				 <% if (test.student.user.id == session[:user_id])%>
+				  <table border="1">
+				 <tr>
+					 <td><%= test.student.fio %></td>
+				 </tr>
+				 </table>
+				 <%end%>
+				
+
+
+			   
+
+      
+   
+  <% end %>
+  
+  <%= link_to "назад", :back%>

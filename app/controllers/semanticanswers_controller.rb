@@ -1,19 +1,33 @@
 class SemanticanswersController < ActionController::Base
   def index
-  	@tests = Semanticnetwork.all
+  		@user = User.find (session["user_id"])
+  		if (@user.role == "admin")
+  			@tests = Semanticnetwork.all
+	
+  		else
+  			redirect_to :root
+  		end
   end
 	
   def create 
     @semantic = Semanticnetwork.new()
     @semantic.rating = 0;
-    @semantic.etalon = Etalon.find(:all, :order => "RANDOM()", :limit => 10).first
+    @semantic.etalon = Etalon.find(:all, :order => "RANDOM()", :limit => 1).first
     @semantic.json = ""
+    @semantic.student = User.find(session[:user_id]).student
+    #print (User.find(session[:user_id]).student)
+    #print ("-----|||-----")
     @semantic.save()
-    redirect_to :back, notice: "Создано"
+    redirect_to semanticanswer_path(@semantic.id)
   end
   
   def show
   	@semantic = Semanticnetwork.find(params[:id])
+  end
+  
+  def results
+  	#@tests = Semanticnetwork.where ('rating' >= '0')
+  	@tests = Semanticnetwork.where ("rating > 2")
   end
   
   def new

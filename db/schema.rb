@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 20140327064028) do
 
   create_table "semanticnetworks", force: true do |t|
     t.integer  "etalon_id"
+    t.integer  "student_id"
     t.text     "json"
     t.integer  "rating"
     t.datetime "created_at"
@@ -92,6 +93,7 @@ ActiveRecord::Schema.define(version: 20140327064028) do
   end
 
   add_index "semanticnetworks", ["etalon_id"], name: "index_semanticnetworks_on_etalon_id"
+  add_index "semanticnetworks", ["student_id"], name: "index_semanticnetworks_on_student_id"
 
   create_table "students", force: true do |t|
     t.text    "fio"

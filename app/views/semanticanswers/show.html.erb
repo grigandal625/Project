@@ -1,5 +1,4 @@
-<%=@semantic.id%>
-<%=@semantic.etalon.id%>
+
 
 	<div id="semanticNetwork">
 	</div>
@@ -132,7 +131,7 @@ function cleanLinks ()
 
 
 	var r = Raphael("semanticNetwork", 1010, 750);
-	var windowSemantic = r.rect(1, 100, 1000, 640, 4);
+	var windowSemantic = r.rect(1, 25, 1000, 640, 4);
 	
 		function drag(x, y)
 	    {
@@ -326,7 +325,7 @@ function cleanLinks ()
 	
 	 
 	 
-	 var admButton = new iButton (r.rect (425, 75, 75, 25,1), "Готово" );
+	 var admButton = new iButton (r.rect (125, 0, 75, 25,1), "Готово" );
 	 admButton.rect.click (
 		 function()
 		 {
@@ -346,12 +345,30 @@ function cleanLinks ()
 	 );
 	 
 	 
-	var infoButton = new iButton (r.rect (500, 75, 75, 25,1), "Инфо" );
+	var infoButton = new iButton (r.rect (200, 0, 75, 25,1), "Инфо" );
 	infoButton.rect.click (
 	
 		 function()
 		 {
 			 //Написать инструкцию
+		 }
+		 
+		 
+	);
+	
+	
+		var exitbutton = new iButton (r.rect (275, 0, 75, 25,1), "Выход" );
+	exitbutton.rect.click (
+	
+		 function()
+		 {
+			 if(confirm('Вы уверены?')) 
+			 {
+			 	
+			 	document.location.href = "localhost:3000";
+			 }
+			 	
+			
 		 }
 		 
 		 

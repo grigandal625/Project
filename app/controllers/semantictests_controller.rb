@@ -1,6 +1,10 @@
 class SemantictestsController < ActionController::Base
   def index
     #@etalon = Etalon.all
+    #print (session[:user_id])
+    
+    user = User.find(session[:user_id])
+    #print (user.student.fio)
     
     @etalons = []
     Etalon.find_each do |etalon|
