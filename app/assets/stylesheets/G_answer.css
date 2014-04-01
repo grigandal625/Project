@@ -1,36 +1,4 @@
-.normal {
-	color : black;
-	font-family : serif;
-	cursor : pointer;
-	text-align : center
-}
-.start-select {
-	color : #FF0000;
-	font-family : serif;
-	cursor : pointer;
-	text-align: center
-}
-.end-select {
-	color : #FF7700;
-	font-family : serif;
-	cursor : pointer;
-	text-align: center
-}
-
-.group {
-	line-height : 45px;
-	color : #000000;
-	font-family : serif;
-	background : #FFFFFF;
-	border-bottom : 2px solid #000000;
-	border-left : 2px solid #000000;
-	margin-left : -2px;
-	cursor : pointer;
-	background-color : transparent;
-	text-align: center
-}
-
-#gtask {
+#GGroups {
 	display : table;
 	height : 590px;
 	width : 68%;
@@ -47,50 +15,4 @@
 	font-size : 15pt;
 	line-height : 45px;
 	background : #FFFFFF;
-}
-
-#buttons {
-	width : 28%;
-	float : right;
-	position : relative;
-	top : 10px;
-}
-
-.button {
-	width : 80%;
-	border : 2px solid #000000;
-	margin-bottom : 4px;
-	cursor : pointer;
-	border-radius : 20px;
-}
-
-.cross {
-	cursor : pointer;
-	position : relative;
-	bottom : 9px;
-	left : 8px;
-	margin : -8px;
-}
-.label {
-	position : relative;
-	top : -5px;
-	color : #FF0000;
-}
-.label_C {
-	margin-left : -13px;
-}
-.label_P {
-	margin-left : -15px;
-}
-.label_N {
-	margin-left : -15px;
-}
-.label_VS {
-	margin-left : -25px;
-}
-.label_IG_one {
-	margin-left : -42px;
-}
-.label_IG_two {
-	margin-left : -53px;
 }
