@@ -1,8 +1,11 @@
 <% content_for(:head) do %>
   <title>Синтаксический компонент</title>
+  <%= stylesheet_link_tag "reset.css" %>
+  <%= stylesheet_link_tag "GLib.css" %>
   <%= stylesheet_link_tag "G.css" %>
   <%= stylesheet_link_tag "BNF.css" %>
   <%= javascript_include_tag "BNF.js" %>
+  <%= javascript_include_tag "GLib.js" %>
   <%= javascript_include_tag "G.js" %>
 <% end %>
 
@@ -11,11 +14,11 @@
 		<img src="/help_icon.gif" id="help" class="icon" onmouseover="showHelp()" onmouseout="hideHelp()"></img>
 		<div class="dynhelp"><div id="dynamicHelp"></div><div id="error"></div></div>
 		</div>
-		<div id="gtask" width="70%">
+		<div id="GGroups" width="70%">
 		</div>
 		<div id="buttons" width="30%">
 		</div>
-		<div id="secondTask">
+		<div id="GBNF">
 		</div>
 		<div width="100%">
 	</div>

@@ -1,120 +1,13 @@
-var wordTable = {};
-var buttonTable = {};
-var constGroups = 4;
-var newGroup = 5;
-var maxGroups = 19;
-var groupCnt = 0;
-var selected = {
-	id : -1,
-	sentence : -1,
-	status : false
-}
-var groupFlag = {
-	id : -1,
-	status : false
-}
-var groups = {};
-
-var Colors = ["white","black","red","blue","orange","gray","cyan","yellow","#007FFF","#E75480","#00A86B","#DA70D6","#AF4035","#CC8899","#704214","#D53E07","#FFCC99","#77DD77","#5D8AA8","#C7FCEC","#FF7518"];
-var Labels = ["-", "label_P", "label_C", "label_N", "label_VS", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_one", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two", "label_IG_two"];
-
-var helpStrings = { "start" : "Чтобы начать выделение слов, нажмите на первое или последнее слово будущей группы.<br/>",
-					"selection" : "Нажмите на другое слово в этом предложении, чтобы выделить все слова между ними. При повторном нажатии на первое слово будет выделено только оно.<br/>",
-					"groupwork" : "Для удаления созданной группы вопользуйтесь крестиком.<br/>Чтобы снять выделение, нажмите на любое слово выделенной группы.<br/>",
-					"groupcreation" : "Выберите категорию у выделенной группы справа.<br/> При необходимости добавьте новую Именную Группу кнопкой справа.<br/>Для снятия выделения нажмите на любое из выделенных слов.<br/>",
-					"groupexists" : "Чтобы выделить созданную группу, нажмите на любое слово.<br/>"
-};
-
-var errors = { "sentence" : "Выделяйте строго в пределах одного предложения.",
-				"group" : "Вы уже начали работу с группой.",
-				"words" : "Вы уже начали работу со словами.",
-				"solidselection" : "Выделяйте таким образом, чтобы между словами не было уже сформированной группы."
-}
-
-function setActiveButtons(){
-	if ( selected.status == true )
-		for ( var i in buttonTable )
-			document.getElementById(i).disabled = false;
-	else
-		for ( var i in buttonTable )
-			document.getElementById(i).disabled = true;
-}
-
 function loadTask(){
 	var dynamicHelp = document.getElementById("dynamicHelp");
-	var Gdiv = document.getElementById("gtask");
-	var buttonDiv = document.getElementById("buttons");
-	
 	document.getElementById("error").style.color = "red";
-	
 	dynamicHelp.innerHTML = helpStrings["start"];
 	
-	getTask();
-	var task = currentTask.sentences;
-	
-	var id = 0;
-	for ( var i in task ){
-		var sentence = task[i].split(" ");
-		Gdiv.innerHTML +=  parseInt(i, 10) + 1 + ". ";
-		for ( var y in sentence ){
-			if ( sentence[y] == "" ){
-				continue;
-			}
-			Gdiv.innerHTML += '<span id="span' + id + '" class="normal" onclick="changeStatus(' + id + ')">' + ' ' + sentence[y];
-			Gdiv.innerHTML += "</span>";
-			wordTable[id] = {
-				type : "span",
-				status : 0,
-				sentence : i,
-				data : sentence[y]
-			};
-			id++;
-		}
-		Gdiv.innerHTML += "<br/>";
-	}
-	buttonDiv.innerHTML += "Основные группы</br>";
-	buttonDiv.innerHTML += '<button class="button" id="but1" onclick="setGroup(1)">Предикат</button>';
-	document.getElementById("but1").style.borderColor = Colors[1];
-	buttonDiv.innerHTML += '<br/>';
-	buttonDiv.innerHTML += '<button class="button" id="but2" onclick="setGroup(2)">Союз</button>';
-	document.getElementById("but2").style.borderColor = Colors[2];
-	buttonDiv.innerHTML += '<br/>';
-	buttonDiv.innerHTML += '<button class="button" id="but3" onclick="setGroup(3)">Наречие</button>';
-	document.getElementById("but3").style.borderColor = Colors[3];
-	buttonDiv.innerHTML += '<br/>';
-	buttonDiv.innerHTML += '<button class="button" id="but4" onclick="setGroup(4)">Вопросительное слово</button>';
-	document.getElementById("but4").style.borderColor = Colors[4];
-	buttonDiv.innerHTML += '<br/>';
-	buttonDiv.innerHTML += "Именные группы</br>";
-	buttonDiv.innerHTML += '<button class="button" id="creator" onclick="addNounGroup()">Добавить ИГ</button>';
-	document.getElementById("creator").style.borderColor = Colors[0];
-	//this is special button. // buttonTable["creator"] = {status : true};
-	buttonTable["but1"] = {status : true};
-	buttonTable["but2"] = {status : true};
-	buttonTable["but3"] = {status : true};
-	buttonTable["but4"] = {status : true};
-	groups[1] = "П";
-	groups[2] = "С";
-	groups[3] = "Н";
-	groups[4] = "ВС";
-	setActiveButtons();
-}
+	initG(false);
+	initButtons();
+	fillgroups();
+	refreshGroups();
 
-function addLabel(id){
-	var data = '<span class="label ';
-	data += Labels[id];
-	data += '"><sup>' + groups[id] + '</sup></span>';
-	return data;
-}
-
-function addNounGroup(){
-	document.getElementById("buttons").innerHTML += '<button class="button" id="but' + newGroup + '" onclick="setGroup(' + newGroup + ')">ИГ ' + (newGroup - constGroups) + '</button>';
-	document.getElementById("but" + newGroup).style.borderColor = Colors[newGroup];
-	buttonTable["but" + newGroup] = {status : true};
-	groups[newGroup] = "ИГ " + (newGroup - constGroups);
-	newGroup++;
-	if ( newGroup > maxGroups )
-		document.getElementById("creator").disabled = true;
 	setActiveButtons();
 }
 
@@ -180,32 +73,15 @@ function changeStatus(id){
 	setActiveButtons();
 }
 
-function clearSelected(){
-	for ( var i in wordTable ){
-		if ( wordTable[i].type == "span" ){
-			document.getElementById("span"+i).className = "normal";
-		}
-		wordTable[i].status = 0;
-	}
-	selected.id = -1;
-	selected.sentence = -1;
-	selected.status = false;
-	setActiveButtons();
-}
-
 function setGroup(idGroup){
 	groupCnt++;
 	var added = false;
-	var newTask = "";
 	var newWordTable = {};
 	var currentSentence = -1;
 	var newId = 0;
 	for ( var id in wordTable ){
 		if ( currentSentence != wordTable[id].sentence ){
-			if ( currentSentence != -1 )
-				newTask += "<br/>";
 			currentSentence = wordTable[id].sentence;
-			newTask += ( parseInt(currentSentence,10) + 1 ) + ". ";
 		}
 		if ( wordTable[id].type == "group" ){
 			newWordTable[newId] = {
@@ -215,7 +91,6 @@ function setGroup(idGroup){
 				sentence : currentSentence,
 				groupId : wordTable[id].groupId
 			}
-			newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + addLabel(newWordTable[newId].groupId) + ' </span></span>';
 			newId++;
 		}else{
 			if ( wordTable[id].status == 0 ){
@@ -225,7 +100,6 @@ function setGroup(idGroup){
 					data : wordTable[id].data,
 					sentence : currentSentence
 				}
-				newTask += '<span id="span' + newId + '" class="normal" onclick="changeStatus(' + newId + ')">' + wordTable[id].data + ' </span>';
 				newId++;
 			}else{
 				var newData = "";
@@ -247,19 +121,16 @@ function setGroup(idGroup){
 					sentence : currentSentence,
 					groupId : idGroup
 				}
-				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId + '" class="group" onclick="selectGroup(' + newId + ')">' + newData + addLabel(newWordTable[newId].groupId) + ' </span></span>';
 				newId++;
 			}
 		}
 	}
-	document.getElementById("gtask").innerHTML = newTask;
 	wordTable = newWordTable;
-	for ( var id in wordTable )
-		if ( wordTable[id].type == "group" )
-			document.getElementById("group"+id).style.borderColor = Colors[wordTable[id].groupId];
 	selected.id = -1;
 	selected.sentence = -1;
 	selected.status = false;
+	
+	refreshGroups();
 	setActiveButtons();
 	document.getElementById("dynamicHelp").innerHTML = helpStrings["start"] + helpStrings["groupexists"];
 	document.getElementById("error").innerHTML = "";
@@ -296,16 +167,11 @@ function selectGroup(id){
 function deleteGroup(){
 	groupCnt--;
 	var newWordTable = {};
-	var newTask = "";
 	var currentSentence = -1;
 	var newId = 0;
 	for ( var id in wordTable ){
 		if ( wordTable[id].sentence != currentSentence ){
-			if ( currentSentence != -1 )
-				newTask += "<br/>";
 			currentSentence = wordTable[id].sentence;
-			newTask += parseInt(currentSentence, 10) + 1;
-			newTask += ". ";
 		}
 		if ( wordTable[id].type == "span" ){
 			newWordTable[newId] = {
@@ -314,7 +180,6 @@ function deleteGroup(){
 				data : wordTable[id].data,
 				sentence : currentSentence
 			}
-			newTask += '<span id="span' + newId + '" class="normal" onclick="changeStatus(' + newId + ')">' + wordTable[id].data + ' </span>';
 			newId++;
 		}else{
 			if ( groupFlag.id == id ){
@@ -326,7 +191,6 @@ function deleteGroup(){
 						data : newSpans[spanNum],
 						sentence : currentSentence
 					}
-					newTask += '<span id="span' + newId + '" class="normal" onclick="changeStatus(' + newId + ')">' + newSpans[spanNum] + ' </span>';
 					newId++;
 				}
 			}else{
@@ -337,75 +201,23 @@ function deleteGroup(){
 					sentence : currentSentence,
 					groupId : wordTable[id].groupId
 				}
-				newTask += '<span id="crossPlace' + newId +'"><span id="group' + newId +'" class="group" onclick="selectGroup(' + newId + ')">' + wordTable[id].data + addLabel(newWordTable[newId].groupId) + ' </span></span>';
 				newId++;
 			}
 		}
 	}
 	wordTable = newWordTable;
-	document.getElementById("gtask").innerHTML = newTask;
 	groupFlag.id = -1;
 	groupFlag.status = false;
-	for ( var id in wordTable )
-		if ( wordTable[id].type == "group" )
-			document.getElementById("group"+id).style.borderColor = Colors[wordTable[id].groupId];
+	
+	refreshGroups();
+	document.getElementById("errors").innerHTML = "";
 	setActiveButtons();
-}
-
-function generateAnswer(){
-	var bnf = eval('(' + JSON.stringify(bnfContent["lines"]) + ')');
-	var tmpTable = eval('(' + JSON.stringify(wordTable) + ')');
-	/*var curId = constGroups + 1;
-	for ( var id in tmpTable ){
-		if ( tmpTable[id].type == "group" && tmpTable[id].groupId >= curId ){
-			var oldId = tmpTable[id].groupId;
-			for ( var i in tmpTable ){
-				if ( tmpTable[id].type == "group" && tmpTable[id].groupId == oldId ){
-					tmpTable[id].groupId = curId * ( -1 );
-				}
-			}
-			for ( var line in bnf ){
-				if ( bnf[line] != null && bnf[line].left == "&lt;" + groups[oldId] + "&gt;" )
-					bnf[line].left = curId * ( -1 );
-			}
-			curId++;
-		}
-	}
-	
-	for ( var line in bnf )
-		if ( bnf[line] != null && bnf[line].left < 0 )
-			bnf[line].left = "&lt;" + groups[bnf[line].left * ( -1 )] + "&gt;";
-	
-	for ( var id in tmpTable )
-		if ( tmpTable[id].type == "group" && tmpTable[id].groupId < 0 )
-			tmpTable[id].groupId *= -1;
-	*/
-	for ( var id in tmpTable )
-		if ( tmpTable[id].type == "group" )
-			tmpTable[id].groupName = groups[tmpTable[id].groupId];
-	var ans = '{"bnf":' + JSON.stringify(bnf) + ', "groups":' + JSON.stringify(tmpTable) + '}';
-	return ans;
 }
 
 function sendAnswer()
 {
 	var hid = document.getElementById('answer_content');
 	hid.value = generateAnswer();
-}
-
-function loadBNFEditor(){
-	var BNFdata = [["G", "Предложение типа вопрос", "Предложение типа сообщение", "Предложение типа команда", "Существительное","Глагол","Местоимение","Предлог","Союз","Прилагательное", "Причастие", "Деепричастие",
-	"Наречие","Числительное","Предикат","Наречие","Вопросительное слово"]];
-	var numIG = 1;
-	while ( numIG < ( maxGroups - constGroups ) ){
-		BNFdata[0].push("ИГ " + numIG);
-		numIG++;
-	}
-	for ( var i in BNFdata[0] ){
-		BNFdata[0][i] = '&lt;' + BNFdata[0][i] + '&gt;';
-	}
-	initBNF(BNFdata, document.getElementById("secondTask"));
-	document.getElementById("secondTask").style.background = "#FFFFFF";
 }
 
 function componentGInit(){
