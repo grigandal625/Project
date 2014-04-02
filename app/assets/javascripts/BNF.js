@@ -143,6 +143,8 @@ function addElementToRule(rule)
 	bnfContent.lines[lineN].rules[ruleN].push(dragging.element);
 	newEl.innerHTML = dragging.element;
 	newEl.className = 'BNFelement';
+	if(dragging.element.indexOf('&lt;') == -1)
+		newEl.className += ' VElement';
 	newEl.id = lineN + ':' + ruleN + ':' + elN;
 	var nextNewEl = document.createElement('span');
 	nextNewEl.className = 'BNFaddElement';
@@ -160,8 +162,8 @@ function fillNewLine(line)
 
 	line.innerHTML = '<span class="BNFelement" >' + dragging.element + '</span>';
 	line.innerHTML += ' ::= ';
-	line.innerHTML += '<span class="BNFrule" id="' + line.id + ':' + '0" >...</span><span class="BNFnewRule" >| + Вариант </span>';
 	line.innerHTML += '<img alt="Удалить" title="Удалить строку" class="deleteIcon" onclick="deleteLine(' + line.id + ')" src="/cross-icon.png" />';
+	line.innerHTML += '<span class="BNFrule" id="' + line.id + ':' + '0" >...</span><span class="BNFnewRule" >| + Вариант </span>';
 
 	addBNFLine();
 }
@@ -243,6 +245,8 @@ function initBNF(elementsList, bnfOuterDiv)
 		for(var el in elementsList[group])
 		{
 			newDiv.innerHTML += '<span class="BNFelement" style="float: left;" onmousedown="startDragElement(this)">' + elementsList[group][el] + '</span>';
+			if(elementsList[group][el].indexOf('<') == -1)
+				newDiv.lastChild.className += " VElement"
 		}
 		elementsDiv.appendChild(newDiv);
 		elementsDiv.innerHTML += '<br/>';

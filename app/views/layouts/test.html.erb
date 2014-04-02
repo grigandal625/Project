@@ -27,7 +27,7 @@
   <%= form_tag(logout_path, method: "POST") do %>
     <%= hidden_field_tag(:path, request.fullpath) %>
     <%= content_tag(:span, @user.student.fio) %>
-    <%= submit_tag("Выход") %>
+    <%= submit_tag("Выход", onclick: "return confirm('Вы точно хотите выйти?');") %>
   <% end %>
 </div>
 <%= yield %>
