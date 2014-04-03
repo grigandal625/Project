@@ -16,8 +16,9 @@
 				 </tr>
 				 <tr>
 					 <td>3</td> 
-					 <td><%= link_to "Мои оценки", menu_results_path%></td> 
+					 <td><%= link_to "Мои оценки", group_student_path(@user.student.group, @user.student)%></td> 
 				 </tr>
+				 
 	</table>
 
       
