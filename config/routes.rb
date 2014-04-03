@@ -1,7 +1,5 @@
 UIR::Application.routes.draw do
-  get "test", to: "test#get_task", as: "get_task"
-  post "test", to: "test#next_component", as: "next_component"
-
+  
   get "auth/login", to: "auth#login", as: "login"
   post "auth/authentificate"
   post "auth/logout", as: "logout"
@@ -16,8 +14,22 @@ UIR::Application.routes.draw do
   resources :groups do
     resources :students, only: [:create, :show, :destroy]
   end
+  
+   get  "semanticanswers/results"
 
-  root 'groups#index'
+  resources :semantictests
+  resources :semanticanswers
+  post "semanticanswers/create"
+  post "semanticanswers/updatesemanticjson"
+  post "semantictests/updateJson"
+  get  "semanticanswers/new"
+  get  "menu/results"
+   
+
+  root 'menu#index'
+  get "test", to: "test#get_task", as: "get_task"
+  post "test", to: "test#next_component", as: "next_component"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,0 +1,25 @@
+
+    <tr>
+    
+    <table border="1">
+				 <tr>
+					 
+					 <td colspan="2"><b>Компоненты</b></td>
+				 </tr>
+				 <tr>
+					 <td>1</td> 
+					 <td><%= link_to "Семантические сети", new_semanticanswer_path%></td> 
+				 </tr>
+				  <tr>
+					 <td>2</td> 
+					 <td><%= link_to "V S G", get_task_path%></td> 
+				 </tr>
+				 <tr>
+					 <td>3</td> 
+					 <td><%= link_to "Мои оценки", group_student_path(@user.student.group, @user.student)%></td> 
+				 </tr>
+				 
+	</table>
+
+      
+    </tr>

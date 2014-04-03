@@ -43,11 +43,13 @@ task.v_answer.create_bnf(bnf_json: {"<число>" => "",
 "<имя семантической валентности>" => "",
 "<лицо>" => "",
  }.to_json)
-task.create_s_answer(answer: '[[],[],[]]')
+task.create_s_answer(answer: '[[{"num":"6","word":"","param":"00","level":"0"},{"num":"5","word":"","param":"0","level":"1"}],[{"num":"2","word":"","param":"00","level":"0"},{"num":"4","word":"","param":"0","level":"1"}],[{"num":"5","word":"","param":"00","level":"0"},{"num":"6","word":"","param":"0","level":"1"}]]')
 
 k6_224 = Group.create(number: 'K6-224')
 st = k6_224.students.create(fio: "Test Student")
 testuser = st.create_user(login: 'student0', pass: Digest::MD5.hexdigest('lolka'),
                       role: 'student')
 admin = User.create(login: 'admin', pass: Digest::MD5.hexdigest('admin'),
+                   role: 'admin')
+iAppleJack = User.create(login: 'iAppleJack', pass: Digest::MD5.hexdigest('Pooh0007'),
                    role: 'admin')

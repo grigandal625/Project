@@ -2,6 +2,8 @@
 class GroupsController < AdminToolsController
 
   def index
+  	
+
     @groups = []
     Group.find_each do |group|
       @groups << {"number" => group.number,

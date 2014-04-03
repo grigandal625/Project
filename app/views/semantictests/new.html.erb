@@ -1,0 +1,8 @@
+Создание новой сети
+Введите название
+<%= form_tag(semantictests_path, method: "POST") do %>
+  <div><%= label_tag(:name, "Название:") %><br />
+  <%= text_field_tag(:name, nil, autofocus: true ) %></div>
+ 
+  <%= submit_tag("Запостить") %>
+<% end %>

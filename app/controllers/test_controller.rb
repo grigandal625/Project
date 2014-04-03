@@ -1,7 +1,7 @@
 #coding utf-8
 class TestController < ApplicationController
-  layout 'test'
-  helper :all
+  layout 'menu'
+  
   before_action :check_student
 
   def get_task
@@ -10,7 +10,7 @@ class TestController < ApplicationController
     else
       @task = Task.find(session[:task_id])
     end
-    session[:task_id] = @task.id
+    #session[:task_id] = @task.id
     session[:result_id] ||= 0
   end
 
