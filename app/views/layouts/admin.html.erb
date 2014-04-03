@@ -29,9 +29,13 @@
   <tr>
     <td id="menu">
       <span>Навигация:</span><br/>
-      <%= link_to("Задания", tasks_path) %><br/>
       <%= link_to("Группы", groups_path) %><br/>
+      <span>Лингвистика:</span><br>
+      <%= link_to("Задания", tasks_path) %><br/>
       <%= link_to("Результаты", results_path) %><br/>
+      <span>Семантические сети:</span><br>
+      <%= link_to("Задания", "") %><br/>
+      <%= link_to("Результаты", "") %><br/>
     </td>
     <td id="content"><%= yield %></td>
   </tr>

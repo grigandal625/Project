@@ -9,7 +9,7 @@ class TestController < ApplicationController
     else
       @task = Task.find(session[:task_id])
     end
-    #session[:task_id] = @task.id
+    session[:task_id] = @task.id
     session[:result_id] ||= 0
   end
 
