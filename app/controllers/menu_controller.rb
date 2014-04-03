@@ -1,13 +1,12 @@
 class MenuController < ApplicationController
-	def index	
+  layout 'test'
 
-		if (@user.role == "admin")
-			redirect_to groups_path
-		end
-	end
-	
-	def results
-		@semantic = Semanticnetwork.all
-		
-	end
+  def index
+    redirect_to groups_path if @user.role == "admin"
+  end
+
+  def results
+    @semantic = Semanticnetwork.all
+  end
+
 end

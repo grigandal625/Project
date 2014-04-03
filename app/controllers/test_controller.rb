@@ -1,7 +1,6 @@
 #coding utf-8
 class TestController < ApplicationController
-  layout 'menu'
-  
+  layout 'test'
   before_action :check_student
 
   def get_task
