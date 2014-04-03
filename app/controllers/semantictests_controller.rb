@@ -1,3 +1,4 @@
+#coding: utf-8
 class SemantictestsController < ActionController::Base
   def index
     #@etalon = Etalon.all
