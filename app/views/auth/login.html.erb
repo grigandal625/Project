@@ -1,10 +1,20 @@
 <%= form_tag("authentificate", method: "POST") do %>
-  <%= label_tag(:login, "Login:") %>
-  <%= text_field_tag(:login, nil, autofocus: true ) %>
-  <br/>
-  <%= label_tag(:pass, "Password:") %>
-  <%= password_field_tag(:pass) %>
   <%= hidden_field_tag(:path, @path) %>
-  <br/>
-  <%= submit_tag("Login") %>
+  <table class="login">
+    <tr>
+      <td><span class="auth">Аутентификация</span></td>
+    </tr>
+    <tr>
+      <td><%= text_field_tag(:login, nil, autofocus: true,
+                             placeholder: "Login", required: true,
+                             class: "big_letters") %></td>
+    </tr>
+    <tr>
+      <td><%= password_field_tag(:pass, nil, placeholder: "Password",
+                                 required: true, class: "big_letters") %></td>
+    </tr>
+    <tr>
+      <td><%= submit_tag("Login", class: "big_letters") %></td>
+    </tr>
+  </table>
 <% end %>

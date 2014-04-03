@@ -5,6 +5,14 @@ div.dragging
 	background-color: white;
 }
 
+span.VElement
+{
+	border: 1px solid grey;
+	border-radius: 3px;
+	margin: 3px;
+	background-color: lightblue;
+}
+
 .BNFelement
 {
 	padding-right: 5px;
@@ -158,3 +166,4 @@ div#BNFconstruct
 	min-width: 450pt;
 	float: left;
 }
+

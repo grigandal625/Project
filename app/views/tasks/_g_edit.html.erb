@@ -1,7 +1,9 @@
 <div id="G">
-	<span>Компонент G</span><br/>
+  <span>Компонент G</span><br/>
+  <%= check_box_tag :ignore_g %>
+  <%= label_tag :ignore_g, "Не сохранять изменения компонента G" %><br/>
   <span>Выделите все группы в предложениях, и составьте БНФ для групп, G и каждого предложения</span><br/>
-  <button onclick="componentGInit()" type="button">Обновить предложения в компоненте G</button><br/>
+  <input onclick="componentGInit(false)" type="button" value="Обновить предложения в компоненте G" /><br/>
   <div id="Gglobal">
   </div>
 </div>

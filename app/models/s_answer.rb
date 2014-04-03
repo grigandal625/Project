@@ -79,14 +79,10 @@ puts c_answer[i].length
             while c_answer[i][k]["level"] <= c_answer[i][t]["level"]             
               t -= 1
             end 
-puts mark
-puts c_answer[i][t]["level"]
-puts parents[c_answer[i][t]["level"].to_i]
-puts c_answer[i][t]["num"]
-            if parents[c_answer[i][t]["level"].to_i] != c_answer[i][t]["num"] 
+#-----------------------
+            if parents[c_answer[i][t]["level"].to_i - 1] != c_answer[i][t]["num"] 
               mark -= 2
             end
-puts mark
             c_answer[i][k]["seen"] = 1
           end 
 

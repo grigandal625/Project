@@ -7,10 +7,8 @@ div.VComponent
 	margin-top: 3px;
 }
 
-span.VElement
+div#taskEditor
 {
-	border: 1px solid grey;
-	border-radius: 3px;
-	margin: 3px;
-	background-color: lightblue;
+	text-align: left;
+	font-size: 12pt;
 }
