@@ -7,14 +7,13 @@ class AdminToolsController < ApplicationController
   private
   def check_admin
     if @user.role != 'admin'
-      #render status: :forbidden, text: "You aren't allowed to see this page"
       redirect_to :root
     end
   end
 
   def set_show_menu
     @showmenu = params[:showmenu] || true
-    @for_print = request.fullpath
+    @for_print = request.fullpath.clone
     if @for_print.include?('?')
       @for_print << "&showmenu=false"
     else
