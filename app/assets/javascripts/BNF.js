@@ -245,7 +245,8 @@ function initBNF(elementsList, bnfOuterDiv)
 		for(var el in elementsList[group])
 		{
 			newDiv.innerHTML += '<span class="BNFelement" style="float: left;" onmousedown="startDragElement(this)">' + elementsList[group][el] + '</span>';
-			if(elementsList[group][el].indexOf('<') == -1)
+			if(elementsList[group][el].indexOf('<') == -1 &&
+					elementsList[group][el].indexOf('&lt;') == -1)
 				newDiv.lastChild.className += " VElement"
 		}
 		elementsDiv.appendChild(newDiv);

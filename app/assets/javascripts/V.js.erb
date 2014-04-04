@@ -1,47 +1,48 @@
-<% environment.context_class.instance_eval { include TasksHelper } %>
+<% #environment.context_class.instance_eval { include TasksHelper } %>
 function loadTask()
 {
-	getTask();
+  getTask();
 
-	var taskDiv = document.getElementById("task");
-	taskDiv.innerHTML = "<span>" + currentTask.sentences[0] + "</span><br/>";
-	taskDiv.innerHTML += "<span>" + currentTask.sentences[1] + "</span><br/>";
-	taskDiv.innerHTML += "<span>" + currentTask.sentences[2] + "</span><br/>";
+  var taskDiv = document.getElementById("task");
+  taskDiv.innerHTML = "<span>" + currentTask.sentences[0] + "</span><br/>";
+  taskDiv.innerHTML += "<span>" + currentTask.sentences[1] + "</span><br/>";
+  taskDiv.innerHTML += "<span>" + currentTask.sentences[2] + "</span><br/>";
 
-	var list = [
-		<%= Bnf_list.inspect %>,
+  var list = [
+    <%= Bnf_list.inspect %>,
 
     <% Bnf_elements_lists.each do |key, val| %>
-			<%= val.inspect %>,
-		<% end %>
+        <%= val.inspect %>,
+  <% end %>
 
-		<%= V_name_list.inspect %>
-		];
+    <%= V_name_list.inspect %>
+    ];
 
-	list[0].sort();
-	initBNF(list, document.getElementById("BNF"));
+  list[0].sort();
+  initBNF(list, document.getElementById("BNF"));
 }
 
 function sendAnswer()
 {
-	var hid = document.getElementById('answer_content');
-	var ans = [];
-	for(var line in bnfContent.lines)
-	{
-		if(bnfContent.lines[line].left === null)
-			break;
-		var ans_line = {left : '', right : ''};
-		ans_line.left = bnfContent.lines[line].left.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-		for(var rule in bnfContent.lines[line].rules)
-		{
-			for(var el in bnfContent.lines[line].rules[rule])
-				ans_line.right += bnfContent.lines[line].rules[rule][el];
-			ans_line.right += '|';
-		}
-		ans_line.right = ans_line.right.substr(0, ans_line.right.length - 1)
-		ans.push(ans_line);
-	}
-	hid.value = JSON.stringify(ans);
+  var hid = document.getElementById('answer_content');
+  var ans = [];
+  for(var line in bnfContent.lines)
+  {
+    if(bnfContent.lines[line].left === null)
+      break;
+    var ans_line = {left : '', right : ''};
+    ans_line.left = bnfContent.lines[line].left.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+    for(var rule in bnfContent.lines[line].rules)
+    {
+      for(var el in bnfContent.lines[line].rules[rule])
+        ans_line.right += bnfContent.lines[line].rules[rule][el];
+      ans_line.right += '|';
+    }
+    ans_line.right = ans_line.right.substr(0, ans_line.right.length - 1)
+      ans.push(ans_line);
+  }
+  hid.value = JSON.stringify(ans);
+  return confirm('Вы точно уверены?');
 }
 
 window.onload = loadTask;

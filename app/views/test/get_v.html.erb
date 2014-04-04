@@ -14,8 +14,8 @@
 </div>
 <div id="answer_send">
   <%= form_tag(next_component_path, method: "POST", id:"answer") do %>
-		<%= hidden_field_tag(:answer_content) %>
-		<%= tag(:input, type: "hidden", name: "component", value: "V") %>
-		<input type="submit" onmousedown="sendAnswer();" />
+    <%= hidden_field_tag(:answer_content) %>
+  <%= tag(:input, type: "hidden", name: "component", value: "V") %>
+  <input type="submit" onclick="return sendAnswer();" />
   <% end %>
 </div>
