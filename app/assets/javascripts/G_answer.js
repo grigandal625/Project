@@ -207,6 +207,8 @@ function componentGInit(GInitFlag){
 
 function pageInit(GInitFlag){
   componentGInit(GInitFlag);
+  initS();
+  if(GInitFlag) fillData();
 }
 
 window.onload = pageInit;

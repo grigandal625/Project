@@ -1,4 +1,4 @@
-sentenceS = [];
+var sentenceS = [];
 function deleteAdminS(th){
 	var dragNum = $(th).attr("dragNum");
 	var sentNum = $(th).parent().parent().parent().attr("sent");
@@ -21,6 +21,7 @@ function deleteAdminS(th){
 function initS(){
 	$("#DraggingContainerS").css("top", -500);
 	var strS = "";
+  getTask();
   for(var j = 0; j < 3; j++){
     if (kolichestvoStrokS[j+1] != null){
       deleteAdminS($("#resultTable"+(j+1)+"S").children().first().children().first().next().children().last());

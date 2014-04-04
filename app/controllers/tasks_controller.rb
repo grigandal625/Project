@@ -38,7 +38,7 @@ class TasksController < AdminToolsController
   def update
     task = Task.find(params[:id])
     task.v_answer.set_rules(params[:bnf])
-    task.g_answer.answer = params[:Ganswer]
+    task.s_answer.answer = params[:Sanswer]
     task.g_answer.answer = params[:Ganswer] unless params[:ignore_g]
     sentences = []
     params[:sentences].split("\r\n").each{|sen| sentences << sen unless sen == ""}
