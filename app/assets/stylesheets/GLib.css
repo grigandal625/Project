@@ -28,14 +28,12 @@
 	background-color : transparent;
 	text-align: center
 }
-
 #buttons {
 	width : 28%;
 	float : right;
 	position : relative;
 	top : 10px;
 }
-
 .button {
 	width : 80%;
 	border : 2px solid #000000;
@@ -43,7 +41,6 @@
 	cursor : pointer;
 	border-radius : 20px;
 }
-
 .cross {
 	cursor : pointer;
 	position : relative;
@@ -76,4 +73,3 @@
 .label_IG_two {
 	margin-left : -40px;
 }
-

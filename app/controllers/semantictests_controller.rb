@@ -1,5 +1,5 @@
 #coding: utf-8
-class SemantictestsController < ActionController::Base
+class SemantictestsController < AdminToolsController
   def index
     #@etalon = Etalon.all
     #print (session[:user_id])
@@ -12,7 +12,7 @@ class SemantictestsController < ActionController::Base
       @etalons << {"id" => etalon.id,
                  "name" => etalon.name,
                  "reference" => 
-      "<a href=\"#{semantictest_path(etalon.id)}\">Редактировать</a>"}
+      "<a target='_blank' href=\"#{semantictest_path(etalon.id, showmenu: false)}\">Редактировать</a>"}
     end
   end
   
@@ -25,7 +25,7 @@ class SemantictestsController < ActionController::Base
     @etalon = Etalon.new()
     @etalon.name = params[:name]
     @etalon.save()
-    redirect_to :back, notice: "Создано"
+    redirect_to semantictests_path, notice: "Создано"
   end
   
   def show 
