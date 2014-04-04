@@ -1,11 +1,9 @@
+var currentTask;
+
 function getTask(){
-  var task = {
+  currentTask = {
 	"sentences" : document.getElementById("sentences").value.split('\n')
   }
-  currentTask.sentences[0] = task[0];
-  currentTask.sentences[1] = task[1];
-  currentTask.sentences[2] = task[2];
-  return task
 }
 
 function GloadTask(GInitFlag){
