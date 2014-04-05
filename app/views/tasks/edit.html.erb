@@ -10,7 +10,7 @@
         currentGAnswer = #{@gans};
     }"
   %>
-  
+
   <%= javascript_include_tag "BNF.js" %>
   <%= javascript_include_tag "GLib.js" %>
   <%= javascript_include_tag "G_answer.js" %>
@@ -35,7 +35,8 @@
   <span>Текст задания:</span><br/>
   <%= text_area_tag('sentences', @task.sentence1 + "\n" +
                     @task.sentence2 + "\n" + @task.sentence3,
-                    size: "200x3") %>
+                    size: "150x3") %>
+  <input style="font-size: 24pt; bottom: 9pt; position: relative;" onclick="componentGInit(false)" type="button" value="Обновить предложения в компоненте G" /><br/>
   <br/>
   </div>
   <%= render 'v_edit' %>
