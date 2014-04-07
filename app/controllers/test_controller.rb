@@ -54,9 +54,11 @@ class TestController < ApplicationController
       if !result.has_s_result?
         result.results_mask |= 4
         result.s_result.answer = params[:answer_content]
-        result.s_result.mark = @task.s_answer.check_answer(result.s_result.answer)
-        result.s_result.create_log(data: "")
-        result.s_result.save
+        result.s_result.create_log
+        result.s_result.mark,
+          result.s_result.log.mistakes,
+          result.s_result.log.data =
+          @task.s_answer.check_answer(result.s_result.answer)
       end
       redirect_to result_path(result)
     end
