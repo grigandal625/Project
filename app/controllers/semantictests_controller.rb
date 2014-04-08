@@ -1,19 +1,8 @@
 #coding: utf-8
 class SemantictestsController < AdminToolsController
+skip_before_filter :verify_authenticity_token
   def index
-    #@etalon = Etalon.all
-    #print (session[:user_id])
-    
-    user = User.find(session[:user_id])
-    #print (user.student.fio)
-    
-    @etalons = []
-    Etalon.find_each do |etalon|
-      @etalons << {"id" => etalon.id,
-                 "name" => etalon.name,
-                 "reference" => 
-      "<a target='_blank' href=\"#{semantictest_path(etalon.id, showmenu: false)}\">Редактировать</a>"}
-    end
+    @etalons = Etalon.all
   end
   
   def new
@@ -41,5 +30,8 @@ class SemantictestsController < AdminToolsController
   	render text: "Сохранено"
   end
   
+  def results 
+  	@semantic = Semanticnetwork.all
+  end
   
 end

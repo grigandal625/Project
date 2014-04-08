@@ -4,6 +4,7 @@ require File.expand_path('../application', __FILE__)
 # Initialize the Rails application.
 UIR::Application.initialize!
 
+
 #Rails.logger = Logger.new(STDOUT)
 
 Encoding.default_external = Encoding::UTF_8

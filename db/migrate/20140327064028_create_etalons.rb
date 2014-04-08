@@ -3,8 +3,7 @@ class CreateEtalons < ActiveRecord::Migration
     create_table :etalons do |t|
       t.string :name
       t.text :etalonjson
-      t.text :nodejson
-      
+      t.text :nodejson      
 
       t.timestamps
     end

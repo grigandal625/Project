@@ -12,8 +12,22 @@
   <%= content_tag :span, "Дата: #{result.updated_at.to_date.inspect}"  %><br/>
   <br/>
 <% end %>
+<table>
 <% @student.semanticnetworks.each do |semantic| %>
-<br/>
-<%= content_tag :span, "Semm: #{semantic.rating}"  %>
-<br/>
+
+
+	
+	<tr>
+        <td>
+            <%=semantic.rating%>
+        </td>
+        <td>
+            <%= link_to "Просмотр ", semanticanswer_path(semantic)   %>
+        </td>
+        
+        
+    </tr>
+	
+
 <% end %>
+</table>
