@@ -12,14 +12,8 @@
 	  <div id="DraggingContainerS" onMouseMove="moveDragS()" 	   onMouseUp="checkDragUpS()">Error
 	  		
 	  </div>
-      <div id="showSComponent">
-	  	скрыть и показать
-      </div>
       <div id="sentenseBlokS">
         <div id="sentence1DivS" class="sentenceDivS">
-			<!--<div class="sentenceContainerS">
-				
-			</div>-->
 			<div id="sentenceDrag1S" class="sentenceDragS">
 				
 			</div>			
@@ -55,9 +49,6 @@
           </table>
 		</div>
 		<div id="sentence2DivS" class="sentenceDivS">
-			<!--<div class="sentenceContainerS">
-				
-			</div>-->
 			<div id="sentenceDrag2S" class="sentenceDragS">
 				
 			</div>			
@@ -93,9 +84,6 @@
           </table>
 		</div>
 		<div id="sentence3DivS" class="sentenceDivS">
-			<!--<div class="sentenceContainerS">
-				
-			</div>-->
 			<div id="sentenceDrag3S" class="sentenceDragS">
 				
 			</div>			
@@ -136,6 +124,6 @@
 	<%= form_tag(next_component_path, method: "POST", id:"answer") do %>
 		<%= hidden_field_tag(:answer_content) %>
 		<%= tag(:input, type: "hidden", name: "component", value: "S") %>
-		<input type="submit" onmousedown="sendAnswer();" />
+		<input type="submit" onclick="return sendAnswer();" />
   	<% end %>
 </div>
