@@ -1,10 +1,46 @@
-   <%= display_standard_table([{name: "id", display_name: "id"},
-							{name: "name", display_name: "Название варианта"},
-							{name: "reference", display_name: ""}], @etalons) %>
-							
-		
-							
-	<%= link_to "Создать новый вариант", new_semantictest_path%>
+
+<head>
+<script type="text/javascript" src="/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/table.css">
+<script src="/jquery.tablesorter.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#result").tablesorter({ sortList: [[0, 1]] });
+        });
+    </script>
+</head>		
+
+
+
+		<%= link_to "Создать эталонный вариант семантической сети", new_semantictest_path%><br/>
+<table id="result"> 
+<caption class="top"><b>Эталонные варианты семантических сетей</b></caption>
+<thead>
+<tr class ="center">
+	<th>Название</th>
+	<th>Редактирование</th>
+	
+    
+</tr>
+</thead>
+<% @etalons.each do |test| %>
+   
+   				 <tr class ="center">
+					 <td><%= test.name %></td>
+					 <td><%= link_to  "Редактировать", semantictest_path(test, showmenu: false)%></td>
+				 </tr>
+
+
+			   
+
+      
+    
+  <% end %>
+  
+</table>
+<tr>
+  </tr>							
 	
 	
-	<%= Student.find(User.where(id: '1')).fio%>
+	
+	

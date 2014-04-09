@@ -1,4 +1,5 @@
 class SemanticanswersController < ActionController::Base
+skip_before_filter :verify_authenticity_token
   def index
   		@user = User.find (session["user_id"])
   		if (@user.role == "admin")
@@ -15,8 +16,6 @@ class SemanticanswersController < ActionController::Base
     @semantic.etalon = Etalon.find(:all, :order => "RANDOM()", :limit => 1).first
     @semantic.json = ""
     @semantic.student = User.find(session[:user_id]).student
-    #print (User.find(session[:user_id]).student)
-    #print ("-----|||-----")
     @semantic.save()
     redirect_to semanticanswer_path(@semantic.id)
   end

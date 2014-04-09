@@ -14,7 +14,7 @@ UIR::Application.routes.draw do
   resources :groups do
     resources :students, only: [:create, :show, :destroy]
   end
-  
+   get "semantictests/results"
    get  "semanticanswers/results"
 
   resources :semantictests

@@ -145,7 +145,7 @@ function cleanLinks ()
 	    var up = function()
 	    {
 	        this.animate({"fill-opacity": 0.1}, 100);
-			isBasket(deleteButton.rect);
+			isBasket(deleteButton);
 	    };
 		
 	    var move = function(x, y)
@@ -334,9 +334,6 @@ function cleanLinks ()
 	}
 	
 	
-	
-	
-	
     function isBasket (backet)
 	{
 		//alert(basket)
@@ -396,13 +393,11 @@ function cleanLinks ()
 	
 	
  
-
+	 
+	//var deleteButton  = new iButton (r.rect (550, 550, 75, 25,1), "Корзина" );
 	
-	 
-	var deleteButton  = new iButton (r.rect (550, 550, 75, 25,1), "Корзина" );
+	var deleteButton = r.image("/stylesheets/Images/delete.jpg", 550, 550, 80, 80);
 	
-	 
-	 
 	 
 	 var newNodeButton  = new iButton (r.rect (150, 75, 125, 25,1), "Создать новую вершину" );
 	 newNodeButton.rect.click (
@@ -459,6 +454,36 @@ function cleanLinks ()
 		 
 	);
 	
+	
+	
+		var exitbutton = new iButton (r.rect (575, 75, 75, 25,1), "Выход" );
+	exitbutton.rect.click (
+	
+		 function()
+		 {
+			 if(confirm('Вы уверены?')) 
+			 {
+			 	
+			 	document.location.href = "/";
+			 }
+			 	
+			
+		 }
+		 
+		 
+	);
+	
+	
+	
+	var jsonButton = new iButton (r.rect (650, 75, 150, 25,1), "Получить JSON" );
+	jsonButton.rect.click (
+	function()
+	{
+		alert(tojson ())
+		
+	}
+	);
+
 	
 	var nameButton = new iButton (r.rect (275, 75, 150, 25,1), "Изменить название варианта" );
 	nameButton.rect.click (
