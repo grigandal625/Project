@@ -6,8 +6,16 @@
   <%= javascript_include_tag "S.js" %>
   <%= javascript_include_tag "S_test.js" %>
 <% end %>
-	
-	
+	  <div id="helpImage">
+	    <img width="40px" height="40px" src="/help_icon.gif" id="help" class="icon" onmouseover="showHelpS()" onmouseout="hideHelpS()"></img>
+    </div>
+    <div id="helpContainer">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ваша задача произвезти семантический разбор каждого предложения.<br />
+      Для вашего удобства разбор компонента выполняется с помощью таблицы. В первый столбец вы перетаскиваете слово. Во втором выбираете необходимые параметры: число и время для предиката или тип актанта для всех основных слов, в текстовое поле записываете н/ф данного слова. В третьем столбце вы вибираете уровень слова в дереве, т.е. его отношение в дереве к предыдущим и следующим словам. В четвертом столбце вы можете удалять слова. Удаление слов происходит каскадом: удаляется выбранное вами слово и все слова являющиеся его дочерними с учетом вашей текущей иерархии.
+    </div>
+      
+      
+    <div>
     <div id="ScomponentDiv">
 	  <div id="DraggingContainerS" onMouseMove="moveDragS()" 	   onMouseUp="checkDragUpS()">Error
 	  		
