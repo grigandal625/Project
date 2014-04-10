@@ -6,20 +6,22 @@
   <%= javascript_include_tag "S.js" %>
   <%= javascript_include_tag "S_test.js" %>
 <% end %>
-	
-	
+	  <div id="helpImage">
+	    <img width="40px" height="40px" src="/help_icon.gif" id="help" class="icon" onmouseover="showHelpS()" onmouseout="hideHelpS()"></img>
+    </div>
+    <div id="helpContainer">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ваша задача произвезти семантический разбор каждого предложения.<br />
+      Для вашего удобства разбор компонента выполняется с помощью таблицы. В первый столбец вы перетаскиваете слово. Во втором выбираете необходимые параметры: число и время для предиката или тип актанта для всех основных слов, в текстовое поле записываете н/ф данного слова. В третьем столбце вы вибираете уровень слова в дереве, т.е. его отношение в дереве к предыдущим и следующим словам. В четвертом столбце вы можете удалять слова. Удаление слов происходит каскадом: удаляется выбранное вами слово и все слова являющиеся его дочерними с учетом вашей текущей иерархии.
+    </div>
+      
+      
+    <div>
     <div id="ScomponentDiv">
 	  <div id="DraggingContainerS" onMouseMove="moveDragS()" 	   onMouseUp="checkDragUpS()">Error
 	  		
 	  </div>
-      <div id="showSComponent">
-	  	скрыть и показать
-      </div>
       <div id="sentenseBlokS">
         <div id="sentence1DivS" class="sentenceDivS">
-			<!--<div class="sentenceContainerS">
-				
-			</div>-->
 			<div id="sentenceDrag1S" class="sentenceDragS">
 				
 			</div>			
@@ -55,9 +57,6 @@
           </table>
 		</div>
 		<div id="sentence2DivS" class="sentenceDivS">
-			<!--<div class="sentenceContainerS">
-				
-			</div>-->
 			<div id="sentenceDrag2S" class="sentenceDragS">
 				
 			</div>			
@@ -93,9 +92,6 @@
           </table>
 		</div>
 		<div id="sentence3DivS" class="sentenceDivS">
-			<!--<div class="sentenceContainerS">
-				
-			</div>-->
 			<div id="sentenceDrag3S" class="sentenceDragS">
 				
 			</div>			
@@ -136,6 +132,6 @@
 	<%= form_tag(next_component_path, method: "POST", id:"answer") do %>
 		<%= hidden_field_tag(:answer_content) %>
 		<%= tag(:input, type: "hidden", name: "component", value: "S") %>
-		<input type="submit" onmousedown="sendAnswer();" />
+		<input type="submit" onclick="return sendAnswer();" />
   	<% end %>
 </div>

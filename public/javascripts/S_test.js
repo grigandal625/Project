@@ -34,6 +34,7 @@ $(document).ready(function(){
 
 function sendAnswer(){
 	$("#answer_content").val(JSON.stringify(getSAnswer()));
+  return confirm('Вы точно уверены?');
 }
 
 

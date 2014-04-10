@@ -195,3 +195,10 @@ function checkDragUpS(){
 		kolichestvoStrokS[selectedDragNum] += 1;
 	}
 }
+
+function showHelpS(){
+ $("#helpContainer").css("display","block");
+}
+function hideHelpS(){
+ $("#helpContainer").css("display","none");
+}

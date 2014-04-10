@@ -29,16 +29,17 @@ class SAnswer < ActiveRecord::Base
         mistakes[3] += 1
         log << "\"#{i+1}\"-е предложение: неправильно выбран предикат"
         mark -= 5
-      end
-      if c_answer[i][0]["word"] != standart_answer[i][0]["word"]
-        mistakes[3] += 1
-        log << "\"#{i+1}\"-е предложение: неправильно записана н/ф предиката."
-        mark -= 5
-      end
-      if c_answer[i][0]["param"] != standart_answer[i][0]["param"]
-        mistakes[3] += 1
-        log << "\"#{i+1}\"-е предложение: неправильно определено время или вид предиката."
-        mark -= 5
+      else
+        if c_answer[i][0]["word"] != standart_answer[i][0]["word"]
+          mistakes[3] += 1
+          log << "\"#{i+1}\"-е предложение: неправильно записана н/ф предиката."
+          mark -= 5
+        end
+        if c_answer[i][0]["param"] != standart_answer[i][0]["param"]
+          mistakes[3] += 1
+          log << "\"#{i+1}\"-е предложение: неправильно определено время или вид предиката."
+          mark -= 5
+        end
       end
 
       len = standart_answer[i].length

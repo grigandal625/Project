@@ -9,6 +9,24 @@
 body{
 	
 }
+#helpImage{
+  position:absolute;
+  width: 40px;
+  height:40px;
+  right:0px;
+  top:0px;
+}
+#helpContainer{
+  width:700px;
+  right:40px;
+  top:40px;
+  position:absolute;
+  display:none;
+  border:2px solid #ee5555;
+  background-color:#ddffdd;
+  padding:5px;
+  font-size:18px;
+}
 #DraggingContainerS{
 
 	color:green;
