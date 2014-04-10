@@ -202,13 +202,14 @@ function componentGInit(GInitFlag){
 	document.getElementById("Gglobal").innerHTML += '<div id="buttons" width="30%"></div></br>';
 	document.getElementById("Gglobal").innerHTML += '<div id="GBNF"></div>';
 	loadBNFEditor();
-	GloadTask(GInitFlag);  
+	GloadTask(GInitFlag);
+  initS();
+  if(GInitFlag) fillData(); 
 }
 
 function pageInit(GInitFlag){
   componentGInit(GInitFlag);
-  initS();
-  if(GInitFlag) fillData();
+  
 }
 
 window.onload = pageInit;
