@@ -40,7 +40,7 @@
    
    				 <tr class ="center">
 
-					 <td><%= link_to  test.etalon.name, semantictest_path(test.etalon)%></td>
+					 <td><%=  test.etalon.name%></td>
 					 <td><%= link_to  test.rating, semanticanswer_path(test)%></td>
 					 <td><%=test.updated_at.to_date.inspect%></td>
 					 
