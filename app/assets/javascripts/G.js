@@ -218,6 +218,7 @@ function sendAnswer()
 {
 	var hid = document.getElementById('answer_content');
 	hid.value = generateAnswer();
+	return confirm('Вы точно уверены?');
 }
 
 function componentGInit(){
