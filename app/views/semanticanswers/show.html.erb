@@ -1,7 +1,11 @@
 
 
-	<div id="semanticNetwork">
-	</div>
+<div id="semanticNetwork">
+	
+</div>
+	
+	
+
 
 <script type="text/javascript" src="/jquery.js"></script>
 <script type="text/javascript" src="/raphael.js"></script>
@@ -130,8 +134,21 @@ function cleanLinks ()
 }
 
 
-	var r = Raphael("semanticNetwork", 1010, 750);
-	var windowSemantic = r.rect(1, 25, 1000, 640, 4);
+	var r = Raphael("semanticNetwork", 1200, 750);
+	var windowSemantic = r.rect(1, 25, 875, 640, 4);
+	var helper = r.rect(875, 25, 275, 640, 4);
+	
+	
+	function helpmenu (texts)
+	{
+		for (var i = 0; i < texts.length; i++)
+		{
+			var t1 = r.text (1012, 75 + 25*i, texts[i])
+			t1.attr({fill: Raphael.getColor(), stroke: Raphael.getColor(), "fill-opacity": 0});
+			t1.attr({ "font-size": 14, "font-family": "Arial, Helvetica, sans-serif" });
+		}
+		
+	}
 	
 		function drag(x, y)
 	    {
@@ -144,23 +161,28 @@ function cleanLinks ()
 		
 	    var up = function()
 	    {
+
 	        this.animate({"fill-opacity": 0.1}, 100);
 			
 	    };
 		
 	    var move = function(x, y)
 	    {
-	        var mynode = this.mynode;
-	        mynode.shape.attr({cx: this.ox + x, cy: this.oy + y});
-			mynode.circl.attr({cx: this.ox + x + mynode.shape.attr("rx") - 5, cy: this.oy + y });
-			mynode.text.attr({x: this.ox + x, y: this.oy + y });
-			mynode.srect.attr({x: this.ox + x - mynode.shape.attr("rx"), y: this.oy + y - 5});
-			if (mynode.rect != null)
-			{
-				mynode.rect.attr({x: this.ox + x - mynode.shape.attr("rx"), y: this.oy + y - mynode.shape.attr("ry")});
-			}
-			updateConnections();
-			r.safari();
+	    	    	
+	    	   
+		    	var mynode = this.mynode;
+				mynode.shape.attr({cx: this.ox + x, cy: this.oy + y});
+				mynode.circl.attr({cx: this.ox + x + mynode.shape.attr("rx") - 5, cy: this.oy + y });
+				mynode.text.attr({x: this.ox + x, y: this.oy + y });
+				mynode.srect.attr({x: this.ox + x - mynode.shape.attr("rx"), y: this.oy + y - 5});
+				if (mynode.rect != null)
+				{
+					mynode.rect.attr({x: this.ox + x - mynode.shape.attr("rx"), y: this.oy + y - mynode.shape.attr("ry")});
+					}
+					updateConnections();
+					r.safari();
+	    	
+	        
 	    };
 		function dragcircle(x, y)
 	    {
@@ -235,6 +257,8 @@ function cleanLinks ()
 				}
 			}
 		}
+	
+
 	
 	function Node(shape, circl, text, rect,predicat)
     {
@@ -350,14 +374,25 @@ function cleanLinks ()
 	
 		 function()
 		 {
-			 //Написать инструкцию
+			 var txt = r.print(200, 100, "print", r.getFont("Times"), 30).attr({fill: "#aaa"});			 	
+		 }
+		 
+		 
+	);
+	
+		var mistakeButton = new iButton (r.rect (275, 0, 75, 25,1), "Ошибки" );
+	mistakeButton.rect.click (
+	
+		 function()
+		 {
+			 alert("Ошибки")
 		 }
 		 
 		 
 	);
 	
 	
-		var exitbutton = new iButton (r.rect (275, 0, 75, 25,1), "Выход" );
+		var exitbutton = new iButton (r.rect (350, 0, 75, 25,1), "Выход" );
 	exitbutton.rect.click (
 	
 		 function()
@@ -471,6 +506,29 @@ function cleanLinks ()
 		getJsonSemantic();
 	}
 	
+	texts = [];
+	texts.push ("Все глубинные падежи должны быть ");
+	texts.push ("написаны заглавными буквами");
+	texts.push ("английской расскладки");
+	texts.push ("A - быть «агентом» действия");
+	texts.push ("O - быть «объектом» действия");
+	texts.push ("D - быть «адресатом» действия");
+	texts.push ("T - быть «темой» действия");
+	texts.push ("L - быть «местом» действия");
+	texts.push ("S - быть «начальной точкой» действия");
+	texts.push ("F - быть «конечной точкой» действия");
+	texts.push ("G - быть «целью» действия");
+	texts.push ("C - быть «условием» действия");
+	texts.push ("W - быть «временем» действия");
+	texts.push ("M - быть «способом» действия");
+	texts.push ("B - быть «сроком» действия");
+	texts.push ("X - быть «количеством» действия");
+	texts.push ("R - быть «результатом» действия");
+	texts.push ("K - быть «контрагентом» действия");
+	
+	
+
+	helpmenu(texts);
 	
 	
 		

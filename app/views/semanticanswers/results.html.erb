@@ -1,17 +1,20 @@
-
-<% @tests.each do |test| %>
-    <tr>
-    
-    <table border="1">
-				 <tr>
-					 <td><%= test.student.fio %></td>
-					 <td><%= test.rating %></td>
-				 </tr>
+<table>
+<% @student.semanticnetworks.each do |semantic| %>
 
 
-			   </table>
-
-      
+	
+	<tr>
+        <td>
+            <%=semantic.rating%>
+        </td>
+        <td>
+            <%= link_to "Просмотр ", semanticanswer_path(semantic)   %>
+        </td>
+        
+        
     </tr>
-  <% end %>
-  
+	
+
+<% end %>
+</table>
+

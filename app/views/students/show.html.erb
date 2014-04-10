@@ -1,3 +1,15 @@
+
+<head>
+
+<script type="text/javascript" src="/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/table.css">
+<script src="/jquery.tablesorter.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#result").tablesorter();
+        });
+    </script>
+</head>
 <span>ФИО:</span> <%= @student.fio %> <br/>
 <span>Группа:</span> <%= @student.group.number %> <br/>
 <strong>Результаты:</strong></br>
@@ -12,22 +24,32 @@
   <%= content_tag :span, "Дата: #{result.updated_at.to_date.inspect}"  %><br/>
   <br/>
 <% end %>
-<table>
-<% @student.semanticnetworks.each do |semantic| %>
+
+<table id="result"> 
+<caption class="top"><b>Результаты, Компонент выявления уровня умений обучаемого моделировать простейшие ситуации при помощи Семантических сетей</b></caption>
+<thead>
+<tr class ="center">
+
+    <th>Ситуация</th>
+    <th>Оценка</th>
+    <th>Дата</th>
+    
+</tr>
+</thead>
+<% @student.semanticnetworks.each do |test| %>
+   
+   				 <tr class ="center">
+
+					 <td><%= link_to  test.etalon.name, semantictest_path(test.etalon)%></td>
+					 <td><%= link_to  test.rating, semanticanswer_path(test)%></td>
+					 <td><%=test.updated_at.to_date.inspect%></td>
+					 
+				 </tr>
 
 
-	
-	<tr>
-        <td>
-            <%=semantic.rating%>
-        </td>
-        <td>
-            <%= link_to "Просмотр ", semanticanswer_path(semantic)   %>
-        </td>
-        
-        
-    </tr>
-	
+			   
 
-<% end %>
+      
+    
+  <% end %>
 </table>

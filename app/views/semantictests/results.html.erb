@@ -30,7 +30,7 @@
 					 <td><%= test.student.group.number %></td>
 					 <td><%= link_to  test.etalon.name, semantictest_path(test.etalon)%></td>
 					 <td><%= link_to  test.rating, semanticanswer_path(test)%></td>
-					 <td><%=test.updated_at.day%>/<%=test.updated_at.month%>/<%=test.updated_at.year%></td>
+					 <td><%=test.updated_at.to_date.inspect%></td>
 					 
 				 </tr>
 

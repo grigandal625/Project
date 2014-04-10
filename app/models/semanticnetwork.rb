@@ -2,6 +2,17 @@ class Semanticnetwork < ActiveRecord::Base
   belongs_to :etalon
   belongs_to :student
   #метод работает
+  
+  def no_predicat (answer)
+  	s_answer = JSON.parse(answer)
+  	for i in 0..s_answer.length - 1
+  		if (s_answer[i]["predicat"] == true)
+  			return 0
+  		end
+  	end
+  	return 100
+  end
+  
   def check_predicat(answer, etalon)
   	s_answer = JSON.parse(answer) 
   	s_etalon = JSON.parse(etalon) 
@@ -40,18 +51,21 @@ class Semanticnetwork < ActiveRecord::Base
   	
   end
   
-  def check_repetition (answer, etalon)
+  def check_repetition (answer) #Работает
   	s_answer = JSON.parse(answer) 
-  	s_etalon = JSON.parse(etalon) 
+  	
   	for i in 0..s_answer.length - 1
   			if(s_answer[i]["predicat"] == "true")
+  			    actantns = Array.new(s_answer[i]["connect"].length)
+  			    results =  Array.new()
   				for j in 0..s_answer[i]["connect"].length - 1
-  					for k in 0..s_answer[i]["connect"].length - 1
-  						if ( k != i && s_answer[i]["connect"][k]["to"] == s_answer[i]["connect"][j]["to"])
-  							return 20
-  						end
-  					end
+  					actantns[j] = s_answer[i]["connect"][j]["deepCase"]
   				end
+  				results = actantns & actantns
+  				if (results.length != actantns.length)
+  					return 20
+  				end
+  				
   			end
   	end
   	return 0
@@ -59,41 +73,33 @@ class Semanticnetwork < ActiveRecord::Base
   
   def check_goodNodes(answer, etalon)
   	s_answer = JSON.parse(answer) 
-  	s_etalon = JSON.parse(etalon) 
+  	s_etalon = JSON.parse(etalon)
   	
-  	goodnodes = []
-  	nodesnotconnect = []
-  	for i in 0..s_etalon.length - 1
-  		nodesnotconnect.push(s_etalon[i]["node"])
-  		if (s_etalon[i]["predicat"] == "true")
-  			goodnodes.push(s_etalon[i]["node"])
-  		end
-  		for j in 0..s_etalon[i]["connect"].length - 1
-  			goodnodes.push(s_etalon[i]["connect"][j]["to"])
-  		end
-  	end
-  	nodesnotconnect = nodesnotconnect - goodnodes
-  	
-  	goodnodessemantic = []
-  	nodesnotconnectsemantic = []
   	for i in 0..s_answer.length - 1
-  		nodesnotconnectsemantic.push(s_answer[i]["node"])
-  		if (s_answer[i]["predicat"] == "true")
-  			goodnodessemantic.push(s_answer[i]["node"])
+  		for j in 0..s_etalon.length - 1
+  			if (s_answer[i]["predicat"] == "true" && s_etalon[i]["predicat"] == "true")
+  			  
+  				for k in 0..s_answer[i]["connect"].length - 1
+  					for l in 0..s_etalon[j]["connect"].length - 1
+  						if (s_answer[i]["connect"][k]["to"] == s_etalon[j]["connect"][l]["to"] && 
+  						s_answer[i]["connect"][k]["deepCase"] != s_etalon[j]["connect"][l]["deepCase"])
+  							print ("----////-----")
+  							print(s_answer[i]["connect"][k]["to"])
+  							print(s_etalon[j]["connect"][l]["to"])
+  							print(s_answer[i]["connect"][k]["deepCase"])
+  							print(s_etalon[j]["connect"][l]["deepCase"])
+  							return 20
+  						end
+  						
+  					end
+  				end
+  			end
   		end
-  		for j in 0..s_answer[i]["connect"].length - 1
-  			goodnodessemantic.push(s_answer[i]["connect"][j]["to"])
-  		end
-  	end
-  	nodesnotconnectsemantic = nodesnotconnectsemantic - goodnodessemantic
-  	semantic = nodesnotconnectsemantic - nodesnotconnect
-  	etalon = nodesnotconnect - nodesnotconnectsemantic
-  	if (semantic.length == 0 && etalon.length == 0)
-  		return 0
-  	end
-  	return 20
-  		
+  	end 
+  	return 0
   end
+  
+  
   #Метод работает, метод проверяет количество исходящих связей
   def search_outlength(answer, etalon)
   	s_answer = JSON.parse(answer) 
@@ -101,7 +107,7 @@ class Semanticnetwork < ActiveRecord::Base
   	
   	for i in 0..s_answer.length - 1
   		for j in 0..s_etalon.length - 1
-  			if (s_answer[i]["node"] == s_etalon[j]["node"])
+  			if (s_answer[i]["predicat"] != "true" && s_answer[i]["node"] == s_etalon[j]["node"])
   				for k in 0..s_answer[i]["connect"].length
   					for l in 0..s_etalon[j]["connect"].length
   						if (s_answer[i]["connect"].length != s_etalon[j]["connect"].length)
@@ -121,7 +127,7 @@ class Semanticnetwork < ActiveRecord::Base
   	
   	for i in 0..s_answer.length - 1
   		for j in 0..s_etalon.length - 1
-  			if (s_answer[i]["node"] == s_etalon[j]["node"])
+  			if (s_answer[i]["predicat"] != "true" && s_answer[i]["node"] == s_etalon[j]["node"])
   			
   				for k in 0..s_answer[i]["connect"].length - 1
   					for l in 0..s_etalon[j]["connect"].length - 1

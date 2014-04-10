@@ -1,15 +1,37 @@
-<table id="menu" >
-  <tr>
-    <td>1</td>
-    <td><%= link_to "Семантические сети", new_semanticanswer_path%></td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td><%= link_to "Лингвистика", get_task_path%></td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td><%= link_to "Мои оценки", group_student_path(@user.student.group, @user.student)%></td>
-  </tr>
 
+<!DOCTYPE html>
+<html>
+<head>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag    "admin_tools", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+
+  <%= yield(:head) %>
+
+
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+
+  <table id="body_table">
+  <tr>
+    <td id="menu">
+      <span>Навигация:</span><br/>
+      <span>Семантические сети:</span><br>
+	  		<%= link_to 'Начать Тестирование',  semanticanswers_path, method: "POST", :target => "_blank" %>
+	  		
+      <span>Лингвистика:</span><br>
+      <%= link_to "Лингвистика", get_task_path%></br>
+      <span>Оценки:</span><br>
+      <%= link_to "Просмотр", group_student_path(@user.student.group, @user.student),:target => "_blank" %>
+            
+
+    </td>
+    <td id="content"><%= yield %></td>
+  </tr>
 </table>
+
+</div>
+</body>
+</html>

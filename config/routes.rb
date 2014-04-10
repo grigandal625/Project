@@ -6,17 +6,18 @@ UIR::Application.routes.draw do
 
   get "groups/:id/generate_pass", to: "groups#generate_pass", as: "pass_gen"
   get "groups/:id/generate_report", to: "groups#generate_report", as: "report_gen"
-
+  get  "semanticanswers/result"
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
 
-  resources :results, only: [:index, :show, :edit, :update]
+  resources :results
 
   resources :groups do
     resources :students, only: [:create, :show, :destroy]
   end
    get "semantictests/results"
-   get  "semanticanswers/results"
+   
 
+  resources :menu
   resources :semantictests
   resources :semanticanswers
   post "semanticanswers/create"
