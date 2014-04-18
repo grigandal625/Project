@@ -1,3 +1,4 @@
+#coding: utf-8
 class AuthController < ApplicationController
   skip_before_filter :check_auth, only: [:login, :authentificate]
 

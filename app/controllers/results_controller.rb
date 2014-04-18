@@ -1,3 +1,4 @@
+#coding: utf-8
 class ResultsController < AdminToolsController
   skip_before_action :check_admin, only: [:show]
 

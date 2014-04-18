@@ -7,9 +7,11 @@ class Semanticnetwork < ActiveRecord::Base
   	s_answer = JSON.parse(answer)
   	for i in 0..s_answer.length - 1
   		if (s_answer[i]["predicat"] == true)
+  			
   			return 0
   		end
   	end
+  	
   	return 100
   end
   

@@ -1,3 +1,4 @@
+#coding: utf-8
 class AdminToolsController < ApplicationController
   helper :all
   before_action :check_admin

@@ -23,6 +23,7 @@ UIR::Application.routes.draw do
   post "semanticanswers/create"
   post "semanticanswers/updatesemanticjson"
   post "semantictests/updateJson"
+  post "semanticanswers/getmistakes"
   get  "semanticanswers/new"
   get  "menu/results"
    

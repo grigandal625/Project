@@ -1,3 +1,4 @@
+#coding: utf-8
 class StudentsController < ApplicationController
 
   def create
