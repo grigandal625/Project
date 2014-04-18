@@ -87,6 +87,8 @@ ActiveRecord::Schema.define(version: 20140327064028) do
     t.integer  "etalon_id"
     t.integer  "student_id"
     t.text     "json"
+    t.text     "mistakes",   default: " Вы еще не прошли тест :) "
+    t.boolean  "iscomplite", default: false
     t.integer  "rating"
     t.datetime "created_at"
     t.datetime "updated_at"

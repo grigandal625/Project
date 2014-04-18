@@ -1,3 +1,4 @@
+#coding: utf-8
 class CreateSemanticnetworks < ActiveRecord::Migration
   def change
     create_table :semanticnetworks do |t|
