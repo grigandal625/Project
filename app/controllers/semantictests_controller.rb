@@ -32,8 +32,21 @@ skip_before_filter :verify_authenticity_token
   end
   
   def results 
+	 if params[:date] == nil
+      @date_from = 1.year.ago
+      @date_to = Date.today
+    else
+      @date_from = params[:date][:from].to_date || 1.year.ago
+      @date_to = params[:date][:to].to_date || Date.today
+    end
+    @groups = Group.all
+    groups_ids = params[:group] || ""
+    groups_ids = (groups_ids == "" ? @groups.ids : groups_ids)
+    @selectedgroups = @groups.where(id: groups_ids).first
+    @results = []
 
-    @semantic = Semanticnetwork.all 
+    @semantic = Semanticnetwork.all    
+   
   end
   
 end

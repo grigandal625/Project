@@ -26,7 +26,7 @@
 <% end %>
 
 
-<table id="result"> 
+<table id="result" border="1"> 
 <caption class="top"><b>Результаты</b></caption>
 <thead>
 <tr class ="center">
@@ -39,8 +39,11 @@
 </tr>
 </thead>
 <% @semantic.each do |test| %>
-   
-   				 <tr class ="center">
+
+
+   		<%if (@selectedgroups != nil && @selectedgroups.number == test.student.group.number && (@date_from < test.updated_at.to_date && @date_to > test.updated_at.to_date))%>
+   		
+	   		<tr class ="center">
 					 <td><%= test.student.fio %></td>
 					 <td><%= test.student.group.number %></td>
 					 <td><%= link_to  test.etalon.name, semantictest_path(test.etalon)%></td>
@@ -48,6 +51,22 @@
 					 <td><%=test.updated_at.to_date.inspect%></td>
 					 
 				 </tr>
+		<%end%>
+		<%if (@selectedgroups == nil)%>
+			   		<tr class ="center">
+					 <td><%= test.student.fio %></td>
+					 <td><%= test.student.group.number %></td>
+					 <td><%= link_to  test.etalon.name, semantictest_path(test.etalon)%></td>
+					 <td><%= link_to  test.rating, semanticanswer_path(test)%></td>
+					 <td><%=test.updated_at.to_date.inspect%></td>
+					 
+				 </tr>
+		<%end%>	 
+   		
+	   		
+   		
+
+   				 
 
 
 			   
