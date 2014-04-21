@@ -43,13 +43,12 @@ class Semanticnetwork < ActiveRecord::Base
   	for i in 0..s_answer.length - 1
   		for j in 0..s_etalon.length - 1
   		
-  			if ( s_etalon[j]["predicat"] == "true" && s_answer[i]["predicat"] == "true" &&
-  			s_etalon[j]["connect"].length == s_answer[i]["connect"].length)
-  				return 0
+  			if ( s_etalon[j]["predicat"] == "true" && s_answer[i]["predicat"] == "true")
+  				return 20*(s_etalon[j]["connect"].length - s_answer[i]["connect"].length).abs
   			end
   		end
     end
-    return 20
+       return 20*(s_etalon[j]["connect"].length - s_answer[i]["connect"].length).abs
   	
   end
   

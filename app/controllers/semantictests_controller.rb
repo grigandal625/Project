@@ -2,6 +2,7 @@
 class SemantictestsController < AdminToolsController
 skip_before_filter :verify_authenticity_token
   def index
+
     @etalons = Etalon.all
   end
   
@@ -31,7 +32,8 @@ skip_before_filter :verify_authenticity_token
   end
   
   def results 
-  	@semantic = Semanticnetwork.all
+
+    @semantic = Semanticnetwork.all 
   end
   
 end

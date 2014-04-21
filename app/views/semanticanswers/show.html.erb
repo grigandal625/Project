@@ -155,7 +155,7 @@ function cleanLinks ()
 		var ring = r.circle(ellips.attr("cx") + ellips.attr("rx") - 5,ellips.attr("cy"), 5)
 		var elrect = r.rect(ellips.attr("cx") - ellips.attr("rx") + 5,ellips.attr("cy"), 10,10,2)
 		var text = r.text (ellips.attr("cx"),ellips.attr("cy"), "Пример");
-		var textinfo = r.text (1275,75, "Зажмите элемент эллипса и двигайте по полю:)");
+		var textinfo = r.text (1275,75, "Зажмите элемент эллипса и двигайте по полю:) \n Для превращения вершины в предикатную\n используйте квадратик ;) ");
 		textinfo.attr({fill: Raphael.getColor(), stroke: Raphael.getColor()});
 		var mouseimage = r.image("/Images/mouse.png", ellips.attr("cx"), ellips.attr("cy"), 25, 25);
 		var line = r.connection(ellips, ring, ellips.attr("fill"), "")
