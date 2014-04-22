@@ -36,7 +36,7 @@ skip_before_filter :verify_authenticity_token
   def updatesemanticjson 
   	@semantic = Semanticnetwork.find(params[:id])
   	@user = User.find (session["user_id"])
-  		if (@user.role == 'admin' || (@user.role == 'student' && !@semantic.iscomplite) || true)
+  		if (@user.role == 'admin' || (@user.role == 'student' && !@semantic.iscomplite))
   			@semantic.json = params[:json]
   			
   			result = 100
