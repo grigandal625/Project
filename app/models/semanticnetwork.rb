@@ -25,7 +25,7 @@ class Semanticnetwork < ActiveRecord::Base
   		
   			if (s_answer[i]["node"] == s_etalon[j]["node"] && s_answer[i]["predicat"] != s_etalon[j]["predicat"])
   			
-  				return 40
+  				return 80
   			end
   		end
     end
