@@ -41,7 +41,7 @@
 <% @semantic.each do |test| %>
 
 
-   		<%if (@selectedgroups != nil && @selectedgroups.number == test.student.group.number && (@date_from < test.updated_at.to_date && @date_to > test.updated_at.to_date))%>
+   		<%if (@selectedgroups != nil &&  (@date_from <= test.updated_at.to_date && @date_to >= test.updated_at.to_date))%>
    		
 	   		<tr class ="center">
 					 <td><%= test.student.fio %></td>
