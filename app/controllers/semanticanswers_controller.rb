@@ -30,6 +30,12 @@ skip_before_filter :verify_authenticity_token
 
   end
   
+  def destroy
+  	Semanticnetwork.find(params[:id]).destroy
+  	redirect_to :back
+  end 
+  
+  
   def new
   end
   
