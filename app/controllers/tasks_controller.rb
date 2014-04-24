@@ -24,7 +24,7 @@ class TasksController < AdminToolsController
     task.create_v_answer
     task.v_answer.create_bnf(bnf_json: "{}")
     task.create_g_answer
-    task.create_s_answer
+    task.create_s_answer(answer: "[null,null,null]")
     task.save
     redirect_to edit_task_path(task)
   end
