@@ -12,21 +12,21 @@ $(document).ready(function(){
 	sentenceS.sent2 = currentTask.sentences[1].split(' ');
 	sentenceS.sent3 = currentTask.sentences[2].split(' ');
 	for (var i = 0; i < sentenceS.sent1.length; i++) {
-		strS += '<div class="RedS" onMouseDown="dragS(this)" q="'+(i-1)+'" dragNum="1">' +" "+ sentenceS.sent1[i] +"</div>";	
+		strS += '<div class="RedS" onMouseDown="dragS(this)" q="'+i+'" dragNum="1">' +" "+ sentenceS.sent1[i] +"</div>";	
 	}
 	strS += "<br /><br />";
 	$("#sentenceDrag1S").html(strS);
 	
 	strS="<br /><br />";
 	for (var i = 0; i < sentenceS.sent2.length; i++) {
-		strS += '<div class="RedS" onMouseDown="dragS(this)" q="'+(i-1)+'" dragNum="2">' +" "+ sentenceS.sent2[i] +"</div>";	
+		strS += '<div class="RedS" onMouseDown="dragS(this)" q="'+i+'" dragNum="2">' +" "+ sentenceS.sent2[i] +"</div>";	
 	}
 	strS += "<br /><br />";
 	$("#sentenceDrag2S").html(strS);
 	
 	strS="<br /><br />";
 	for (var i = 0; i < sentenceS.sent3.length; i++) {
-		strS += '<div class="RedS" onMouseDown="dragS(this)" q="'+(i-1)+'" dragNum="3">' +" "+ sentenceS.sent3[i] +"</div>";	
+		strS += '<div class="RedS" onMouseDown="dragS(this)" q="'+i+'" dragNum="3">' +" "+ sentenceS.sent3[i] +"</div>";	
 	}
 	strS += "<br /><br />";
 	$("#sentenceDrag3S").html(strS);
