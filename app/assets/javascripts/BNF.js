@@ -128,10 +128,15 @@ function refreshBnf()
 	bnfConstructDiv.innerHTML = '';
 	for(var line_id in bnfContent.lines)
 	{
-		var line = addBNFLine(line_id);
-		if(bnfContent.lines[line_id].left)
-			refreshBnfLine(line);
+		if(bnfContent.lines[line_id] != null &&
+				bnfContent.lines[line_id].left != null)
+		{
+			var line = addBNFLine(line_id);
+			if(bnfContent.lines[line_id].left)
+				refreshBnfLine(line);
+		}
 	}
+	addBNFLine();
 }
 
 function addElementToRule(rule)
