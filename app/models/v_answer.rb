@@ -35,6 +35,7 @@ class VAnswer < ActiveRecord::Base
     bnf_rules = JSON.parse(bnf_to_check.bnf_json)
     ans_rules = JSON.parse(bnf.bnf_json)
     bnf_rules.each do |left, right|
+      log << left + " ::= " + right + "\n"
       case left
       when '<имя словаря>'
         errors[4] -= 1
