@@ -69,6 +69,8 @@ function fillData(){
         j = j + 1;
         kolichestvoStrokS[i+1] += 1;
       }
+    } else {
+      kolichestvoStrokS[i+1] = 0;
     }
     addStr = '<tr><td class="dragHere'+(i+1)+'S">Вставьте слово</td><td class="td2S">&nbsp;</td><td class="td3S">&nbsp;</td><td class="td4S" onclick="deleteS(this)">&nbsp;</td></tr>';
   $("#resultTable"+(i+1)+"S").children().first().append(addStr);

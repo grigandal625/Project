@@ -448,9 +448,10 @@ function cleanLinks ()
 	
 	function iButton(rect, text)
 	{
+		this.text 	= r.text (rect.attr("x") + rect.attr("width")/2, rect.attr("y") + rect.attr("height")/2, text );
+
 		this.rect 	= rect;
-		this.text 	= r.text (this.rect.attr("x") + this.rect.attr("width")/2,this.rect.attr("y") + this.rect.attr("height")/2, text );
-		rect.button = this;
+				rect.button = this;
 		this.rect.attr({fill: Raphael.getColor(), stroke: Raphael.getColor(), "fill-opacity": 0, "stroke-width": 2, cursor: "move"});
 		this.rect.drag(null , drag, up);
 		

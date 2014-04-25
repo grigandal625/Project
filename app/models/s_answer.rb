@@ -111,11 +111,11 @@ puts c_answer[i].length
               mark -= 2
             end
             t = k
-            while c_answer[i][k]["level"] <= c_answer[i][t]["level"]             
+            while c_answer[i][k]["level"].to_i <= c_answer[i][t]["level"].to_i           
               t -= 1
             end 
 #-----------------------
-            if parents[c_answer[i][t]["level"].to_i - 1] != c_answer[i][t]["num"] 
+            if parents[c_answer[i][k]["level"].to_i - 1] != c_answer[i][t]["num"] 
               mistakes[1] += 1
               log << "#{i+1}-е предложение: неверно выбран родитель слова \"#{standart_answer[i][j]["word"]}\""
               mark -= 2

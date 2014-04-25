@@ -54,7 +54,7 @@ class GroupsController < AdminToolsController
     group = Group.find(params[:id])
     ans = "<style>td{border: 1px solid; padding: 5px;}</style>"
     ans << "Группа #{group.number}<br/>"
-    ans << "<table style='border-collapse: collapse;' ><tr><th>ФИО</th><th>Логин</th><th>Пароль</th></tr>"
+    ans << "<table style='border-collapse: collapse; font-family: sans-serif;' ><tr><th>ФИО</th><th>Логин</th><th>Пароль</th></tr>"
     group.students.each do |student|
       pass = rand(36**10).to_s(36)
       ans << "<tr><td>#{student.fio}</td><td>#{student.user.login}</td><td>#{pass}</td></tr>"
