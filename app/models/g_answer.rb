@@ -31,9 +31,6 @@ class GAnswer < ActiveRecord::Base
   end
   
   def check_g_part(standard_bnf, bnf_to_check, left, log, mistakes)
-    #puts bnf_to_check.inspect
-    #puts standard_bnf
-    #puts left
     g_cnt = 0
     standard_bnf.each do |st_line|
       if st_line != nil && st_line["left"] == left
@@ -42,7 +39,6 @@ class GAnswer < ActiveRecord::Base
           if ch_line != nil && ch_line["left"] == left
             ch_line["status"] = 1
             g_cnt += 1
-            #if !st_line["rules"].eql?(ch_line["rules"])
             if !exist_pairs(st_line["rules"], ch_line["rules"])
               mistakes[3] += 1
               ch_line["status"] = 1
@@ -142,10 +138,11 @@ class GAnswer < ActiveRecord::Base
       sen_id += 1
       sentence.split(" ").each do |word|
         #флаг будет истинным, если слово в ответе и вопросе в разных категориях групп
-        #т.е. в именной и нет
+        #т.е. в именной и не именной
         flag = false
         gr_flag = ""
         cnt_mist = -1
+        group_size = 6
         standard_groups.each do |key, st_group|
           words = st_group["data"].split(" ")
           words.each do |pret_word|
@@ -223,9 +220,10 @@ class GAnswer < ActiveRecord::Base
                         else
                           if cnt_mist > w_mistakes
                             cnt_mist = w_mistakes
+                            group_size = words.size
                             gr_flag = st_group["groupName"]
                           end
-                        end#сравнить соответствующие БНФ (В конце)
+                        end
                       end
                     end
                   end
@@ -259,7 +257,11 @@ class GAnswer < ActiveRecord::Base
             if gr_flag != "Слово"
               #выставить ошибку описания именной группы
               if cnt_mist !=0
-                mistakes[2] += 1
+                if ( group_size > 6 )
+                  mistakes[1] += 1
+                else
+                  mistakes[2] += 1
+                end
                 log << "Слово \"#{word}\" отнесено к ИГ, но она отличается от эталонной"
               end
             end
@@ -268,25 +270,25 @@ class GAnswer < ActiveRecord::Base
       end
     end
     #проверить наличие двух предикатов
-    for sentence_id in ["0", "1", "2"]
-      pred_num = 0
-      groups_to_check.each do |key, ch_group|
-        if ch_group["groupName"] == "П" && ch_group["sentence"] == sentence_id
-          pred_num += 1
-        end
-      end
-      if pred_num > 1
-        mistakes[7] += 1
-        case sentence_id
-        when "0"
-          log << "Обнаружено наличие более 1 предиката в предложении 1"
-        when "1"
-          log << "Обнаружено наличие более 1 предиката в предложении 2"
-        when "2"
-          log << "Обнаружено наличие более 1 предиката в предложении 3"
-        end
-      end
-    end
+    #for sentence_id in ["0", "1", "2"]
+    #  pred_num = 0
+    #  groups_to_check.each do |key, ch_group|
+    #    if ch_group["groupName"] == "П" && ch_group["sentence"] == sentence_id
+    #      pred_num += 1
+    #    end
+    #  end
+    #  if pred_num > 1
+    #    mistakes[7] += 1
+    #    case sentence_id
+    #    when "0"
+    #      log << "Обнаружено наличие более 1 предиката в предложении 1"
+    #    when "1"
+    #      log << "Обнаружено наличие более 1 предиката в предложении 2"
+    #    when "2"
+    #      log << "Обнаружено наличие более 1 предиката в предложении 3"
+    #    end
+    #  end
+    #end
     #проверка БНФ для G
     check_g_part(standard_bnf, bnf_to_check, G, log, mistakes)
     check_g_part(standard_bnf, bnf_to_check, Order, log, mistakes)
