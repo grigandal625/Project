@@ -45,10 +45,10 @@
   <br/>
   <%= render 's_edit' %>
   <br/>
-  <input type="submit" onmousedown="sendAnswer();" />
+  <input type="submit" onmousedown="sendAnswer();" data-confirm="Вы уверены, что хотите сохранить вариант?" />
   </div>
 <% end %>
 <%= form_tag(task_path(@task), method: "DELETE") do %>
-  <input type="submit" value="Удалить задание" />
+  <input type="submit" value="Удалить задание" data-confirm="Вы уверены, что хотите УДАЛИТЬ вариант?" />
 <% end %>
 
