@@ -63,7 +63,7 @@ function fillgroups(){
 	groups[3] = "Н";
 	groups[4] = "ВС";
 	var _newGroup = newGroup;
-	while ( _newGroup < maxGroups ){
+	while ( _newGroup <= maxGroups ){
 		groups[_newGroup] = "ИГ " + (_newGroup - constGroups);
 		_newGroup++;
 	}
@@ -196,9 +196,9 @@ function generateAnswer(){
 
 function loadBNFEditor(){
 	var BNFdata = [["G", "Предложение типа вопрос", "Предложение типа сообщение", "Предложение типа команда", "Существительное","Глагол","Местоимение","Предлог","Союз","Прилагательное", "Причастие", "Деепричастие", "Аббр.",
-	"Наречие","Числительное","Предикат","Наречие","Вопросительное слово"]];
+	"Числительное","Предикат","Наречие","Вопросительное слово"]];
 	var numIG = 1;
-	while ( numIG < ( maxGroups - constGroups ) ){
+	while ( numIG <= ( maxGroups - constGroups ) ){
 		BNFdata[0].push("ИГ " + numIG);
 		numIG++;
 	}
