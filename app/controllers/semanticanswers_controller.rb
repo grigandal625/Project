@@ -70,6 +70,11 @@ skip_before_filter :verify_authenticity_token
   				result -= @semantic.check_repetition(@semantic.json)
 	  			mistakes += "Наличие повторяющихся актантов\n"
   			end
+  			
+  			if (@semantic.is_not_link(@semantic.json,@semantic.etalon.etalonjson) > 0)
+  				result -= @semantic.is_not_link(@semantic.json,@semantic.etalon.etalonjson)
+  				mistakes += "Есть недостающие связи"
+  			end 
   			print ("result = repetition" )
   			print (result )
   			

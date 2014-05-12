@@ -25,7 +25,7 @@ class Semanticnetwork < ActiveRecord::Base
   		
   			if (s_answer[i]["node"] == s_etalon[j]["node"] && s_answer[i]["predicat"] != s_etalon[j]["predicat"])
   			
-  				return 80
+  				return 40
   			end
   		end
     end
@@ -48,7 +48,7 @@ class Semanticnetwork < ActiveRecord::Base
   			end
   		end
     end
-       return 20*(s_etalon[j]["connect"].length - s_answer[i]["connect"].length).abs
+       return 20
   	
   end
   
@@ -121,11 +121,28 @@ class Semanticnetwork < ActiveRecord::Base
   	end 
   	return 0
   end
+  
+  	def is_not_link (answer, etalon) 
+  		s_answer = JSON.parse(answer) 
+  		s_etalon = JSON.parse(etalon)
+  		taxes = 0
+  		for i in 0..s_etalon.length - 1
+  			for j in 0..s_answer.length - 1
+  				if (s_answer[j]["predicat"] != "true" && s_answer[j]["node"] == s_etalon[i]["node"])
+  					if (s_answer[j]["connect"].length != s_etalon[i]["connect"].length)
+  						taxes = taxes + 15
+  					end
+  				end				 				
+  			end
+  		end
+  		return taxes
+  		
+  	end
   	#Метод работает, метод делает проверку корректности глубинных падежей
    def search_deepcase(answer, etalon) 
   	s_answer = JSON.parse(answer) 
   	s_etalon = JSON.parse(etalon)
-  	
+  	taxes = 0
   	for i in 0..s_answer.length - 1
   		for j in 0..s_etalon.length - 1
   			if (s_answer[i]["predicat"] != "true" && s_answer[i]["node"] == s_etalon[j]["node"])
@@ -134,7 +151,7 @@ class Semanticnetwork < ActiveRecord::Base
   					for l in 0..s_etalon[j]["connect"].length - 1
   						if (s_answer[i]["connect"][k]["to"] == s_etalon[j]["connect"][l]["to"] && 
   						s_answer[i]["connect"][k]["deepCase"] != s_etalon[j]["connect"][l]["deepCase"])
-  							return 12
+  							taxes = taxes + 12
   						end
   						
   					end
@@ -142,7 +159,7 @@ class Semanticnetwork < ActiveRecord::Base
   			end
   		end
   	end 
-  	return 0
+  	return taxes
   end
   
    
