@@ -40,4 +40,5 @@ Bnf_elements_lists = {["<падеж>", "padezh"] => Padezh_list,
             ["<имя семантической валентности>", "sem_val"] => Sem_val_list,
             ["<предлог>", "pred"] => Pred_list,
             ["<семантический признак>", "sem_prizn"] => Sem_prizn_list,
-            ["<кодификатор части речи>", "codificator"] => Codificator_list}
+            ["<кодификатор части речи>", "codificator"] => Codificator_list,
+            ["<имя словаря>", "v_name"] => V_name_list}

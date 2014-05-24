@@ -37,26 +37,6 @@ class VAnswer < ActiveRecord::Base
     bnf_rules.each do |left, right|
       log << left + " ::= " + right + "\n"
       case left
-      when '<имя словаря>'
-        errors[4] -= 1
-        log << "Найдено описание <имя словаря>\n"
-        if right.split('|').length > 6
-          errors[2] += 1
-          log << "Указаны лишние элементы в <имя словаря>\n"
-        end
-        V_name_list.each do |vname|
-          unless right.include?(vname)
-            errors[1] += 1
-            log << "Не указано имя словаря: #{vname}\n"
-          end
-        end
-      when '<словарная статья>'
-        errors[4] -= 1
-        log << "Найдено описание <словарная статья>\n"
-        if right.split('|').length != 6
-          errors[2] += 1
-          log << "Указаны лишние элементы в <словарная статья>\n"
-        end
       when '<словарная статья понятий>'
         check_standard_bnf_rule(left, right, log, errors)
         errors[9] -= 1
@@ -89,9 +69,23 @@ class VAnswer < ActiveRecord::Base
         errors[1] += ( wrong = compare_rules(right, ans_rules[left]))
         log << "#{left}: #{wrong} ошибок в описании\n"
       when '<падеж>', '<имя семантической валентности>'
+        errors[3] -= 1
         errors[2] += ( wrong = compare_rules(right, ans_rules[left]))
         log << "#{left}: #{wrong} ошибок в описании\n"
-        errors[3] -= 1
+      when '<имя словаря>', '<словарная статья>'
+        errors[4] -= 1
+        right.split('|').each do |vname|
+          unless ans_rules[left].include?(vname)
+            errors[2] += 1
+            log << "Указан лишний элементы в #{left}: #{vname}\n"
+          end
+        end
+        ans_rules[left].split('|').each do |vname|
+          unless right.include?(vname)
+            errors[1] += 1
+            log << "Не указан словарь: #{vname}\n"
+          end
+        end
       end
     end
     #puts errors.inspect
