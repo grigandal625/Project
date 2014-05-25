@@ -5,7 +5,8 @@ class VAnswer < ActiveRecord::Base
   has_one :bnf, as: :component, dependent: :destroy, autosave: true
 
   Bnf_elements_to_check =
-    {'<словарная статья понятий>' =>
+    {
+      '<словарная статья понятий>' =>
       ["кодификатор части речи", "род", "число", "падеж", "одушевленность"],
      '<словарная статья предикатов>' =>
       ["вид", "время", "МУ"],
@@ -16,9 +17,30 @@ class VAnswer < ActiveRecord::Base
      '<словарная статья предлогов>' =>
       ["кодификатор части речи"],
      '<словарная статья неизменяемых словоформ>' =>
-      ["кодификатор части речи"],
-     '<актант>' =>
-      ["имя семантической валентности"]}
+      ["кодификатор части речи"]
+  }
+
+  Bnf_articles =
+    {
+      "словарь вопросительных слов" =>
+        '<словарная статья вопросительных слов>',
+      "словарь понятий" => '<словарная статья понятий>',
+      "словарь неизменяемых словоформ" =>
+        '<словарная статья неизменяемых словоформ>',
+      "словарь предикатов" => '<словарная статья предикатов>',
+      "словарь характеристик" => '<словарная статья характеристик>',
+      "словарь предлогов" => '<словарная статья предлогов>'
+  }
+
+  Articles_error_types =
+    {
+     '<словарная статья понятий>' => 9,
+     '<словарная статья предикатов>' => 10,
+     '<словарная статья вопросительных слов>' => 4,
+     '<словарная статья характеристик>' => 8,
+     '<словарная статья предлогов>' => 4,
+     '<словарная статья неизменяемых словоформ>' => 4
+  }
 
   def set_rules(bnf_hash)
     bnf_rules = JSON.parse(bnf.bnf_json || "{}")
@@ -30,41 +52,57 @@ class VAnswer < ActiveRecord::Base
   end
 
   def check_answer(bnf_to_check)
-    errors = {1 => 0, 2 => 8, 3 => 2, 4 => 5, 5 => 0, 6 => 0, 7 => 1, 8 => 1, 9 => 1, 10 => 1}
+    errors = {1 => 1, 2 => 8, 3 => 2, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0}
     log = ""
     bnf_rules = JSON.parse(bnf_to_check.bnf_json)
     ans_rules = JSON.parse(bnf.bnf_json)
+    articles = {}
+    ans_rules['<имя словаря>'].split('|').each do |vname|
+      articles[Bnf_articles[vname]] = true
+      errors[Articles_error_types[Bnf_articles[vname]]] += 1
+    end
     bnf_rules.each do |left, right|
-      log << left + " ::= " + right + "\n"
+      log << "Найдено описание " + left + " ::= " + right + "\n"
       case left
-      when '<словарная статья понятий>'
+      when '<словарная статья понятий>', '<словарная статья предикатов>',
+        '<словарная статья вопросительных слов>',
+        '<словарная статья характеристик>', '<словарная статья предлогов>',
+          '<словарная статья неизменяемых словоформ>'
         check_standard_bnf_rule(left, right, log, errors)
-        errors[9] -= 1
-      when '<словарная статья предикатов>'
-        check_standard_bnf_rule(left, right, log, errors)
-        errors[10] -= 1
-      when '<словарная статья вопросительных слов>'
-        check_standard_bnf_rule(left, right, log, errors)
-        errors[4] -= 1
-      when '<словарная статья характеристик>'
-        check_standard_bnf_rule(left, right, log, errors)
-        errors[8] -= 1
-      when '<словарная статья предлогов>'
-        check_standard_bnf_rule(left, right, log, errors)
-        errors[4] -= 1
-      when '<словарная статья неизменяемых словоформ>'
-        check_standard_bnf_rule(left, right, log, errors)
-        errors[4] -= 1
+        if articles[left] == true
+          errors[Articles_error_types[left]] -= 1
+        else
+          errors[2] += 1
+        end
       when '<МУ>'
-        errors[7] -= 1
-        log << "Найдено описание <МУ>\n"
+        if articles['<словарная статья предикатов>'] == true
+          errors[7] -= 1 if right.include?('актант')
+        end
       when '<актант>'
-        unless right.include?("имя семантической валентности")
-          errors[5] += 1
-        log << "Для #{left} не указано: <имя семантической валентности>\n"
+        if articles['<словарная статья предикатов>'] == true
+          errors[5] += 1 unless right.include?('имя семантической валентности')
+        end
+      when '<семантический компонент МУ>'
+        if articles['<словарная статья предикатов>'] == true
+          errors[3] += 1 unless right.include?('семантический признак')
+        end
+      when '<синтаксический компонент МУ>'
+        if articles['<словарная статья предикатов>'] == true
+          if right.include?('образец')
+            errors[4] += 1
+            articles['<образец>'] = true
+          else
+            errors[5] += 1
+          end
+        end
+      when '<образец>'
+        if articles['<образец>'] == true
+          errors[4] -= 1
+          errors[3] += 1 unless right.include?('падеж')
+          errors[3] += 1 unless right.include?('предлог')
         end
       when '<род>', '<число>', '<одушевленность>', '<вид>', '<время>', '<лицо>',
-        '<предлог>', '<семантический признак>', '<кодификатор части речи>'
+        '<предлог>', '<кодификатор части речи>'
         errors[2] -= 1
         errors[1] += ( wrong = compare_rules(right, ans_rules[left]))
         log << "#{left}: #{wrong} ошибок в описании\n"
@@ -72,12 +110,16 @@ class VAnswer < ActiveRecord::Base
         errors[3] -= 1
         errors[2] += ( wrong = compare_rules(right, ans_rules[left]))
         log << "#{left}: #{wrong} ошибок в описании\n"
-      when '<имя словаря>', '<словарная статья>'
+      when '<семантический признак>'
+        errors[1] -= 1
+        errors[1] += ( wrong = compare_rules(right, ans_rules[left]))
+        log << "#{left}: #{wrong} ошибок в описании\n"
+      when '<имя словаря>'
         errors[4] -= 1
         right.split('|').each do |vname|
           unless ans_rules[left].include?(vname)
-            errors[2] += 1
-            log << "Указан лишний элементы в #{left}: #{vname}\n"
+            errors[1] += 1
+            log << "Указан лишний элемент в #{left}: #{vname}\n"
           end
         end
         ans_rules[left].split('|').each do |vname|
