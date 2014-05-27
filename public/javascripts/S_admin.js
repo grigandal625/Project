@@ -36,6 +36,25 @@ function initS(){
 	  $("#sentenceDrag" + (j+1) + "S").html(strS);
 	}
 }
+function initS2(){
+	$("#DraggingContainerS").css("top", -500);
+	var strS = "";
+	
+  
+  for(var j = 0; j < 3; j++){
+    if (kolichestvoStrokS[j+1] != null){
+      deleteAdminS($("#resultTable"+(j+1)+"S").children().first().children().first().next().children().last());
+    } 
+    
+    strS = "<br /><br />";		
+	  sentenceS[j] = currentTask.sentences[j].split(' ');
+	  for (var i = 0; i < sentenceS[j].length; i++) {
+		  strS += '<div class="RedS" onMouseDown="dragS(this)" q="'+i+'" dragNum="'+(j+1)+'">' +" "+ sentenceS[j][i] +"</div>";	
+	  }
+	  strS += "<br /><br />";
+	  $("#sentenceDrag" + (j+1) + "S").html(strS);
+	}
+}
 function selectWordGreen(i, j){
   var th = $("#sentenceDrag"+(i+1)+"S").children().first().next().next();
   for (var k = 0; k < j; k++){

@@ -1,7 +1,25 @@
 Редактирование результата выполнения студентом <%= @result.student.fio %>
 группы <%= @result.student.group.number %>
 задания №<%= @result.task.id %>:<br/>
+<% content_for(:head) do %>
 
+  <title>Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ Р·Р°РґР°РЅРёСЏ</title>>
+
+  <%= javascript_include_tag "S.js" %>
+  <%= javascript_include_tag "S_admin.js" %>
+  <%= stylesheet_link_tag "reset.css" %>
+  <%= stylesheet_link_tag "S.css" %>
+
+
+<% end %>
+<script>
+  var currentTask = {};
+  currentTask.sentences = [];
+  SAnswerData = <%= @result.s_result.answer.html_safe %>;
+  currentTask.sentences[0] = "<%= @result.task.sentence1 %><br/>";
+  currentTask.sentences[1] = "<%= @result.task.sentence2 %><br/>";
+  currentTask.sentences[2] = "<%= @result.task.sentence3 %><br/>";
+</script>
 <p>
 Текст задания:<br/>
 <%= @result.task.sentence1 %><br/>
@@ -20,5 +38,6 @@
 
   <%= render 'edit_s_result' %>
   <br/>
+  
   <%= submit_tag "Сохранить" %>
 <% end %>
