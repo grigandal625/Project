@@ -6,8 +6,32 @@
   <%= javascript_include_tag "BNF.js" %>
   <%= javascript_include_tag "V.js" %>
 <% end %>
+<div id="helpContainer">
+  <img id="helpIcon" src="/help_icon.gif">
+  <div id="help">
+    Список актантов:<br/>
+    "A" - Агент<br/>
+    "B" - Срок<br/>
+    "C" - Условие<br/>
+    "D" - Адресат<br/>
+    "E" - Элемент множества<br/>
+    "F" - Конечная точка<br/>
+    "G" - Цель<br/>
+    "H" - Характеристика "сделан из"<br/>
+    "I" - Инструмент<br/>
+    "K" - Контрагент<br/>
+    "L" - Место приложения<br/>
+    "M" - Способ<br/>
+    "O" - Объект<br/>
+    "P" - Часть-целое<br/>
+    "R" - Результат<br/>
+    "S" - Начальная точка<br/>
+    "T" - Тема<br/>
+    "U" - Подмножество<br/>
+    "W" - Время<br/>
+  </div>
+</div>
 <div id="task">
-
 </div>
 <div id="BNF">
 
@@ -16,6 +40,6 @@
   <%= form_tag(next_component_path, method: "POST", id:"answer") do %>
     <%= hidden_field_tag(:answer_content) %>
   <%= tag(:input, type: "hidden", name: "component", value: "V") %>
-  <input type="submit" onclick="return sendAnswer();" />
+  <input value="Следующий компонент" type="submit" onclick="return sendAnswer();" />
   <% end %>
 </div>
