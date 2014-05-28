@@ -34,12 +34,12 @@ class VAnswer < ActiveRecord::Base
 
   Articles_error_types =
     {
-     '<словарная статья понятий>' => 9,
-     '<словарная статья предикатов>' => 10,
-     '<словарная статья вопросительных слов>' => 4,
-     '<словарная статья характеристик>' => 8,
-     '<словарная статья предлогов>' => 4,
-     '<словарная статья неизменяемых словоформ>' => 4
+     '<словарная статья понятий>' => [9],
+     '<словарная статья предикатов>' => [10, 7, 5, 3],
+     '<словарная статья вопросительных слов>' => [4],
+     '<словарная статья характеристик>' => [8],
+     '<словарная статья предлогов>' => [4],
+     '<словарная статья неизменяемых словоформ>' => [4]
   }
 
   def set_rules(bnf_hash)
@@ -52,14 +52,16 @@ class VAnswer < ActiveRecord::Base
   end
 
   def check_answer(bnf_to_check)
-    errors = {1 => 1, 2 => 8, 3 => 2, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0}
+    errors = {1 => 1, 2 => 8, 3 => 2, 4 => 1, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0}
     log = ""
     bnf_rules = JSON.parse(bnf_to_check.bnf_json)
     ans_rules = JSON.parse(bnf.bnf_json)
     articles = {}
     ans_rules['<имя словаря>'].split('|').each do |vname|
       articles[Bnf_articles[vname]] = true
-      errors[Articles_error_types[Bnf_articles[vname]]] += 1
+      Articles_error_types[Bnf_articles[vname]].each do |error_type|
+        errors[error_type] += 1
+      end
     end
     bnf_rules.each do |left, right|
       log << "Найдено описание " + left + " ::= " + right + "\n"
@@ -70,7 +72,7 @@ class VAnswer < ActiveRecord::Base
           '<словарная статья неизменяемых словоформ>'
         check_standard_bnf_rule(left, right, log, errors)
         if articles[left] == true
-          errors[Articles_error_types[left]] -= 1
+          errors[Articles_error_types[left].first] -= 1
         else
           errors[2] += 1
         end
@@ -80,11 +82,11 @@ class VAnswer < ActiveRecord::Base
         end
       when '<актант>'
         if articles['<словарная статья предикатов>'] == true
-          errors[5] += 1 unless right.include?('имя семантической валентности')
+          errors[5] -= 1 if right.include?('имя семантической валентности')
         end
       when '<семантический компонент МУ>'
         if articles['<словарная статья предикатов>'] == true
-          errors[3] += 1 unless right.include?('семантический признак')
+          errors[3] -= 1 if right.include?('семантический признак')
         end
       when '<синтаксический компонент МУ>'
         if articles['<словарная статья предикатов>'] == true
@@ -130,7 +132,6 @@ class VAnswer < ActiveRecord::Base
         end
       end
     end
-    #puts errors.inspect
     mark = 100
     errors.each {|type, val| mark -= Cost[type]*val }
     #puts log
