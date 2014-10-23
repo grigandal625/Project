@@ -3,7 +3,12 @@
 <% end %>
 
 <%= form_tag next_component_path, method: "POST" do %>
-  <%= content_tag :span, "Вам выдано задание номер #{@task.id}." %><br/>
+  <% if @tasks != nil %>
+    <div>
+      Выберите вариант:
+      <%= select_tag :task_id, options_from_collection_for_select(@tasks, :id, :id) %>
+    </div>
+  <% end %>
   <%= hidden_field_tag :component, "start" %>
   <%= submit_tag "Начать работу" %>
 <% end %>

@@ -4,16 +4,14 @@ class TestController < ApplicationController
   before_action :check_student
 
   def get_task
-    if session[:task_id] == nil
-      @task = Task.first(offset: rand(Task.count))
-    else
-      @task = Task.find(session[:task_id])
-    end
-    session[:task_id] = @task.id
-    session[:result_id] ||= 0
+    @tasks = Task.all
   end
 
   def next_component
+    if params[:component] == 'start'
+      session[:task_id] = params[:task_id]
+      session[:result_id] = 0
+    end
     @task = Task.find(session[:task_id])
     result = Result.find_by_id(session[:result_id])
     if result == nil
