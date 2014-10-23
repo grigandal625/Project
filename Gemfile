@@ -38,6 +38,8 @@ group :development, :test do
     gem 'railroady'
 end
 
+gem 'slim'
+
 #for transliteration
 #gem "the_string_to_slug", "~> 0.0.5"
 

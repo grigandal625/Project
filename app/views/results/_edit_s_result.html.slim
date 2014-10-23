@@ -1,0 +1,43 @@
+span | Компонент S
+br
+textarea name="s_log" cols="100" rows="10"
+  = @result.s_result.log.data
+br
+span | Оценка за компонент:
+= text_field_tag :s_mark, @result.s_result.mark
+hr
+#ScomponentDiv
+	#sentenseBlokS
+    #sentence1DivS.sentenceDivS
+      table#resultTable1S.resultTableS
+        tr
+          td.firstTRS width="220px"
+            | слово
+          td.firstTRS
+            | разбор
+          td.firstTRS width="80px"
+            | уровень
+    br
+	  #sentence2DivS.sentenceDivS
+      table#resultTable2S.resultTableS
+        tr
+          td.firstTRS width="220px"
+            | слово
+          td.firstTRS
+            | разбор
+          td.firstTRS width="80px"
+            | уровень
+    br
+	  #sentence3DivS.sentenceDivS
+      table#resultTable3S.resultTableS
+        tr
+          td.firstTRS width="220px"
+            | слово
+          td.firstTRS
+            | разбор
+          td.firstTRS width="80px"
+            | уровень
+javascript:
+  fillData2();
+
+
