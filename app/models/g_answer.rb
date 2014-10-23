@@ -1,14 +1,14 @@
 #coding: utf-8
 class GAnswer < ActiveRecord::Base
   belongs_to :task
-  Not_name = ["C", "Н", "ВС", "П"]
+  Not_name = ["С", "Н", "ВС", "П"]
   Question = "Предложение типа вопрос"
   Order = "Предложение типа команда"
   Message = "Предложение типа сообщение"
   G = "G"
   
   def exist_pairs(first, second)
-    flag = true
+    cnt_errors = 0
     first.each do |line_in_first|
       line_flag = false
       second.each do |line_in_second|
@@ -16,7 +16,9 @@ class GAnswer < ActiveRecord::Base
           line_flag = true
         end
       end
-      flag = flag and line_flag
+      if (!line_flag)
+        cnt_errors += 1
+      end
     end
     second.each do |line_in_second|
       line_flag = false
@@ -25,9 +27,15 @@ class GAnswer < ActiveRecord::Base
           line_flag = true
         end
       end
-      flag = flag and line_flag
+      if (!line_flag)
+        cnt_errors += 1
+      end
     end
-    return flag
+    max_cnt = first.size
+    if (cnt_errors > max_cnt)
+      cnt_errors = max_cnt
+    end
+    return cnt_errors
   end
   
   def check_g_part(standard_bnf, bnf_to_check, left, log, mistakes)
@@ -39,8 +47,9 @@ class GAnswer < ActiveRecord::Base
           if ch_line != nil && ch_line["left"] == left
             ch_line["status"] = 1
             g_cnt += 1
-            if !exist_pairs(st_line["rules"], ch_line["rules"])
-              mistakes[3] += 1
+            cnt_errors = exist_pairs(st_line["rules"], ch_line["rules"])
+            if (cnt_errors > 0)
+              mistakes[4] += cnt_errors
               ch_line["status"] = 1
               description = ch_line["left"]
               description += " ::= "
@@ -70,7 +79,7 @@ class GAnswer < ActiveRecord::Base
       mistakes[3] += 1
     else
       if g_cnt == 0
-        mistakes[3] += 1
+        mistakes[6] += 1
         log << "Строка с описанием #{left} отсутствует"
       end
     end
@@ -127,7 +136,6 @@ class GAnswer < ActiveRecord::Base
     #Слово не принадлежащее групе - ошибка типа 10
     groups_to_check.each do |key, group|
       if group["type"] != "group"
-        #ошибка типа 6
         mistakes[6] += 1
         log << "Слово \"#{group["data"]}\" не состоит ни в одной группе"
       end
@@ -159,7 +167,7 @@ class GAnswer < ActiveRecord::Base
                     if ( ( word == ch_word ) && ( sen_id.to_s == ch_group["sentence"] ) )
                       #найдена группа в ответе студента с тем же словом
                       if ( ( !Not_name.include?(st_group["groupName"]) &&
-                        ( !Not_name.include?(ch_group["groupName"]) ) ) ||
+                        !Not_name.include?(ch_group["groupName"]) ) ||
                         st_group["groupName"] == ch_group["groupName"] )
                         flag = true
                         #сравнить группы пословно, изменить флаг
@@ -236,20 +244,31 @@ class GAnswer < ActiveRecord::Base
         #Если была найдена хотя бы одна группа 1в1 равная нашей, то пускай ошибки нет
         #Если для любой потенциальной группы есть ошибка хотя бы в одно слово, то ошибка ценой 1 слова
         if !flag
-          #WTF?
-          mistakes[4] += 1
+          mistakes[5] += 1
           log << "Слово \"#{word}\" отнесено к разным типам групп ИГ/не ИГ"
         else
           if Not_name.include?(gr_flag)
             #выставить ошибку описания неименной группы
             if gr_flag == "П"
               if cnt_mist != 0
-                mistakes[3] += 1
+                if (group_size == 1)
+                  mistakes[8] += 1
+                elsif (group_size == 2)
+                  mistakes[5] += 1
+                else
+                  mistakes[4] += 1
+                end
                 log << "Слово \"#{word}\" отнесено к предикату, но он отличается от эталонного"
               end
             else
               if cnt_mist != 0
-                mistakes[1] += 1
+                if (group_size == 1)
+                  mistakes[4] += 1
+                elsif (group_size == 2)
+                  mistakes[3] += 1
+                else
+                  mistakes[2] += 1
+                end
                 log << "Слово \"#{word}\" отнесено к С,ВС или Н, но группа отличается от эталонной"
               end
             end
@@ -257,8 +276,14 @@ class GAnswer < ActiveRecord::Base
             if gr_flag != "Слово"
               #выставить ошибку описания именной группы
               if cnt_mist !=0
-                if ( group_size > 6 )
+                if (group_size > 8)
                   mistakes[1] += 1
+                elsif (group_size == 1)
+                  mistakes[7] += 1
+                elsif (group_size == 2)
+                  mistakes[4] += 1
+                elsif (group_size < 5)
+                  mistakes[3] += 1
                 else
                   mistakes[2] += 1
                 end
@@ -269,26 +294,6 @@ class GAnswer < ActiveRecord::Base
         end
       end
     end
-    #проверить наличие двух предикатов
-    #for sentence_id in ["0", "1", "2"]
-    #  pred_num = 0
-    #  groups_to_check.each do |key, ch_group|
-    #    if ch_group["groupName"] == "П" && ch_group["sentence"] == sentence_id
-    #      pred_num += 1
-    #    end
-    #  end
-    #  if pred_num > 1
-    #    mistakes[7] += 1
-    #    case sentence_id
-    #    when "0"
-    #      log << "Обнаружено наличие более 1 предиката в предложении 1"
-    #    when "1"
-    #      log << "Обнаружено наличие более 1 предиката в предложении 2"
-    #    when "2"
-    #      log << "Обнаружено наличие более 1 предиката в предложении 3"
-    #    end
-    #  end
-    #end
     #проверка БНФ для G
     check_g_part(standard_bnf, bnf_to_check, G, log, mistakes)
     check_g_part(standard_bnf, bnf_to_check, Order, log, mistakes)
@@ -350,7 +355,7 @@ class GAnswer < ActiveRecord::Base
     if mark < 0
       mark = 0
     end
-    puts "mark " + mark.to_s
+    #puts "mark " + mark.to_s
     #puts log
     return mark, mistakes.to_s, log.join("\n")
   end
