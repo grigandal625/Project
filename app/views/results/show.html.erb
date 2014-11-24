@@ -1,3 +1,22 @@
+<% content_for(:head) do %>
+
+  <title>Результаты тестирования</title>
+
+  <%= javascript_tag "var currentGAnswer;
+    function getGAnswer()
+    {
+        currentGAnswer = '(#{@result.g_result.answer})';
+    }"
+  %>
+
+  <%= javascript_include_tag "BNF.js" %>
+  <%= javascript_include_tag "G_student_show.js" %>
+  <%= stylesheet_link_tag "BNF.css" %>
+  <%= stylesheet_link_tag "GLib.css" %>
+  <%= stylesheet_link_tag "G_answer.css" %>
+
+<% end %>
+
 Результат выполнения студентом <%= @result.student.fio %>
 группы <%= @result.student.group.number %>
 задания №<%= @result.task.id %>:<br/>
