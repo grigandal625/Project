@@ -64,20 +64,8 @@ class GAnswer < ActiveRecord::Base
         cnt_errors += 1
       end
     end
-    second.each do |line_in_second|
-      line_flag = false
-      first.each do |line_in_first|
-        if line_in_first.to_s == line_in_second.to_s
-          line_flag = true
-        end
-      end
-      if (!line_flag)
-        cnt_errors += 1
-      end
-    end
-    max_cnt = first.size
-    if (cnt_errors > max_cnt)
-      cnt_errors = max_cnt
+    if (cnt_errors > 4)
+      cnt_errors = 4
     end
     return cnt_errors
   end

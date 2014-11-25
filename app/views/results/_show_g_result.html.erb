@@ -1,5 +1,8 @@
 <span>Компонент G</span><br/>
 <div id="Gglobal">
 </div>
+</br>
+<p><%= @result.g_result.log.data.gsub("\n", "</br>").html_safe %></p>
+</br>
 <span>Оценка за компонент: </span><%= @result.g_result.mark %>
 <hr/>
