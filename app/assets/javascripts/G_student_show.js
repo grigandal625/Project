@@ -93,6 +93,8 @@ function showBNFAsText(bnf){
 	GBNF = document.getElementById("GBNF")
 	GBNF.style.background = "#FFFFFF";
 	for ( line_id in bnf ){
+		if ( bnf[line_id] == null )
+			continue;
 		if ( bnf[line_id]["left"] != null ){
 			GBNF.innerHTML += bnf[line_id]["left"];
 			GBNF.innerHTML += ' = '
