@@ -6,8 +6,52 @@ class GAnswer < ActiveRecord::Base
   Order = "Предложение типа команда"
   Message = "Предложение типа сообщение"
   G = "G"
-  
+
   def exist_pairs(first, second)
+    in_first = {}
+    in_second = {}
+    num_f = 1
+    first.each do |line_in_first|
+      line_in_first.each do |blck|
+        if blck[0..1] == 'ИГ'
+          this_num = blck[3..-1]
+          if in_first[this_num] == nil
+            in_first[this_num] = num_f.to_s
+            num_f += 1
+          end
+        end
+      end
+    end
+    num_s = 1
+    second.each do |line_in_second|
+      line_in_second.each do |blck|
+        if blck[0..1]== 'ИГ'
+          this_num = blck[3..-1]
+          if in_second[this_num] == nil
+            in_second[this_num] = num_s.to_s
+            num_s += 1
+          end
+        end
+      end
+    end
+
+    for i in 0...first.length
+      for j in 0...first[i].length
+        if first[i][j][0..1] == 'ИГ'
+          num = first[i][j][3..-1]
+          first[i][j] = 'ИГ ' + in_first[num]
+        end
+      end
+    end
+    for i in 0...second.length
+      for j in 0...second[i].length
+        if second[i][j][0..1] == 'ИГ'
+          num = second[i][j][3..-1]
+          second[i][j] = 'ИГ ' + in_second[num]
+        end
+      end
+    end
+
     cnt_errors = 0
     first.each do |line_in_first|
       line_flag = false
@@ -37,7 +81,7 @@ class GAnswer < ActiveRecord::Base
     end
     return cnt_errors
   end
-  
+
   def check_g_part(standard_bnf, bnf_to_check, left, log, mistakes)
     g_cnt = 0
     standard_bnf.each do |st_line|
@@ -84,7 +128,7 @@ class GAnswer < ActiveRecord::Base
       end
     end
   end
-  
+
   def generate_task(groups)
     task = []
     for sentence_id in ["0", "1", "2"]
@@ -98,7 +142,7 @@ class GAnswer < ActiveRecord::Base
     end
     return task
   end
-  
+
   def clear_bnf(bnf)
     #добавляет поле статуса
     bnf.each do |line|
@@ -120,7 +164,7 @@ class GAnswer < ActiveRecord::Base
     end
     return bnf
   end
-  
+
   def check_answer(answer_to_check)
     log = []
     mistakes = []
@@ -323,7 +367,7 @@ class GAnswer < ActiveRecord::Base
         log << "БНФ : строка #{description} отсутствует, несовпадает или группа слов, описываемая этой строкой несовпадает"
       end
     end
-    
+
     bnf_to_check.each do |line|
       if line != nil && line["status"] == 0 && line["left"] != nil
         mistakes[3] += 1
@@ -347,7 +391,7 @@ class GAnswer < ActiveRecord::Base
         log << "БНФ : строка #{description} лишняя, несовпадает или группа слов, описываемая этой строкой несовпадает"
       end
     end
-    
+
     mark = 100
     for id in 0..10
       mark -= mistakes[id]*Cost[id]
@@ -357,5 +401,5 @@ class GAnswer < ActiveRecord::Base
     end
     return mark, mistakes.to_s, log.join("\n")
   end
-  
+
 end
