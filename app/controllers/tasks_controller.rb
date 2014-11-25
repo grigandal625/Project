@@ -18,6 +18,9 @@ class TasksController < AdminToolsController
   def create
     sentences = []
     params[:sentences].split("\r\n").each{|sen| sentences << sen unless sen == ""}
+    sentences[0] ||= ""
+    sentences[1] ||= ""
+    sentences[2] ||= ""
     #render text: sentences.inspect
     task = Task.create(sentence1: sentences[0], sentence2: sentences[1],
                 sentence3: sentences[2])

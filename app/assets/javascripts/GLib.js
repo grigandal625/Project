@@ -162,6 +162,11 @@ function initG(GInitFlag){
 		}
 	}else{
 		getGAnswer();
+		if (currentGAnswer == '()'){
+			initG(false);
+			return;
+		}
+		currentGAnswer = eval(currentGAnswer);
 		wordTable = eval('(' + JSON.stringify(currentGAnswer["groups"]) + ')');
 		var bnf = {
 			"lines" : eval('(' + JSON.stringify(currentGAnswer["bnf"]) + ')')

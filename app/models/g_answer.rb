@@ -355,8 +355,6 @@ class GAnswer < ActiveRecord::Base
     if mark < 0
       mark = 0
     end
-    #puts "mark " + mark.to_s
-    #puts log
     return mark, mistakes.to_s, log.join("\n")
   end
   
