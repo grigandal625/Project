@@ -30,7 +30,7 @@ class SAnswer < ActiveRecord::Base
         log << "\"#{i+1}\"-е предложение: неправильно выбран предикат"
         mark -= 60
       else
-        if c_answer[i][0]["word"].downcase != standart_answer[i][0]["word"].downcase
+        if c_answer[i][0]["word"].mb_chars.downcase.to_s != standart_answer[i][0]["word"].mb_chars.downcase.to_s
           mistakes[3] += 1
           log << "\"#{i+1}\"-е предложение: неправильно записана н/ф предиката."
           mark -= 20
@@ -65,7 +65,7 @@ class SAnswer < ActiveRecord::Base
               log << "#{i+1}-е предложение: неверно выбран уровень актанта \"#{standart_answer[i][j]["word"]}\""
               mark -= 10
             end
-            if c_answer[i][k]["word"].downcase != standart_answer[i][j]["word"].downcase
+            if c_answer[i][k]["word"].mb_chars.downcase.to_s != standart_answer[i][j]["word"].mb_chars.downcase.to_s
               mistakes[2] += 1
               log << "#{i+1}-е предложение: неверно записана н/ф \"#{standart_answer[i][j]["word"]}\""
               mark -= 10
@@ -90,7 +90,7 @@ class SAnswer < ActiveRecord::Base
             mistakes[1] += 1
             log << "#{i+1}-е предложение: не найдено слово \"#{standart_answer[i][j]["word"]}\""
           else
-            if c_answer[i][k]["word"].downcase != standart_answer[i][j]["word"].downcase
+            if c_answer[i][k]["word"].mb_chars.downcase.to_s != standart_answer[i][j]["word"].mb_chars.downcase.to_s
               mistakes[1] += 1
               log << "#{i+1}-е предложение: неверно записано слово \"#{standart_answer[i][j]["word"]}\""
               mark -= 2
