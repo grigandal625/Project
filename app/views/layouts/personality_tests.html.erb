@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+
+  <title>Психологические тесты</title>
+
+  <!--TODO: Что это?-->
+  <meta name="generator" content="Bootply" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!--[if lt IE 9]>
+  <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <%= stylesheet_link_tag    "personality_test", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "personality_test", "data-turbolinks-track" => true %>
+
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div class="page-container">
+
+  <!-- top navbar -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <%= link_to 'Психологические тесты', personality_tests_path, class: 'navbar-brand' %>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row row-offcanvas row-offcanvas-left">
+
+      <%= sidebar( yield(:sidebar_replace) ) %>
+
+      <div id="pt_main" class="col-xs-12 col-sm-9" data-spy="scroll" data-target="#sidebar-nav">
+        <%= yield %>
+      </div>
+
+      <!--.row-->
+    </div>
+    <!--.container-fluid-->
+  </div>
+  <!--.page-container-->
+</div>
+
+<div id="footer">
+    <p class="pull-right">Copyright <i class="glyphicon glyphicon-copyright-mark"></i> at AI lab</p>
+</div>
+
+<div id="push"></div>
+
+</body>
+</html>
