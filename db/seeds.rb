@@ -182,17 +182,17 @@ PersonalityTestAnswer.create!([
   {value: "я легко могу вспомнить, как говорил мой друг", personality_test_question_id: 78},
   {value: "мне легко вспомнить, как я чувствую своего друга", personality_test_question_id: 78}
 ])
-PersonalityTestAnswerPicture.create!([
-  {image_uid: "2014/11/13/92b1x8db7v_osenniy_fon_autumn_background.jpg", personality_test_answer_id: 17},
-  {image_uid: nil, personality_test_answer_id: 4},
-  {image_uid: nil, personality_test_answer_id: 1},
-  {image_uid: nil, personality_test_answer_id: 5},
-  {image_uid: "2014/11/13/4pew9fh097_osenniy_fon_autumn_background.jpg", personality_test_answer_id: 19},
-  {image_uid: "2014/11/13/2z0z0atufq_kamihina2.jpg", personality_test_answer_id: 24},
-  {image_uid: "2014/11/13/8rmkjhfo3l_thumb1.jpg", personality_test_answer_id: 29},
-  {image_uid: "2014/11/13/62zfy2j02p_thumb2.jpg", personality_test_answer_id: 30},
-  {image_uid: "2014/11/14/4xgp3iyven_PS_2_mocco.jpg", personality_test_answer_id: 32}
-])
+# PersonalityTestAnswerPicture.create!([
+#   {image_uid: "2014/11/13/92b1x8db7v_osenniy_fon_autumn_background.jpg", personality_test_answer_id: 17},
+#   {image_uid: nil, personality_test_answer_id: 4},
+#   {image_uid: nil, personality_test_answer_id: 1},
+#   {image_uid: nil, personality_test_answer_id: 5},
+#   {image_uid: "2014/11/13/4pew9fh097_osenniy_fon_autumn_background.jpg", personality_test_answer_id: 19},
+#   {image_uid: "2014/11/13/2z0z0atufq_kamihina2.jpg", personality_test_answer_id: 24},
+#   {image_uid: "2014/11/13/8rmkjhfo3l_thumb1.jpg", personality_test_answer_id: 29},
+#   {image_uid: "2014/11/13/62zfy2j02p_thumb2.jpg", personality_test_answer_id: 30},
+#   {image_uid: "2014/11/14/4xgp3iyven_PS_2_mocco.jpg", personality_test_answer_id: 32}
+# ])
 PersonalityTestAnswerWeight.create!([
   {value: 0.1, personality_test_answer_id: 8, personality_trait_id: 1},
   {value: 0.9, personality_test_answer_id: 8, personality_trait_id: 2},
@@ -379,11 +379,11 @@ PersonalityTestQuestion.create!([
   {value: " Вы можете заставить себя долго и продуктивно, не отвлекаясь, заниматься чем-либо? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 47},
   {value: " Бывает, что вы говорите о вещах, в которых совсем не разбираетесь? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 48}
 ])
-PersonalityTestQuestionPicture.create!([
-  {image_uid: "2014/11/13/4zt9tsqbvs_osenniy_fon_autumn_background.jpg", personality_test_question_id: nil},
-  {image_uid: "2014/11/13/2y788vq7pf_osenniy_fon_autumn_background.jpg", personality_test_question_id: nil},
-  {image_uid: "2014/11/13/995elxz55q_osenniy_fon_autumn_background.jpg", personality_test_question_id: nil}
-])
+# PersonalityTestQuestionPicture.create!([
+#   {image_uid: "2014/11/13/4zt9tsqbvs_osenniy_fon_autumn_background.jpg", personality_test_question_id: nil},
+#   {image_uid: "2014/11/13/2y788vq7pf_osenniy_fon_autumn_background.jpg", personality_test_question_id: nil},
+#   {image_uid: "2014/11/13/995elxz55q_osenniy_fon_autumn_background.jpg", personality_test_question_id: nil}
+# ])
 PersonalityTestQuestionType.create!([
   {name: "один вариант"},
   {name: "несколько вариантов"},
