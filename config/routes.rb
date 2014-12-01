@@ -1,5 +1,4 @@
 UIR::Application.routes.draw do
-  
   get "auth/login", to: "auth#login", as: "login"
   post "auth/authentificate"
   post "auth/logout", as: "logout"
@@ -20,13 +19,27 @@ UIR::Application.routes.draw do
   resources :menu
   resources :semantictests
   resources :semanticanswers
+  resources :personality_tests do
+    get :results, on: :collection
+    post :save_results, on: :collection
+  end
+  resources :personality_test_questions, except: [:create, :index] do
+    post :batch_update, on: :collection
+  end
+  resources :personality_test_answers, only: [:new, :update, :destroy]
+  resources :personality_test_answer_pictures, only: [:create, :update]
+  resources :personality_test_question_pictures, only: [:create, :update]
+  resources :personalities, only: [:index, :new, :update, :destroy]
+  resources :personality_traits, only: [:index, :new, :update, :destroy]
+  resources :personality_test_answer_weights, only: [:new, :update, :destroy]
+
   post "semanticanswers/create"
   post "semanticanswers/updatesemanticjson"
   post "semantictests/updateJson"
   post "semanticanswers/getmistakes"
   get  "semanticanswers/new"
   get  "menu/results"
-   
+
 
   root 'menu#index'
   get "test", to: "test#get_task", as: "get_task"

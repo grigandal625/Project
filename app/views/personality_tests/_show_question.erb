@@ -1,0 +1,34 @@
+<section>
+    <div id="pt_show_question_<%= question.id %>" class="panel">
+      <div class="panel-heading">
+        <h4>
+          <%= question.value %>
+          <span class="progress pull-right"> <%= "#{question.ordering} из #{question.test.questions.size}" %></span>
+        </h4>
+        <% if question.picture %>
+            <%= image_tag question.picture.image.url, class: 'img-thumbnail' %>
+        <% end %>
+      </div>
+      <div class="panel-body">
+        <div class="list-group <%= 'priority' if question.type.id == 3 || question.type.id == 4 %>">
+          <% question.answers.each do |answer| %>
+              <div class="list-group-item">
+                <!--TODO: заменить id на текст с i18n -->
+                <% case question.type.id %>
+                <% when 1 %>
+                    <%= radio_button_tag question.id, answer.id, false, class: 'pt-show-answer', required: true %>
+                <% when 2 %>
+                    <%= check_box_tag question.id.to_s + '[]', answer.id,  false, class: 'pt-show-answer' %>
+                <% else %>
+                    <%= hidden_field_tag question.id.to_s + '[]', answer.id %>
+                <% end %>
+                <% if answer.picture %>
+                    <%= image_tag answer.picture.image.url, class: 'img-thumbnail' %>
+                <% end %>
+                <%= answer.value %>
+              </div>
+          <% end %>
+        </div>
+      </div><!--/panel-body-->
+    </div><!--/panel-->
+</section><!--/section-->

@@ -1,0 +1,3 @@
+$tr = $(' <%= escape_javascript render( partial: 'list_personality', locals: { personality: @personality}) %>');
+$('#pt_personalities').append($tr);
+$tr.find('.x-editable').editable();

@@ -1,0 +1,19 @@
+<li id="pt_trait_<%= trait.id %>" class="list-group-item">
+  <div class="row">
+        <div class="col-md-1">
+          <% PersonalityTest.joins(:personality_test_questions => {personality_test_answers: :personality_traits})
+             .where(personality_traits: {id: trait.id}).distinct.each do |test| %>
+              <p> <%= test.name %> </p>
+          <% end %>
+        </div>
+        <div class="col-md-11">
+            <%= link_to trait.name, '#', class: 'x-editable',
+                        data: { name: 'name',
+                                type: 'text',
+                                pk: trait.id,
+                                url: personality_trait_path(trait),
+                               } %>
+            <%= link_to '', trait, method: :delete, remote: true, data: { confirm: 'Вы уверены?'}, class: 'glyphicon glyphicon-remove pull-right' %>
+        </div>
+      </div>
+</li>

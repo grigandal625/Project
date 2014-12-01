@@ -1,0 +1,5 @@
+<%= form_for( (picture ? picture : PersonalityTestAnswerPicture.new), html: {multipart: true, remote: true, id: "pt_answer_picture_save_#{answer_id}" }) do %>
+    <%= image_tag (picture ? picture.image.url : "//placehold.it/100") , class: 'editable-image img-circle pull-right' %>
+    <%= file_field_tag :answer_picture, class: 'editable-image-input' %>
+    <%= hidden_field_tag :answer_id, answer_id %>
+<% end %>

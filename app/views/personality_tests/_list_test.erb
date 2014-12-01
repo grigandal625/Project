@@ -1,0 +1,3 @@
+<li>
+  <%= link_to test.name, (admin ? edit_personality_test_path(test) : test), id: 'pt_test_' + test.id.to_s, remote: admin %>
+</li>

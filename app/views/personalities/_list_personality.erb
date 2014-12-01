@@ -1,0 +1,55 @@
+<tr id="pt_personality_<%= personality.id %>">
+  <td class="associated-tests">
+      <%= render partial: 'assocoated_tests', locals: {personality: personality} %>
+  </td>
+  <td>
+    <%= link_to personality.name, '#', class: 'x-editable',
+                data: { name: 'name',
+                        type: 'text',
+                        pk: personality.id,
+                        url: personality_path(personality),
+                } %>
+  </td>
+
+  <td>
+    <%= link_to personality.description, '#', class: 'x-editable',
+                data: { name: 'description',
+                        type: 'textarea',
+                        pk: personality.id,
+                        url: personality_path(personality)
+                } %>
+  </td>
+
+  <td>
+    <%= link_to personality.trait.try(:name), '#', class: 'x-editable',
+                data: { name: 'personality_trait_id',
+                        type: 'select',
+                        pk: personality.id,
+                        source: @traits.map {|t| {value: t.id, text: t.name }},
+                        url: personality_path(personality),
+                        value: personality.trait.try(:id)
+                } %>
+  </td>
+
+  <td>
+    <%= link_to personality.begin_at, '#', class: 'x-editable',
+                data: { name: 'begin_at',
+                        type: 'number',
+                        pk: personality.id,
+                        url: personality_path(personality),
+                } %>
+  </td>
+
+  <td>
+    <%= link_to personality.end_at, '#', class: 'x-editable',
+                data: { name: 'end_at',
+                        type: 'number',
+                        pk: personality.id,
+                        url: personality_path(personality),
+                } %>
+  </td>
+
+  <td>
+    <%= link_to '', personality, method: :delete, remote: true, data: { confirm: 'Вы уверены?'}, class: 'glyphicon glyphicon-remove pull-right' %>
+  </td>
+</tr>

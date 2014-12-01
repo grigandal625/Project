@@ -1,0 +1,20 @@
+$('#pt_question_picture_save').replaceWith(' <%= escape_javascript render( partial: 'form', locals: {question_id: @picture.question.id, picture: @picture}) %>');
+
+$('#pt_question_picture_save .editable-image').click( function() {
+    $(this).next('input:file').click();
+});
+$('#pt_question_picture_save .editable-image-input').change(function(event) {
+    var $this = $(this);
+    var $img =  $this.closest('form').find('img');
+
+    if ($this.prop('files')) {
+        var file = $this.prop('files')[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $this.closest('form').submit();
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+});

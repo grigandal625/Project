@@ -1,0 +1,9 @@
+<% if @weight %>
+    $li = $(' <%= escape_javascript render(partial: 'list_weight', locals: { weight: @weight}) %>')
+    $('#pt_answer_<%= @weight.answer.id %>_weights').append($li);
+    $li.find('.x-editable').editable();
+<% else %>
+    if ( confirm('Список личностных качеств пока что пуст. Перейти к редактированию списка личностных качеств, чтобы добавить новую шкалу?')) {
+        window.location.href = '/personality_traits';
+    }
+<% end %>

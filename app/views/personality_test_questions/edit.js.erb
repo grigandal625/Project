@@ -1,0 +1,3 @@
+$('#pt_questions .active').removeClass('active');
+$('#pt_question_' + '<%= @question.id %>').addClass('active');
+<%= render partial: 'question_binding_events' %>
