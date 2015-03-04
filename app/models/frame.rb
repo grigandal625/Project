@@ -157,7 +157,7 @@ class Frame
 
   def createframe(message)
     i = 0
-    fr = Framedb.find(3)
+    fr = Framedb.new
     fr.code = ""
     while etalontree.find(i) != nil
       if etalontree.find(i).struct[0] == "fassert"
