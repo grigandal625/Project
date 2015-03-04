@@ -1,0 +1,2 @@
+<%= link_to question.value, edit_personality_test_question_path(question), id: "pt_question_" + question.id.to_s,
+            class: 'list-group-item', data: {id: question.id }, remote: true %>

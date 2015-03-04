@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  etalonframe_id: 
+  student_id: 
+  studentcode: MyText
+  result: 1
+
+two:
+  etalonframe_id: 
+  student_id: 
+  studentcode: MyText
+  result: 1

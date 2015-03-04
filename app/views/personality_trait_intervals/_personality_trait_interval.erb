@@ -1,0 +1,33 @@
+<tr id="personality_trait_interval_<%= int.id %>">
+  <td class="trait">
+    <%= link_to int.trait.try(:name), '#', class: 'x-editable',
+                data: { name: 'personality_trait_id',
+                        type: 'select',
+                        pk: int.id,
+                        source: PersonalityTrait.all.map {|t| {value: t.id, text: t.name }},
+                        url: personality_trait_interval_path(int),
+                        value: int.try(:id)
+                } %>
+  </td>
+  <td class="trait">
+    <%= link_to int.begin_at, '#', class: 'x-editable',
+                data: { name: 'begin_at',
+                        type: 'number',
+                        pk: int.id,
+                        step: 'any',
+                        url: personality_trait_interval_path(int),
+                } %>
+  </td>
+  <td class="trait">
+    <%= link_to int.end_at, '#', class: 'x-editable',
+                data: { name: 'end_at',
+                        type: 'number',
+                        pk: int.id,
+                        step: 'any',
+                        url: personality_trait_interval_path(int),
+                } %>
+  </td>
+  <td>
+    <%= link_to '', personality_trait_interval_path(int), method: :delete, remote: true, data: { confirm: 'Вы уверены?'}, class: 'glyphicon glyphicon-remove pull-right' %>
+  </td>
+</tr>

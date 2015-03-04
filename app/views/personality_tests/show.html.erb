@@ -1,0 +1,22 @@
+<div class="col-sm-10">
+  <%= form_tag({controller: 'personality_tests', action: 'save_results', id: @test.id }, method: "post", id: "pt_show_questions" ) do %>
+    <%= render partial: 'show_question', collection: @test.questions.order(:ordering), as: :question %>
+    <%= hidden_field_tag :time, @current_time %>
+  <% end %>
+</div><!--/col-->
+
+<% content_for :sidebar_replace do  %>
+    <!-- sidebar -->
+    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation" >
+      <div class="affix-top" data-spy="affix1" data-offset-top="60" data-offset-bottom="200" >
+        <ul class="nav" id="sidebar-nav">
+          <% @test.questions.order(:ordering).each do |question| %>
+              <li>
+                <%= link_to question.ordering.to_s + ') ' + question.value, "#pt_show_question_#{question.id}", class: 'pt-link-to-show' %>
+              </li>
+          <% end %>
+        </ul>
+        <a id="pt_test_submit" class="btn btn-success">Завершить тест</a>
+      </div>
+    </div>
+<% end %>

@@ -1,0 +1,6 @@
+$q = $(' <%= escape_javascript render( partial: 'list_question', locals: {question: @question}) %>');
+$('#pt_questions .active').removeClass('active')
+$('#pt_questions').append($q);
+$q.addClass('active');
+
+<%= render partial: 'question_binding_events' %>

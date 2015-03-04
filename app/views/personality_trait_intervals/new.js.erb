@@ -1,0 +1,3 @@
+$tr = $(' <%= escape_javascript render( partial: "personality_trait_interval", locals: {int: @interval}) %>');
+$('#trait_interval_<%= params[:personality_id] %>').before($tr);
+$tr.find('.x-editable').editable();

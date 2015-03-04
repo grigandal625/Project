@@ -1,0 +1,37 @@
+$wrapper = $(' <%= escape_javascript render( partial: 'edit') %>');
+$('#pt_question_info_wrapper').html($wrapper);
+$wrapper.find('.x-editable').editable();
+//TODO: Отставить только один из инициализатоов
+$('.x-editable-question').editable({
+    validate: function(value) {
+        if($.trim(value) == '') {
+            return 'Пустая строка недопустима';
+        }
+    }
+});
+$('.editable-image').click( function() {
+    $(this).next('input:file').click();
+});
+$('.editable-image-input').change(function(event) {
+    var $this = $(this);
+    var $img =  $this.closest('form').find('img');
+
+    if ($this.prop('files')) {
+        var file = $this.prop('files')[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $this.closest('form').submit();
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+});
+
+$('.x-editable-answer').editable({
+    validate: function(value) {
+        if($.trim(value) == '') {
+            return 'Пустая строка недопустима';
+        }
+    }
+});

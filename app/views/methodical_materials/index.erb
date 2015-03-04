@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-md-12">
+    <blockquote>
+      <% if @user.role == 'admin' %>
+          <%= form_for @page, remote:true do |f| %>
+              <%= f.text_area :title, class: "inline-area" %>
+              <div class="inline-content">
+                <%= @page.title.try(:html_safe) %>
+              </div>
+          <% end %>
+      <% else %>
+          <%= @page.title.try(:html_safe) %>
+      <% end %>
+    </blockquote>
+    <div class="jumbotron">
+      <% if @user.role == 'admin' %>
+          <%= form_for @page, remote: true do |f| %>
+              <%= f.text_area :description, class: "inline-area" %>
+              <div class="inline-content">
+                <%= @page.description.try(:html_safe) %>
+              </div>
+          <% end %>
+      <% else %>
+        <%= @page.description.try(:html_safe) %>
+      <% end %>
+      <div class="row no-margin">
+        <div class="col-md-3 col-md-offset-9"><a href="#menu-toggle" class="btn btn-primary pull-right" id="menu-toggle">Активировать панель</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :title do %>
+    <%= strip_tags(@page.title) %>
+<% end %>

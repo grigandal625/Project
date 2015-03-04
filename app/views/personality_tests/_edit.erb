@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-sm-6">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <%= link_to 'Добавить', new_personality_test_question_path, remote: true, data: {params:{test_id: @test.id}}, class: 'pull-right' %>
+        <h4>Вопросы</h4>
+      </div>
+      <div class="panel-body">
+        <div id="pt_questions" class="list-group">
+          <%= render partial: 'personality_test_questions/list_question', collection: @test.questions, as: 'question' %>
+        </div>
+      </div><!--/panel-body-->
+    </div><!--/panel-->
+  </div><!--/col-sm-6-->
+
+  <div class="col-sm-6">
+    <div id="pt_test_info" class="well">
+      <h4>Информация о тесте</h4>
+      <table class="pt-test-info">
+        <tr>
+          <td>Наименование теста: </td>
+          <td>
+            <%= link_to @test.name, '#', class: 'x-editable',
+                          data: {name: 'name', type: 'text', pk: @test.id, url: personality_test_path(@test) } %>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Способ обработки результата: </td>
+          <td>
+            <%= link_to @test.type.try(:name), '#', class: 'x-editable',
+                          data: { name: 'personality_test_type_id',
+                                  type: 'select',
+                                  pk: @test.id,
+                                  source: @types.map {|t| {value: t.id, text: t.name}},
+                                  url: personality_test_path(@test),
+                                  value: @test.type.try(:id)} %>
+          </td>
+        </tr>
+      </table>
+      <%= link_to 'Удалить', @test, method: :delete, data: { confirm: 'Вы уверены?'}, class: 'btn-sm btn-success pull-right' %>
+      <div class="clearfix"></div>
+    </div><!--/well-->
+    <div id="pt_question_info_wrapper">
+
+    </div>
+  </div><!--/col-->
+</div><!--/row-->

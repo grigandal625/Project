@@ -36,8 +36,13 @@
       <span>Семантические сети:</span><br>
       <%= link_to("Задания", semantictests_path) %><br/>
       <%= link_to("Результаты", semantictests_results_path) %><br/>
-      
-
+      <span>Фреймы:</span><br>
+      <%= link_to("Задания", frameadmin_index_path) %><br/>
+      <span>Психологические тесты:</span><br/>
+      <%= link_to("Тесты", personality_tests_path) %><br/>
+      <%= link_to("Результаты", results_personality_tests_path) %>
+      <span>Методические материалы:</span><br/>
+      <%= link_to("Перейти", methodical_materials_path) %>
     </td>
     <td id="content"><%= yield %></td>
   </tr>

@@ -1,0 +1,38 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <%= link_to 'Добавить', new_personality_path, class: 'pull-right', remote: true %>
+    <h4>Психологические портреты</h4>
+  </div>
+  <div class="panel-body">
+    <table class="pt-table">
+      <thead>
+        <tr>
+          <th>
+            Связанные тесты
+          </th>
+          <th>
+            Название
+          </th>
+          <th>
+            Описание
+          </th>
+          <th class="trait">
+            Связанная шкала
+          </th>
+          <th class="trait">
+            Начало интервала
+          </th>
+          <th class="trait">
+            Конец интервала
+          </th>
+          <th>
+
+          </th>
+        </tr>
+      </thead>
+      <tbody id="pt_personalities">
+        <%= render partial: 'list_personality', collection: @personalities, as: 'personality' %>
+      </tbody>
+    </table>
+  </div>
+</div><!--/panel-->

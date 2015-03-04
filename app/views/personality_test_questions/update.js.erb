@@ -1,0 +1,9 @@
+$('#pt_question_' + '<%= @question.id %>').text('<%= @question.value %>');
+<% if @question.answers.empty? %>
+    //TODO: заменить id на название, используя i18n
+    <% if @question.type.id == 1 %>
+        $('#pt_answers').html(' <%= escape_javascript render( partial: "personality_test_answers/links_to_add_yn_answers" ) %>');
+    <% else %>
+        $('#pt_answers').html('');
+    <% end %>
+<% end %>

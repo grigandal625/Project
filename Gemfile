@@ -11,6 +11,10 @@ end
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
+group :development, :test do
+  gem 'railroady'
+end
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
@@ -38,7 +42,13 @@ group :development, :test do
     gem 'railroady'
 end
 
-gem 'slim'
+#You need install imagemagick to get all features from using paperclip
+gem 'dragonfly', '~> 1.0.7'
+
+gem 'remotipart', '~> 1.2'
+
+gem 'ckeditor'
+
 
 #for transliteration
 #gem "the_string_to_slug", "~> 0.0.5"

@@ -1,0 +1,28 @@
+var $li = $('#pt_test_' + <%= @test.id %>);
+$('#pt_tests .active').removeClass('active');
+$li.addClass('active');
+$('#pt_main').html(' <%= escape_javascript render( partial: 'edit' ) %> ');
+var questions = $('#pt_questions').sortable({
+    containerSelector: '#pt_questions',
+    itemSelector: '.list-group-item',
+    placeholder: '<a class="list-group-item active">Переместить сюда</a>',
+    onDrop: function($item) {
+        $item.removeClass("dragged").removeAttr("style");
+        $("body").removeClass("dragging");
+        var order = $('#pt_questions a').map( function(i, item) {
+            return item.dataset.id;
+        });
+        $.ajax({
+            type: "POST",
+            url: "/personality_test_questions/batch_update",
+            data: { order: order.get() }
+        })
+    }
+});
+$('.x-editable').editable({
+    validate: function(value) {
+        if($.trim(value) == '') {
+            return 'Пустая строка недопустима';
+        }
+    }
+});

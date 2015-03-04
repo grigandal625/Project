@@ -20,13 +20,18 @@
       <span>Навигация:</span><br/>
       <span>Семантические сети:</span><br>
 	  		<%= link_to 'Начать Тестирование',  semanticanswers_path, method: "POST" %>
+      <span>Фреймы 0.1:</span><br>
+      <%= link_to 'Начать Тестирование',  framestudent_index_path %>
+
 	  		
       <span>Лингвистика:</span><br>
       <%= link_to "Лингвистика", get_task_path%></br>
       <span>Оценки:</span><br>
       <%= link_to "Просмотр", group_student_path(@user.student.group, @user.student),:target => "_blank" %>
-            
-
+      <span>Психологические тесты:</span>
+      <%= link_to 'Перейти', personality_tests_path %>
+      <span>Методические материалы:</span><br/>
+      <%= link_to("Перейти", methodical_materials_path) %>
     </td>
     <td id="content"><%= yield %></td>
   </tr>

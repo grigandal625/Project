@@ -1,0 +1,29 @@
+$answers = $('<%= escape_javascript render( partial: 'list_answer', collection: @answers, as: :answer) %>');
+$('#pt_answers').append($answers);
+$answers.find('.x-editable-answer').editable({
+    validate: function(value) {
+        if($.trim(value) == '') {
+            return 'Пустая строка недопустима';
+        }
+    }
+});
+
+$('#pt_answers .editable-image').click( function() {
+    $(this).next('input:file').click();
+});
+
+$('#pt_answers .editable-image-input').change(function(event) {
+    var $this = $(this);
+
+    if ($this.prop('files')) {
+        var file = $this.prop('files')[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                $this.closest('form').submit();
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+});
+$('#add_yn_answers').remove();

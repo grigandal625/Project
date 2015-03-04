@@ -1,0 +1,46 @@
+<!--sidebar-->
+<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+    <% if @user.role == 'admin' %>
+        <ul class="nav" id="pt_tests">
+          <%= render partial: 'personality_tests/list_test', collection: PersonalityTest.all, as: 'test', locals: {admin: true} %>
+          <!--TODO: удалить и поменять в js на append-->
+          <li id="pt_add_test"></li>
+        </ul>
+
+        <ul class="nav">
+          <li>
+            <%= link_to 'Создать новый тест', new_personality_test_path, remote: true %>
+          </li>
+
+          <li>
+            <%= link_to 'Редактировать черты характера', personality_traits_path %>
+          </li>
+
+          <li>
+            <%= link_to 'Редактировать психологические портреты', personalities_path %>
+          </li>
+        </ul>
+
+        <ul class="nav">
+            <li>
+              <%= link_to 'Результаты', results_personality_tests_path %>
+            </li>
+            <li>
+              <%= link_to 'Вернуться в меню', root_path %>
+            </li>
+        </ul>
+    <% else %>
+        <ul class="nav" id="pt_tests">
+            <%= render partial: 'personality_tests/list_test', collection: PersonalityTest.where.not(id: @user.student.try(:passed_personality_tests).ids) , as: 'test', locals: {admin: false} %>
+        </ul>
+
+        <ul class="nav">
+            <li>
+              <%= link_to 'Результаты', results_personality_tests_path %>
+            </li>
+            <li>
+                <%= link_to 'Вернуться в меню', root_path %>
+            </li>
+        </ul>
+    <% end %>
+</div><!--/sidebar-->

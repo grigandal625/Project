@@ -6,11 +6,6 @@ class AdminToolsController < ApplicationController
   layout 'admin'
 
   private
-  def check_admin
-    if @user.role != 'admin'
-      redirect_to :root
-    end
-  end
 
   def set_show_menu
     @showmenu = params[:showmenu] || true
@@ -20,6 +15,7 @@ class AdminToolsController < ApplicationController
     else
       @for_print << "?showmenu=false"
     end
+
   end
 
 end

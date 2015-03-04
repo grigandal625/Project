@@ -1,0 +1,21 @@
+<div class="col-sm-10">
+  <h1>Ваши результаты:</h1>
+  <% @personalities.each do |personality| %>
+    <h2><%= personality.name %></h2>
+    <p>
+      <%= personality.description %>
+    </p>
+  <% end %>
+</div><!--/col-->
+
+<% content_for :sidebar_replace do  %>
+    <!-- sidebar -->
+    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+      <ul class="nav" id="sidebar-nav">
+        <li>
+          <%= link_to 'Назад в меню', personality_tests_path, class: 'pt-link-to-show' %>
+          <%= link_to 'Просмотреть все результаты', results_personality_tests_path, class: 'pt-link-to-show' %>
+        </li>
+      </ul>
+    </div>
+<% end %>

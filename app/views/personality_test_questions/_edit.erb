@@ -1,0 +1,45 @@
+<div id="pt_question_info" class="panel panel-default">
+  <div class="panel-heading">
+    <%= link_to 'Удалить', @question, method: :delete, remote: true, data: {confirm: 'Вы уверены?'}, class: 'pull-right' %>
+    <h4>Вопрос</h4>
+  </div>
+  <div class="panel-body">
+    <p>
+     <%= render partial: 'personality_test_question_pictures/form', locals: {picture: @question.picture, question_id: @question.id} %>
+      Тип вопроса: <%= link_to @question.type.try(:name), '#', class: 'x-editable-question', data: {
+                          name: 'personality_test_question_type_id',
+                          type: 'select',
+                          pk: @question.id,
+                          url: personality_test_question_path(@question),
+                          source: @types.map {|t| {value: t.id, text: t.name}},
+                          value: @question.type.try(:id)
+                          } %>
+    </p>
+    <div class="clearfix"></div>
+
+    <hr>
+    <p class="editable-textarea">
+    <%= link_to @question.value, '#', class: 'x-editable-question', data: {
+            name: 'value',
+            type: 'textarea',
+            pk: @question.id,
+            url: personality_test_question_path(@question),
+            showbuttons: 'bottom'
+    } %>
+    </p>
+    <hr>
+  </div><!--/panel-body-->
+</div><!--/panel-->
+
+<div class="well">
+  <%= link_to 'Добавить', new_personality_test_answer_path, remote: true, data: { params: {create_open_panel: true, question_id: @question.id }}, class: 'pull-right' %>
+  <h4>Варианты ответов</h4>
+  <div class="panel-group" id="pt_answers">
+    <% if @question.answers.any? %>
+      <%= render partial: 'personality_test_answers/list_answer', collection: @question.answers, as: 'answer' %>
+    <!--TODO: заменить id на название, используя i18n-->
+    <% elsif @question.type.id == 1 %>
+        <%= render( partial: "personality_test_answers/links_to_add_yn_answers" ) %>
+    <% end %>
+  </div>
+</div><!--/well-->
