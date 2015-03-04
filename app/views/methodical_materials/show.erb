@@ -1,0 +1,100 @@
+<div class="row">
+  <div class="col-md-12">
+    <blockquote>
+      <% if @user.role == 'admin' %>
+          <%= form_for @page, remote: true do |f| %>
+              <%= f.text_area :title, class: "inline-area" %>
+              <div class="inline-content">
+                <%= @page.title.try(:html_safe) %>
+              </div>
+          <% end %>
+      <% else %>
+          <%= @page.title.try(:html_safe) %>
+      <% end %>
+    </blockquote>
+    <div class="jumbotron">
+      <% if @user.role == 'admin' %>
+          <%= form_for @page, remote: true do |f| %>
+              <%= f.text_area :description, class: "inline-area" %>
+              <div class="inline-content">
+                <%= @page.description.try(:html_safe) %>
+              </div>
+          <% end %>
+      <% else %>
+          <%= @page.description.try(:html_safe) %>
+      <% end %>
+      <div class="row no-margin">
+        <div class="col-md-3 col-md-offset-9"><a href="#menu-toggle" class="btn btn-primary pull-right" id="menu-toggle">Активировать панель</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      <!-- Первая панель -->
+      <div class="panel panel-primary">
+        <div class="panel-heading" role="tab" id="headingOne">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Теоретическая часть
+            </a>
+          </h4>
+        </div>
+            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+              <div class="panel-body">
+                <% if @user.role == 'admin' %>
+                    <%= form_for @page, remote: true do |f| %>
+                        <%= f.text_area :theoretical_part, class: "inline-area" %>
+                        <div class="inline-content">
+                          <%= @page.theoretical_part.try(:html_safe) %>
+                        </div>
+                    <% end %>
+                <% else %>
+                    <%= @page.theoretical_part.try(:html_safe) %>
+                <% end %>
+              </div>
+            </div>
+        </div>
+        <!-- Вторая панель -->
+        <div class="panel panel-success">
+          <div class="panel-heading" role="tab" id="headingTwo">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                Практическая часть
+              </a>
+            </h4>
+          </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="panel-body">
+              <% if @user.role == 'admin' %>
+                  <%= form_for @page, remote: true do |f| %>
+                      <%= f.text_area :practical_part, class: "inline-area" %>
+                      <div class="inline-content">
+                        <%= @page.practical_part.try(:html_safe) %>
+                      </div>
+                  <% end %>
+              <% else %>
+                  <%= @page.practical_part.try(:html_safe) %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1 col-md-offset-9">
+      <%= link_to 'На главную', methodical_materials_path, class: 'btn btn-primary pull-right' %>
+    </div>
+    <div class="col-md-2">
+      <a href="#menu-toggle" class="btn btn-primary pull-right" id="menu-toggle-2">Активировать панель</a>
+    </div>
+  </div>
+</div>
+<%= hidden_field_tag :current_id, @page.id %>
+
+
+<% content_for :title do %>
+    <%= strip_tags(@page.title) %>
+<% end %>

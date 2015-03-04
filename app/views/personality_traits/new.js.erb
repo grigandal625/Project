@@ -1,0 +1,3 @@
+$li = $(' <%= escape_javascript render( partial: 'list_trait', locals: { trait: @trait}) %>');
+$('#pt_traits').append($li);
+$li.find('.x-editable').editable();

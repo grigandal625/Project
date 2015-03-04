@@ -1,0 +1,41 @@
+<% if @user.role == 'admin' %>
+    <div class="col-sm-10">
+        <% Group.all.each do |group| %>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <%= link_to group.number, '#pt_group_' + group.id.to_s, data: {toggle:'collapse'}, class: 'a-title-text' %>
+              </h4>
+            </div>
+            <div id="pt_group_<%= group.id %>" class="panel-collapse collapse">
+              <div class="panel-body">
+                <% Student.where(group_id: group.id).order(:fio).each do |stud| %>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <%= link_to stud.fio, '#pt_stud_' + stud.id.to_s, data: {toggle:'collapse'}, class: 'a-title-text' %>
+                        </h4>
+                      </div>
+                      <%= render partial: 'student_results', locals: {stud: stud} %>
+                    </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+    </div>
+<% else %>
+    <div class="col-sm-10">
+      <h1>Ваши результаты:</h1>
+      <% if @personalities.any? %>
+          <% @personalities.each do |personality| %>
+              <h2><%= personality.name %></h2>
+              <p>
+                <%= personality.description %>
+              </p>
+          <% end %>
+      <% else %>
+        <p>У вас еще нет результатов</p>
+      <% end %>
+    </div>
+<% end %>

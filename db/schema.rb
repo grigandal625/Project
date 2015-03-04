@@ -89,6 +89,115 @@ ActiveRecord::Schema.define(version: 20141226123353) do
 
   add_index "logs", ["component_id", "component_type"], name: "index_logs_on_component_id_and_component_type"
 
+  create_table "methodical_materials", force: true do |t|
+    t.string   "name"
+    t.string   "title"
+    t.text     "description"
+    t.text     "theoretical_part"
+    t.text     "practical_part"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "personalities", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "personality_trait_id"
+    t.float    "begin_at",             default: 0.0
+    t.float    "end_at",               default: 0.0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "personalities_students", id: false, force: true do |t|
+    t.integer "personality_id", null: false
+    t.integer "student_id",     null: false
+  end
+
+  create_table "personality_test_answer_pictures", force: true do |t|
+    t.string   "image_uid"
+    t.integer  "personality_test_answer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "personality_test_answer_weights", force: true do |t|
+    t.float    "value"
+    t.integer  "personality_test_answer_id"
+    t.integer  "personality_trait_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "personality_test_answer_weights", ["personality_trait_id"], name: "index_personality_test_answer_weights_on_personality_trait_id"
+
+  create_table "personality_test_answers", force: true do |t|
+    t.text     "value"
+    t.integer  "personality_test_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "personality_test_question_pictures", force: true do |t|
+    t.string   "image_uid"
+    t.integer  "personality_test_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "personality_test_question_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "personality_test_questions", force: true do |t|
+    t.text     "value"
+    t.integer  "personality_test_question_type_id"
+    t.integer  "personality_test_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "ordering"
+  end
+
+  add_index "personality_test_questions", ["personality_test_id"], name: "index_personality_test_questions_on_personality_test_id"
+
+  create_table "personality_test_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "personality_tests", force: true do |t|
+    t.string   "name"
+    t.integer  "personality_test_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "personality_tests_students", id: false, force: true do |t|
+    t.integer "personality_test_id", null: false
+    t.integer "student_id",          null: false
+  end
+
+  create_table "personality_trait_intervals", force: true do |t|
+    t.float    "begin_at"
+    t.float    "end_at"
+    t.integer  "personality_id"
+    t.integer  "personality_trait_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "personality_trait_intervals", ["personality_id"], name: "index_personality_trait_intervals_on_personality_id"
+  add_index "personality_trait_intervals", ["personality_trait_id"], name: "index_personality_trait_intervals_on_personality_trait_id"
+
+  create_table "personality_traits", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "results", force: true do |t|
     t.integer  "student_id"
     t.integer  "task_id"

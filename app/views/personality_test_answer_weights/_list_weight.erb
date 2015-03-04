@@ -1,0 +1,23 @@
+<li id="pt_weight_<%= weight.id %>" class="list-group-item">
+  <%= link_to weight.trait.name, '#', class: 'x-editable',
+              data: { name: 'personality_trait_id',
+                      type: 'select',
+                      pk: weight.id,
+                      source: @traits.map {|t| {value: t.id, text: t.name}},
+                      url: personality_test_answer_weight_path(weight),
+                      value: weight.trait.try(:id)} %>
+  <span class="label label-info">
+    <%= link_to weight.value, '#', class: 'x-editable',
+                data: { mode: 'popup',
+                        name: 'value',
+                        type: 'number',
+                        step: 'any',
+                        clear: false,
+                        pk: weight.id,
+                        url: personality_test_answer_weight_path(weight)
+                } %>
+  </span>
+
+  <%= link_to '', weight, method: :delete, remote: true, data: { confirm: 'Вы уверены?'}, class: 'glyphicon glyphicon-remove pull-right' %>
+
+</li>

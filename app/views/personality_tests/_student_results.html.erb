@@ -1,0 +1,26 @@
+<div id="pt_stud_<%= stud.id %>" class="panel-collapse collapse">
+  <div class="panel-body">
+    <% if stud.passed_personality_tests.any? %>
+        <h3>Пройденные тесты:</h3>
+        <ul class="list-group">
+          <% stud.passed_personality_tests.each do |test| %>
+              <li class="list-group-item">
+                
+                <%= test.name %>
+              </li>
+          <% end %>
+        </ul>
+    <% end %>
+    <h3>Результаты студента:</h3>
+    <% if stud.personalities.any? %>
+        <% stud.personalities.each do |personality| %>
+            <h4><%= personality.name %></h4>
+            <p>
+              <%= personality.description %>
+            </p>
+        <% end %>
+    <% else %>
+        <p>Студент не прошел еще ни одного теста</p>
+    <% end %>
+  </div>
+</div>

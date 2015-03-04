@@ -5,6 +5,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :check_auth
 
+  def check_admin
+    if @user.role != 'admin'
+      redirect_to :root
+    end
+  end
+
   private
   def check_auth
     if session[:user_id] == nil

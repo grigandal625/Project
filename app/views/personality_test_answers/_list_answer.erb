@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+      <%= link_to answer.value, '#pt_collapse_answer_' + answer.id.to_s, class: 'a-title-text', data: {toggle:'collapse', parent: 'pt_answers'} %>
+      <%= link_to '', answer, method: :delete, remote: true, data: { confirm: 'Вы уверены?'}, class: 'glyphicon glyphicon-remove pull-right' %>
+    </h4>
+  </div>
+  <div id="pt_collapse_answer_<%= answer.id %>" class="panel-collapse collapse <%= params[:create_open_panel] ? 'in' : '' %>">
+    <div class="panel-body">
+      <%= render partial: 'personality_test_answer_pictures/form', locals: {picture: answer.picture, answer_id: answer.id} %>
+
+      Текст ответа: <%= link_to answer.value, '#', class: 'x-editable-answer', data: {
+            name: 'personality_test_answer_id',
+            type: 'text',
+            pk: answer.id,
+            url: personality_test_answer_path(answer)
+    } %>
+      <div class="clearfix"></div>
+      <hr/>
+      <ul id="pt_answer_<%= answer.id %>_weights" class="list-group">
+        <%= render partial: 'personality_test_answer_weights/list_weight', collection: answer.weights, as: 'weight' %>
+      </ul>
+      <%= link_to 'Добавить черту', new_personality_test_answer_weight_path, remote: true,
+                   data: { params: { answer_id: answer.id }},
+                   class: 'btn-sm btn-default center-block pull-right'%>
+    </div>
+  </div>
+</div>

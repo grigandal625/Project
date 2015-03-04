@@ -1,0 +1,11 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <%= link_to 'Добавить', new_personality_trait_path, class: 'pull-right', remote: true %>
+    <h4>Черты характера</h4>
+  </div>
+  <div class="panel-body">
+    <ul id="pt_traits" class="list-group">
+      <%= render partial: 'list_trait', collection: @traits, as: 'trait' %>
+    </ul>
+  </div>
+</div><!--/panel-->

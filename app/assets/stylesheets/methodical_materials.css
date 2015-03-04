@@ -1,0 +1,86 @@
+.row {
+    margin-bottom: 15px;
+    padding: 5px 10px;
+}
+
+.aling-center {
+    text-align: center;
+}
+
+.button-right {
+    margin-left: 35px;
+}
+
+.no-margin {
+    margin: 0px;
+}
+
+.indent {
+    text-indent: 1.5em;
+    text-align: justify;
+}
+
+.indent-2 {
+    text-indent: 3em;
+    text-align: justify;
+}
+
+.tooltip-inner{
+    text-align: left;
+    text-indent: 0em;
+}
+
+p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 3px 30px;
+}
+
+.img-responsive{
+    max-width: 100%;
+    height: auto;
+}
+
+.font-lg {
+    font-size: 1.1em;
+}
+
+.inline-area {
+    display: none;
+}
+
+.btn {
+    text-indent: 0px;
+}
+
+.inline-content {
+    width: 100%;
+    min-height: 1em;
+}
+.inline-content:hover {
+    -webkit-box-shadow: 0 0 5px 1px rgba(51,122,183,1);
+    box-shadow: 0 0 5px 1px rgba(51,122,183,1);
+}
+.sidebar-nav li {
+    position: relative;
+}
+.mm-edit-name {
+    position: absolute;
+    text-decoration: underline;
+    color: #337AB7;
+    font-size: 0.7em;
+    right: 34px;
+    top:1px;
+    cursor: pointer;
+}
+
+.mm-delete {
+    position: absolute;
+    color: #FF4444;
+    font-size: 0.7em;
+    width: 5px;
+    right: 30px;
+    top:2px;
+    cursor: pointer;
+    text-decoration: none;
+}

@@ -1,0 +1,5 @@
+<div id="add_yn_answers" class="list-group">
+    Быстро добавить варианты ответов:
+    <%= link_to 'да/нет', new_personality_test_answer_path, remote: true, data: { params: {create_answers: 'yes/no', question_id: @question.id }}, class: "list-group-item" %>
+    <%= link_to 'да/нет/не знаю', new_personality_test_answer_path, remote: true, data: { params: {create_answers: 'yes/no/no matter', question_id: @question.id }}, class: "list-group-item" %>
+</div>

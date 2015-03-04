@@ -32,9 +32,23 @@ UIR::Application.routes.draw do
   resources :menu
   resources :semantictests
   resources :semanticanswers
-  resources :frameadmin
-  resources :framestudent
+  resources :personality_tests do
+    get :results, on: :collection
+    post :save_results, on: :collection
+    post :remove_from_student, on: :collection, as: :remove_test_from_student
+  end
+  resources :personality_test_questions, except: [:create, :index] do
+    post :batch_update, on: :collection
+  end
+  resources :personality_test_answers, only: [:new, :update, :destroy]
+  resources :personality_test_answer_pictures, only: [:create, :update]
+  resources :personality_test_question_pictures, only: [:create, :update]
+  resources :personalities, only: [:index, :new, :update, :destroy]
+  resources :personality_traits, only: [:index, :new, :update, :destroy]
+  resources :personality_trait_intervals, only: [:new, :update, :destroy]
+  resources :personality_test_answer_weights, only: [:new, :update, :destroy]
 
+  resources :methodical_materials, except: [:edit, :create]
 
   post "semanticanswers/create"
   post "semanticanswers/updatesemanticjson"
@@ -42,7 +56,7 @@ UIR::Application.routes.draw do
   post "semanticanswers/getmistakes"
   get  "semanticanswers/new"
   get  "menu/results"
-   
+
 
   root 'menu#index'
   get "test", to: "test#get_task", as: "get_task"

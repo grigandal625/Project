@@ -1,0 +1,41 @@
+<tr id="pt_personality_<%= personality.id %>">
+  <td class="associated-tests">
+      <%= render partial: 'assocoated_tests', locals: {personality: personality} %>
+  </td>
+  <td>
+    <%= link_to personality.name, '#', class: 'x-editable',
+                data: { name: 'name',
+                        type: 'text',
+                        pk: personality.id,
+                        url: personality_path(personality),
+                } %>
+  </td>
+
+  <td class="text">
+    <%= link_to personality.description, '#', class: 'x-editable',
+                data: { name: 'description',
+                        type: 'textarea',
+                        pk: personality.id,
+                        url: personality_path(personality)
+                } %>
+  </td>
+
+  <td colspan="3" class="no-padding">
+    <table >
+      <% personality.intervals.each do |int| %>
+        <%= render partial: "personality_trait_intervals/personality_trait_interval", locals: {int: int, traits: @traits} %>
+      <% end %>
+      <tr id="trait_interval_<%= personality.id %>">
+        <td colspan="4  ``````````````````````````````````````````````````````````````````````````````````````````````````````````````````" >
+            <%= link_to '', new_personality_trait_interval_path, class: "btn btn-default glyphicon glyphicon-plus", remote: true, data: {params: {personality_id: personality.id}} %>
+        </td>
+      </tr>
+    </table>
+
+  </td>
+
+
+  <td>
+    <%= link_to '', personality, method: :delete, remote: true, data: { confirm: 'Вы уверены?'}, class: 'glyphicon glyphicon-remove pull-right' %>
+  </td>
+</tr>

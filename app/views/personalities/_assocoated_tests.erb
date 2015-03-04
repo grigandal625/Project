@@ -1,0 +1,4 @@
+<% PersonalityTest.joins(:personality_test_questions => {:personality_test_answers => {personality_traits: :personalities}})
+   .where(personalities: {id: personality.id}).distinct.each do |test| %>
+    <p> <%= test.name %> </p>
+<% end %>
