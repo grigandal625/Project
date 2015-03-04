@@ -1,3 +1,4 @@
+#coding: utf-8
 class Frame
   attr_accessor :etalontree         # Лексическое дерево
   attr_accessor :mistakes           # Ошибки трансляции

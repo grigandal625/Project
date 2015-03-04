@@ -1,3 +1,4 @@
+#coding: utf-8
 class Semanticnetwork < ActiveRecord::Base
   belongs_to :etalon
   belongs_to :student

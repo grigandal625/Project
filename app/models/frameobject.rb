@@ -1,3 +1,4 @@
+#coding: utf-8
 class Frameobject
   attr_accessor :parents
   attr_accessor :name

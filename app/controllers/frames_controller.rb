@@ -1,3 +1,4 @@
+#coding: utf-8
 class FramesController < ApplicationController
   def index
     @frames = Framedb.all

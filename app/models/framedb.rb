@@ -1,3 +1,4 @@
+#coding: utf-8
 class Framedb < ActiveRecord::Base
 
   def  self.create_frame(name, code)

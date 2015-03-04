@@ -1,3 +1,4 @@
+#coding: utf-8
 class FrameadminController < AdminToolsController
   def index
     @etalons = Etalonframe.all

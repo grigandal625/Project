@@ -1,3 +1,4 @@
+#coding: utf-8
 class FrameSolver
   attr_accessor :studentframe
   attr_accessor :etalonframe
