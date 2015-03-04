@@ -22,6 +22,8 @@ UIR::Application.routes.draw do
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
 
   resources :results
+  resources :frameadmin
+  resources :framestudent
 
   resources :groups do
     resources :students, only: [:create, :show, :destroy]
