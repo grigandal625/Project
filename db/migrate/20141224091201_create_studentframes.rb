@@ -5,7 +5,6 @@ class CreateStudentframes < ActiveRecord::Migration
       t.references :student, index: true
       t.text :studentcode
       t.integer :result
-      t.text  :result
       t.boolean :isfinish
 
       t.timestamps
