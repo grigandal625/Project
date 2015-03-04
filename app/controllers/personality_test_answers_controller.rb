@@ -1,3 +1,4 @@
+#coding=utf-8
 class PersonalityTestAnswersController < ApplicationController
   before_action :check_admin
 

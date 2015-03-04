@@ -9,28 +9,14 @@
             </div>
             <div id="pt_group_<%= group.id %>" class="panel-collapse collapse">
               <div class="panel-body">
-                <% Student.order(:fio).each do |stud| %>
+                <% Student.where(group_id: group.id).order(:fio).each do |stud| %>
                     <div class="panel panel-default">
                       <div class="panel-heading">
                         <h4 class="panel-title">
                           <%= link_to stud.fio, '#pt_stud_' + stud.id.to_s, data: {toggle:'collapse'}, class: 'a-title-text' %>
                         </h4>
                       </div>
-                      <div id="pt_stud_<%= stud.id %>" class="panel-collapse collapse">
-                        <div class="panel-body">
-                          <h3>Результаты студента:</h3>
-                          <% if stud.personalities.any? %>
-                              <% stud.personalities.each do |personality| %>
-                                  <h4><%= personality.name %></h4>
-                                  <p>
-                                    <%= personality.description %>
-                                  </p>
-                              <% end %>
-                          <% else %>
-                              <p>Студент не прошел еще ни одного теста</p>
-                          <% end %>
-                        </div>
-                      </div>
+                      <%= render partial: 'student_results', locals: {stud: stud} %>
                     </div>
                 <% end %>
               </div>

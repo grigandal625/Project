@@ -1,3 +1,4 @@
+#coding=utf-8
 class PersonalitiesController < ApplicationController
   layout 'personality_tests'
   before_action :check_admin

@@ -1,410 +1,1267 @@
-﻿# -*- encoding : utf-8 -*-
-Personality.create!([
-  {name: "Высокая интровертированность", description: "Спокойный, застенчивый, погруженный в свои переживания человек, который отделен от всех, кроме близких людей. Он планирует свои действия заблоговременно, любит во всем порядок и держит свои чувства под строгим контролем. Склонен общаться с близкими, домашний, верный в своих привязанностях, смирный и послушный, воздерживается от шумных компаний и неустойчивых партнеров. Терпимый, смиренный и лояльный к чужим взглядам. Внешне - медлительный, нерешительный, безгласный, но это может быть обманом, поскольку это еще не говорит об его внутреннем мире", personality_trait_id: 1, begin_at: 0.0, end_at: 6.0},
-  {name: "Средняя интровертированность", description: "Спокойный, застенчивый, погруженный в свои переживания человек, который отделен от всех, кроме близких людей. Он планирует свои действия заблоговременно, любит во всем порядок и держит свои чувства под строгим контролем. Склонен общаться с близкими, домашний, верный в своих привязанностях, смирный и послушный, воздерживается от шумных компаний и неустойчивых партнеров. Терпимый, смиренный и лояльный к чужим взглядам. Внешне - медлительный, нерешительный, безгласный, но это может быть обманом, поскольку это еще не говорит об его внутреннем мире", personality_trait_id: 1, begin_at: 7.0, end_at: 11.0},
-  {name: "Средняя экстравертированность", description: "Общительный, имеет много друзей, не любит долго читать и заниматься систематической учебой, стремление к различного рода возбуждениям (как положительным, так и отрицательным), склонен к риску и приключениям, действует под влиянием момента, импульсивен, беззаботен и добродушно весел, оптимистичен, в жизни предпочитает действие и движение, бывает вспыльчив, эмоции и чувства не всегда контролируются. Из положительных черт: энергичность, инициативность, энтузиазм, стремление к новым сторонам жизни, при реализации своих замыслов бойкий и пробивной, деятельный, с кипучей энергией. Хороший организатор, целеустремленный и предприимчивый. С окружающими жизнерадостный, неунывающий", personality_trait_id: 1, begin_at: 17.0, end_at: 21.0},
-  {name: "Высокая экстравертированность", description: "Общительный, имеет много друзей, не любит долго читать и заниматься систематической учебой, стремление к различного рода возбуждениям (как положительным, так и отрицательным), склонен к риску и приключениям, действует под влиянием момента, импульсивен, беззаботен и добродушно весел, оптимистичен, в жизни предпочитает действие и движение, бывает вспыльчив, эмоции и чувства не всегда контролируются. Из положительных черт: энергичность, инициативность, энтузиазм, стремление к новым сторонам жизни, при реализации своих замыслов бойкий и пробивной, деятельный, с кипучей энергией. Хороший организатор, целеустремленный и предприимчивый. С окружающими жизнерадостный, неунывающий", personality_trait_id: 1, begin_at: 22.0, end_at: 26.0},
-  {name: "Средняя экстравертированность-интровертированность", description: "Нет предласположенности к интровертированности или экстравертированности", personality_trait_id: 1, begin_at: 12.0, end_at: 16.0},
-  {name: " Высокая пластичность", description: "Пластичность (лабильность) - одно из свойств нервной системы, характеризующее скорость возникновения и прекращения нервных процессов", personality_trait_id: 2, begin_at: 0.0, end_at: 2.0},
-  {name: "Средняя пластичность", description: "Пластичность (лабильность) - одно из свойств нервной системы, характеризующее скорость возникновения и прекращения нервных процессов", personality_trait_id: 2, begin_at: 3.0, end_at: 6.0},
-  {name: "Средняя ригидность-пластичность", description: "нет описания\n", personality_trait_id: 2, begin_at: 7.0, end_at: 11.0},
-  {name: "Средняя ригидность", description: "Ригидность - затрудненность в изменении намеченной субъектом программы деятельности в условиях, объективно требующих ее перестройки. Выражается: 1) в косности аффективных (эмоциональных) откликов на изменяющиеся объекты эмоций; 2) в тугоподвижности перестройки системы мотивов в обстоятельствах, требующих от субъекта гибкости и изменения характера поведения; 3) в трудностях перестройки восприятия и представлений в изменившейся ситуации. ", personality_trait_id: 2, begin_at: 12.0, end_at: 15.0},
-  {name: "Высокая ригидность", description: "Ригидность - затрудненность в изменении намеченной субъектом программы деятельности в условиях, объективно требующих ее перестройки. Выражается: 1) в косности аффективных (эмоциональных) откликов на изменяющиеся объекты эмоций; 2) в тугоподвижности перестройки системы мотивов в обстоятельствах, требующих от субъекта гибкости и изменения характера поведения; 3) в трудностях перестройки восприятия и представлений в изменившейся ситуации", personality_trait_id: 2, begin_at: 16.0, end_at: 23.0},
-  {name: " Высокая эмоциональная уравновешенность", description: "Выдержанный, сдержанный, терпеливый, немногословный, степенный, благоразумный, уравновешанный, ровный в общении, воздержанный от гнева и не возмутимый в ситуации стресса. Терпимый к лишениям, умеренный в своих потребностях. Это психологически устойчивая личность, которая хорошо адаптируется к социальной среде. ", personality_trait_id: 3, begin_at: 0.0, end_at: 3.0},
-  {name: "Средняя эмоциональная уравновешенность", description: "Выдержанный, сдержанный, терпеливый, немногословный, степенный, благоразумный, уравновешанный, ровный в общении, воздержанный от гнева и не возмутимый в ситуации стресса. Терпимый к лишениям, умеренный в своих потребностях. Это психологически устойчивая личность, которая хорошо адаптируется к социальной среде", personality_trait_id: 3, begin_at: 4.0, end_at: 7.0},
-  {name: "Средняя эмоциональная возбудимость и уравновешенность", description: "Нет описания\n", personality_trait_id: 3, begin_at: 8.0, end_at: 13.0},
-  {name: "Средняя эмоциональная возбудимость", description: "Личность эмоционально неустойчивая, подвержена всевозможным психологическим отклонениям, которые ведут к неуравновешанности. Чувствительный, уязвимый, мучается от неприятностей в жизни. Эмоционально тонко чувствующий, деликатный, восприимчивый к отрицательным сигналам извне, стыдливый, смущающийся. Принимает все близко к сердцу, неуверенный в себе и боязливый. Могут проявляться закомплексованность, пугливость, неуверенность в себе, напряженность эмоций. ", personality_trait_id: 3, begin_at: 14.0, end_at: 17.0},
-  {name: "Высокая эмоциональная возбудимость", description: "Личность эмоционально неустойчивая, подвержена всевозможным психологическим отклонениям, которые ведут к неуравновешанности. Чувствительный, уязвимый, мучается от неприятностей в жизни. Эмоционально тонко чувствующий, деликатный, восприимчивый к отрицательным сигналам извне, стыдливый, смущающийся. Принимает все близко к сердцу, неуверенный в себе и боязливый. Могут проявляться закомплексованность, пугливость, неуверенность в себе, напряженность эмоций. ", personality_trait_id: 3, begin_at: 18.0, end_at: 20.0},
-  {name: " Очень медленный темп реакций", description: "ОиРеакция - действие, состояние, процесс, возникающее в ответ на какое-либо воздействие, раздражитель, впечатление. Реакция - акт поведения, возникающее в ответ на определенное воздействие. сание", personality_trait_id: 4, begin_at: 0.0, end_at: 4.0},
-  {name: "Медленный темп реакций", description: "Реакция - действие, состояние, процесс, возникающее в ответ на какое-либо воздействие, раздражитель, впечатление. Реакция - акт поведения, возникающее в ответ на определенное воздействие. ", personality_trait_id: 1, begin_at: 5.0, end_at: 8.0},
-  {name: "Средний темп реакций", description: "Реакция - действие, состояние, процесс, возникающее в ответ на какое-либо воздействие, раздражитель, впечатление. Реакция - акт поведения, возникающее в ответ на определенное воздействие. ", personality_trait_id: 4, begin_at: 9.0, end_at: 13.0},
-  {name: "Быстрый темп реакций", description: "Реакция - действие, состояние, процесс, возникающее в ответ на какое-либо воздействие, раздражитель, впечатление. Реакция - акт поведения, возникающее в ответ на определенное воздействие. ", personality_trait_id: 4, begin_at: 14.0, end_at: 19.0},
-  {name: "Очень быстрый темп реакций", description: "Оисание", personality_trait_id: 4, begin_at: 20.0, end_at: 22.0},
-  {name: "Низкий уровень активности", description: "Активность - свойство всего живого как источник преобразования или поддержания ими жизненно значимых связей с окружающим миром. Активность характеризуется обусловленностью производимых действий, произвольностью (наличием цели субъекта), значительной устойчивостью деятельности в отношении принятой цели. ", personality_trait_id: 5, begin_at: 0.0, end_at: 8.0},
-  {name: "Активность ниже среднего", description: "Активность - свойство всего живого как источник преобразования или поддержания ими жизненно значимых связей с окружающим миром. Активность характеризуется обусловленностью производимых действий, произвольностью (наличием цели субъекта), значительной устойчивостью деятельности в отношении принятой цели. ", personality_trait_id: 5, begin_at: 9.0, end_at: 13.0},
-  {name: "Средняя активность", description: "Активность - свойство всего живого как источник преобразования или поддержания ими жизненно значимых связей с окружающим миром. Активность характеризуется обусловленностью производимых действий, произвольностью (наличием цели субъекта), значительной устойчивостью деятельности в отношении принятой цели. ", personality_trait_id: 5, begin_at: 14.0, end_at: 16.0},
-  {name: "Активность выше среднего", description: "Активность - свойство всего живого как источник преобразования или поддержания ими жизненно значимых связей с окружающим миром. Активность характеризуется обусловленностью производимых действий, произвольностью (наличием цели субъекта), значительной устойчивостью деятельности в отношении принятой цели. ", personality_trait_id: 5, begin_at: 17.0, end_at: 23.0},
-  {name: "Высокая активность", description: "Активность - свойство всего живого как источник преобразования или поддержания ими жизненно значимых связей с окружающим миром. Активность характеризуется обусловленностью производимых действий, произвольностью (наличием цели субъекта), значительной устойчивостью деятельности в отношении принятой цели. ", personality_trait_id: 5, begin_at: 24.0, end_at: 26.0},
-  {name: "Низкая искренность", description: "В ходе обследования испытуемый либо не вполне понимал смысла вопросов, либо торопился заполнить опросник", personality_trait_id: 6, begin_at: 0.0, end_at: 7.0},
-  {name: "Средняя искренность", description: " В ходе психологического обследования испытуемый старается достоверно представить свою личность.", personality_trait_id: 6, begin_at: 8.0, end_at: 12.0},
-  {name: "Высокая искренность", description: "Высокий уровень искренности при ответах.. Искренность - для личности с таким параметром характерно чистосердечие и человечность в общении. Про такого говорят, что он честный по своей натуре, бескорыстный в своих поступках и помощи. Добросердечность этой личности нельзя смешивать со всепрощением, личность с пониманием относится к чужим проблемам и старается в силу своих возможностей помочь окружающим. Добрый, отзывчивый к окружающим, гуманист. В ходе психологического обследования не старается приукрасить свою личность. \n", personality_trait_id: 6, begin_at: 13.0, end_at: 20.0},
-  {name: "аудиальная репрезентативная система", description: "Оисание", personality_trait_id: 7, begin_at: 1.0, end_at: 2.0},
-  {name: "визуальная репрезентативная система", description: "Оисание", personality_trait_id: 8, begin_at: 1.0, end_at: 2.0},
-  {name: "кинестетическая репрезентативная система", description: "Оисание", personality_trait_id: 9, begin_at: 1.0, end_at: 2.0},
-  {name: "думающий, анализирующий, компьютерный тип", description: "Оисание", personality_trait_id: 11, begin_at: 1.0, end_at: 2.0}
-])
-PersonalityTest.create!([
-  {name: "Опросник Смирнова", personality_test_type_id: 1},
-  {name: "Тест на модальность", personality_test_type_id: 3}
-])
-PersonalityTestAnswer.create!([
-  {value: "Да", personality_test_question_id: 10},
-  {value: "Нет", personality_test_question_id: 10},
-  {value: "Да", personality_test_question_id: 9},
-  {value: "Нет", personality_test_question_id: 9},
-  {value: "Да", personality_test_question_id: 11},
-  {value: "Нет", personality_test_question_id: 11},
-  {value: "Да", personality_test_question_id: 16},
-  {value: "Нет", personality_test_question_id: 16},
-  {value: "Да", personality_test_question_id: 17},
-  {value: "Нет", personality_test_question_id: 17},
-  {value: "Да", personality_test_question_id: 18},
-  {value: "Нет", personality_test_question_id: 18},
-  {value: "Да", personality_test_question_id: 19},
-  {value: "Нет", personality_test_question_id: 19},
-  {value: "Да", personality_test_question_id: 20},
-  {value: "Нет", personality_test_question_id: 20},
-  {value: "Да", personality_test_question_id: 21},
-  {value: "Нет", personality_test_question_id: 21},
-  {value: "Да", personality_test_question_id: 22},
-  {value: "Нет", personality_test_question_id: 22},
-  {value: "Да", personality_test_question_id: 23},
-  {value: "Нет", personality_test_question_id: 23},
-  {value: "Да", personality_test_question_id: 27},
-  {value: "Нет", personality_test_question_id: 27},
-  {value: "Да", personality_test_question_id: 29},
-  {value: "Нет", personality_test_question_id: 29},
-  {value: "Да", personality_test_question_id: 32},
-  {value: "Нет", personality_test_question_id: 32},
-  {value: "Да", personality_test_question_id: 33},
-  {value: "Нет", personality_test_question_id: 33},
-  {value: "Да", personality_test_question_id: 34},
-  {value: "Нет", personality_test_question_id: 34},
-  {value: "Да", personality_test_question_id: 35},
-  {value: "Нет", personality_test_question_id: 35},
-  {value: "Да", personality_test_question_id: 36},
-  {value: "Нет", personality_test_question_id: 36},
-  {value: "Да", personality_test_question_id: 37},
-  {value: "Нет", personality_test_question_id: 37},
-  {value: "Да", personality_test_question_id: 39},
-  {value: "Нет", personality_test_question_id: 39},
-  {value: "Да", personality_test_question_id: 40},
-  {value: "Нет", personality_test_question_id: 40},
-  {value: "Да", personality_test_question_id: 42},
-  {value: "Нет", personality_test_question_id: 42},
-  {value: "Да", personality_test_question_id: 43},
-  {value: "Нет", personality_test_question_id: 43},
-  {value: "Да", personality_test_question_id: 44},
-  {value: "Нет", personality_test_question_id: 44},
-  {value: "Да", personality_test_question_id: 45},
-  {value: "Нет", personality_test_question_id: 45},
-  {value: "Да", personality_test_question_id: 46},
-  {value: "Нет", personality_test_question_id: 46},
-  {value: "Да", personality_test_question_id: 47},
-  {value: "Нет", personality_test_question_id: 47},
-  {value: "Да", personality_test_question_id: 48},
-  {value: "Нет", personality_test_question_id: 48},
-  {value: "Да", personality_test_question_id: 49},
-  {value: "Нет", personality_test_question_id: 49},
-  {value: "Да", personality_test_question_id: 50},
-  {value: "Нет", personality_test_question_id: 50},
-  {value: "Да", personality_test_question_id: 51},
-  {value: "Нет", personality_test_question_id: 51},
-  {value: "Да", personality_test_question_id: 52},
-  {value: "Нет", personality_test_question_id: 52},
-  {value: "Да", personality_test_question_id: 53},
-  {value: "Нет", personality_test_question_id: 53},
-  {value: "Да", personality_test_question_id: 54},
-  {value: "Нет", personality_test_question_id: 54},
-  {value: "Да", personality_test_question_id: 55},
-  {value: "Нет", personality_test_question_id: 55},
-  {value: "Да", personality_test_question_id: 56},
-  {value: "Нет", personality_test_question_id: 56},
-  {value: "Да", personality_test_question_id: 57},
-  {value: "Нет", personality_test_question_id: 57},
-  {value: "Да", personality_test_question_id: 58},
-  {value: "Нет", personality_test_question_id: 58},
-  {value: "Да", personality_test_question_id: 59},
-  {value: "Нет", personality_test_question_id: 59},
-  {value: "Да", personality_test_question_id: 60},
-  {value: "Нет", personality_test_question_id: 60},
-  {value: "Да", personality_test_question_id: 61},
-  {value: "Нет", personality_test_question_id: 61},
-  {value: "Да", personality_test_question_id: 62},
-  {value: "Нет", personality_test_question_id: 62},
-  {value: "Да", personality_test_question_id: 63},
-  {value: "Нет", personality_test_question_id: 63},
-  {value: "Да", personality_test_question_id: 64},
-  {value: "Нет", personality_test_question_id: 64},
-  {value: "Да", personality_test_question_id: 65},
-  {value: "Нет", personality_test_question_id: 65},
-  {value: "Да", personality_test_question_id: 66},
-  {value: "Нет", personality_test_question_id: 66},
-  {value: "Да", personality_test_question_id: 67},
-  {value: "Нет", personality_test_question_id: 67},
-  {value: "Да", personality_test_question_ida: 68},
-  {value: "Нет", personality_test_question_id: 68},
-  {value: "важные решения – это дело чувств", personality_test_question_id: 13},
-  {value: "важные решения зависят от моего настроения", personality_test_question_id: 13},
-  {value: "важные решения зависят от моей точки зрения", personality_test_question_id: 13},
-  {value: "важные решения – это дело логики и ума", personality_test_question_id: 13},
-  {value: "у кого приятный голос", personality_test_question_id: 14},
-  {value: "важные решения – это дело логики и умакто хорошо выглядит", personality_test_question_id: 14},
-  {value: "кто говорит разумные вещи", personality_test_question_id: 14},
-  {value: "кто оставляет у меня хорошие чувства", personality_test_question_id: 14},
-  {value: "я посмотрю, как вы выглядите", personality_test_question_id: 69},
-  {value: "я проверю, что вы чувствуете", personality_test_question_id: 69},
-  {value: "я прислушаюсь к звукам вашего голоса", personality_test_question_id: 69},
-  {value: "я обращу внимание на то, что вы говорите", personality_test_question_id: 69},
-  {value: "модулировать полноту звуков в стереосистеме", personality_test_question_id: 70},
-  {value: "сделать выводы по поводу значимых проблем в интересующем меня вопросе", personality_test_question_id: 70},
-  {value: "выбирать суперкомфортабельную мебель", personality_test_question_id: 70},
-  {value: "найти богатые комбинации красок", personality_test_question_id: 70},
-  {value: "мне очень легко понять смысл новых фактов и данных", personality_test_question_id: 71},
-  {value: "мои уши всегда настроены на звуки окружающей действительности", personality_test_question_id: 71},
-  {value: "я хорошо чувствую одежду, облегающую мое тело", personality_test_question_id: 71},
-  {value: "я легко замечаю все краски мира", personality_test_question_id: 71},
-  {value: "им следует узнать о моих чувствах", personality_test_question_id: 72},
-  {value: "им следует посмотреть, как я выгляжу", personality_test_question_id: 72},
-  {value: "им следует послушать, как я говорю", personality_test_question_id: 72},
-  {value: "им следует прислушаться к интонациям моего голоса", personality_test_question_id: 72},
-  {value: "услышать факты, о которых вы знаете", personality_test_question_id: 73},
-  {value: "увидеть картины, которые вы нарисовали", personality_test_question_id: 73},
-  {value: "узнать о ваших чувствах", personality_test_question_id: 73},
-  {value: "послушать звучание вашего голоса, звуки происходящих событий", personality_test_question_id: 73},
-  {value: "когда я вижу что-то, я верю этому", personality_test_question_id: 74},
-  {value: "когда я слышу факты, я верю им", personality_test_question_id: 74},
-  {value: "я верю, когда чувствую что-то", personality_test_question_id: 74},
-  {value: "я верю только тому, в чем есть для меня смысл", personality_test_question_id: 74},
-  {value: "обычно я хорошо чувствую настроения людей", personality_test_question_id: 75},
-  {value: "я могу нарисовать лица, различные подробности того, что я видел", personality_test_question_id: 75},
-  {value: "я знаю, что именно думают близкие люди по поводу тех или иных вопросов", personality_test_question_id: 75},
-  {value: "я хорошо различаю интонацию голосов моих друзей", personality_test_question_id: 75},
-  {value: "я учусь понимать какие-то вещи", personality_test_question_id: 76},
-  {value: "я учусь делать какие-то вещи", personality_test_question_id: 76},
-  {value: "я учусь слушать новое", personality_test_question_id: 76},
-  {value: "я учусь видеть новые возможности", personality_test_question_id: 76},
-  {value: "приду к выводу, что важные решения принимаются с помощью чувств", personality_test_question_id: 77},
-  {value: "приму решение в зависимости от моего настроения", personality_test_question_id: 77},
-  {value: "приму те решения, которые вижу наиболее отчетливо", personality_test_question_id: 77},
-  {value: "приму их с помощью логики и разума", personality_test_question_id: 77},
-  {value: "мне легко вспомнить, как звучит голос моего друга", personality_test_question_id: 78},
-  {value: "мне легко вспомнить, как выглядит мой друг", personality_test_question_id: 78},
-  {value: "я легко могу вспомнить, как говорил мой друг", personality_test_question_id: 78},
-  {value: "мне легко вспомнить, как я чувствую своего друга", personality_test_question_id: 78}
-])
-# PersonalityTestAnswerPicture.create!([
-#   {image_uid: "2014/11/13/92b1x8db7v_osenniy_fon_autumn_background.jpg", personality_test_answer_id: 17},
-#   {image_uid: nil, personality_test_answer_id: 4},
-#   {image_uid: nil, personality_test_answer_id: 1},
-#   {image_uid: nil, personality_test_answer_id: 5},
-#   {image_uid: "2014/11/13/4pew9fh097_osenniy_fon_autumn_background.jpg", personality_test_answer_id: 19},
-#   {image_uid: "2014/11/13/2z0z0atufq_kamihina2.jpg", personality_test_answer_id: 24},
-#   {image_uid: "2014/11/13/8rmkjhfo3l_thumb1.jpg", personality_test_answer_id: 29},
-#   {image_uid: "2014/11/13/62zfy2j02p_thumb2.jpg", personality_test_answer_id: 30},
-#   {image_uid: "2014/11/14/4xgp3iyven_PS_2_mocco.jpg", personality_test_answer_id: 32}
-# ])
-PersonalityTestAnswerWeight.create!([
-  {value: 0.1, personality_test_answer_id: 8, personality_trait_id: 1},
-  {value: 0.9, personality_test_answer_id: 8, personality_trait_id: 2},
-  {value: 0.9, personality_test_answer_id: 9, personality_trait_id: 1},
-  {value: 0.1, personality_test_answer_id: 9, personality_trait_id: 2},
-  {value: 0.1, personality_test_answer_id: 10, personality_trait_id: 1},
-  {value: 0.1, personality_test_answer_id: 11, personality_trait_id: 1},
-  {value: 1.0, personality_test_answer_id: 15, personality_trait_id: 1},
-  {value: 1.0, personality_test_answer_id: 16, personality_trait_id: 3},
-  {value: 1.0, personality_test_answer_id: 26, personality_trait_id: 1},
-  {value: 2.0, personality_test_answer_id: 22, personality_trait_id: 2},
-  {value: 1.0, personality_test_answer_id: 23, personality_trait_id: 1},
-  {value: 1.0, personality_test_answer_id: 24, personality_trait_id: 8},
-  {value: 5.0, personality_test_answer_id: 24, personality_trait_id: 9},
-  {value: 1.0, personality_test_answer_id: 25, personality_trait_id: 8},
-  {value: 6.0, personality_test_answer_id: 25, personality_trait_id: 9},
-  {value: 2.0, personality_test_answer_id: 28, personality_trait_id: 3},
-  {value: 10123.0, personality_test_answer_id: 31, personality_trait_id: 4},
-  {value: 0.0, personality_test_answer_id: 31, personality_trait_id: 1},
-  {value: 2.0, personality_test_answer_id: 35, personality_trait_id: 1},
-  {value: 3.0, personality_test_answer_id: 35, personality_trait_id: 4},
-  {value: 3.0, personality_test_answer_id: 37, personality_trait_id: 5},
-  {value: 2.0, personality_test_answer_id: 39, personality_trait_id: 6},
-  {value: 3.0, personality_test_answer_id: 41, personality_trait_id: 1},
-  {value: 3.0, personality_test_answer_id: 43, personality_trait_id: 2},
-  {value: 2.0, personality_test_answer_id: 45, personality_trait_id: 3},
-  {value: 2.0, personality_test_answer_id: 47, personality_trait_id: 4},
-  {value: 3.0, personality_test_answer_id: 49, personality_trait_id: 5},
-  {value: 2.0, personality_test_answer_id: 51, personality_trait_id: 6},
-  {value: 1.0, personality_test_answer_id: 47, personality_trait_id: 5},
-  {value: 3.0, personality_test_answer_id: 53, personality_trait_id: 1},
-  {value: 2.0, personality_test_answer_id: 55, personality_trait_id: 2},
-  {value: 3.0, personality_test_answer_id: 57, personality_trait_id: 3},
-  {value: 3.0, personality_test_answer_id: 59, personality_trait_id: 4},
-  {value: 1.0, personality_test_answer_id: 61, personality_trait_id: 4},
-  {value: 3.0, personality_test_answer_id: 61, personality_trait_id: 5},
-  {value: 1.0, personality_test_answer_id: 63, personality_trait_id: 6},
-  {value: 3.0, personality_test_answer_id: 65, personality_trait_id: 1},
-  {value: 1.0, personality_test_answer_id: 66, personality_trait_id: 2},
-  {value: 2.0, personality_test_answer_id: 67, personality_trait_id: 2},
-  {value: 21.0, personality_test_answer_id: 69, personality_trait_id: 3},
-  {value: 2.0, personality_test_answer_id: 71, personality_trait_id: 4},
-  {value: 3.0, personality_test_answer_id: 73, personality_trait_id: 5},
-  {value: 1.0, personality_test_answer_id: 74, personality_trait_id: 6},
-  {value: 1.0, personality_test_answer_id: 75, personality_trait_id: 6},
-  {value: 1.0, personality_test_answer_id: 78, personality_trait_id: 6},
-  {value: 3.0, personality_test_answer_id: 80, personality_trait_id: 2},
-  {value: 1.0, personality_test_answer_id: 82, personality_trait_id: 3},
-  {value: 3.0, personality_test_answer_id: 84, personality_trait_id: 4},
-  {value: 1.0, personality_test_answer_id: 86, personality_trait_id: 4},
-  {value: 3.0, personality_test_answer_id: 86, personality_trait_id: 5},
-  {value: 3.0, personality_test_answer_id: 88, personality_trait_id: 6},
-  {value: 3.0, personality_test_answer_id: 90, personality_trait_id: 1},
-  {value: 3.0, personality_test_answer_id: 92, personality_trait_id: 2},
-  {value: 3.0, personality_test_answer_id: 94, personality_trait_id: 3},
-  {value: 2.0, personality_test_answer_id: 96, personality_trait_id: 4},
-  {value: 3.0, personality_test_answer_id: 98, personality_trait_id: 5},
-  {value: 3.0, personality_test_answer_id: 100, personality_trait_id: 6},
-  {value: 3.0, personality_test_answer_id: 102, personality_trait_id: 1},
-  {value: 1.0, personality_test_answer_id: 102, personality_trait_id: 4},
-  {value: 2.0, personality_test_answer_id: 103, personality_trait_id: 2},
-  {value: 2.0, personality_test_answer_id: 104, personality_trait_id: 2},
-  {value: 1.0, personality_test_answer_id: 105, personality_trait_id: 5},
-  {value: 3.0, personality_test_answer_id: 106, personality_trait_id: 3},
-  {value: 2.0, personality_test_answer_id: 108, personality_trait_id: 4},
-  {value: 3.0, personality_test_answer_id: 110, personality_trait_id: 5},
-  {value: 3.0, personality_test_answer_id: 112, personality_trait_id: 6},
-  {value: 2.0, personality_test_answer_id: 114, personality_trait_id: 1},
-  {value: 2.0, personality_test_answer_id: 116, personality_trait_id: 2},
-  {value: 3.0, personality_test_answer_id: 118, personality_trait_id: 3},
-  {value: 2.0, personality_test_answer_id: 120, personality_trait_id: 4},
-  {value: 1.0, personality_test_answer_id: 121, personality_trait_id: 2},
-  {value: 3.0, personality_test_answer_id: 122, personality_trait_id: 5},
-  {value: 3.0, personality_test_answer_id: 124, personality_trait_id: 6},
-  {value: 1.0, personality_test_answer_id: 126, personality_trait_id: 9},
-  {value: 1.0, personality_test_answer_id: 127, personality_trait_id: 7},
-  {value: 1.0, personality_test_answer_id: 128, personality_trait_id: 8},
-  {value: 1.0, personality_test_answer_id: 129, personality_trait_id: 11},
-  {value: 1.0, personality_test_answer_id: 130, personality_trait_id: 7},
-  {value: 1.0, personality_test_answer_id: 131, personality_trait_id: 8},
-  {value: 1.0, personality_test_answer_id: 132, personality_trait_id: 11},
-  {value: 1.0, personality_test_answer_id: 133, personality_trait_id: 9},
-  {value: 1.0, personality_test_answer_id: 134, personality_trait_id: 8},
-  {value: 1.0, personality_test_answer_id: 135, personality_trait_id: 9},
-  {value: 1.0, personality_test_answer_id: 136, personality_trait_id: 7},
-  {value: 1.0, personality_test_answer_id: 137, personality_trait_id: 11},
-  {value: 1.0, personality_test_answer_id: 138, personality_trait_id: 7},
-  {value: 1.0, personality_test_answer_id: 139, personality_trait_id: 11},
-  {value: 1.0, personality_test_answer_id: 140, personality_trait_id: 9},
-  {value: 1.0, personality_test_answer_id: 141, personality_trait_id: 8},
-  {value: 123.0, personality_test_answer_id: 26, personality_trait_id: 3},
-  {value: 1.0, personality_test_answer_id: 142, personality_trait_id: 11},
-  {value: 1.0, personality_test_answer_id: 143, personality_trait_id: 7},
-  {value: 1.0, personality_test_answer_id: 144, personality_trait_id: 9},
-  {value: 1.0, personality_test_answer_id: 145, personality_trait_id: 8},
-  {value: 1.0, personality_test_answer_id: 146, personality_trait_id: 9},
-  {value: 1.0, personality_test_answer_id: 147, personality_trait_id: 8},
-  {value: 1.0, personality_test_answer_id: 148, personality_trait_id: 11},
-  {value: 1.0, personality_test_answer_id: 149, personality_trait_id: 7},
-  {value: 1.0, personality_test_answer_id: 150, personality_trait_id: 11},
-  {value: 1.0, personality_test_answer_id: 151, personality_trait_id: 8},
-  {value: 1.0, personality_test_answer_id: 152, personality_trait_id: 9},
-  {value: 1.0, personality_test_answer_id: 153, personality_trait_id: 7},
-  {value: 1.0, personality_test_answer_id: 154, personality_trait_id: 8},
-  {value: 1.0, personality_test_answer_id: 155, personality_trait_id: 7},
-  {value: 1.0, personality_test_answer_id: 156, personality_trait_id: 9},
-  {value: 1.0, personality_test_answer_id: 157, personality_trait_id: 11},
-  {value: 1.0, personality_test_answer_id: 158, personality_trait_id: 9},
-  {value: 1.0, personality_test_answer_id: 159, personality_trait_id: 8},
-  {value: 1.0, personality_test_answer_id: 160, personality_trait_id: 11},
-  {value: 1.0, personality_test_answer_id: 161, personality_trait_id: 7},
-  {value: 1.0, personality_test_answer_id: 162, personality_trait_id: 11},
-  {value: 1.0, personality_test_answer_id: 163, personality_trait_id: 9},
-  {value: 1.0, personality_test_answer_id: 164, personality_trait_id: 7},
-  {value: 1.0, personality_test_answer_id: 165, personality_trait_id: 8},
-  {value: 1.0, personality_test_answer_id: 166, personality_trait_id: 9},
-  {value: 1.0, personality_test_answer_id: 167, personality_trait_id: 7},
-  {value: 1.0, personality_test_answer_id: 168, personality_trait_id: 8},
-  {value: 1.0, personality_test_answer_id: 169, personality_trait_id: 11},
-  {value: 1.0, personality_test_answer_id: 170, personality_trait_id: 7},
-  {value: 1.0, personality_test_answer_id: 171, personality_trait_id: 8},
-  {value: 1.0, personality_test_answer_id: 172, personality_trait_id: 11},
-  {value: 1.0, personality_test_answer_id: 173, personality_trait_id: 9}
-])
-PersonalityTestQuestion.create!([
-  {value: " Вы любите часто бывать в компании? ", personality_test_question_type_id: 3, personality_test_id: 3, ordering: 1},
-  {value: "Я скорее всего скажу:", personality_test_question_type_id: 4, personality_test_id: 6, ordering: 1},
-  {value: "Вы избегаете иметь вещи, которые ненадежны, непрочны, хотя и красивы? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 2},
-  {value: "Тот скорее окажет влияние на меня", personality_test_question_type_id: 4, personality_test_id: 6, ordering: 2},
-  {value: "Часто ли у вас бывают подъемы и спады настроения? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 3},
-  {value: "Если я хочу узнать, как вы поживаете,", personality_test_question_type_id: 4, personality_test_id: 6, ordering: 3},
-  {value: "Во время беседы вы очень быстро говорите? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 4},
-  {value: "Для меня легко", personality_test_question_type_id: 4, personality_test_id: 6, ordering: 4},
-  {value: "Вам нравится работа, требующая полного напряжения сил и способностей? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 5},
-  {value: "Смогу сказать о себе", personality_test_question_type_id: 4, personality_test_id: 6, ordering: 5},
-  {value: " Бывает ли, что вы передаете слухи? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 6},
-  {value: "Если люди захотят узнать, как я поживаю", personality_test_question_type_id: 4, personality_test_id: 6, ordering: 6},
-  {value: "Считаете ли вы себя человеком очень веселым и жизнерадостным? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 7},
-  {value: "Я предпочитаю", personality_test_question_type_id: 4, personality_test_id: 6, ordering: 7},
-  {value: "Вы очень привыкаете к определенной одежде, ее цвету и покрою, так что неохотно меняете ее на что-нибудь другое?", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 8},
-  {value: "Интересно, что", personality_test_question_type_id: 4, personality_test_id: 6, ordering: 8},
-  {value: "Часто ли вы чувствуете, что нуждаетесь в людях, которые вас понимают, могут ободрить или утешить? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 9},
-  {value: "Про себя я могу сказать следующее", personality_test_question_type_id: 4, personality_test_id: 6, ordering: 9},
-  {value: "У вас очень быстрый почерк? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 10},
-  {value: "Чаще всего", personality_test_question_type_id: 4, personality_test_id: 6, ordering: 10},
-  {value: "Ищете ли вы сами себе работу, занятие, хотя можно было бы и отдохнуть? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 11},
-  {value: "Когда я думаю о принятии нового решения, я скорее", personality_test_question_type_id: 4, personality_test_id: 6, ordering: 11},
-  {value: "Бывает ли так, что вы не выполняете своих обещаний? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 12},
-  {value: "Я отличаюсь тем, что", personality_test_question_type_id: 4, personality_test_id: 6, ordering: 12},
-  {value: "У вас много очень хороших друзей? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 13},
-  {value: "Трудно ли вам оторваться от дела, которым вы поглощены, и переключиться на другое? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 14},
-  {value: "Часто ли вас терзает чувство вины? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 15},
-  {value: " Обычно вы ходите очень быстро, независимо от того, спешите или нет? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 16},
-  {value: " В школе вы бились над трудными задачами до тех пор, пока не решали их? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 17},
-  {value: " Бывает ли, что вы иногда соображаете хуже, чем обычно? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 18},
-  {value: " Вам легко найти общий язык с незнакомыми людьми? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 19},
-  {value: " Часто ли вы планируете, как будете себя вести при встрече, беседе и т.д.? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 20},
-  {value: " Вы вспыльчивы и легко ранимы намеками и шутками над вами? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 21},
-  {value: " Во время беседы обычно вы быстро жестикулируете? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 22},
-  {value: " Чаще всего вы просыпаетесь утром свежим и хорошо отдохнувшим? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 23},
-  {value: " Бывают ли у вас такие мысли, что вы не хотели бы, чтобы о них знали другие?", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 24},
-  {value: " Вы любите подшучивать над другими? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 25},
-  {value: " Склонны ли вы к тому, чтобы основательно проверить свои мысли, прежде чем их сообщить кому-либо? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 26},
-  {value: " Часто ли вам снятся кошмары? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 27},
-  {value: " Обычно вы легко запоминаете и усваиваете новый учебный материал? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 28},
-  {value: " Вы настолько активны, что вам трудно даже несколько часов быть без дела? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 29},
-  {value: " Бывало ли, что, разозлившись, вы выходили из себя? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 30},
-  {value: " Вам не трудно внести оживление в довольно скучную компанию? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 31},
-  {value: " Вы обычно довольно долго раздумываете, принимая какое-то, даже не очень важное, решение? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 32},
-  {value: " Вам говорили, что вы принимаете все слишком близко к сердцу? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 33},
-  {value: " Вам нравится играть в игры, требующие быстроты и хорошей реакции? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 34},
-  {value: " Если у вас что-то долго не получается, то обычно вы все же пытаетесь сделать это? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 35},
-  {value: " Возникало ли у вас, хотя и кратковременно, чувство раздражения к вашим родителям? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 36},
-  {value: " Считаете ли вы себя открытым и общительным человеком? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 37},
-  {value: " Обычно вам трудно взяться за новое дело? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 38},
-  {value: " Беспокоит ли вас чувство, что вы чем-то хуже других? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 39},
-  {value: " Обычно вам трудно что-то делать с медлительными и неторопливыми людьми? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 40},
-  {value: " В течение дня вы можете долго и продуктивно заниматься чем-либо, не чувствуя усталости? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 41},
-  {value: " У вас есть привычки, от которых следовало бы избавиться? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 42},
-  {value: " Вас принимают иногда за человека беззаботного? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 43},
-  {value: " Считаете ли хорошим другом только того, чья симпатия к вам надежна и проверена? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 44},
-  {value: " Вас можно быстро рассердить? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 45},
-  {value: " Во время дискуссии обычно вы быстро находите подходящий ответ? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 46},
-  {value: " Вы можете заставить себя долго и продуктивно, не отвлекаясь, заниматься чем-либо? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 47},
-  {value: " Бывает, что вы говорите о вещах, в которых совсем не разбираетесь? ", personality_test_question_type_id: 1, personality_test_id: 3, ordering: 48}
-])
-# PersonalityTestQuestionPicture.create!([
-#   {image_uid: "2014/11/13/4zt9tsqbvs_osenniy_fon_autumn_background.jpg", personality_test_question_id: nil},
-#   {image_uid: "2014/11/13/2y788vq7pf_osenniy_fon_autumn_background.jpg", personality_test_question_id: nil},
-#   {image_uid: "2014/11/13/995elxz55q_osenniy_fon_autumn_background.jpg", personality_test_question_id: nil}
-# ])
-PersonalityTestQuestionType.create!([
-  {name: "один вариант"},
-  {name: "несколько вариантов"},
-  {name: "Независимые приоритеты"},
-  {name: "Приоритеты"}
-])
-PersonalityTestType.create!([
-  {name: "стандартный"},
-  {name: "результат делится на время"},
-  {name: "max"}
-])
-PersonalityTrait.create!([
-  {name: "Экстраверсия-интроверсия"},
-  {name: "Ригидность-пластичность"},
-  {name: "Эмоциональная возбудимость-уравновешенность"},
-  {name: "Темп реакции"},
-  {name: "Активность"},
-  {name: "Искренность"},
-  {name: "Аудиал"},
-  {name: "Визуал"},
-  {name: "Кинестетик"},
-  {name: "Думающий"}
-])
+﻿#coding=utf-8
+
+MethodicalMaterial.create(
+  name: 'Components',
+  title: '<h1>Методические материалы</h1>',
+  description: '<h3 class="aling-center">Уважаемые студенты!</h3>
+                            <p class="lead text-center">Здесь собраны все методические указания для успешного выполнения практических заданий в&nbsp;лаборатории ИСиТ на&nbsp;третьем, четвертом и&nbsp;пятом курсах каф. Кибернетика НИЯУ МИФИ.</p>
+                            <p class="lead text-center">Для того чтобы начать изучение материалов необходимо выбрать интересующую Вас тему на&nbsp;панели слева.</p>
+                            <div class="row no-margin">
+                                <div class="col-xs-3 col-xs-offset-9">
+                                    <a href="#menu-toggle" class="btn btn-primary pull-right" id="menu-toggle">Активировать панель</a>
+                                </div>
+                            </div>')
+
+MethodicalMaterial.create(
+    name: 'Прямой вывод',
+    title: '<h1>Методические материалы по практическим работам - Прямой вывод</h1>',
+    description: '<h3 class="aling-center">Уважаемые студенты!</h3>
+                            <p class="lead text-center">Здесь собраны методические указания для успешного выполнения <strong>компонента выявления умений моделировать стратегии прямого вывода</strong> в Научной лаборатории ИСиТ НИЯУ МИФИ.</p>
+                            <div class="row no-margin">
+                                <div class="col-md-offset-9 col-md-3"><a href="#menu-toggle" class="btn btn-primary pull-right" id="menu-toggle">Активировать панель</a></div>
+                            </div>',
+    theoretical_part: '
+                                    <p class="indent">Рассмотрим пример &laquo;ручного вывода&raquo;,для фрагмента <span class="text-primary" data-toggle="tooltip" data-placement="top" title="База знаний">БЗ</span>, описывающего ситуацию &laquo;Покупка легкового автомобиля&raquo; в виде шести нижеприведенных правил, которые на естественном языке выглядят следующим образом:</p>
+
+                                    <div class="row">
+                                        <div class="col-md-10 col-md-offset-1">
+                                            <table class="table table-hover">
+                                                <tr>
+                                                    <td>
+                                                       <p class="indent-2">П.1. Если у человека много денег и ему удобно ездить на машине, то нужно ехать в автосалон.</p> 
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                       <p class="indent-2">П.2. Если у человека мало денег и ему нужен автомобиль, то нужно ехать на рынок подержанных автомобилей.</p> 
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                       <p class="indent-2">П.3. Если есть время и нужно ехать в автосалон, то необходимо определиться с маркой машины.</p> 
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="indent-2">П.4. Если есть время и нужно ехать на авторынок, то необходимо определиться с пробегом покупаемой машины.</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="indent-2">П.5. Если человек приехал в автосалон и определился с маркой, то нужно произвести покупку нового автомобиля.</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                         <p class="indent-2">П.6. Если человек приехал на авторынок и определился с пробегом, то нужно произвести покупку б/у автомобиля.</p>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <p class="indent">Используя упрощенную версию ЯПЗ системы Level5.Object, эти правила представляются в следующем виде.</p>
+
+                                    <div class="row">
+                                        <div class="col-md-10 col-md-offset-1">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="indent-2"><code>RULE 1</code></p>
+                                                            <p class="indent-2"><code>IF</code> <span class="label label-primary">Много денег</span> <code>= TRUE AND</code> <span class="label label-primary">Удобно ездить на авто</span> <code>= TRUE THEN</code> <span class="label label-primary">Ехать в автосалон</span> <code>:=TRUE</code></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           <p class="indent-2"><code>RULE 2</code></p>
+                                                            <p class="indent-2"><code>IF</code> <span class="label label-primary">Мало денег</span> <code>= TRUE AND</code> <span class="label label-primary">Нужен авто</span> <code>= TRUE THEN</code> <span class="label label-primary">ехать на авторынок</span> <code>:=TRUE</code></p> 
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           <p class="indent-2"><code>RULE 3</code></p>
+                                                            <p class="indent-2"><code>IF</code> <span class="label label-primary">Есть время</span> <code>= TRUE AND</code> <span class="label label-primary">Ехать на авторынок</span> <code>= TRUE THEN</code> <span class="label label-primary">Определиться с пробегом</span> <code>:=TRUE</code></p> 
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="indent-2"><code>RULE 4</code></p>
+                                                            <p class="indent-2"><code>IF</code> <span class="label label-primary">Есть время</span> <code>= TRUE AND</code> <span class="label label-primary">Ехать на авторынок</span> <code>= TRUE THEN</code> <span class="label label-primary">Определиться с пробегом</span> <code>:=TRUE</code></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="indent-2"><code>RULE 5</code></p>
+                                                            <p class="indent-2"><code>IF</code> <span class="label label-primary">Ехать в автосалон</span> <code>= TRUE AND</code> <span class="label label-primary">Определится с маркой</span> <code>= TRUE THEN</code> <span class="label label-primary">Покупать новый авто</span> <code>:=TRUE</code></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           <p class="indent-2"><code>RULE 6</code></p>
+                                                            <p class="indent-2"><code>IF</code> <span class="label label-primary">Ехать на авторынок</span> <code>= TRUE AND</code> <span class="label label-primary">Определится с пробегом</span> <code>= TRUE THEN</code> <span class="label label-primary">Покупать б/у авто</span> <code>:=TRUE</code></p> 
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="indent">Пусть от пользователя СОЗ(ЭС) в систему, т.е. в рабочую память, поступили следующие факты:</p>
+                                    <p class="indent">Начальное состояние РП:</p>
+                                    <ul>
+                                        <li>"Много денег"</li>
+                                        <li>"Удобно ездить на авто"</li>
+                                        <li>"Есть время"</li>
+                                    </ul>
+                                    <p class="indent">Рассмотрим основные шаги алгоритмов прямого и обратного вывода.</p>
+                                    <h4 class="text-center">Прямой вывод</h4>
+                                    <p class="indent">В этом случае необходимо просматривать все правила и выбирать те, у которых выполняются условия, тем самым формируя конфликтное множество. Затем, используя махенизм разрешения конфликтов, выбирать подходящее правило, добавлять его заключение в рабочую память и т.д.</p>
+                                    <p class="indent lead font-lg bg-danger">За один проход можно добавить в РП только один факт.</p>
+                                    <div class="row">
+                                        <div class="col-md-5 col-md-offset-1">
+                                            <p><span class="label label-primary">Проход 1.</span> Осуществляется просмотр правил, ищется то, у которого выполняются все условия. После того как такое правило найдено, факт из его правой части, добавляетя в рабочую память, затем просматриваются все остальные правила, но со старой РП.</p>
+                                           
+                                        </div>
+                                        <div class="col-md-5">
+                                            <p><span class="label label-primary">Проход 2.</span> Выполняется аналогично первому, но с учетом того, что некоторые правила уже сработали, поэтому они пропускаются</p>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-md-offset-1">
+                                             <table class="table table-hover">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 1</code> - подходит (в рабочую память добавляется новый факт "Ехать в автосалон")
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 2</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 3</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 4</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 5</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 6</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            
+                                        </div>
+                                        <div class="col-md-5">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 1</code> - не подходит или уже сработало
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 2</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 3</code> - подходит (в РП добавляется новый факт "Определиться с маркой")
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 4</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 5</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 6</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-md-offset-1">
+                                            <p><span class="label label-primary">Проход 3.</span> Выполняется аналогично второму.</p>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <p><span class="label label-primary">Проход 4.</span> Необходимо выполнить ещё один проход, чтобы показать, что ни одно правило не сработает.</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-md-offset-1">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 1</code> - не подходит или уже сработало
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 2</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 3</code> - не подходит или уже сработало
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 4</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 5</code> - подходит  (в рабочую память добавляется новый факт "Покупать новый авто")
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 6</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 1</code> - не подходит или уже сработало
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 2</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 3</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 4</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 5</code> - не подходит или уже сработало
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 6</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="indent">Таким образом, получена рекомендация системы: "Покупать новый авто"</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="pull-right text-muted"><em>Источник: Рыбина Г.В. Основы построения интеллектуальных систем. Учебное пособие. – М.: Финансы и статистика; ИНФРА‑М, 2010. – 432с.</em></p>
+                                        </div>
+                                    </div>',
+    practical_part: '<h4 class="text-center">Введение</h4>
+                                            <p class="indent">В новой версии программы для разрешения конфликтов были применены коэфициенты определенности <span class="text-primary" data-toggle="tooltip" data-placement="top" title="ПЧП">правой части правила</span>.</p>
+                                            <p class="indent lead font-lg bg-danger">Все конфликтные ситуации разрешаются путем выбора <span class="text-primary" data-toggle="tooltip" data-placement="top" title="подцели">правила</span> с наибольшим коэффициентом определенности.</p>
+                                            <p class="indent">Для прохождения тестирования у вас будет <strong>ограниченное время</strong>:
+                                                <ul>
+                                                    <li>Прямой вывод - 7 минут</li>
+                                                    <li>Обратный вывод - 8 минут</li>
+                                                </ul>
+                                            </p>
+                                            <p class="indent">В правом верхнем углу всегда отображается справочная информация, которая будет исключать «в корне» неправильные действия.</p>
+                                            <p class="indent">При прохождении прямого вывода у вас будет возможность редактирования и удаления шагов с трассы вывода, а при прохождении обратного вывода только удаление.</p>
+                                            <p class="indent">Если у вас возник <span class="text-primary" data-toggle="tooltip" data-placement="top" title="неравенство коэффициентов">конфилкт коэффициентов</span>, то нужно выбрать тот, чей номер правила меньший.</p>
+                                            <h4 class="text-center">Сценарий лабораторной работы</h4>
+                                            <p class="indent">Первое, что вам необходимо сделать – авторизоваться <strong>по вашим</strong> логинам и паролям, которые вам предоставят инженеры кафедры.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/auth_po.png"></p>
+                                            <p class="indent">После авторизации, вы получаете доступ к панели управления в режиме <span class="text-primary" data-toggle="tooltip" data-placement="top" title="режим реального времени">RunTime</span>.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/po.png"></p>
+                                            <p class="indent">Далее, вам надо нажать на ссылку <span class="label label-default">Прямой вывод</span> или <span class="label label-default">Обратный вывод</span>. Вам откроется таблица с вашими результатами.</p>
+                                            <p class="indent">Далее нажимаете на ссылку <span class="label label-default">Пройти тестирование</span> и проходите тестирование выбранного вами вывода.</p>
+                                            <h4 class="text-center">Прохождение прямого вывода</h4>
+                                            <p class="indent">При запуске тестирования ваша база сохранится на сервере, и вам откроется окно <span class="label label-primary">Выбор начального состояния</span>.</p>
+                                            <p class="indent lead font-lg bg-danger">Также предупреждаем, что попытка прохождения тестирования после начала прохождения исчерпается.</p>
+                                            <p class="indent">В окне вам нужно указать факты, которые должны быть в начальной <span class="text-primary" data-toggle="tooltip" data-placement="top" title="рабочей памяти">РП</span>. Указывать их нужно обоснованно. То есть вы должны указывать факты, которые находятся на <span class="text-primary" data-toggle="tooltip" data-placement="top" title="первая колонка слева">самом нижнем уровне</span>.</p>
+                                            <p class="indent">При неправильных действиях, по выбору начальной РП в правом углу будут появлятся уведомления и методы решения проблемы.</p>
+                                            <p class="indent">При успехе данного этапа у вас появится примерно такая картина (здесь в <span class="text-primary" data-toggle="tooltip" data-placement="top" title="рабочая память">РП</span> добавили 4 факта <code>Q,R,S,T</code>) (старая версия программы, в новой у вас откроется ваша модель, с указанием коэффициентов определенности <span class="text-primary" data-toggle="tooltip" data-placement="top" title="правая часть правила">ПЧП</span>)</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/po1.png"></p>
+                                            <p class="indent">Далее вы должны выбирать правила, которые <span class="text-primary" data-toggle="tooltip" data-placement="top" title="наличие всех фактов в зеленом фоне слева">могут сработать</span>. Для данного примера это например правило <code>R1</code></p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/po2.png"> с выбранным правилом R1</p>
+                                            <p class="indent">Для того, чтобы выбрать правило нажмите на желтый круг для данного правила, вам откроется окно изменения состояния. При срабатывании правила вам нужно будет указать изменения в <span class="text-primary" data-toggle="tooltip" data-placement="top" title="рабочая память">РП</span>, для данного случая(срабатывание правила <code>R1</code>) это будет факт <code>J</code>, поэтому мы его указываем:</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/po3.png"></p>
+                                            <p class="indent">Также в данном окне вам необходимо выбрать состояние правил. Поскольку это первый проход у нас будет подходить только первое правило, остальные не подходят. Нажимаете на кнопку <span class="label label-default">Готово</span>.</p>
+                                            <p class="indent lead font-lg bg-danger">В вашей версии программы с приминением коэффициентов определенности нужно выбирать не любое правило, а то, которое может сработать в данный момент и имеет <strong>наибольший</strong> коэффициент определенности <span class="text-primary" data-toggle="tooltip" data-placement="top" title="правая часть правила">ПЧП</span>. Учитываются <strong>все правила</strong> дерева.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/po4.png"></p>
+                                            <p class="indent">Ваш шаг отобразится на трассе вывода.</p>
+                                            <p class="indent">Далее проходите все шаги прямого метода, затем нажимаете оценить. Вам покажется ваша оценка. Затем переходите в панель управления для прохождения обратного вывода.</p>
+                                            <p class="indent lead font-lg bg-danger">При шагах > 1 не забывайте, что правила, которые на данный момент были выполненны, должны иметь состояние «уже используется».</p>
+                                            <h4 class="text-center">Будьте внимательны, и&nbsp;удачи!</h4>
+                                    ')
+
+########################################### 2 #########################################################
+
+MethodicalMaterial.create(
+    name: 'Обратный вывод',
+    title: '<h1>Обратный вывод</h1>',
+    description: '<h3 class="aling-center">Уважаемые студенты!</h3>
+                            <p class="lead text-center">Здесь собраны методические указания для успешного выполнения <strong>компонента выявления умений моделировать стратегии обратного вывода</strong> в Научной лаборатории ИСиТ НИЯУ МИФИ.</p>',
+    theoretical_part: '<p class="indent">Рассмотрим пример &laquo;ручного вывода&raquo;,для фрагмента <span class="text-primary" data-toggle="tooltip" data-placement="top" title="База знаний">БЗ</span>, описывающего ситуацию &laquo;Покупка легкового автомобиля&raquo; в виде шести нижеприведенных правил, которые на естественном языке выглядят следующим образом:</p>
+
+                                    <div class="row">
+                                        <div class="col-md-10 col-md-offset-1">
+                                            <table class="table table-hover">
+                                                <tr>
+                                                    <td>
+                                                       <p class="indent-2">П.1. Если у человека много денег и ему удобно ездить на машине, то нужно ехать в автосалон.</p> 
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                       <p class="indent-2">П.2. Если у человека мало денег и ему нужен автомобиль, то нужно ехать на рынок подержанных автомобилей.</p> 
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                       <p class="indent-2">П.3. Если есть время и нужно ехать в автосалон, то необходимо определиться с маркой машины.</p> 
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="indent-2">П.4. Если есть время и нужно ехать на авторынок, то необходимо определиться с пробегом покупаемой машины.</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p class="indent-2">П.5. Если человек приехал в автосалон и определился с маркой, то нужно произвести покупку нового автомобиля.</p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                         <p class="indent-2">П.6. Если человек приехал на авторынок и определился с пробегом, то нужно произвести покупку б/у автомобиля.</p>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <p class="indent">Используя упрощенную версию ЯПЗ системы Level5.Object, эти правила представляются в следующем виде.</p>
+
+                                    <div class="row">
+                                        <div class="col-md-10 col-md-offset-1">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="indent-2"><code>RULE 1</code></p>
+                                                            <p class="indent-2"><code>IF</code> <span class="label label-primary">Много денег</span> <code>= TRUE AND</code> <span class="label label-primary">Удобно ездить на авто</span> <code>= TRUE THEN</code> <span class="label label-primary">Ехать в автосалон</span> <code>:=TRUE</code></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           <p class="indent-2"><code>RULE 2</code></p>
+                                                            <p class="indent-2"><code>IF</code> <span class="label label-primary">Мало денег</span> <code>= TRUE AND</code> <span class="label label-primary">Нужен авто</span> <code>= TRUE THEN</code> <span class="label label-primary">ехать на авторынок</span> <code>:=TRUE</code></p> 
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           <p class="indent-2"><code>RULE 3</code></p>
+                                                            <p class="indent-2"><code>IF</code> <span class="label label-primary">Есть время</span> <code>= TRUE AND</code> <span class="label label-primary">Ехать на авторынок</span> <code>= TRUE THEN</code> <span class="label label-primary">Определиться с пробегом</span> <code>:=TRUE</code></p> 
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="indent-2"><code>RULE 4</code></p>
+                                                            <p class="indent-2"><code>IF</code> <span class="label label-primary">Есть время</span> <code>= TRUE AND</code> <span class="label label-primary">Ехать на авторынок</span> <code>= TRUE THEN</code> <span class="label label-primary">Определиться с пробегом</span> <code>:=TRUE</code></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="indent-2"><code>RULE 5</code></p>
+                                                            <p class="indent-2"><code>IF</code> <span class="label label-primary">Ехать в автосалон</span> <code>= TRUE AND</code> <span class="label label-primary">Определится с маркой</span> <code>= TRUE THEN</code> <span class="label label-primary">Покупать новый авто</span> <code>:=TRUE</code></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           <p class="indent-2"><code>RULE 6</code></p>
+                                                            <p class="indent-2"><code>IF</code> <span class="label label-primary">Ехать на авторынок</span> <code>= TRUE AND</code> <span class="label label-primary">Определится с пробегом</span> <code>= TRUE THEN</code> <span class="label label-primary">Покупать б/у авто</span> <code>:=TRUE</code></p> 
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="indent">Рассмотрим основные шаги алгоритмов прямого и обратного вывода.</p>
+                                    <h4 class="text-center">Обратный вывод</h4>
+                                    <p class="indent">Здесь при просмотре правил необходимо искать то, у которого выдвинутая гипотеза (цель) находится в правой части. Затем, найдя такое правило, проверять наличиего условий из левой части в рабочей памяти. Если какого-либо условия там нет, то оно становится новой подцелью на текущей итерации (подцели выстраиваются в виде стека, т.е. при подтверждении послдней из них происходит возврат к предыдущей).</p>
+                                    <p class="indent">Пусть выдвинута гипотеза (цель) "Покупка б/у авто".</p>
+                                    <p class="indent">Начальное состояние РП:</p>
+                                    <ul>
+                                        <li>"Мало денег"</li>
+                                        <li>"Нужен"</li>
+                                        <li>"Есть время"</li>
+                                    </ul>
+                                    <div class="row">
+                                        <div class="col-md-5 col-md-offset-1">
+                                            <p><span class="label label-primary">Проход 1.</span> Просматриваются все правила, ищется цель "Покупать б/у авто" в правой части.</p>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <p><span class="label label-primary">Проход 2.</span> Ищется новая подцель "Ехать на авторынок" в правой части.</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-md-offset-1">
+                                             <table class="table table-hover">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 1</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 2</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 3</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 4</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 5</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 6</code> - подходит - новая подцель "Ехать на авторынок"
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            
+                                        </div>
+                                        <div class="col-md-5">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 1</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 2</code> - подходит (в рабочую память добавляется новый факт "Ехать на авторынок", все условия из левой части есть в РП, правило достоверно, пополняется РП, и так как подцель уже подтвержилась, последующие правила не повторяются)
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Новое состояние РП: "Мало денег","Нужен авто", "Есть время", "Ехать на авторынок"
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-md-offset-1">
+                                            <p><span class="label label-primary">Проход 3.</span> Выполняется для предыдущей подцели, которая в данном случае является главной - "Покупать б/у авто".</p>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <p><span class="label label-primary">Проход 4.</span> Ищется новая подцель "Определиться с пробегом" в правой части.</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-md-offset-1">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 1</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 2</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 3</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 4</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 5</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 6</code> - подходит - новая поцдель "Определиться с пробегом"
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 1</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 2</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 3</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 4</code> - подходит (в рабочую память добавляется факт "Определиться с пробегом", все условия из левой части есть в РП, правило достоверно, пополняется РП)
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           Новое состояние РП: "Мало денег","Нужен авто", "Есть время", "Ехать на авторынок", "Определиться с пробегом"
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-md-offset-3">
+                                            <p><span class="label label-primary">Проход 5.</span> Выполняется для цели "Покупать б/у авто".</p>
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 1</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 2</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 3</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 4</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 5</code> - не подходит
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <code>RULE 6</code> - подходит (в рабочую память добавляется новый факт "Покупать б/у авто", все условия есть в РП)
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="indent">Таким, образом, основная гипотеза подтвердилась, факты достоверны, цель достигнута</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                           <p class="pull-right text-muted"><em>Источник: Рыбина Г.В. Основы построения интеллектуальных систем. Учебное пособие. – М.: Финансы и статистика; ИНФРА‑М, 2010. – 432с.</em></p>
+                                        </div>
+                                    </div>',
+    practical_part: '
+                          
+                                      
+                                            <h4 class="text-center">Введение</h4>
+                                            <p class="indent">В новой версии программы для разрешения конфликтов были применены коэфициенты определенности <span class="text-primary" data-toggle="tooltip" data-placement="top" title="ПЧП">правой части правила</span>.</p>
+                                            <p class="indent lead font-lg bg-danger">Все конфликтные ситуации разрешаются путем выбора <span class="text-primary" data-toggle="tooltip" data-placement="top" title="подцели">правила</span> с наибольшим коэффициентом определенности.</p>
+                                            <p class="indent">Для прохождения тестирования у вас будет <strong>ограниченное время</strong>:
+                                                <ul>
+                                                    <li>Прямой вывод - 7 минут</li>
+                                                    <li>Обратный вывод - 8 минут</li>
+                                                </ul>
+                                            </p>
+                                            <p class="indent">В правом верхнем углу всегда отображается справочная информация, которая будет исключать «в корне» неправильные действия.</p>
+                                            <p class="indent">При прохождении прямого вывода у вас будет возможность редактирования и удаления шагов с трассы вывода, а при прохождении обратного вывода только удаление.</p>
+                                            <p class="indent">Если у вас возник <span class="text-primary" data-toggle="tooltip" data-placement="top" title="неравенство коэффициентов">конфилкт коэффициентов</span>, то нужно выбрать тот, чей номер правила меньший.</p>
+                                            <h4 class="text-center">Сценарий лабораторной работы</h4>
+                                            <p class="indent">Первое, что вам необходимо сделать – авторизоваться <strong>по вашим</strong> логинам и паролям, которые вам предоставят инженеры кафедры.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/auth_po.png"></p>
+                                            <p class="indent">После авторизации, вы получаете доступ к панели управления в режиме <span class="text-primary" data-toggle="tooltip" data-placement="top" title="режим реального времени">RunTime</span>.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/po.png"></p>
+                                            <p class="indent">Далее, вам надо нажать на ссылку <span class="label label-default">Прямой вывод</span> или <span class="label label-default">Обратный вывод</span>. Вам откроется таблица с вашими результатами.</p>
+                                            <p class="indent">Далее нажимаете на ссылку <span class="label label-default">Пройти тестирование</span> и проходите тестирование выбранного вами вывода.</p>
+                                            <h4 class="text-center">Прохождение обратного вывода</h4>
+                                            <p class="indent">Выбираем в панели управления прохождение обратного вывода. Открывается окно <span class="label label-primary">Выбор начального состояния</span>.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/op.png"></p>
+                                            <p class="indent lead font-lg bg-danger">Также предупреждаем, что попытка прохождения тестирования после начала прохождения исчерпается.</p>
+                                            <p class="indent">Здесь вам нужно указать начальное состояние <span class="text-primary" data-toggle="tooltip" data-placement="top" title="рабочей памяти">РП</span> и выбрать основную цель.</p>
+                                            <p class="indent lead font-lg bg-danger">Не забывайте про то, что начальное состояние <span class="text-primary" data-toggle="tooltip" data-placement="top" title="рабочей памяти">РП</span> нужно выбирать с самого нижнего уровня слева, а основную цель с самого высокого справа.</p>
+                                            <p class="indent">В примере получится вот такая картина, после нажатия на кнопку <span class="label label-default">готово</span>.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/op2.png"></p>
+                                            <p class="indent">Для получения положительной оценки, вам нужно найти правило, к которому принадлежит основная цель. В нашем случае это правило <code>R12</code>, смотрим какие факты нам необходимы для возможности срабатывания данного правила</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/op3.png"> с выбранным правилом R1</p>
+                                            <p class="indent">По примеру получается <code>F(0.91)</code> и <code>G(0.05)</code>. Но на данный момент в <span class="text-primary" data-toggle="tooltip" data-placement="top" title="рабочей памяти">РП</span> нету ни одного факта, для выполнения правила <code>R12</code>.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/po3.png"></p>
+                                            <p class="indent lead font-lg bg-danger">В вашей версии программы с приминением коэффициентов определенности нужно выбирать не любую подцель , а ту, которая  имеет НАИБОЛЬШИЙ коэффициент определенности <span class="text-primary" data-toggle="tooltip" data-placement="top" title="правая часть правила">ПЧП</span>.</p>
+                                            <p class="indent">Для этого нажмите, на факт <code>F</code> (так как по примеру его коэффициент определенности больше чем у <code>G</code>) и подтвердите создание поддцели.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/op4.png"></p>
+                                            <p class="indent">По примеру получается вот так.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/op5.png"></p>
+                                            <p class="indent">Опять смотрим наличие фактов в <span class="text-primary" data-toggle="tooltip" data-placement="top" title="рабочей памяти">РП</span> для срабатывания правила <code>R9</code>. Опять их нет в <span class="text-primary" data-toggle="tooltip" data-placement="top" title="рабочей памяти">РП</span>, поэтому выберем один из фактов правила <code>R9</code>, например факт <code>К</code> (допустим у него самый максимальный коэффициент определенности) сделаем текущей подцелью.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/op6.png"></p>
+                                            <p class="indent">Правило <code>R2</code> при факте <code>К</code> может выполнится поэтому мы его выполняем <strong>сразу</strong>. Нажимаем на желтый круг <code>R2</code>, откроется окно</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/op7.png"></p>
+                                            <p class="indent">Здесь есть несколько ключевых моментов. Во первых вам надо указать изменение <span class="text-primary" data-toggle="tooltip" data-placement="top" title="рабочей памяти">РП</span>, по примеру нужно добавить <code>К</code> изменение <span class="text-primary" data-toggle="tooltip" data-placement="top" title="рабочей памяти">РП</span>, а также указать факт <code>К</code> как сработанную подцель и еще указать состояние правил.</p>
+                                            <p class="indent">После нажатия на кнопку готово, все действия на данном шаге покажутся на трассе вывода, а также вы вернетесь по стеку на одну подцель назад.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/op8.png"></p>
+                                            <p class="indent">Смотрим опять правило <code>R9</code>, у него не хватает фактов для выполнения, значит опять выбираем подцель, например факт <code>M</code></p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/op9.png"></p>
+                                            <p class="indent">Так вы делаете все действия, пока не добьетесь ситуации, в которой все факты правила основной подцели будут в РП. По примеру должно быть наличие фактов <code>F</code> и <code>G</code>. Последним шагом будет срабатывание правила  <code>R12</code> (по примеру) с указанием изменения РП факта А, срабатывание подцели А, а также все состояния правил.</p>
+                                            <p class="indent lead font-lg bg-danger">Если вы выбрали подцель и правило данной подцели может выполнится – вы должны его выполнить сразу, если правило не может выполнится - вы должны выбрать новую подцель из фактов данного правила(которых нет в РП) иначе вы можете получить плохую оценку.</p>
+                                            <p class="indent">Любое изменение текущей подцели заносит ее в <span class="text-primary" data-toggle="tooltip" data-placement="top" title="«последним пришёл — первым вышел»">стек</span>. Поэтому при срабатывания какого-нибудь правила подцель автоматически вернется на предыдущую подцель.</p>
+                                            <h4 class="text-center">Будьте внимательны, и&nbsp;удачи!</h4>')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+########################################### 3 #########################################################
+
+MethodicalMaterial.create(
+    name: 'Семантические сети',
+    title: '<h1>Семантические сети</h1>',
+    description: '<h3 class="aling-center">Уважаемые студенты!</h3>
+    <p class="lead text-center">Здесь собраны методические указания для успешного выполнения <strong>компонента выявления умений моделировать простейшие ситуации проблемной области с помощью семантических сетей</strong> в Научной лаборатории ИСиТ НИЯУ МИФИ.</p>',
+    theoretical_part: '<p class="indent">Понятие семантической сетибыло впервые введено М. Куиллианом в конце 1960-х гг. и с тех пор активно используется в ИИ. Прибольшом разноорбразии трактовок и определений суть это модели остается неизменной - под семантической сетью понимается <em>неоднородная сеть</em>, т.е. сеть с различными типами вершин и различными типами помеченных дуг.</p>
+
+                                    <div class="row">
+                                        <div class="col-md-8 col-md-offset-2">
+                                             <table class="table table-striped table-bordered">
+                                                <caption class="text-center">Перечень упрощенных семантико-синтаксических связей</caption>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Тип связи</th>
+                                                        <th>Разновидность связи и&nbsp;ее&nbsp;обозначение</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Глубинный падеж (семантическая валентность)</td>
+                                                        <td>
+                                                        <code>A</code> &mdash;&nbsp;быть &laquo;агентом&raquo; действия<br>
+                                                        <code>O</code> &mdash;&nbsp;быть &laquo;объектом&raquo; действия<br>
+                                                        <code>D</code> &mdash;&nbsp;быть &laquo;адресатом&raquo; действия<br>
+                                                        <code>T</code> &mdash;&nbsp;быть &laquo;темой&raquo; действия<br>
+                                                        <code>I</code> &mdash;&nbsp;быть &laquo;инструментом&raquo; действия<br>
+                                                        <code>L</code> &mdash;&nbsp;быть &laquo;местом&raquo; действия<br>
+                                                        <code>S</code> &mdash;&nbsp;быть &laquo;начальной точкой&raquo; действия<br>
+                                                        <code>F</code> &mdash;&nbsp;быть &laquo;конечной точкой&raquo; действия<br>
+                                                        <code>G</code> &mdash;&nbsp;быть &laquo;целью&raquo; действия<br>
+                                                        <code>C</code> &mdash;&nbsp;быть &laquo;условием&raquo; действия<br>
+                                                        <code>W</code> &mdash;&nbsp;быть &laquo;временем&raquo; действия<br>
+                                                        <code>M</code> &mdash;&nbsp;быть &laquo;способом&raquo; действия<br>
+                                                        <code>B</code> &mdash;&nbsp;быть &laquo;сроком&raquo; действия<br>
+                                                        <code>X</code> &mdash;&nbsp;быть &laquo;количеством&raquo; действия<br>
+                                                        <code>R</code> &mdash;&nbsp;быть &laquo;результатом&raquo; действия<br>
+                                                        <code>K</code> &mdash;&nbsp;быть &laquo;контрагентом&raquo; действия<br>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <p class="pull-right text-muted"><em>Источник: Рыбина Г.В. Основы построения интеллектуальных систем. Учебное пособие. – М.: Финансы и статистика; ИНФРА‑М, 2010. – 432с.</em></p>
+                                        </div></div>',
+    practical_part: '<h4 class="text-center">Введение</h4>
+                                            <p class="indent">После авторизации перед вами откроется окно с выбором практических заданий.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/ling.png"></p>
+                                            <p class="indent">Выбираем ссылку <span class="label label-default">Семантические сети</span>. Задание будет выбрано случайным образом.</p>
+                                            <p class="indent">После выбора системой задания для вас, перед вами будет окно с вариантом вашего задания.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/task_sem_network.png"></p>
+                                            <p class="indent">Перед тем как приступать к заданию, ознакомьтесь с интерфейсом. Обратите внимание на возможные действия выполняемые над вершинами сети, научить создавать связи, после чего приступайте к заданию.</p>
+                                            <p class="indent">Рассмотрим пример вашего задания "Покупка стиральной машины". Прежде всего необходимо выбрать предикат. Для того чтобы выбрать предикат нужно кликнуть на левый квадратик располагаемый внутри вершины.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/predic_sem_network.png"></p>
+                                            <p class="indent">Далее можно начинать указывать связи между вершинами.</p>
+                                            <p class="indent lead font-lg bg-danger">Будьте внимательны! Глубинные падежи узказываются <strong>английскими</strong> заглавными буквами.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/rel_sem_network.png"></p>
+                                            <p class="indent">После того как выполните задание нужно нажать на кнопку <span class="label label-primary">Готово</span> система сообщит вам ваш результат. Также можно будет нажать на кнопку <span class="label label-primary">Ошибки</span>, чтобы ознакомится с совершенными ошибками, если такие имеются.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/panel_sem_network.png"></p>
+                                            <p class="indent lead font-lg bg-danger">Хочется отметить, что не всегда в вашей сети будут задействованы все предоставленные вершины.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/doing_sem_network.png"></p>
+                                            <h4 class="text-center">Будьте внимательны, и&nbsp;удачи!</h4>')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+########################################### 4 #########################################################
+
+MethodicalMaterial.create(
+    name: 'Фреймы',
+    title: '<h1>Сетевые модели представления знаний: фреймы</h1>',
+    description: '<h3 class="aling-center">Уважаемые студенты!</h3>
+                            <p class="lead text-center">Здесь собраны методические указания для успешного выполнения <strong>компонента выявления умений моделировать простейшие ситуации проблемной области с помощью фреймов</strong> в Научной лаборатории ИСиТ НИЯУ МИФИ.</p>',
+    theoretical_part: '<p class="indent">Термин &laquo;фрейм&raquo;, который в&nbsp;ранних работах по&nbsp;ИИ переводился как &laquo;скелет&raquo;, &laquo;ситуационная рамка&raquo;, &laquo;каркас&raquo; и&nbsp;т.д., стал популярным после выхода в&nbsp;свет в&nbsp;начале 1970-х гг. знаменитой работы М.Минского, где фрейм определяется как &laquo;структура данных для отображения стереотипной ситуации&raquo;, т.е. некоторое формализованное знание о&nbsp;<span class="text-primary" data-toggle="tooltip" data-placement="top" title="стандартной">стереотипной</span> ситуации <span class="text-primary" data-toggle="tooltip" data-placement="top" title="Проблемной области">ПрО</span>.</p>
+                                    <p class="indent">С&nbsp;точки зрения модельного аспекта фрейм&nbsp;&mdash; это сеть, у&nbsp;которой одна часть всегда заполнена, а&nbsp;другая содержит незаполненные подструктуры-слоты. Иными словами, фиксируются постоянные имена <span class="text-primary" data-toggle="tooltip" data-placement="top" title="ролей">актантов</span> ситуации, описываемой фреймом,&nbsp;&mdash; это имена <span class="text-primary" data-toggle="tooltip" data-placement="top" title="подструктур фрейма">слотов</span>, а&nbsp;значения слотов определяются в&nbsp;зависимости от&nbsp;выполнения условий/требований к&nbsp;каждому <span class="text-primary" data-toggle="tooltip" data-placement="top" title="роли">актанту</span> ситуации.</p>
+                                    <p class="indent">Эти условия могутбыть заданы самым разнообразным способом, включая использование привязанных процедур, умолчаний, имен других фреймов, множественных ссылок и&nbsp;т.д. Во&nbsp;фреймах допускается рекурсивное фложение слотов друг в&nbsp;друга, что может пораждать иерархическую структуру взаимосвязанных слотов и&nbsp;фреймов.</p>
+                                    <p class="indent">В&nbsp;общем случае, используя теоретико-множественное представление, фрейм <code>(F)</code> может быть описан в&nbsp;виде следующей конструкции:</p>
+                                    <p class="text-center"><code><em>F = &lt;N,a<sub>1</sub> b<sub>1</sub> [P<sub>1</sub>], a<sub>2</sub> b<sub>2</sub> [P<sub>2</sub>], ..., a<sub>n</sub> b<sub>n</sub> [P<sub>n</sub>]&gt;</em></code>,</p>
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <p class="pull-right">где</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                                <ul>
+                                                    <li><code><em>N</em></code> &mdash; имя фрейма;</li>
+                                                    <li><code><em>a<sub>i</sub></em></code> &mdash; имя <em>i</em>-слота;</li>
+                                                    <li><code><em>b<sub>i</sub></em></code> &mdash; значение <em>i</em>-слота;</li>
+                                                    <li><code><em>[P<sub>i</sub>]</em></code> &mdash; процедура, привязанная к <em>i</em>-слоту (опционально);</li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="indent lead font-lg bg-info">Важно, что в качестве значений слотов могут выступать имена других фреймов, что обеспечивает связь между ними.</p>
+                                            <p class="indent">Обычно выделяют фреймы-<em>прототипы</em>, хранящиеся в <span class="text-primary" data-toggle="tooltip" data-placement="top" title="База знаний">БЗ</span>, и фреймы-<em>экземпляры</em>, которые создаются на основе фреймов-прототипов для отображения конкретных ситуаций на основе поступающих данных.</p>
+                                            <p class="indent">Ниже показан пример фрейма-прототипа для ситуации "сдача экзамена в вузе".</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-md-offset-3">
+                                            <table class="table table-bordered table-hover">
+                                                <caption class="text-uppercase text-center">Сдача экзамена в вузе</caption>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-uppercase">Сдающий</td>
+                                                        <td>(студент, аспирант, абитуриент, группа)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-uppercase">Принимающие</td>
+                                                        <td>(лектор, ассистент, комиссия)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-uppercase">Предмет/Дисциплина</td>
+                                                        <td>(название предмета/дисциплины)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-uppercase">Результат</td>
+                                                        <td>(оценка, баллы)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-uppercase">Место/Время</td>
+                                                        <td>(расписание сессии)</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="indent">Комментируя этот пример, можно указать на&nbsp;важнейшее свойство фреймов, связанное с&nbsp;тем, что удаление из&nbsp;этого описания любого <span class="text-primary" data-toggle="tooltip" data-placement="top" title="роль">актанта</span> приводит к&nbsp;потере свойств, определющих суть данного явления&nbsp;&mdash; сдача экзамена в&nbsp;вузе.</p>
+                                            <p class="indent">Другая сильная сторона фреймов заключается в&nbsp;возможности включения в&nbsp;слоты фрейма различных предположений и&nbsp;ожиданий, что позволяет моделировать ситуации, в&nbsp;которых отсутствует упоминание о&nbsp;различных деталях (например, широкое использование <em>по&nbsp;умолчанию</em> некоторых стандартных для ситуации значений и&nbsp;т.&nbsp;п.)</p>
+                                            <p class="indent">Фреймы легко организуются в&nbsp;<span class="text-primary" data-toggle="tooltip" data-placement="top" title="без учета имен слотов при отсылке к другим фреймам">однородные</span> и&nbsp;<span class="text-primary" data-toggle="tooltip" data-placement="top" title="c учетом имен слотов при отсылке к другим фреймам">неоднородные</span> сети фреймов, что позволяет многим специалистам в&nbsp;области&nbsp;<span class="text-primary" data-toggle="tooltip" data-placement="top" title="Искусственный интеллект">ИИ</span> считать фреймы частым видом специально организованных семантических сетей.</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="pull-right text-muted"><em>Источник: Рыбина Г.В. Основы построения интеллектуальных систем. Учебное пособие. – М.: Финансы и статистика; ИНФРА‑М, 2010. – 432с.</em></p>
+                                        </div>
+                                    </div>',
+    practical_part: '<h4 class="text-center">Введение</h4>
+                                            <p class="indent">В&nbsp;данной лабораторной работе используется упрощенная структура фрейма вида:</p>
+                                            <div class="row">
+                                                <div class="col-md-10 col-md-offset-1">
+                                                    <p class="no-margin"><code>(</code></p>
+                                                    <p><code>FrameName</code></p>
+                                                    <p class="indent-2 no-margin"><code>(SlotName1(SlotType1(Value11)(Value12)..(Value1M)))</code></p>
+                                                    <p class="indent-2 no-margin"><code>(SlotName2(SlotType2(Value21)(Value22)..(Value2M)))</code></p>
+                                                    <p class="indent-2 no-margin"><code>...</code></p>
+                                                    <p class="indent-2 no-margin"><code>(SlotNameN(SlotTypeN(ValueN1)(ValueN2)..(ValueNM)))</code></p>
+                                                    <p class="no-margin"><code>)</code></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <p class="pull-right">где</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                                <ul>
+                                                    <li><code>FrameName</code> &mdash; имя фрейма;</li>
+                                                    <li><code>SlotName</code> &mdash; имя слота;</li>
+                                                    <li><code>SlotType</code> &mdash; тип слота;</li>
+                                                    <li><code>Value</code> &mdash; значение слота;</li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                     <!-- Сценарий лабораторной работы -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4 class="text-center">Сценарий лабораторной работы</h4>
+                                            <p><strong>1.</strong> Вам необходимо зарегистрироваться.</p>
+                                            <p class="indent">Для этого нажмите на&nbsp;кнопку <span class="label label-default">Регистрация</span>, и&nbsp;введите свою <strong>группу</strong>,<strong>фамилию</strong>,<strong>инициалы</strong> и&nbsp;<strong>пароль</strong> на&nbsp;латинице.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/reg.png"></p>
+                                            <p class="indent">Нажмите кнопку <span class="label label-default">Зрегистрировать</span> и&nbsp;возвращайтесь в&nbsp;окно авторизации. Вводите свои данные, и&nbsp;нажимайте кнопку <span class="label label-default">Начать</span> для начала лабораторной работы.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/auth.png"></p>
+                                            <p><strong>2.</strong> Преред вами главное окно работы, в&nbsp;котором три раздела: словарь, окно для ввода процедур, окно результата и&nbsp;описание задания</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/inputwind.png"></p>
+                                            <p class="indent">В&nbsp;зависимости от&nbsp;варианта вамбудет предоставлен готовый, заранее <strong>не&nbsp;правильный</strong> фрейм, который вам необходимо будет отредактировать, чтобы получить верный фрейм.</p>
+                                            <p class="indent">Чтобы посмотреть структуру предоставленного фрейма вам нужно будет воспользоваться процедурой <code>&lt;frame? !Имя_фрейма&gt;</code>, где <code>Имя_фрейма</code> берется из&nbsp;словаря.</p>
+                                            <p class="indent">Далее с&nbsp;помощью остальных процедур вы&nbsp;редактируете фрейм проблемной области, используя <strong>только слова из&nbsp;словаря</strong></p>
+                                            <p class="indent">Для этого вам необходимо будет воспользоваться доступными для вас процедурами и&nbsp;сцеальными символами, <em>см. далее</em>.</p>
+                                            <!-- Тут место под группу из двух таблиц -->
+                                            <p class="indent">Процедуры пишутся в&nbsp;<span class="text-primary" data-toggle="tooltip" data-placement="top" title="центральное окно">окне запроса</span>. Для их&nbsp;выполнения необходимо нажать кнопку <span class="label label-default">Выполнить</span>.</p>
+                                            <p class="indent">В&nbsp;правом окне вы&nbsp;увидите результат введенных процедур.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/windwork.png"></p>
+                                            <p class="indent">Когда поймете, что работа завршена, вы&nbsp;отредактировали верно фрейм&nbsp;&mdash; нажмите кнопку <span class="label label-default">Завершить</span>.</p>
+                                            <p class="indent lead font-lg bg-danger">В&nbsp;именах слотов, фреймов и&nbsp;значениях слотов <strong>не&nbsp;используйте</strong> пробелы, вместо этого используйте символ <strong><span class="text-primary" data-toggle="tooltip" data-placement="top" title="нижнее подчеркивание">&laquo;_&raquo;</span></strong></p>
+                                            <h4 class="text-center">Будьте внимательны, и&nbsp;удачи!</h4>')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+########################################### 5 #########################################################
+
+MethodicalMaterial.create(
+    name: 'Компоненты ЛП',
+    title: '<h1>Компоненты лингвистической прозы</h1>',
+    description: '<h3 class="aling-center">Уважаемые студенты!</h3>
+                            <p class="lead text-center">Здесь собраны методические указания для успешного выполнения <strong>компонента выявления умений строить компоненты лингвистической модели подъязыка деловой прозы</strong> в Научной лаборатории ИСиТ НИЯУ МИФИ.</p>',
+    theoretical_part: '<div class="row">
+                                        <div class="col-md-8 col-md-offset-2">
+                                            <table class="table table-striped table-bordered">
+                                                <caption class="text-center">Перечень НКФ-словоформ входного ЕЯ-текста</caption>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Часть речи</th>
+                                                        <th>Нормальная каноническая форма (НКФ)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Существительное</td>
+                                                        <td>Именительный падеж единственного числа</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Местоимение</td>
+                                                        <td>1-е лицо единственного и&nbsp;множественного числа</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Глагол</td>
+                                                        <td>Инфинитив</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Причастие</td>
+                                                        <td>Инфинитив исходного глагола</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Деепричастие</td>
+                                                        <td>Инфинитив исходного глагола</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Прилагательное (полное и&nbsp;краткое)</td>
+                                                        <td>Именительный падеж единственного числа мужского рода</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Отглагольное существительное (имена действий)</td>
+                                                        <td>Инфинитив исходного глагола</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Отглагольное прилашательное (имена действий)</td>
+                                                        <td>Инфинитив исходного глагола</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Отадъективное существительное (имена свойств)</td>
+                                                        <td>Именительный падеж единственного числа мужского рода исходного прилагательного</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Качественное наречие</td>
+                                                        <td>Именительный падеж единственного числа мужского рода исходного прилагательного</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Порядковое числительное</td>
+                                                        <td>Именительный падеж единственного числа мужского рода исходного числительного</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Качественное числительное</td>
+                                                        <td>Именительный падеж</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <table class="table table-striped table-bordered">
+                                                <caption class="text-center">Перечень упрощенных семантико-синтаксических связей</caption>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Тип связи</th>
+                                                        <th>Компоненты предложения, между которыми осуществляется данная связь</th>
+                                                        <th>Разновидность связи и&nbsp;ее&nbsp;обозначение</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Глубинный падеж (семантическая валентность)</td>
+                                                        <td>Предикаты -&gt; аргументы</td>
+                                                        <td>
+                                                        <code>A</code> &mdash;&nbsp;быть &laquo;агентом&raquo; действия<br>
+                                                        <code>O</code> &mdash;&nbsp;быть &laquo;объектом&raquo; действия<br>
+                                                        <code>D</code> &mdash;&nbsp;быть &laquo;адресатом&raquo; действия<br>
+                                                        <code>T</code> &mdash;&nbsp;быть &laquo;темой&raquo; действия<br>
+                                                        <code>I</code> &mdash;&nbsp;быть &laquo;инструментом&raquo; действия<br>
+                                                        <code>L</code> &mdash;&nbsp;быть &laquo;местом&raquo; действия<br>
+                                                        <code>S</code> &mdash;&nbsp;быть &laquo;начальной точкой&raquo; действия<br>
+                                                        <code>F</code> &mdash;&nbsp;быть &laquo;конечной точкой&raquo; действия<br>
+                                                        <code>G</code> &mdash;&nbsp;быть &laquo;целью&raquo; действия<br>
+                                                        <code>C</code> &mdash;&nbsp;быть &laquo;условием&raquo; действия<br>
+                                                        <code>W</code> &mdash;&nbsp;быть &laquo;временем&raquo; действия<br>
+                                                        <code>M</code> &mdash;&nbsp;быть &laquo;способом&raquo; действия<br>
+                                                        <code>B</code> &mdash;&nbsp;быть &laquo;сроком&raquo; действия<br>
+                                                        <code>X</code> &mdash;&nbsp;быть &laquo;количеством&raquo; действия<br>
+                                                        <code>R</code> &mdash;&nbsp;быть &laquo;результатом&raquo; действия<br>
+                                                        <code>K</code> &mdash;&nbsp;быть &laquo;контрагентом&raquo; действия<br>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Необязательная валентность (характеристика предиката)</td>
+                                                        <td>Предикат -&gt; распространители</td>
+                                                        <td>Грамматические связи типа:<br>
+                                                        &laquo;обстоятельство места&raquo; <code>(L)</code> <br>
+                                                        &laquo;обстоятельство времени&raquo; <code>(W)</code> <br>
+                                                        &laquo;обстоятельство цели&raquo; <code>(G)</code> <br>
+                                                        &laquo;обстоятельство причины&raquo; <code>(C)</code> <br>
+                                                        &laquo;обстоятельство образа действия&raquo; <code>(M)</code> <br>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="7">Атрибутивная связь (характеризация понятия и&nbsp;характеризация свойства)</td>
+                                                        <td>
+                                                        Существительное -&gt; прилашательное
+                                                        </td>
+                                                        <td>
+                                                        Определимая связь <code>(H)</code>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                        Количественное числительное -&gt; существительное и&nbsp;др.
+                                                        </td>
+                                                        <td>
+                                                        Количественная связь <code>(H)</code>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                        Существительное -&gt; существительное
+                                                        </td>
+                                                        <td>
+                                                        Притяжательная связь <code>(H)</code>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                        Отадъективное существительное -&gt; существительное
+                                                        </td>
+                                                        <td>
+                                                        Притяжательная связь <code>(H)</code>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                        Существительное -&gt; предлог -&gt; существительное
+                                                        </td>
+                                                        <td>
+                                                        Притяжательная связь <code>(H)</code>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                        Существительное -&gt; нарицательное существительное
+                                                        </td>
+                                                        <td>
+                                                        Именная связь <code>(H)</code>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                        Наречие -&gt; прилагательное и&nbsp;др.
+                                                        </td>
+                                                        <td>
+                                                        Модификационная связь <code>(M)</code>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Генетивная связь &laquo;часть-целое&raquo;</td>
+                                                        <td>Существительное -&gt; существительное</td>
+                                                        <td><code>P</code></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Связь типа &laquo;быть подмножеством&raquo;</td>
+                                                        <td>Существительное -&gt; существительное</td>
+                                                        <td><code>U</code></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Связь типа &laquo;быть элементом&raquo;</td>
+                                                        <td>Существительное -&gt; существительное</td>
+                                                        <td><code>E</code></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <p class="pull-right text-muted"><em>Источник: Рыбина Г.В. Основы построения интеллектуальных систем. Учебное пособие. – М.: Финансы и статистика; ИНФРА‑М, 2010. – 432с.</em></p>
+                                        </div></div>',
+    practical_part: '<div class="row">
+                                        <div class="col-md-12">
+                                            <h4 class="text-center">Введение</h4>
+                                            <p class="indent">Лабораторная работа состоит из трех компонентов - <span class="text-primary" data-toggle="tooltip" data-placement="top" title="синтаксический">G</span> , <span class="text-primary" data-toggle="tooltip" data-placement="top" title="лексический">V</span>, <span class="text-primary" data-toggle="tooltip" data-placement="top" title="семантический">S</span>. Компоненты выполняются в представленном ранее порядке. Каждый из компонентов оценивается отдельно, после чего вычисляется итоговая оценка, хочется отметить, что выполнение каждого из компонентов займет у вас не малое количество времени.</p>
+                                            <p class="indent lead font-lg bg-danger">Обращаем ваше внимание на то, что данная лабораторная работа ограничена по времени 2 часами.</p>
+                                            <p class="indent">После успешной авторизации по логинам и паролям предоставленными инженерами лаборатории перед вами откроется окно навигации.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/ling.png"></p>
+                                            <p class="indent">Далее нажимая на ссылку <span class="label label-default">Лингвистика</span> перед вами откроется окно выбора варианта.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/var_ling.png"></p>
+                                            <p class="indent lead font-lg bg-danger">Указывайте вариант выданный сотрудниками лаборатории, в случае неудачной попыпки сдачи одного из компонентов результаты сохраняются в базе и в следующий раз вы сможете пересдать какой-либо компонент только под вашим вариантом.</p>
+                                            <p class="indent">После выбора своего варианта нажимайте на кнопку <span class="label label-default">Начать работу</span></p>
+                                            <h4 class="text-center">Сценарий лабораторной работы</h4>
+                                            <p class="indent">Перед вами откроется окно с заданием компонента <span class="text-primary" data-toggle="tooltip" data-placement="top" title="синтаксический">G</span>. Ознакомьтесь с интерфейсом. В правом верхнем углу находится краткая справка.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/sup2_comp_G.png"></p>
+                                            <p class="indent">После того как вы ознакомитесь с интерфейсом и заданием приступайте к выполнению. Необходимо произвести анализ предложений и обозначить в них основные и именные группы если такие имеются.</p>
+                                            <p class="indent">На панели справа располагается список основных и именных групп. После выделения группы слов необходимо присвоить им соответствущую группу. Для добавления новой именной группы нужно нажать на кнопку <span class="label label-default">Добавить ИГ</span>, после новую именную группу можно связать с группой слов <strong>в предложения</strong>.</p>
+                                            <p class="indent lead font-lg bg-danger">Будьте внимательны, не создавайте лишних именных групп. Одну именную группу можно использовать в разных предложениях одновременно.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/sup_comp_G.png"></p>
+                                            <p class="indent">В ходе выполнения работы у вас должны быть задействованы все слова в предложении. Лучше начинать с <strong>основных групп</strong> после чего создавать новые именные группы.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/ques_comp_G.png"></p>
+                                            <p class="indent">Если в ходе работы вы поняли, что совершили ошибку, то возможно отменить присвоенную вами именную группу. Для этого нужно выделить ошибочную именную группу и нажать на крестик.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/del_comp_G.png"></p>
+                                            <p class="indent">После того как все слова в каждом из предложений будут задействованы у вас получится такая картинка. Можете переходить ко второй части выполнения компонента <code>G</code>.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/done_comp_G.png"></p>
+                                            <p class="indent">Вам необходимо описать модель компонента G в БНФ.</p>
+                                            <p class="indent lead font-lg bg-danger">Будьте внимательны, порядок описания <strong>не важен</strong>.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/2_comp_G.png"></p>
+                                            <p class="indent">Покажем на примере описания предложения типа вопрос. В данном примере наше предложение состоит из именной группы 1, предиката, именной группы 2 и именной группы 3.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/2_doing_comp_G.png"></p>
+                                            <p class="indent lead font-lg bg-danger">Необходимо описать все возможные варианты каждого из типов предложений пока будет сохранятся смысл и выполнятся правила русского языка.</p>
+                                            <p class="indent">Для того чтобы сделать это необходимо перетаскивать <strong>первый элемент</strong> нового варианта на кнопку <span class="label label-default">+ Вариант</span>. Таким образом, новый вариант будет разделен с предыдущим вертикальной чертой <code>|</code>.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/2_doing_comp_G-2.png"></p>
+                                            <p class="indent">Следующим шагом будет описание именных групп, приведем пример.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/2_doing_comp_G-3.png"></p>
+                                            <p class="indent lead font-lg bg-danger">Обратите внимание! У вас не должно быть именных групп с разным название и одинаковым описанием.</p>
+                                            <p class="indent">Нажимем кнопку <span class="label label-default">Отправить</span> и переходим к выполнению к следующему компоненту <span class="text-primary" data-toggle="tooltip" data-placement="top" title="лексический">V</span>.</p>
+                                            <p class="indent">Вам необходмо описать словари, используемые для хранения словоформ текса подъязыка деловой прозы.</p>
+                                            <p class="indent lead font-lg bg-danger">Порядок описания также не важен.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/comp_V.png"></p>
+                                            <p class="indent">После описания всех словарей переходите к компоненту <span class="text-primary" data-toggle="tooltip" data-placement="top" title="семантический">S</span>. Для этого нужно нажать кнопку <span class="label label-default">Готово</span>.</p>
+                                            <p class="indent">Для выполнения компонента <span class="text-primary" data-toggle="tooltip" data-placement="top" title="семантический">S</span> необходимо знать теоретическую часть и иметь представление о языке CAREL.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/comp_S.png"></p>
+                                            <p class="indent">Вам необходимо перетащить нужные по вашему мнению слова на валентные места и верно указать их модальность. Покажем на примере предиката из первого предложения.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/doing_comp_S.png"></p>
+                                            <p class="indent lead font-lg bg-danger">Обратите внимание на форму слова находящуюся на валентном месте. А также на уровень, на котором находятся вабранное слово.</p>
+                                            <p class="indent">Регулировать уровень можно с помощью стрелок <code>&lt;</code> и <code>&gt;</code>.</p>
+                                            <p class="indent">После завершения компонента <span class="text-primary" data-toggle="tooltip" data-placement="top" title="семантический">S</span> нужно нажать на кнопку <span class="label label-default">Отправить</span>. Система покажет ваши результаты и выведет ошибки, если таковые имеются, а также автоматических подсчитает итоговую оценку.</p>
+                                            <h4 class="text-center">Будьте внимательны, и&nbsp;удачи!</h4>
+                                        </div>
+                                    </div>')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+########################################### 6 #########################################################
+
+MethodicalMaterial.create(
+    name: 'УТЗ',
+    title: '<h1>Учебно-тренировочные задания</h1>',
+    description: '<h3 class="aling-center">Уважаемые студенты!</h3>
+                            <p class="lead text-center">Здесь собраны методические указания для успешного выполнения лабораторных заданий по теме <strong>УТЗ</strong> в Научной лаборатории ИСиТ НИЯУ МИФИ.</p>',
+    theoretical_part: '<p class="pull-right text-muted"><em>Источник: Рыбина Г.В. Основы построения интеллектуальных систем. Учебное пособие. – М.: Финансы и статистика; ИНФРА‑М, 2010. – 432с.</em></p>',
+    practical_part: '<h4 class="text-center">Введение</h4>
+                                            
+                                            <h4 class="text-center">Будьте внимательны, и&nbsp;удачи!</h4>')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+########################################### 7 #########################################################
+
+MethodicalMaterial.create(
+    name: 'Психотесты',
+    title: '<h1>Психотесты</h1>',
+    description: '<h3 class="aling-center">Уважаемые студенты!</h3>
+                            <p class="lead text-center">Здесь собраны методические указания для успешного выполнения лабораторных заданий по теме <strong>УТЗ</strong> в Научной лаборатории ИСиТ НИЯУ МИФИ.</p>',
+    theoretical_part: '<h5 class="text-center">Опросник Б.&nbsp;Н. Смирнова</h5>
+                                            <p class="indent">Опросник Б.&nbsp;Н. Смирнова позволяет выявить рад полярных свойств темперамента: экстраверсию&nbsp;&mdash; интроверсию, эмоциональную возбудимость&nbsp;&mdash; эмоциональную уравновешенность, темп реакций (быстрый&nbsp;&mdash; медленный), активность (высокую&nbsp;&mdash; низкую). Он&nbsp;также имеет шкалу искренности испытуемого при ответах на&nbsp;вопросы, позволяющую оценить надежность полученных результатов.</p>
+                                            <h5 class="text-center">Опросник Стефансона</h5>
+                                            <p class="indent">Данная методика используется для изучения представлений о&nbsp;себе. Разработана В. Стефансоном и&nbsp;опубликован в&nbsp;1958&nbsp;г. Достоинством методики является&nbsp;то, что при работе с&nbsp;ней испытуемый проявляет свою индивидуальность, реальное &laquo;я&raquo;, а&nbsp;не&nbsp;&laquo;соответствие&nbsp;&mdash; несоответствие&raquo; статистическим нормам и&nbsp;результатам других людей. Возможна и&nbsp;повторная сортировка того&nbsp;же набора карточек, но&nbsp;в&nbsp;других отношениях:
+                                            <ul>
+                                                <li>социальное &laquo;я&raquo; (каким меня видят другие?);</li>
+                                                <li>идеальное &laquo;я&raquo; (каким&nbsp;бы я&nbsp;хотел быть?);</li>
+                                                <li>актуальное &laquo;я&raquo; (какой я&nbsp;в&nbsp;разных ситуациях?);</li>
+                                                <li>значимые другие (каким я&nbsp;вижу своего партнера?);</li>
+                                                <li>идеальный партнер (каким&nbsp;бы я&nbsp;хотел видеть своего партнера?).</li>
+                                            </ul></p>
+                                            <p class="indent">Методика позволяет определить шесть основных тенденций поведения человека в&nbsp;реальной группе: зависимость, независимость, общительность, необщительность, принятие борьбы и&nbsp;избегание борьбы. Тенденция к&nbsp;зависимости определена как внутреннее стремление индивида к&nbsp;принятию групповых стандартов и&nbsp;ценностей: социальных и&nbsp;морально-этических. Тенденция к&nbsp;общительности свидетельствует о&nbsp;контактности, стремлении образовать эмоциональные связи как в&nbsp;своей группе, так и&nbsp;за&nbsp;ее&nbsp;пределами. Тенденция к&nbsp;борьбе&nbsp;&mdash; активное стремление личности участвовать в&nbsp;групповой жизни, добиваться более высокого статуса в&nbsp;системе межличностных взаимоотношений; в&nbsp;противоположность этой тенденции&nbsp;&mdash; избегание борьбы&nbsp;&mdash; показывает стремление уйти от&nbsp;взаимодействия, сохранить нейтралитет в&nbsp;групповых спорах и&nbsp;конфликтах, склонность к&nbsp;компромиссным решениям. Каждая из&nbsp;этих тенденций имеет внутреннюю и&nbsp;внешнюю характеристики, т.&nbsp;е. зависимость, общительность и&nbsp;борьба могут быть истинными, внутренне присущими личности, а&nbsp;могут быть внешними, своеобразной маской, скрывающей истинное лицо человека. Если число положительных ответов в&nbsp;каждой сопряженной паре (зависимость&nbsp;&mdash; независимость, общительность&nbsp;&mdash; необщительность, принятие борьбы&nbsp;&mdash; избегание борьбы) приближается к&nbsp;20, то&nbsp;мы&nbsp;говорим об&nbsp;истинном преобладании той или иной устойчивой тенденции, присущей индивиду и&nbsp;проявляющейся не&nbsp;только в&nbsp;определенной группе, но&nbsp;и&nbsp;за&nbsp;ее&nbsp;пределами.</p>
+                                            <p class="pull-right text-muted"><em>Источник: Открытый электронный ресурс ru.wikipedia.org.</em></p>',
+    practical_part: '<h4 class="text-center">Введение</h4>
+                                            <p class="indent">После авторизации вам нужно выбрать вариант Психологические тесты.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/ling.png"></p>
+                                            <p class="indent">Перед вами откроется окно с компонентом выявления личностных характеристик обучаемого.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/psycho.png"></p>
+                                            <p class="indent"> Компонент интуитивно понятен. Вы выбираете интересующий вас тест и начинаете его проходить.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/panel_var_psycho.png"></p>
+                                            <p class="indent lead font-lg bg-danger">Каждый тест содержит различное количество вопросов.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/doing_var_psycho.png"></p>
+                                            <p class="indent">Для того чтобы завершить тестирование нужно нажать кнопку <span class="label label-primary">Завершить</span> на панели психологические тесты.</p>
+                                            <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/done_test_psycho.png"></p>
+                                            <p class="indent lead font-lg bg-danger">Если в тесте есть хотя бы один вопрос без ответа, то система не разрешит вам его завершить. Должны быть даны ответы на все вопросы.</p>
+                                            <h4 class="text-center">Будьте внимательны, и&nbsp;удачи!</h4>')

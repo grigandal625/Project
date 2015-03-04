@@ -1,7 +1,12 @@
 class Personality < ActiveRecord::Base
-  belongs_to :personality_trait
+  has_many :personality_traits, through: :personality_trait_intervals
+  has_many :personality_trait_intervals
 
-  def trait
-    personality_trait
+  def traits
+    personality_traits
+  end
+
+  def intervals
+    personality_trait_intervals
   end
 end

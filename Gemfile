@@ -43,6 +43,8 @@ gem 'dragonfly', '~> 1.0.7'
 
 gem 'remotipart', '~> 1.2'
 
+gem 'ckeditor'
+
 
 #for transliteration
 #gem "the_string_to_slug", "~> 0.0.5"

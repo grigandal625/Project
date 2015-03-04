@@ -1,3 +1,4 @@
+#coding=utf-8
 class PersonalityTestsController < ApplicationController
   layout 'personality_tests'
   before_action :check_admin, only: [:new, :create, :edit, :update, :destroy]
@@ -104,34 +105,57 @@ class PersonalityTestsController < ApplicationController
     end
     logger.debug score
     @personalities = []
+    @p =[]
 
     if test.type.name == 'max'
       id = score.max_by{|k,v| v}[0]
       trait = PersonalityTrait.find(id)
       if trait.name == 'Думающий'
         score.delete(id)
-        trait = PersonalityTrait.find(score.max_by{|k,v| v}[0])
-      else
+      end
         PersonalityTrait.find(score.max_by{|k,v| v}[0]).personalities.each do |personality|
           @personalities.push personality
           student.personalities << personality if student
         end
-      end
     else
-      score.each do |id, value|
-        logger.debug ((Time.now - session[:test_start_time]).to_i / 60).to_f
+      Personality.all.each do |personality|
+        isAtIntervals = true
 
-        if test.type.name == 'поделить на время'
-          minutes = (Time.now - session[:test_start_time]).min + 1
-          value /= minutes
-        end
-        PersonalityTrait.find(id).personalities.each do |personality|
-          if value >= personality.begin_at && value <= personality.end_at
-            @personalities.push personality
-            student.personalities << personality if student
+        personality.intervals.each do |int|
+          value = score[int.trait.id]
+
+          break unless isAtIntervals
+
+          if value.nil? || int.begin_at > value || int.end_at < value
+            isAtIntervals = false
+            
+            break
           end
         end
+
+        if isAtIntervals
+          @personalities.push personality
+          student.personalities << personality if student
+        end
       end
+      # score.each do |id, value|
+      #   logger.debug ((Time.now - session[:test_start_time]).to_i / 60).to_f
+      #
+      #   if test.type.name == 'поделить на время'
+      #     minutes = (Time.now - session[:test_start_time]).min + 1
+      #     value /= minutes
+      #   end
+      #   PersonalityTrait.find(id).personalities.each do |personality|
+      #     isAtIntervals = true
+      #     personality.intervals.each do |int|
+      #       if isAtIntervals && int.begin_at
+      #     end
+      #     if value >= personality.begin_at && value <= personality.end_at
+      #       @personalities.push personality
+      #       student.personalities << personality if student
+      #     end
+      #   end
+      # end
     end
   end
 
@@ -140,5 +164,10 @@ class PersonalityTestsController < ApplicationController
     if student
       @personalities = student.personalities
     end
+  end
+
+  def remove_from_student
+    @student = Student.find(params[:student_id])
+    @student.passed_personality_tests.delete(params[:id])
   end
 end

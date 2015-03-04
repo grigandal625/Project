@@ -11,7 +11,7 @@
                 } %>
   </td>
 
-  <td>
+  <td class="text">
     <%= link_to personality.description, '#', class: 'x-editable',
                 data: { name: 'description',
                         type: 'textarea',
@@ -20,34 +20,20 @@
                 } %>
   </td>
 
-  <td>
-    <%= link_to personality.trait.try(:name), '#', class: 'x-editable',
-                data: { name: 'personality_trait_id',
-                        type: 'select',
-                        pk: personality.id,
-                        source: @traits.map {|t| {value: t.id, text: t.name }},
-                        url: personality_path(personality),
-                        value: personality.trait.try(:id)
-                } %>
+  <td colspan="3" class="no-padding">
+    <table >
+      <% personality.intervals.each do |int| %>
+        <%= render partial: "personality_trait_intervals/personality_trait_interval", locals: {int: int, traits: @traits} %>
+      <% end %>
+      <tr id="trait_interval_<%= personality.id %>">
+        <td colspan="4  ``````````````````````````````````````````````````````````````````````````````````````````````````````````````````" >
+            <%= link_to '', new_personality_trait_interval_path, class: "btn btn-default glyphicon glyphicon-plus", remote: true, data: {params: {personality_id: personality.id}} %>
+        </td>
+      </tr>
+    </table>
+
   </td>
 
-  <td>
-    <%= link_to personality.begin_at, '#', class: 'x-editable',
-                data: { name: 'begin_at',
-                        type: 'number',
-                        pk: personality.id,
-                        url: personality_path(personality),
-                } %>
-  </td>
-
-  <td>
-    <%= link_to personality.end_at, '#', class: 'x-editable',
-                data: { name: 'end_at',
-                        type: 'number',
-                        pk: personality.id,
-                        url: personality_path(personality),
-                } %>
-  </td>
 
   <td>
     <%= link_to '', personality, method: :delete, remote: true, data: { confirm: 'Вы уверены?'}, class: 'glyphicon glyphicon-remove pull-right' %>
