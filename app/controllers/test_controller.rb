@@ -17,11 +17,11 @@ class TestController < ApplicationController
     if result == nil
       result = @task.results.create(results_mask: 0)
       result.create_g_result(mark: 0)
-      result.g_result.create_log(data: "", mistakes: "")
+      result.g_result.create_log(data: "", result: "")
       result.create_v_result(mark: 0)
-      result.v_result.create_log(data: "", mistakes: "")
+      result.v_result.create_log(data: "", result: "")
       result.create_s_result(mark: 0)
-      result.s_result.create_log(data: "", mistakes: "")
+      result.s_result.create_log(data: "", result: "")
       result.student = @user.student
       session[:result_id] = result.id
     end

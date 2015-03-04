@@ -1,0 +1,2 @@
+module FrameadminHelper
+end

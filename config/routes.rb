@@ -4,6 +4,18 @@ UIR::Application.routes.draw do
   post "auth/authentificate"
   post "auth/logout", as: "logout"
 
+
+  get  "frames/index"
+  get "frames/list"
+  post  "frames/translate"
+  post  "frames/createframe"
+  post "frameadmin/createframe"
+  post "frameadmin/updateframe"
+
+  post "framestudent/createstudentframe"
+  post "framestudent/updateframe"
+  post "framestudent/finalframe"
+
   get "groups/:id/generate_pass", to: "groups#generate_pass", as: "pass_gen"
   get "groups/:id/generate_report", to: "groups#generate_report", as: "report_gen"
   get  "semanticanswers/result"
@@ -20,6 +32,10 @@ UIR::Application.routes.draw do
   resources :menu
   resources :semantictests
   resources :semanticanswers
+  resources :frameadmin
+  resources :framestudent
+
+
   post "semanticanswers/create"
   post "semanticanswers/updatesemanticjson"
   post "semantictests/updateJson"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140327064028) do
+ActiveRecord::Schema.define(version: 20141226123353) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -21,10 +21,42 @@ ActiveRecord::Schema.define(version: 20140327064028) do
 
   add_index "bnfs", ["component_id", "component_type"], name: "index_bnfs_on_component_id_and_component_type"
 
+  create_table "etalonframes", force: true do |t|
+    t.string   "name"
+    t.text     "dictionary"
+    t.text     "studentcode"
+    t.text     "framecode"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "mistakes"
+  end
+
   create_table "etalons", force: true do |t|
     t.string   "name"
     t.text     "etalonjson"
     t.text     "nodejson"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "frame_solvers", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "framedbs", force: true do |t|
+    t.text     "code"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "frameobjects", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "frames", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -97,6 +129,21 @@ ActiveRecord::Schema.define(version: 20140327064028) do
   add_index "semanticnetworks", ["etalon_id"], name: "index_semanticnetworks_on_etalon_id"
   add_index "semanticnetworks", ["student_id"], name: "index_semanticnetworks_on_student_id"
 
+  create_table "studentframes", force: true do |t|
+    t.integer  "etalonframe_id"
+    t.integer  "student_id"
+    t.text     "studentcode"
+    t.integer  "result"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "mistakes"
+    t.boolean  "isfinish"
+    t.text     "studentmistakes"
+  end
+
+  add_index "studentframes", ["etalonframe_id"], name: "index_studentframes_on_etalonframe_id"
+  add_index "studentframes", ["student_id"], name: "index_studentframes_on_student_id"
+
   create_table "students", force: true do |t|
     t.text    "fio"
     t.integer "group_id"
@@ -108,6 +155,16 @@ ActiveRecord::Schema.define(version: 20140327064028) do
     t.text "sentence1"
     t.text "sentence2"
     t.text "sentence3"
+  end
+
+  create_table "tokenlines", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "trees", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

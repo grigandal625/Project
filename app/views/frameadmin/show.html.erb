@@ -1,0 +1,81 @@
+
+
+
+<script>
+    function insertTab(o, e)
+    {
+        var kC = e.keyCode ? e.keyCode : e.charCode ? e.charCode : e.which;
+        if (kC == 9 && !e.shiftKey && !e.ctrlKey && !e.altKey)
+        {
+            var oS = o.scrollTop;
+            if (o.setSelectionRange)
+            {
+                var sS = o.selectionStart;
+                var sE = o.selectionEnd;
+                o.value = o.value.substring(0, sS) + "\t" + o.value.substr(sE);
+                o.setSelectionRange(sS + 1, sS + 1);
+                o.focus();
+            }
+            else if (o.createTextRange)
+            {
+                document.selection.createRange().text = "\t";
+                e.returnValue = false;
+            }
+            o.scrollTop = oS;
+            if (e.preventDefault)
+            {
+                e.preventDefault();
+            }
+            return false;
+        }
+        return true;
+    }
+</script>
+<%= hidden_field_tag(:linkframe, @framecode.frames.to_json)%>
+
+
+
+<%= form_tag(frameadmin_updateframe_path , method: "POST") do %>
+    <div id="line">
+      <%= label_tag(name="Название: " + @etalon.name)%>
+      <%= label_tag(name="Эталонный код фрейма")%>
+      <br>
+      <%= text_area_tag(:framecode, @etalon.framecode, autofocus: true,  rows: 20,  cols: 70, onkeydown: "insertTab(this, event)" ) %>
+      <br>
+      <%= label_tag(name="Код фрейма подаваемый студенту")%>
+      <br>
+      <%= text_area_tag(:studentcode, @etalon.studentcode, autofocus: true,  rows: 20,  cols: 70, onkeydown: "insertTab(this, event)" ) %>
+      <br>
+      <%= label_tag(name="Словарь")%>
+      <br>
+      <%= text_area_tag(:dictionary, @etalon.dictionary, autofocus: true,  rows: 20,  cols: 70, onkeydown: "insertTab(this, event)" , readonly: "true") %>
+      <br>
+      <%= hidden_field_tag(:id, value=params[:id])%>
+
+
+      <%= label_tag(name="Вывод")%>
+      <br>
+      <%= text_area_tag(:console, @etalon.mistakes.to_s + "\n" , autofocus: true,  rows: 10,  cols: 70, onkeydown: "insertTab(this, event)", :id => "666" ) %>
+
+
+      <br>
+      <%= submit_tag("Сохранить") %>
+
+    </div>
+<% end %>
+
+
+<script>
+    var temp = document.getElementById("linkframe").value.replace(/&quot;/g, '"')
+    document.write();
+    for (var i = 0; i < JSON.parse(temp).length; i++)
+    {
+        document.getElementById("666").value =  document.getElementById("666").value + JSON.stringify(JSON.parse(temp)[i], null, 4) + "\n"
+
+    }
+
+    //var FrameObject = JSON.parse(temp)[0]
+    //alert (FrameObject.name)
+
+    //var jsonText = JSON.stringify(temp, "\t");
+</script >

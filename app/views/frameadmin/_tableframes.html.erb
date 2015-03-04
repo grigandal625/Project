@@ -1,0 +1,11 @@
+<table border="2px" align="center">
+
+  <% @etalons.each do |frame| %>
+
+      <tr>
+        <td><%=frame.id.to_s %></td><td> <%= frame.name %></td><td><%= link_to "Просмотр", frameadmin_path(frame.id)%><br/>
+      </td>
+      </tr>
+  <% end %>
+
+</table>

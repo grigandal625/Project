@@ -1,0 +1,10 @@
+<%= form_tag(frameadmin_createframe_path , method: "POST") do %>
+    <div id="line">
+      <%= label_tag(name = "Введите название фрейма")%>
+      <br>
+      <%= text_field_tag(:name, nil, autofocus: true )  %>
+      <br>
+      <%= submit_tag("Создать") %>
+
+    </div>
+<% end %>

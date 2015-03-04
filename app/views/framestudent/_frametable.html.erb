@@ -1,0 +1,21 @@
+<table border="2px">
+
+  <% @framestudentcode.forUser.each do |frame| %>
+
+      <tr>
+        <td><%=frame.type + ":" + frame.name%></td>
+        <%frame.children.each do |slot|%>
+            <% temp = []%>
+          <tr>
+            <td><%= slot.type + ":" + slot.name %></td>
+            <%slot.children.each do |value|%>
+                <% temp.push(value.type + ":" +value.name ) %>
+            <%end%>
+            <td><%= temp.to_s %></td>
+          </tr>
+      <%end%>
+      </tr>
+
+  <%  end %>
+
+</table>
