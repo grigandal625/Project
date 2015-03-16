@@ -11,9 +11,6 @@ class FrameadminController < AdminToolsController
     @framecode = Frame.new
     @framecode.inic(@etalon.framecode)
     @framecode.createframe(@etalon.framecode)
-
-
-
   end
 
   def createframe
@@ -26,11 +23,20 @@ class FrameadminController < AdminToolsController
     redirect_to :back
   end
 
+  def destroy
+    Etalonframe.find(params[:id]).destroy
+    redirect_to :back
+  end
+
   def new
 
   end
 
 
+
+  def results
+    @results = Studentframe.all
+  end
 
 
   def updateframe

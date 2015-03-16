@@ -5,12 +5,12 @@ UIR::Application.routes.draw do
   post "auth/logout", as: "logout"
 
 
-  get  "frames/index"
-  get "frames/list"
-  post  "frames/translate"
-  post  "frames/createframe"
+
+
   post "frameadmin/createframe"
   post "frameadmin/updateframe"
+  get "frameadmin/results"
+
 
   post "framestudent/createstudentframe"
   post "framestudent/updateframe"

@@ -1,0 +1,58 @@
+<table id="result" border="1">
+  <caption class="top"><b>Результаты</b></caption>
+  <thead>
+  <tr class ="center">
+    <th>ФИО</th>
+    <th>Оценка</th>
+
+    <th>Ситуация</th>
+    <th>Дата</th>
+    <th>Группа</th>
+    <th>Закончен?</th>
+    <th></th>
+
+  </tr>
+  </thead>
+  <% @results.each do |test| %>
+
+
+
+
+
+          <tr class ="center">
+            <td><%= test.student.fio %></td>
+            <td><%= test.result %></td>
+
+            <td><%
+                nameetalon = ""
+                if ( test.etalonframe == nil)
+                  nameetalon = "Вариант Удален"
+                else
+                  nameetalon =    link_to "Просмотр ", framestudent_path(test)
+                  #nameetalon = test.etalonframe.name
+                end
+            %>
+              <%= nameetalon%>
+            </td>
+
+
+            <td><%= test.created_at.to_date %></td>
+            <td><%= test.student.group.number %></td>
+            <td><%= test.isfinish?%></td>
+            <td><%= link_to  "Удалить", framestudent_path(test), method: :delete , data: { confirm: 'Вы уверены?' }%></td>
+
+
+          </tr>
+
+
+
+
+
+
+
+
+
+
+
+  <% end %>
+</table>

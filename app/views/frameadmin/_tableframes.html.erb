@@ -4,7 +4,9 @@
 
       <tr>
         <td><%=frame.id.to_s %></td><td> <%= frame.name %></td><td><%= link_to "Просмотр", frameadmin_path(frame.id)%><br/>
-      </td>
+        <td><%= link_to  "Удалить", frameadmin_path(frame), method: :delete , data: { confirm: 'Are you sure?' }%></td>
+
+        </td>
       </tr>
   <% end %>
 

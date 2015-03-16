@@ -1,6 +1,7 @@
 #coding: utf-8
-class FramestudentController < ApplicationController
-  layout 'test'
+class FramestudentController <  ApplicationController
+skip_before_filter :verify_authenticity_token
+
   def index
 
   end
@@ -24,7 +25,10 @@ class FramestudentController < ApplicationController
     redirect_to framestudent_path(@studentframe.id)
   end
 
-
+  def destroy
+    Studentframe.find(params[:id]).destroy
+    redirect_to :back
+  end
 
 
   def updateframe
