@@ -1,5 +1,11 @@
 ﻿#coding=utf-8
 
+test_group = Group.create(number: 'Test group')
+st = test_group.students.create(fio: "Test Student")
+testuser = st.create_user(login: 'student0', pass: Digest::MD5.hexdigest('lolka'), role: 'student')
+
+admin = User.create(login: 'admin', pass: Digest::MD5.hexdigest('lgkofpes'), role: 'admin')
+
 MethodicalMaterial.create(
   name: 'Components',
   title: '<h1>Методические материалы</h1>',

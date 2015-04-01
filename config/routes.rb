@@ -59,11 +59,12 @@ UIR::Application.routes.draw do
   get  "semanticanswers/new"
   get  "menu/results"
 
-
   root 'menu#index'
   get "test", to: "test#get_task", as: "get_task"
   post "test", to: "test#next_component", as: "next_component"
 
+
+  get  "planning/test_run"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
