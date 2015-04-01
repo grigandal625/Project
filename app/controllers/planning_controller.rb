@@ -1,12 +1,24 @@
 class PlanningController < ApplicationController
     def test_run
 
+        problem_str = File.read(Rails.configuration.planning_kb + '/problem.pddl')
+
+
+        #Form initial state
+        initial_facts = []
+        initial_facts.push("(finished onthology-development-step)")
+
+        problem_str = problem_str.gsub("##INITIAL-STATE##", initial_facts.join('\n'))
+
         plan = []
 
         dir = Dir.mktmpdir
         begin
+            #puts dir
+
             FileUtils.cp(Rails.configuration.planning_kb + '/domain.pddl', "#{dir}/domain.pddl")
-            FileUtils.cp(Rails.configuration.planning_kb + '/problem.pddl', "#{dir}/problem.pddl")
+
+            File.open("#{dir}/problem.pddl", 'w') { |file| file.write(problem_str) }
 
             Dir.chdir(dir) do
                 #Run preprocess
@@ -24,7 +36,6 @@ class PlanningController < ApplicationController
           FileUtils.remove_entry_secure dir
         end
 
-        #system(Rails.configuration.planning_bin)
-        render :text => plan.join(",")
+        render :text => plan.join("<br/>")
     end
 end
