@@ -12,7 +12,8 @@
 
 (:predicates 
     (finished ?s - developed-component)
-	(follows ?s1 - development-step ?s2 - development-step)
+    (finished-in-current-session ?s - developed-component)
+    (follows ?s1 - development-step ?s2 - development-step)
     (completed)
 )
 
@@ -25,8 +26,17 @@
     :precondition (and (not (finished ?step))
                (forall (?pstep - development-step)
                    (imply (follows ?step ?pstep)
+                      (and (not (finished-in-current-session ?pstep)) (finished ?pstep)))))
+    :effect (and (finished ?step) (finished-in-current-session ?step) (increase (total-cost) 1))
+)
+
+(:action execute-development-step-future
+    :parameters (?step - development-step)
+    :precondition (and (not (finished ?step))
+               (forall (?pstep - development-step)
+                   (imply (follows ?step ?pstep)
                       (finished ?pstep))))
-    :effect (and (finished ?step) (increase (total-cost) 1))
+    :effect (and (finished ?step) (finished-in-current-session ?step) (increase (total-cost) 2))
 )
 
 (:action int-finalize-development
