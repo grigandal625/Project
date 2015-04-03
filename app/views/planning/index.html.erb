@@ -1,0 +1,30 @@
+
+<% if (@psession != nil) %>
+
+Current plan:<br>
+
+<% @psession.completed_tasks.each do |ct| %>
+    <%= ct.description %> [Завершено]<br/>
+<% end %>
+<% if @cur_task %>
+    <%= @cur_task.description %> [Выполняется, <%= link_to("Завершить", :controller => "planning", :action => "close_task", :task => @cur_task) %>]<br/>
+<% end %>
+<% if @psession.plan %>
+<% @psession.plan.each do |pt| %>
+    <%= pt["description"] %>[<%= (pt["available"] && (!@cur_task)) ? link_to("Приступить", :controller => "planning", :action => "begin_task", :plan_step => pt["number"]) : nil %>]<br/>
+<% end %>
+<% end %>
+
+------------------<br/>
+
+<%= !@cur_task ? link_to("Replan", :controller => "planning", :action => "update") : nil %><br/>
+<%= link_to "Close planning session", controller: "planning", action: "close_session", id: @psession.id %><br/>
+
+<% else %>
+
+Now current planning session. Click to start TPP.<br/>
+
+<%= link_to "Start TPP 'Tutor IES Development Designtime (first time)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_initial" %><br/>
+<%= link_to "Start TPP 'Tutor IES Development Designtime (reengineering)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_reeng" %><br/>
+
+<% end %>
