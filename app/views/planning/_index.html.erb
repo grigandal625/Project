@@ -1,0 +1,31 @@
+
+<div class="planning-window">
+<% if (@psession != nil) %>
+Current plan:<br>
+
+<% @psession.completed_tasks.each do |ct| %>
+    <%= ct.description %> [Завершено]<br/>
+<% end %>
+<% if @cur_task %>
+    <%= @cur_task.description %> [Выполняется, <%= link_to("Завершить", :controller => "planning", :action => "close_task", :task => @cur_task, :remote => true)%>]<br/>
+<% end %>
+<% if @psession.plan %>
+<% @psession.plan.each do |pt| %>
+    <%= pt["description"] %>[<%= (pt["available"] && (!@cur_task)) ? link_to("Приступить", :controller => "planning", :action => "begin_task", :plan_step => pt["number"], :remote => true) : nil %>]<br/>
+<% end %>
+<% end %>
+
+------------------<br/>
+
+<%= !@cur_task ? link_to("Replan", :controller => "planning", :action => "update", :remote => true ) : nil%><br/>
+<%= link_to "Close planning session", controller: "planning", action: "close_session", id: @psession.id, :remote => true %><br/>
+
+<% else %>
+
+Now current planning session. Click to start TPP.<br/>
+
+<%= link_to "Start TPP 'Tutor IES Development Designtime (first time)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_initial", :remote => true %><br/>
+<%= link_to "Start TPP 'Tutor IES Development Designtime (reengineering)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_reeng", :remote => true %><br/>
+	
+<% end %>
+</div>
