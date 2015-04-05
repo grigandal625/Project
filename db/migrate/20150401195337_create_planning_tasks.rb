@@ -7,6 +7,7 @@ class CreatePlanningTasks < ActiveRecord::Migration
         t.string :result
         t.string :action
         t.string :description
+        t.string :params
         t.timestamps
     end
   end

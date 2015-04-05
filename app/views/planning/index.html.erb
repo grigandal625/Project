@@ -24,8 +24,12 @@ Current plan:<br>
 
 Для запуска интеллектуального планировщика выберете необходимый пункт.<br/>
 
-<%= link_to "Start TPP 'Tutor IES Development Designtime (first time)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_initial" %><br/>
-<%= link_to "Start TPP 'Tutor IES Development Designtime (reengineering)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_reeng" %><br/>
+<% if(@user.role == 'admin') %>
+    <%= link_to "Start TPP 'Tutor IES Development Designtime (first time)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_initial" %><br/>
+    <%= link_to "Start TPP 'Tutor IES Development Designtime (reengineering)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_reeng" %><br/>
+<% else %>
+    <%= link_to "Start TPP 'Tutor IES Development Runtime'", controller: "planning", action: "new_session", procedure: "tutor_runtime" %><br/>
+<% end %>
 
 <% end %>
 
