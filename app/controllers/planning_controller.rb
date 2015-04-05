@@ -4,6 +4,10 @@ class PlanningController < ApplicationController
     def index
         @psession = current_planning_session()
         @cur_task = @psession ? @psession.current_task() : nil
+
+        if(@user.role == 'admin')
+            @events = PlannerEvent.last(20)
+        end
     end
     
     def new_session
@@ -54,6 +58,8 @@ class PlanningController < ApplicationController
 
             pses.save()
             
+            PlannerEvent.create(:user => @user, :type_id => 3, :description => step_el.to_s)
+
             redirect_to :action => "index"
         end
     end

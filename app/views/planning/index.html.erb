@@ -22,9 +22,13 @@ Current plan:<br>
 
 <% else %>
 
-Now current planning session. Click to start TPP.<br/>
+Для запуска интеллектуального планировщика выберете необходимый пункт.<br/>
 
 <%= link_to "Start TPP 'Tutor IES Development Designtime (first time)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_initial" %><br/>
 <%= link_to "Start TPP 'Tutor IES Development Designtime (reengineering)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_reeng" %><br/>
 
+<% end %>
+
+<% if(@user.role == 'admin') %>
+    <%= render partial: "log", locals: {events: @events} %>
 <% end %>

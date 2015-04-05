@@ -12,4 +12,21 @@ module PlanningHelper
             return nil
         end
     end
+
+    def planning_event_text(type_id)
+        case type_id
+        when 0
+            "Plan Generated"
+        when 1
+            "Session Started"
+        when 2
+            "Session Ended"
+        when 3
+            "Task Started"
+        when 4
+            "Task Ended"
+        else
+            "Unkown Event"
+        end
+    end
 end

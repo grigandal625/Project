@@ -10,9 +10,13 @@ class PlanningSession < ActiveRecord::Base
     def close
         self.closed = 1
         self.save
+
+        PlannerEvent.create(:user => self.user, :type_id => 2, :description => "executed #{planning_tasks.size} tasks")
     end
 
     def generate_plan
+        start_time = Time.now.to_f
+
         problem_str = File.read(Rails.configuration.planning_kb + '/problem.pddl')
 
         #Form initial state
@@ -56,6 +60,11 @@ class PlanningSession < ActiveRecord::Base
             self.plan.push(cur_step)
         end
 
+        
+        end_time = Time.now.to_f
+        
+
+        PlannerEvent.create(:user => self.user, :type_id => 0, :description => "generated in #{(end_time-start_time).to_s} sec")
         self.save
     end
 
@@ -80,6 +89,8 @@ class PlanningSession < ActiveRecord::Base
         if(self.plan.empty?)
             self.close()
         end
+
+        PlannerEvent.create(:user => self.user, :type_id => 4, :description => "result=#{task.result.to_s}")
     end
 
     private
