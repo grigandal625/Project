@@ -2,8 +2,7 @@
 (:requirements :typing :adl :action-costs)
 (:types 
     extractable-object - object
-    skill - extractable-object
-    knowldege - extractable-object
+    skill knowldege psycho - extractable-object
   )
 
 (:constants 
@@ -56,6 +55,12 @@
     :parameters (?s - skill)
     :precondition (pending ?s)
     :effect (and (not (pending ?s)) (finished ?s) (increase (total-cost) 1))
+)
+
+(:action extract-psycho
+    :parameters (?p - psycho)
+    :precondition (pending ?p)
+    :effect (and (not (pending ?p)) (finished ?p) (increase (total-cost) 1))
 )
 
 (:action int-finalize

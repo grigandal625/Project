@@ -120,11 +120,19 @@ class PlanningSession < ActiveRecord::Base
     def generate_initial_state(proc_name, state)
         case proc_name
         when "tutor_designtime_initial"
-            return ["", state.join('\n')]
+
+            facts = []
+
+            state["finished"].each do |f|
+                facts.push("(finished #{f})")
+            end
+
+            return ["", facts.join('\n')]
         when "tutor_runtime"
 
             kbs = []
             init_facts = []
+            psyhos = []
 
             state["pending-knowledge"].each do |pk|
                 kb_name = "kb-#{pk}"
@@ -150,8 +158,13 @@ class PlanningSession < ActiveRecord::Base
                 kbs.push(kb_name)
             end
 
+            if(!state["pending-psycho"].empty?)
+                psyhos.push("psycho-main")
+                init_facts.push("(pending psycho-main)")
+            end
+
             kbs = kbs.uniq
-            return [kbs.join(' ') + " - knowldege\n" + skills.join(' ') + " - skill", init_facts.join(' ')]
+            return [kbs.join(' ') + " - knowldege\n" + skills.join(' ') + " - skill\n" + psyhos.join(' ') + " - psycho\n", init_facts.join(' ')]
         else
             return ["", ""]
         end
@@ -189,7 +202,7 @@ class PlanningSession < ActiveRecord::Base
 
         skill_mappings = {"frame-skill" => {:description => "Выявить уровень умений моделировать ситуации с помощью фреймов", :executor => "framer", :action => "run"}, 
                             "sem-network-skill" => {:description => "Выявить уровень умений моделировать ситуации с помощью семантических сетей", :executor => "semnetter", :action => "run"},
-                            "linguistic-skill" => {:description => "Выявить уровень умений лингвистика", :executor => "lingvo", :action => "run"},
+                            "linguistic-skill" => {:description => "Выявить уровень умений строить компоненты лингвистической модели подъязыка деловой прозы", :executor => "lingvo", :action => "run"},
                             "reasoning-skill" => {:description => "Выявить уровень умений моделировать прямой/обратный вывод", :executor => "reasoner", :action => "run"}
             }
 
@@ -202,13 +215,15 @@ class PlanningSession < ActiveRecord::Base
             cur_step = skill_mappings[parts[1]].clone
         when "extract-knowledge"
             ont_id = parts[1].gsub("kb-", "").to_i
-            cur_step = {:description => "Выявить уровень знаний (онтология #{ont_id})", :executor => "tester", :action => "run", :params => {:onthology => ont_id}}
+            cur_step = {:description => "Выявить уровень знаний (в соответствии с фрагментом онтологии по курсу #{ont_id})", :executor => "tester", :action => "run", :params => {:onthology => ont_id}}
+        when "extract-psycho"
+            cur_step = {:description => "Построить психологический портрет", :executor => "psycho", :action => "run"}
         when "generate-tutor-strategy"
             ont_id = parts[1].gsub("kb-", "").to_i
-            cur_step = {:description => "Сформировать стратегию обучения (онтология #{ont_id})", :executor => "strateger", :action => "generate", :params => {:onthology => ont_id}}
+            cur_step = {:description => "Сформировать стратегию обучения (#{ont_id})", :executor => "strateger", :action => "generate", :params => {:onthology => ont_id}}
         when "release-tutor-strategy"
             ont_id = parts[1].gsub("kb-", "").to_i
-            cur_step = {:description => "Реализовать стратегию обучения (онтология #{ont_id})", :executor => "strateger", :action => "run", :params => {:onthology => ont_id}}
+            cur_step = {:description => "Пройти обучение (#{ont_id})", :executor => "strateger", :action => "run", :params => {:onthology => ont_id}}
         else
             cur_step = {:description => "Unkown action"}
             cur_step[:available] = false

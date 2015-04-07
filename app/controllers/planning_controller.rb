@@ -17,7 +17,7 @@ class PlanningController < ApplicationController
                 throw "Invalid user role"
             end
 
-            ps = PlanningSession.create(:user => @user, :closed => 0, :state => [], :procedure => "tutor_designtime_initial")
+            ps = PlanningSession.create(:user => @user, :closed => 0, :state => {"finished" => []}, :procedure => "tutor_designtime_initial")
             ps.generate_plan()
             redirect_to action: "index"
         when "tutor_runtime"
@@ -25,7 +25,7 @@ class PlanningController < ApplicationController
                 throw "Invalid user role"
             end
 
-            ps = PlanningSession.create(:user => @user, :closed => 0, :state => {"pending-skills" => ["frame-skill", "sem-network-skill", "linguistic-skill", "reasoning-skill"], "pending-knowledge" => [23, 41, 12], "low-knowledge" => [], "pending-tutoring" => []}, :procedure => "tutor_runtime")
+            ps = PlanningSession.create(:user => @user, :closed => 0, :state => {"pending-skills" => ["frame-skill", "sem-network-skill", "linguistic-skill", "reasoning-skill"], "pending-knowledge" => [23, 41], "pending-psycho" => ["main"], "low-knowledge" => [], "pending-tutoring" => []}, :procedure => "tutor_runtime")
             ps.generate_plan()
             redirect_to action: "index"
         else
@@ -85,21 +85,23 @@ class PlanningController < ApplicationController
         case task.executor
         when "onthology"
             if(task.action == "develop")
-                task.result = {:add => ["(finished onthology-development-step)"]}
+                task.result = {:add => {"finished" => "onthology-development-step"}}
             end
         when "psycho"
             if(task.action == "config")
-                task.result = {:add => ["(finished psycho-config-step)"]}
+                task.result = {:add => {"finished" => "psycho-config-step"}}
+            elsif(task.action == "run")
+                task.result = {:delete => {"pending-psycho" => "main"}}
             end
         when "configurator"
             if(task.action == "config_skills")
-                task.result = {:add => ["(finished skills-extraction-select-step)"]}
+                task.result = {:add => {"finished" => "skills-extraction-select-step"}}
             elsif(task.action == "config_training_impacts")
-                task.result = {:add => ["(finished training-impact-development-step)"]}
+                task.result = {:add => {"finished" => "training-impact-development-step"}}
             end
         when "tester"
             if(task.action == "develop")
-                task.result = {:add => ["(finished testing-development-step)"]}
+                task.result = {:add => {"finished" => "testing-development-step"}}
             elsif(task.action == "run")
                 ont_id = task.params["onthology"]
                 task.result = {:delete => {"pending-knowledge" => ont_id}}
