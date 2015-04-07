@@ -1,0 +1,46 @@
+
+<div class="planning-window">
+<% if (@psession != nil) %>
+Current plan:<br>
+
+<% @psession.completed_tasks.each do |ct| %>
+    <%= ct.description %> [Завершено]<br/>
+<% end %>
+<% if @cur_task %>
+    <%= @cur_task.description %> [Выполняется, <%= link_to("Завершить", :controller => "planning", :action => "close_task", :task => @cur_task, :remote => true)%>]<br/>
+<% end %>
+<% if @psession.plan %>
+<% @psession.plan.each do |pt| %>
+    <%= pt["description"] %>[<%= (pt["available"] && (!@cur_task)) ? link_to("Приступить", :controller => "planning", :action => "begin_task", :plan_step => pt["number"], :remote => true) : nil %>]<br/>
+<% end %>
+<% end %>
+
+------------------<br/>
+
+<%= !@cur_task ? link_to("Replan", :controller => "planning", :action => "update", :remote => true ) : nil%><br/>
+<%= link_to "Close planning session", controller: "planning", action: "close_session", id: @psession.id, :remote => true %><br/>
+
+<% else %>
+
+Для запуска интеллектуального планировщика выберете необходимый пункт.<br/>
+
+<<<<<<< HEAD:app/views/planning/_index.html.erb
+<%= link_to "Start TPP 'Tutor IES Development Designtime (first time)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_initial", :remote => true %><br/>
+<%= link_to "Start TPP 'Tutor IES Development Designtime (reengineering)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_reeng", :remote => true %><br/>
+	
+<% end %>
+</div>
+=======
+<% if(@user.role == 'admin') %>
+    <%= link_to "Start TPP 'Tutor IES Development Designtime (first time)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_initial" %><br/>
+    <%= link_to "Start TPP 'Tutor IES Development Designtime (reengineering)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_reeng" %><br/>
+<% else %>
+    <%= link_to "Start TPP 'Tutor IES Development Runtime'", controller: "planning", action: "new_session", procedure: "tutor_runtime" %><br/>
+<% end %>
+
+<% end %>
+
+<% if(@user.role == 'admin') %>
+    <%= render partial: "log", locals: {events: @events} %>
+<% end %>
+>>>>>>> bb7fe08d6574547e8ee9a5d350a70e43230b6517:app/views/planning/index.html.erb

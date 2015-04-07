@@ -64,7 +64,7 @@ UIR::Application.routes.draw do
   post "test", to: "test#next_component", as: "next_component"
 
 
-  get  "planning/index"
+  get  "planning/_index"
   get  "planning/test_run"
   get  "planning/new_session"
   get  "planning/close_session"

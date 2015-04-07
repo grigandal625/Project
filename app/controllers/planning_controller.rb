@@ -1,7 +1,7 @@
 class PlanningController < ApplicationController
     include PlanningHelper
 
-    def index
+    def _index
         @psession = current_planning_session()
         @cur_task = @psession ? @psession.current_task() : nil
 
@@ -19,8 +19,13 @@ class PlanningController < ApplicationController
 
             ps = PlanningSession.create(:user => @user, :closed => 0, :state => {"finished" => []}, :procedure => "tutor_designtime_initial")
             ps.generate_plan()
-            redirect_to action: "index"
+            #render action: "_index"
+            #redirect_to action: "_index"
+            _index
         when "tutor_runtime"
+<<<<<<< HEAD
+          redirect_to action: "_index"
+=======
             if(@user.role == 'admin')
                 throw "Invalid user role"
             end
@@ -28,6 +33,7 @@ class PlanningController < ApplicationController
             ps = PlanningSession.create(:user => @user, :closed => 0, :state => {"pending-skills" => ["frame-skill", "sem-network-skill", "linguistic-skill", "reasoning-skill"], "pending-knowledge" => [23, 41], "pending-psycho" => ["main"], "low-knowledge" => [], "pending-tutoring" => []}, :procedure => "tutor_runtime")
             ps.generate_plan()
             redirect_to action: "index"
+>>>>>>> bb7fe08d6574547e8ee9a5d350a70e43230b6517
         else
           render :text => "Invalid procedure name"
         end
@@ -36,13 +42,16 @@ class PlanningController < ApplicationController
     def close_session
         @psession = PlanningSession.find(params[:id])
         @psession.close
-        redirect_to action: "index"
+        #redirect_to action: "_index"
+        _index
+        @psession = nil
     end
 
     def update
         ps = PlanningSession.where(:user => @user, :closed => 0).take
         ps.generate_plan()
-        redirect_to action: "index"
+        #redirect_to action: "_index"
+        _index
     end
 
     def begin_task
@@ -63,10 +72,16 @@ class PlanningController < ApplicationController
             pses.plan.delete(step_el)
 
             pses.save()
+<<<<<<< HEAD
+            _index
+            #redirect_to :action => "_index" ,:remote => true
+
+=======
             
             PlannerEvent.create(:user => @user, :type_id => 3, :description => step_el.to_s)
 
             redirect_to :action => "index"
+>>>>>>> bb7fe08d6574547e8ee9a5d350a70e43230b6517
         end
     end
 
@@ -85,7 +100,7 @@ class PlanningController < ApplicationController
         case task.executor
         when "onthology"
             if(task.action == "develop")
-                task.result = {:add => {"finished" => "onthology-development-step"}}
+                task.result = {:add => {"finished" => "onthology-development-step", :add => {"onthologies" => [55,11,123]}}}
             end
         when "psycho"
             if(task.action == "config")
@@ -140,7 +155,8 @@ class PlanningController < ApplicationController
         #, :action => "develop"
 
         current_planning_session().commit_task(task)
-        redirect_to :action => "index"
+        #redirect_to :action => "_index"
+        _index
     end
 
     def test_run
