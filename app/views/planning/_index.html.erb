@@ -24,13 +24,6 @@ Current plan:<br>
 
 Для запуска интеллектуального планировщика выберете необходимый пункт.<br/>
 
-<<<<<<< HEAD:app/views/planning/_index.html.erb
-<%= link_to "Start TPP 'Tutor IES Development Designtime (first time)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_initial", :remote => true %><br/>
-<%= link_to "Start TPP 'Tutor IES Development Designtime (reengineering)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_reeng", :remote => true %><br/>
-	
-<% end %>
-</div>
-=======
 <% if(@user.role == 'admin') %>
     <%= link_to "Start TPP 'Tutor IES Development Designtime (first time)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_initial" %><br/>
     <%= link_to "Start TPP 'Tutor IES Development Designtime (reengineering)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_reeng" %><br/>
@@ -43,4 +36,5 @@ Current plan:<br>
 <% if(@user.role == 'admin') %>
     <%= render partial: "log", locals: {events: @events} %>
 <% end %>
->>>>>>> bb7fe08d6574547e8ee9a5d350a70e43230b6517:app/views/planning/index.html.erb
+
+</div>
