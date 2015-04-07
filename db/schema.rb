@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150401195337) do
+ActiveRecord::Schema.define(version: 20150405083353) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -199,6 +199,14 @@ ActiveRecord::Schema.define(version: 20150401195337) do
     t.datetime "updated_at"
   end
 
+  create_table "planner_events", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "type_id"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "planning_sessions", force: true do |t|
     t.integer  "user_id"
     t.integer  "closed",     default: 0
@@ -216,6 +224,7 @@ ActiveRecord::Schema.define(version: 20150401195337) do
     t.string   "result"
     t.string   "action"
     t.string   "description"
+    t.string   "params"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

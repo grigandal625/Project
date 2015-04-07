@@ -10,30 +10,38 @@ class PlanningSession < ActiveRecord::Base
     def close
         self.closed = 1
         self.save
+
+        PlannerEvent.create(:user => self.user, :type_id => 2, :description => "executed #{planning_tasks.size} tasks")
     end
 
     def generate_plan
-        problem_str = File.read(Rails.configuration.planning_kb + '/problem.pddl')
+        start_time = Time.now.to_f
+
+        kb_mapping = {"tutor_designtime_initial" => ["dt_domain.pddl", "dt_problem.pddl"], "tutor_runtime" => ["rt_domain.pddl", "rt_problem.pddl"]} 
+
+        problem_str = File.read(Rails.configuration.planning_kb + '/' + kb_mapping[self.procedure][1])
 
         #Form initial state
-        initial_facts = self.state
-        #initial_facts.push("(finished onthology-development-step)")
+        init_state = generate_initial_state(self.procedure, self.state)
 
-        problem_str = problem_str.gsub("##INITIAL-STATE##", initial_facts.join('\n'))
+        problem_str = problem_str.gsub("##OBJECTS##", init_state[0])
+        problem_str = problem_str.gsub("##INITIAL-STATE##", init_state[1])
 
         cur_plan = []
 
         dir = Dir.mktmpdir
         begin
-            #puts dir
+            puts dir
 
-            FileUtils.cp(Rails.configuration.planning_kb + '/domain.pddl', "#{dir}/domain.pddl")
+            FileUtils.cp(Rails.configuration.planning_kb + '/' + kb_mapping[self.procedure][0], "#{dir}/domain.pddl")
 
             File.open("#{dir}/problem.pddl", 'w') { |file| file.write(problem_str) }
 
             Dir.chdir(dir) do
                 #Run preprocess
-                system("python #{Rails.configuration.planning_bin}/fast-downward.py domain.pddl problem.pddl --search 'lazy_greedy(ff(), preferred=ff())'")
+                run_cmd = "python #{Rails.configuration.planning_bin}/fast-downward.py domain.pddl problem.pddl --search 'lazy_greedy(ff(), preferred=ff())'"
+                puts "Running #{run_cmd}"
+                system(run_cmd)
 
                 File.open("#{dir}/sas_plan", "r") do |f|
                 f.each_line do |line|
@@ -44,18 +52,27 @@ class PlanningSession < ActiveRecord::Base
             end
             end
         ensure
-          FileUtils.remove_entry_secure dir
+          #FileUtils.remove_entry_secure dir
         end
 
         cur_step_number = 0
         self.plan = []
         cur_plan.each do |pt|
-            cur_step = interpret_pddl_action(pt)
+            
+            if(self.procedure == "tutor_designtime_initial")
+                cur_step = interpret_pddl_action_dt(pt)
+            else
+                cur_step = interpret_pddl_action_rt(pt)
+            end
+
             cur_step[:number] = cur_step_number
             cur_step_number = cur_step_number + 1
             self.plan.push(cur_step)
         end
 
+        end_time = Time.now.to_f
+        
+        PlannerEvent.create(:user => self.user, :type_id => 0, :description => "generated in #{(end_time-start_time).to_s} sec")
         self.save
     end
 
@@ -71,19 +88,76 @@ class PlanningSession < ActiveRecord::Base
         task.closed = 1
         task.save
 
-        task.result["add"].each do |add_atom|
-            self.state.push(add_atom)
+        if(task.result["add"])
+            task.result["add"].each{|key, value|
+                if(!self.state[key])
+                    self.state[key] = []
+                end
+                self.state[key].push(value)
+            }
         end
 
+        if(task.result["delete"])
+            task.result["delete"].each{|key, value|
+                if(self.state[key])
+                    self.state[key].delete(value)
+                end
+            }
+        end
+
+        self.save
         self.generate_plan()
 
         if(self.plan.empty?)
             self.close()
         end
+
+        PlannerEvent.create(:user => self.user, :type_id => 4, :description => "result=#{task.result.to_s}")
     end
 
     private
-    def interpret_pddl_action(pddl_action)
+
+    def generate_initial_state(proc_name, state)
+        case proc_name
+        when "tutor_designtime_initial"
+            return ["", state.join('\n')]
+        when "tutor_runtime"
+
+            kbs = []
+            init_facts = []
+
+            state["pending-knowledge"].each do |pk|
+                kb_name = "kb-#{pk}"
+                kbs.push(kb_name)
+                init_facts.push("(pending #{kb_name})")
+            end
+            
+            skills = []
+            state["pending-skills"].each do |ps|
+                init_facts.push("(pending #{ps})")
+                skills.push(ps)
+            end
+
+            state["pending-tutoring"].each do |pt|
+                kb_name = "kb-#{pt}"
+                init_facts.push("(pending-tutoring #{kb_name})")
+                kbs.push(kb_name)
+            end            
+
+            state["low-knowledge"].each do |lk|
+                kb_name = "kb-#{lk}"
+                init_facts.push("(low-knowledge-level #{kb_name})")
+                kbs.push(kb_name)
+            end
+
+            kbs = kbs.uniq
+            return [kbs.join(' ') + " - knowldege\n" + skills.join(' ') + " - skill", init_facts.join(' ')]
+        else
+            return ["", ""]
+        end
+    end
+
+    def interpret_pddl_action_dt(pddl_action)
         plain_action = pddl_action[1, pddl_action.length - 3]
         parts = plain_action.split(" ")
 
@@ -98,13 +172,50 @@ class PlanningSession < ActiveRecord::Base
         when "execute-development-step"
             cur_step = step_mapping[parts[1]].clone
             cur_step[:available] = true
-            return cur_step
         when "execute-development-step-future"
             cur_step = step_mapping[parts[1]].clone
             cur_step[:available] = false
-            return cur_step
         else
-          return "Unkown action"
+            cur_step = {:description => "Unkown action"}
+            cur_step[:available] = false
         end
+
+        return cur_step
+    end
+
+    def interpret_pddl_action_rt(pddl_action)
+        plain_action = pddl_action[1, pddl_action.length - 3]
+        parts = plain_action.split(" ")
+
+        skill_mappings = {"frame-skill" => {:description => "Выявить уровень умений моделировать ситуации с помощью фреймов", :executor => "framer", :action => "run"}, 
+                            "sem-network-skill" => {:description => "Выявить уровень умений моделировать ситуации с помощью семантических сетей", :executor => "semnetter", :action => "run"},
+                            "linguistic-skill" => {:description => "Выявить уровень умений лингвистика", :executor => "lingvo", :action => "run"},
+                            "reasoning-skill" => {:description => "Выявить уровень умений моделировать прямой/обратный вывод", :executor => "reasoner", :action => "run"}
+            }
+
+        pddl_act = parts[0]
+        avail = !pddl_act.start_with?("future-")
+        pddl_act = pddl_act.gsub("future-", "")
+
+        case pddl_act
+        when "extract-skill"
+            cur_step = skill_mappings[parts[1]].clone
+        when "extract-knowledge"
+            ont_id = parts[1].gsub("kb-", "").to_i
+            cur_step = {:description => "Выявить уровень знаний (онтология #{ont_id})", :executor => "tester", :action => "run", :params => {:onthology => ont_id}}
+        when "generate-tutor-strategy"
+            ont_id = parts[1].gsub("kb-", "").to_i
+            cur_step = {:description => "Сформировать стратегию обучения (онтология #{ont_id})", :executor => "strateger", :action => "generate", :params => {:onthology => ont_id}}
+        when "release-tutor-strategy"
+            ont_id = parts[1].gsub("kb-", "").to_i
+            cur_step = {:description => "Реализовать стратегию обучения (онтология #{ont_id})", :executor => "strateger", :action => "run", :params => {:onthology => ont_id}}
+        else
+            cur_step = {:description => "Unkown action"}
+            cur_step[:available] = false
+        end
+
+        cur_step[:available] = avail
+
+        return cur_step
     end
 end

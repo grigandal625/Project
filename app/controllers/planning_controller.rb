@@ -4,6 +4,10 @@ class PlanningController < ApplicationController
     def _index
         @psession = current_planning_session()
         @cur_task = @psession ? @psession.current_task() : nil
+
+        if(@user.role == 'admin')
+            @events = PlannerEvent.last(20)
+        end
     end
     
     def new_session
@@ -19,7 +23,17 @@ class PlanningController < ApplicationController
             #redirect_to action: "_index"
             _index
         when "tutor_runtime"
+<<<<<<< HEAD
           redirect_to action: "_index"
+=======
+            if(@user.role == 'admin')
+                throw "Invalid user role"
+            end
+
+            ps = PlanningSession.create(:user => @user, :closed => 0, :state => {"pending-skills" => ["frame-skill", "sem-network-skill", "linguistic-skill", "reasoning-skill"], "pending-knowledge" => [23, 41, 12], "low-knowledge" => [], "pending-tutoring" => []}, :procedure => "tutor_runtime")
+            ps.generate_plan()
+            redirect_to action: "index"
+>>>>>>> bb7fe08d6574547e8ee9a5d350a70e43230b6517
         else
           render :text => "Invalid procedure name"
         end
@@ -52,15 +66,22 @@ class PlanningController < ApplicationController
             step_el = (pses.plan.select { |step| step["number"] == params[:plan_step].to_i})[0]
 
             #Create planning task
-            new_task = PlanningTask.create(:planning_session => pses, :action => step_el["action"], :executor => step_el["executor"], :description => step_el["description"], :closed => 0)
+            new_task = PlanningTask.create(:planning_session => pses, :action => step_el["action"], :executor => step_el["executor"], :description => step_el["description"], :params => step_el["params"], :closed => 0)
 
             #Remove from plan
             pses.plan.delete(step_el)
 
             pses.save()
+<<<<<<< HEAD
             _index
             #redirect_to :action => "_index" ,:remote => true
 
+=======
+            
+            PlannerEvent.create(:user => @user, :type_id => 3, :description => step_el.to_s)
+
+            redirect_to :action => "index"
+>>>>>>> bb7fe08d6574547e8ee9a5d350a70e43230b6517
         end
     end
 
@@ -96,9 +117,39 @@ class PlanningController < ApplicationController
         when "tester"
             if(task.action == "develop")
                 task.result = {:add => ["(finished testing-development-step)"]}
+            elsif(task.action == "run")
+                ont_id = task.params["onthology"]
+                task.result = {:delete => {"pending-knowledge" => ont_id}}
+                if(Random.rand(10) > 7)
+                    task.result[:add] = {"low-knowledge" => ont_id}
+                end
+            end
+        when "framer"
+            if(task.action == "run")
+                task.result = {:delete => {"pending-skills" => "frame-skill"}}
+            end
+        when "semnetter"
+            if(task.action == "run")
+                task.result = {:delete => {"pending-skills" => "sem-network-skill"}}
+            end
+        when "lingvo"
+            if(task.action == "run")
+                task.result = {:delete => {"pending-skills" => "linguistic-skill"}}
+            end
+        when "reasoner"
+            if(task.action == "run")
+                task.result = {:delete => {"pending-skills" => "reasoning-skill"}}
+            end
+        when "strateger"
+            ont_id = task.params["onthology"]
+            if(task.action == "generate")
+                task.result = {:delete => {"low-knowledge" => ont_id}, :add => {"pending-tutoring" => ont_id}}
+            elsif(task.action == "run")
+                task.result = {:delete => {"pending-tutoring" => ont_id}, :add => {"pending-knowledge" => ont_id}}
             end
         else
-            render :text => "Unkown executor/command!"
+            task.result = {}
+            #render :text => "Unkown executor/command!"
         end
 
         #, :action => "develop"
