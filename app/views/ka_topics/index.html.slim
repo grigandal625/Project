@@ -1,0 +1,28 @@
+h2 Новая тема
+form method="post" action="#{new_ka_topic_path}"
+  div class="row"
+    div class="large-12 columns"
+      div class="row collapse"
+        div class="small-10 columns"
+          input type="text" name="text" placeholder="Название темы"
+        div class="small-2 columns"
+          input type="submit" class="button postfix"
+h1 Корневые темы
+- if KaTopic.exists?
+  table
+    thead
+      tr
+        th.id = "Идентификатор"
+        th.text = "Текст"
+    tbody
+      - KaTopic.where(parent_id: nil).each do |t|
+        tr
+          td.id = t.id
+          td.text = t.text
+          td
+            a href="#{edit_ka_topic_path(t.id)}" Редактировать
+          td
+            a href="#{ka_topic_destroy_path(t.id)}" Удалить
+
+- else
+  p Пока не добавлено ни одной темы

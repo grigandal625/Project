@@ -1,0 +1,36 @@
+h2 Результаты за #{@date.strftime(@date_format)}
+form
+  input class="button small" onClick="$('#table').table2CSV();" value="Экспорт CSV"
+table id="table"
+  thead
+    - if @name
+      th.name = "Имя"
+    - if @surname
+      th.surname = "Фамилия"
+    - if @group
+      th.group = "Группа"
+    - if @test
+      th.test = "Тест"
+    - if @variant
+      th.variant = "Вариант"
+    - if @time
+      th.created_at = "Время"
+    - if @assessment
+      th.assessment = "Оценка"
+  tbody
+    - KaResult.where("DATE(created_at) = ?", @date.strftime(@db_date_format)).each do |r|
+      tr
+        - if @name
+          td.name = r.user.name
+        - if @surname
+          td.surname = r.user.surname
+        - if @group
+          td.group = r.user.group
+        - if @test
+          td.test = r.variant.test.text
+        - if @variant
+          td.variant = r.variant.number
+        - if @time
+          td.created_at = r.created_at.strftime(@time_format)
+        - if @assessment
+          td.assessment = r.assessment

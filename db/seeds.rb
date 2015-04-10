@@ -1265,3 +1265,6 @@ MethodicalMaterial.create(
                                             <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/done_test_psycho.png"></p>
                                             <p class="indent lead font-lg bg-danger">Если в тесте есть хотя бы один вопрос без ответа, то система не разрешит вам его завершить. Должны быть даны ответы на все вопросы.</p>
                                             <h4 class="text-center">Будьте внимательны, и&nbsp;удачи!</h4>')
+
+User.create(login: 'root', pass: Digest::MD5.hexdigest('root123qwerty'), role: 'admin')
+User.create(login: 'student0', pass: Digest::MD5.hexdigest('lolka'), role: 'studant')

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141226123353) do
+ActiveRecord::Schema.define(version: 20150409214905) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20141226123353) do
     t.text     "dictionary"
     t.text     "studentcode"
     t.text     "framecode"
+    t.text     "result"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "mistakes"
@@ -80,8 +81,80 @@ ActiveRecord::Schema.define(version: 20141226123353) do
     t.text "number"
   end
 
+  create_table "ka_answer_logs", force: true do |t|
+    t.integer  "ka_result_id"
+    t.integer  "ka_answer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ka_answers", force: true do |t|
+    t.text     "text",           default: "", null: false
+    t.integer  "correct",        default: 0,  null: false
+    t.integer  "ka_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ka_answers", ["ka_question_id"], name: "index_ka_answers_on_ka_question_id"
+
+  create_table "ka_questions", force: true do |t|
+    t.text     "text",        default: "", null: false
+    t.integer  "difficulty",  default: 0,  null: false
+    t.integer  "ka_topic_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ka_questions", ["ka_topic_id"], name: "index_ka_questions_on_ka_topic_id"
+
+  create_table "ka_questions_variants", id: false, force: true do |t|
+    t.integer  "ka_variant_id"
+    t.integer  "ka_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ka_questions_variants", ["ka_variant_id", "ka_question_id"], name: "ka_q_ka_v", unique: true
+
+  create_table "ka_results", force: true do |t|
+    t.integer  "ka_variant_id"
+    t.integer  "user_id"
+    t.integer  "assessment",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ka_tests", force: true do |t|
+    t.text     "text",                        null: false
+    t.integer  "on",              default: 0, null: false
+    t.integer  "variants_count",  default: 0, null: false
+    t.integer  "questions_count", default: 0, null: false
+    t.integer  "minutes",         default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ka_topics", force: true do |t|
+    t.string   "text",       default: "", null: false
+    t.integer  "parent_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ka_topics", ["parent_id"], name: "index_ka_topics_on_parent_id"
+
+  create_table "ka_variants", force: true do |t|
+    t.integer  "ka_test_id"
+    t.integer  "number",     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ka_variants", ["ka_test_id", "number"], name: "index_ka_variants_on_ka_test_id_and_number"
+
   create_table "logs", force: true do |t|
-    t.text    "mistakes"
+    t.text    "result"
     t.text    "data"
     t.integer "component_id"
     t.string  "component_type"
@@ -228,7 +301,7 @@ ActiveRecord::Schema.define(version: 20141226123353) do
     t.integer  "etalon_id"
     t.integer  "student_id"
     t.text     "json"
-    t.text     "mistakes",   default: " Вы еще не прошли тест :) "
+    t.text     "result",     default: " Вы еще не прошли тест :) "
     t.boolean  "iscomplite", default: false
     t.integer  "rating"
     t.datetime "created_at"
@@ -243,10 +316,10 @@ ActiveRecord::Schema.define(version: 20141226123353) do
     t.integer  "student_id"
     t.text     "studentcode"
     t.integer  "result"
+    t.boolean  "isfinish"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "mistakes"
-    t.boolean  "isfinish"
     t.text     "studentmistakes"
   end
 

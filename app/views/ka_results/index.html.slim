@@ -1,0 +1,30 @@
+h2 Выберите параметры
+form method="post" action="#{show_ka_results_path}"
+  div class="row"
+    div class="large-4 columns"
+      input type="date" name="date" placeholder="Введите дату" required=""
+  input type="checkbox" id="name" name="name" checked=""
+  label for="name" Имя студента
+  br
+  input type="checkbox" id="surname" name="surname" checked=""
+  label for="surname" Фамилия студента
+  br
+  input type="checkbox" id="group" name="group" checked=""
+  label for="group" Группа
+  br
+  input type="checkbox" id="time" name="time" checked=""
+  label for="surname" Время
+  br
+  input type="checkbox" id="test" name="test"
+  label for="test" Тест
+  br
+  input type="checkbox" id="variant" name="variant"
+  label for="variant" Вариант
+  br
+  input type="checkbox" id="assessment" name="assessment" checked=""
+  label for="assessment" Оценка
+#  br
+#  input type="checkbox" id="problems" name="problems"
+#  label for="problems" Проблемные зоны
+  br
+  input type="submit" class="button" value="Показать"

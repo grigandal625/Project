@@ -1,0 +1,2 @@
+module KaAnswersHelper
+end

@@ -64,3 +64,12 @@ gem 'ckeditor'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+# HTML templates
+gem 'slim'
+
+# Generator of test tasks
+gem 'tasks_generator', '>= 1.1'
+
+# Translit
+gem 'translit'

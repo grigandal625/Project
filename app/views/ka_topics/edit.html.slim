@@ -1,0 +1,64 @@
+h1 #{@topic.text}
+h3 Редактировать
+form method="post" action="#{edit_ka_topic_text_path(@topic.id)}"
+  div class="row"
+    div class="large-12 columns"
+      div class="row collapse"
+        div class="small-10 columns"
+          input type="text" name="text" placeholder="Новое название темы" value="#{@topic.text}"
+        div class="small-2 columns"
+          input type="submit" class="button postfix"
+h3 Новая подтема
+form method="post" action="#{new_ka_topic_path}"
+  div class="row"
+    div class="large-12 columns"
+      div class="row collapse"
+        input type="hidden" name="parent_id" value="#{@topic.id}"
+        div class="small-10 columns"
+          input type="text" name="text" placeholder="Название темы"
+        div class="small-2 columns"
+          input type="submit" class="button postfix"
+h3 Новый вопрос
+form method="post" action="#{new_ka_question_path}"
+  div class="row"
+    div class="large-12 columns"
+      div class="row collapse"
+        input type="hidden" name="topic_id" value="#{@topic.id}"
+        div class="small-8 columns"
+          input type="text" name="text" placeholder="Текст вопроса"
+        div class="small-2 columns"
+          input type="number" name="difficulty" placeholder="Сложность"
+        div class="small-2 columns"
+          input type="submit" class="button postfix"
+h3 Подтемы
+table
+  thead
+    tr
+      th.id = "Идентификатор"
+      th.text = "Текст"
+  tbody
+    - KaTopic.where(parent_id: @topic.id).each do |t|
+      tr
+        td.id = t.id
+        td.text = t.text
+        td
+          a href="#{edit_ka_topic_path(t.id)}" Редактировать
+        td
+          a href="#{ka_topic_destroy_path(t.id)}" Удалить
+h3 Вопросы
+table
+  thead
+    tr
+      th.id = "Идентификатор"
+      th.text = "Текст"
+      th.text = "Сложность"
+  tbody
+    - KaQuestion.where(ka_topic_id: @topic.id).each do |t|
+      tr
+        td.id = t.id
+        td.text = t.text
+        td.difficulty = t.difficulty
+        td
+          a href="#{show_ka_question_path(t.id)}" Редактировать
+        td
+          a href="#{ka_question_destroy_path(t.id)}" Удалить

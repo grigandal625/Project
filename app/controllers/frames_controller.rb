@@ -4,8 +4,6 @@ class FramesController < ApplicationController
     @frames = Framedb.all
   end
 
-
-
   def translate
     stf = Studentframe.find(1)
     stf.student = @user.student
@@ -14,9 +12,6 @@ class FramesController < ApplicationController
     frame = Frame.new
     frame.inic(params[:message])
     frame.saveframe(frame.createframe(params[:message]))
-
-
-
 
     redirect_to :back, :frame => 1
   end

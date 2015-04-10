@@ -1,0 +1,23 @@
+h1 Все вопросы
+- if KaQuestion.exists?
+  table
+    thead
+      tr
+        th.topic_id = "Тема"
+        th.id = "Идентификатор"
+        th.text = "Текст"
+        th.difficulty = "Сложность"
+    tbody
+      - KaQuestion.find_each do |t|
+        tr
+          td.topic_id = t.ka_topic_id
+          td.id = t.id
+          td.text = t.text
+          td.difficulty = t.difficulty
+          td
+            a href="#{show_ka_question_path(t.id)}" Редактировать
+          td
+            a href="#{ka_question_destroy_path(t.id)}" Удалить
+
+- else
+  p Пока не добавлено ни одного вопроса
