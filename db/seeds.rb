@@ -1267,4 +1267,3 @@ MethodicalMaterial.create(
                                             <h4 class="text-center">Будьте внимательны, и&nbsp;удачи!</h4>')
 
 User.create(login: 'root', pass: Digest::MD5.hexdigest('root123qwerty'), role: 'admin')
-User.create(login: 'student0', pass: Digest::MD5.hexdigest('lolka'), role: 'studant')
