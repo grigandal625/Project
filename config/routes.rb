@@ -10,7 +10,7 @@ UIR::Application.routes.draw do
   post "frameadmin/createframe"
   post "frameadmin/updateframe"
   get "frameadmin/results"
-
+  get "frameadmin/mistakes"
 
   post "framestudent/createstudentframe"
   post "framestudent/updateframe"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304161504) do
+ActiveRecord::Schema.define(version: 20150407123056) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20150304161504) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "mistakes"
+    t.text     "kbmistakes"
   end
 
   create_table "etalons", force: true do |t|
@@ -52,12 +53,23 @@ ActiveRecord::Schema.define(version: 20150304161504) do
     t.datetime "updated_at"
   end
 
+  create_table "frameobjectmistakes", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "frameobjects", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "frames", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "framesmistakes", force: true do |t|
+    t.text     "mistakes"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -249,6 +261,7 @@ ActiveRecord::Schema.define(version: 20150304161504) do
     t.datetime "updated_at"
     t.text     "mistakes"
     t.text     "studentmistakes"
+    t.text     "kbstudentmistakes"
   end
 
   add_index "studentframes", ["etalonframe_id"], name: "index_studentframes_on_etalonframe_id"

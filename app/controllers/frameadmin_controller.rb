@@ -33,10 +33,16 @@ class FrameadminController < AdminToolsController
   end
 
 
+  def mistakes
+
+  end
+
 
   def results
     @results = Studentframe.all
   end
+
+
 
 
   def updateframe
@@ -48,6 +54,11 @@ class FrameadminController < AdminToolsController
     framestudentcode = Frame.new
     framestudentcode.inic(params[:framecode])
     framestudentcode.createframe(params[:framecode])
+
+    etalon.kbmistakes = params[:parametalonname0] + "," + params[:parametalonname1] + "," + params[:parametalonname2] +  "," + params[:parametalonname3] + "," + params[:parametalonname4] + "," + params[:parametalonname5]  + "," + params[:parametalonname6]
+
+
+
 
     framecode = Frame.new
     framecode.inic(params[:framecode])

@@ -1,6 +1,21 @@
 Оценка : <%=   @studentframe.result%>
 Ошибки : <%=   @studentframe.studentmistakes%>
 
+ ТИПЫ ОШИБОК :
+
+
+<% if not @solver == nil %>
+Лексические ошибки      <%=   @solver.lexicalmistakes%>
+sintaxmistakes          <%=   @solver.sintaxmistakes%>
+semanticmistakes        <%=   @solver.semanticmistakes%>
+framenamemistakes       <%=   @solver.framenamemistakes%>
+slotsSizeMistakes       <%=   @solver.slotsSizeMistakes%>
+nameSlotsMistakes       <%=   @solver.nameSlotsMistakes%>
+typeSlotsMistakes       <%=   @solver.typeSlotsMistakes%>
+valueSizeMistakes       <%=   @solver.valueSizeMistakes%>
+valuetypeMistakes       <%=   @solver.valuetypeMistakes%>
+valuenotFoundMistakes   <%=   @solver.valuenotFoundMistakes%>
+<%end %>
 
 <script>
     function insertTab(o, e)
