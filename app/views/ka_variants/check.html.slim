@@ -1,2 +1,5 @@
-h1 align="center" Ваша оценка
-h1 align="center" #{@assessment}
+- if @error == 0
+  h1 align="center" Ваша оценка
+  h1 align="center" #{@assessment}
+- else
+  h1 align="center" Вы пытаетесь пройти тест второй раз!

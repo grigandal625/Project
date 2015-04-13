@@ -6,20 +6,13 @@ class KaResultsController < ApplicationController
   end
 
   def show
-    @date = DateTime.parse(params[:date])
-    if not @date
-      redirect_to :back and return
-    end
-    @date_format = "%d-%m-%Y"
-    @db_date_format = "%Y-%m-%d"
-    @time_format = "%H:%M:%S"
-    @name = params[:name]
-    @surname = params[:surname]
-    @group = params[:group]
-    @time = params[:time]
-    @test = params[:test]
-    @variant = params[:variant]
-    @assessment = params[:assessment]
-    @problems = params[:problems]
+    test_id = params[:test_id]
+    @test = KaTest.find(test_id)
+  end
+
+  def detail
+    result_id = params[:result_id]
+    @result = KaResult.find(result_id)
+    @student = @result.user.student
   end
 end

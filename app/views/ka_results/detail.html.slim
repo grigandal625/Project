@@ -1,0 +1,15 @@
+h2 Детальные результаты
+h3 #{@student.fio}
+h4 Данные ответы
+table
+  thead
+    tr
+      th.question = "Вопрос"
+      th.text = "Текст"
+      th.correct = "Корректность"
+  tbody
+    - @result.ka_answer_logs.each do |a|
+      tr
+        td.answer_id = a.ka_answer.ka_question.text
+        td.text = a.ka_answer.text
+        td.correct = a.ka_answer.correct

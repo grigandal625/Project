@@ -119,11 +119,14 @@ ActiveRecord::Schema.define(version: 20150409214905) do
 
   create_table "ka_results", force: true do |t|
     t.integer  "ka_variant_id"
+    t.integer  "ka_test_id"
     t.integer  "user_id"
     t.integer  "assessment",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "ka_results", ["ka_test_id"], name: "index_ka_results_on_ka_test_id"
 
   create_table "ka_tests", force: true do |t|
     t.text     "text",                        null: false

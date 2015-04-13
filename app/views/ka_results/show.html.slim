@@ -1,32 +1,22 @@
-h2 Результаты за #{@date.strftime(@date_format)}
+h3 Результаты за тест: #{@test.text}
 form
   input class="button small" onClick="$('#table').table2CSV();" value="Экспорт CSV"
 table id="table"
   thead
-    - if @name
+    tr
       th.name = "ФИО"
-    - if @group
       th.group = "Группа"
-    - if @test
-      th.test = "Тест"
-    - if @variant
       th.variant = "Вариант"
-    - if @time
       th.created_at = "Время"
-    - if @assessment
       th.assessment = "Оценка"
   tbody
-    - KaResult.where("DATE(created_at) = ?", @date.strftime(@db_date_format)).each do |r|
-      tr
-        - if @name
+    tr
+      - KaResult.find_each do |r|
+        - if r.user.student
           td.name = r.user.student.fio
-        - if @group
           td.group = r.user.student.group.number
-        - if @test
-          td.test = r.variant.test.text
-        - if @variant
-          td.variant = r.variant.number
-        - if @time
-          td.created_at = r.created_at.strftime(@time_format)
-        - if @assessment
+          td.variant = r.ka_variant.number
+          td.created_at = r.created_at.to_time.strftime('%d-%m-%Y %H:%M:%S')
           td.assessment = r.assessment
+          td
+            a href="#{show_detail_ka_result_path(r.id)}" Подробнее

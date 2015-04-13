@@ -37,8 +37,9 @@ UIR::Application.routes.draw do
 
   post '/ka_variant/check/:id', to: 'ka_variants#check', as: :check_ka_variant
 
-  get '/ka_results',       to: 'ka_results#index', as: :ka_results
-  post '/ka_results/show', to: 'ka_results#show',  as: :show_ka_results
+  get '/ka_results',                   to: 'ka_results#index',  as: :ka_results
+  get '/ka_results/show/:test_id',     to: 'ka_results#show',   as: :show_ka_results
+  get '/ka_results/detail/:result_id', to: 'ka_results#detail', as: :show_detail_ka_result
 
   get  "frames/index"
   get "frames/list"
