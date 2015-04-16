@@ -157,7 +157,7 @@ ActiveRecord::Schema.define(version: 20150409214905) do
   add_index "ka_variants", ["ka_test_id", "number"], name: "index_ka_variants_on_ka_test_id_and_number"
 
   create_table "logs", force: true do |t|
-    t.text    "result"
+    t.text    "mistakes"
     t.text    "data"
     t.integer "component_id"
     t.string  "component_type"
@@ -304,7 +304,7 @@ ActiveRecord::Schema.define(version: 20150409214905) do
     t.integer  "etalon_id"
     t.integer  "student_id"
     t.text     "json"
-    t.text     "result",     default: " Вы еще не прошли тест :) "
+    t.text     "mistakes",   default: " Вы еще не прошли тест :) "
     t.boolean  "iscomplite", default: false
     t.integer  "rating"
     t.datetime "created_at"

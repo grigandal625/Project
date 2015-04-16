@@ -38,10 +38,6 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-group :development, :test do
-    gem 'railroady'
-end
-
 #You need install imagemagick to get all features from using paperclip
 gem 'dragonfly', '~> 1.0.7'
 
