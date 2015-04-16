@@ -1,6 +1,6 @@
 h3 Результаты за тест: #{@test.text}
 form
-  input class="button small" onClick="$('#table').table2CSV();" value="Экспорт CSV"
+  input type="button" class="button small" onClick="$('#table').table2CSV();" value="Экспорт CSV"
 table id="table"
   thead
     tr
@@ -10,9 +10,9 @@ table id="table"
       th.created_at = "Время"
       th.assessment = "Оценка"
   tbody
-    tr
-      - KaResult.find_each do |r|
-        - if r.user.student
+    - KaResult.find_each do |r|
+      - if r.user.student
+        tr
           td.name = r.user.student.fio
           td.group = r.user.student.group.number
           td.variant = r.ka_variant.number

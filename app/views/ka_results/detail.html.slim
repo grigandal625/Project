@@ -1,5 +1,6 @@
 h2 Детальные результаты
 h3 #{@student.fio}
+h4 Итоговая оценка: #{@result.assessment}
 h4 Данные ответы
 table
   thead
@@ -13,3 +14,29 @@ table
         td.answer_id = a.ka_answer.ka_question.text
         td.text = a.ka_answer.text
         td.correct = a.ka_answer.correct
+
+h4 Проблемные зоны
+table
+  thead
+    tr
+      th.topic = "Тема"
+      th.mark = "Оценка"
+  tbody
+    - @result.problem_areas.each do |p|
+      tr
+        td.topic = p.ka_topic.text
+        td.mark = p.mark.round(2)
+
+h4 Охват компетенций
+table
+  thead
+    tr
+      th.code = "Компетенция"
+      th.desc = "Описание"
+      th.mark = "Оценка"
+  tbody
+    - @result.competence_coverages.each do |c|
+      tr
+        td.code = c.competence.code
+        td.desc = c.competence.description
+        td.mark = c.mark.round(2)

@@ -1,5 +1,48 @@
 - if @error == 0
   h1 align="center" Ваша оценка
   h1 align="center" #{@assessment}
+
+  / Нужно ли выводить студентам детальный результат?
+
+  /h3 Баллы по вопросам
+  /table
+    thead
+      tr
+        th.id = "Вопрос"
+        th.score = "Оценка"
+        th.dif = "Сложность"
+    tbody
+      - @question_marks.each do |id, q|
+        tr
+          td.id = id
+          td.score = q[2]
+          td.dif = KaQuestion.find(id).difficulty
+
+  /h3 Проблемные зоны
+  /table
+    thead
+      tr
+        th.topic = "Тема"
+        th.mark = "Оценка"
+    tbody
+      - @result.problem_areas.each do |p|
+        tr
+          td.topic = p.topic.id
+          td.mark = p.mark.round(2)
+
+  /h3 Охват компетенций
+  /table
+    thead
+      tr
+        th.code = "Компетенция"
+        th.desc = "Описание"
+        th.mark = "Оценка"
+    tbody
+      - @result.competence_coverages.each do |c|
+        tr
+          td.code = c.competence.code
+          td.desc = c.competence.description
+          td.mark = c.mark.round(2)
+
 - else
   h1 align="center" Вы пытаетесь пройти тест второй раз!

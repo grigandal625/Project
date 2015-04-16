@@ -6,7 +6,7 @@ h2 #{@test.text}
       tr
         th.name = "Вопрос"
     tbody
-      - KaVariant.find_by(test_id: @test.id, number: number).question.each do |v|
+      - KaVariant.find_by(ka_test_id: @test.id, number: number).ka_question.each do |v|
         tr
           td.name = KaQuestion.find(v.id).text
           td
