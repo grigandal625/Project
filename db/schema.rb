@@ -224,7 +224,6 @@ ActiveRecord::Schema.define(version: 20150405083353) do
     t.string   "result"
     t.string   "action"
     t.string   "description"
-    t.string   "params"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,6 +1,7 @@
 
 Log<br/>
-
-<% events.each do |ev| %>
+<% if (@events != nil) 
+	@events.each do |ev| %>
     <%= ev.created_at %> [<%= planning_event_text(ev.type_id) %>, user <%=ev.user.login %>] <%=ev.description %><br/>
+<% end %>
 <% end %>
