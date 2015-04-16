@@ -1,0 +1,12 @@
+h2 Редактировать
+form method="post" action="#{competence_path(@competence)}"
+  input type="hidden" value="patch" name="_method"
+  div class="row"
+    div class="large-12 columns"
+      div class="row collapse"
+        div class="small-2 columns"
+          input type="text" name="code" placeholder="Код" value="#{@competence.code}"
+		div class="small-8 columns"
+		  input type="text" name="description" placeholder="Описание" value="#{@competence.description}"
+        div class="small-2 columns"
+          input type="submit" class="button postfix"

@@ -25,6 +25,7 @@ class KaTopicsController < ApplicationController
 
   def edit
     @topic = KaTopic.find(params[:id])
+    @competences = Competence.all
   end
 
   def edit_text

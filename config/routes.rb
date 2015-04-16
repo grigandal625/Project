@@ -41,6 +41,10 @@ UIR::Application.routes.draw do
   get '/ka_results/show/:test_id',     to: 'ka_results#show',   as: :show_ka_results
   get '/ka_results/detail/:result_id', to: 'ka_results#detail', as: :show_detail_ka_result
 
+  resources :competences
+  post 'competences/attach' => 'competences#attach'
+  get 'competence/:c_id/detach_from/:t_id' => 'competences#detach', as: :competence_detach
+
   get  "frames/index"
   get "frames/list"
   post  "frames/translate"

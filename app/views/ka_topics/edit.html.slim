@@ -30,6 +30,23 @@ form method="post" action="#{new_ka_question_path}"
           input type="number" name="difficulty" placeholder="Сложность"
         div class="small-2 columns"
           input type="submit" class="button postfix"
+
+h3 Новая компетенция
+form method="post" action="#{competences_attach_path}"
+  div class="row"
+    div class="large-12 columns"
+      div class="row collapse"
+        input type="hidden" name="topic_id" value="#{@topic.id}"
+        div class="small-8 columns"
+          select name="competence_id"
+			- @competences.each do |c|
+			  option value="#{c.id}"
+			    = c.code
+        div class="small-2 columns"
+          input type="number" name="weight" placeholder="Вес"
+        div class="small-2 columns"
+          input type="submit" class="button postfix"
+
 h3 Подтемы
 table
   thead
@@ -62,3 +79,21 @@ table
           a href="#{show_ka_question_path(t.id)}" Редактировать
         td
           a href="#{ka_question_destroy_path(t.id)}" Удалить
+
+h3 Компетенции
+table
+  thead
+    tr
+      th.id = "Идентификатор"
+      th.code = "Код"
+      th.description = "Описание"
+      th.weight = "Вес"
+  tbody
+    - TopicCompetence.where(ka_topic_id: @topic.id).each do |c|
+      tr
+        td.id = c.competence_id
+        td.code = Competence.find(c.competence_id).code
+        td.description = Competence.find(c.competence_id).description
+        td.weight = c.weight
+        td
+          a href="#{competence_detach_path(c.competence_id, @topic.id)}" Удалить

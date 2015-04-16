@@ -22,3 +22,9 @@
 *.dot
 *.svg
 models.png
+
+# Ignore RubyMine project files
+*.iml
+.idea/
+*.ipr
+*.iws
