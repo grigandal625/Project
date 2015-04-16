@@ -2,8 +2,10 @@
   h1 align="center" Ваша оценка
   h1 align="center" #{@assessment}
 
-  h3 Баллы по вопросам
-  table
+  / Нужно ли выводить студентам детальный результат?
+
+  /h3 Баллы по вопросам
+  /table
     thead
       tr
         th.id = "Вопрос"
@@ -16,30 +18,30 @@
           td.score = q[2]
           td.dif = KaQuestion.find(id).difficulty
 
-  h3 Проблемные зоны
-  table
+  /h3 Проблемные зоны
+  /table
     thead
       tr
         th.topic = "Тема"
         th.mark = "Оценка"
     tbody
-      - ProblemArea.where(ka_result_id: @result.id).each do |p|
+      - @result.problem_areas.each do |p|
         tr
-          td.topic = KaTopic.find(p.ka_topic_id).text
+          td.topic = p.topic.id
           td.mark = p.mark.round(2)
 
-  h3 Охват компетенций
-  table
+  /h3 Охват компетенций
+  /table
     thead
       tr
         th.code = "Компетенция"
         th.desc = "Описание"
         th.mark = "Оценка"
     tbody
-      - CompetenceCoverage.where(ka_result_id: @result.id).each do |c|
+      - @result.competence_coverages.each do |c|
         tr
-          td.code = Competence.find(c.competence_id).code
-          td.desc = Competence.find(c.competence_id).description
+          td.code = c.competence.code
+          td.desc = c.competence.description
           td.mark = c.mark.round(2)
 
 - else
