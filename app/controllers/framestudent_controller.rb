@@ -47,7 +47,7 @@ class FramestudentController < ApplicationController
         solver.inic(framestudentcode,ecode )
         solver.differentnames
         frame.studentmistakes = solver.mistakes.to_s
-        frame.result =  (100 + solver.result)
+        frame.result =  100 + solver.result
 
 
         frame.isfinish = true
