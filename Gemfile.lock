@@ -111,7 +111,7 @@ GEM
       activesupport (>= 3.0)
       sprockets (~> 2.8)
     sqlite3 (1.3.10)
-    tasks_generator (1.2)
+    tasks_generator (1.4)
       bundler (~> 1.6)
       rake
       rice
@@ -148,7 +148,7 @@ DEPENDENCIES
   sdoc
   slim
   sqlite3
-  tasks_generator (>= 1.1)
+  tasks_generator (>= 1.4)
   therubyracer
   translit
   turbolinks
