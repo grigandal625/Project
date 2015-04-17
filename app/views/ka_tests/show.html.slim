@@ -4,10 +4,12 @@ h2 #{@test.text}
   table
     thead
       tr
+        th.topic = "Тема"
         th.name = "Вопрос"
     tbody
       - KaVariant.find_by(ka_test_id: @test.id, number: number).ka_question.each do |v|
         tr
+          td.topic = KaQuestion.find(v.id).ka_topic_id
           td.name = KaQuestion.find(v.id).text
           td
             a href="#{show_ka_question_path(v.id)}" Редактировать
