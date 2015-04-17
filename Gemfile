@@ -65,7 +65,7 @@ gem 'ckeditor'
 gem 'slim'
 
 # Generator of test tasks
-gem 'tasks_generator', '>= 1.1'
+gem 'tasks_generator', '>= 1.4'
 
 # Translit
 gem 'translit'
