@@ -1,0 +1,13 @@
+h2 Выберете тест
+table
+  thead
+    tr
+      th.name = "Тест"
+      th.date = "Дата создания"
+  tbody
+    - KaTest.find_each do |t|
+      tr
+        td.name = t.text
+        td.date = t.created_at.to_time.strftime('%d-%m-%Y %H:%M:%S')
+        td
+          a href="#{show_ka_results_path(t.id)}" Результаты

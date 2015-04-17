@@ -11,6 +11,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def is_admin
+    if not @user or @user.role != "admin"
+      return false
+    else
+      return true
+    end
+  end
+
   private
   def check_auth
     if session[:user_id] == nil

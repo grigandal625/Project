@@ -1,0 +1,16 @@
+h1 Темы
+- if KaTopic.exists?
+  table
+    thead
+      tr
+        th.id = "Идентификатор"
+        th.text = "Текст"
+    tbody
+      - KaTopic.find_each do |t|
+        tr
+          td.id = t.id
+          td.text = t.text
+          td
+            a href="#{edit_ka_topic_path(t.id)}" Редактировать
+          td
+            a href="#{ka_topic_destroy_path(t.id)}" Удалить

@@ -1,0 +1,27 @@
+h2 Тесты
+form method="post" action="#{edit_ka_tests_path}"
+  table
+    thead
+      tr
+        th.name = "Тест"
+        th.variants_count = "Вариантов"
+        th.questions_count = "Вопросов"
+        th.date = "Минут"
+        th.on = "ON"
+    tbody
+      - KaTest.find_each do |t|
+        tr
+          td.name = t.text
+          td.variants_count = t.variants_count
+          td.questions_count = t.questions_count
+          td.minutes = t.minutes
+          td.status
+            - if t.on != 0
+              input type="checkbox" name="test_id:#{t.id}" checked=""
+            - else 
+              input type="checkbox" name="test_id:#{t.id}"
+          td
+            a href="#{ka_test_path(t.id)}" Просмотр
+          td
+            a href="#{ka_test_destroy_path(t.id)}" Удалить
+  input type="submit" class="button small"

@@ -53,8 +53,8 @@ class FramestudentController < ApplicationController
         frame.isfinish = true
 
       end
-    if frame.result < 0
-      frame.result = 0
+    if frame.result.to_i < 0
+      frame.result = "0"
     end
       frame.save
     end

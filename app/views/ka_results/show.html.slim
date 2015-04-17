@@ -1,0 +1,22 @@
+h3 Результаты за тест: #{@test.text}
+form
+  input type="button" class="button small" onClick="$('#table').table2CSV();" value="Экспорт CSV"
+table id="table"
+  thead
+    tr
+      th.name = "ФИО"
+      th.group = "Группа"
+      th.variant = "Вариант"
+      th.created_at = "Время"
+      th.assessment = "Оценка"
+  tbody
+    - KaResult.find_each do |r|
+      - if r.user.student
+        tr
+          td.name = r.user.student.fio
+          td.group = r.user.student.group.number
+          td.variant = r.ka_variant.number
+          td.created_at = r.created_at.to_time.strftime('%d-%m-%Y %H:%M:%S')
+          td.assessment = r.assessment
+          td
+            a href="#{show_detail_ka_result_path(r.id)}" Подробнее
