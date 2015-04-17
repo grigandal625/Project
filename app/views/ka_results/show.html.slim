@@ -10,7 +10,7 @@ table id="table"
       th.created_at = "Время"
       th.assessment = "Оценка"
   tbody
-    - KaResult.find_each do |r|
+    - KaResult.where(ka_test_id: @test.id).each do |r|
       - if r.user.student
         tr
           td.name = r.user.student.fio
