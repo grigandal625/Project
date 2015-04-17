@@ -17,6 +17,7 @@ table.standardTable {
 }
 
 .planning-window {
+    background-color: #aaaaaa;
     border: 1px solid #ccc;
     border-radius: 5px;
     border-left: 0;

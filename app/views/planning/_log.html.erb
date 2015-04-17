@@ -1,7 +1,6 @@
 
-Log<br/>
-<% if (@events != nil) 
-	@events.each do |ev| %>
-    <%= ev.created_at %> [<%= planning_event_text(ev.type_id) %>, user <%=ev.user.login %>] <%=ev.description %><br/>
-<% end %>
+<a style="font-size: 12pt;">Log</a><br/>
+
+<% get_planning_log().each do |ev| %>
+    <a style="font-size: 8pt;"><%= ev["created_at"] %> [<%= ev["event"] %>, user <%=ev["user"] %>] <%=ev["descr"] %></a><br/>
 <% end %>

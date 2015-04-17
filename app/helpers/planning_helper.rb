@@ -29,4 +29,16 @@ module PlanningHelper
             "Unkown Event"
         end
     end
+
+    def get_planning_log
+        events = PlannerEvent.last(20)
+
+        res = []
+
+        events.each do |ev|
+            res.push({"created_at" => ev.created_at, "event" => planning_event_text(ev.type_id), "user" => ev.user.login, "descr" => ev.description})
+        end
+
+        return res
+    end
 end

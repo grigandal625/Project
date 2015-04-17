@@ -2,11 +2,11 @@ class PlanningController < ApplicationController
     include PlanningHelper
 
     def _index
-        @psession = current_planning_session()
-        @cur_task = @psession ? @psession.current_task() : nil
+        #@psession = current_planning_session()
+        #@cur_task = @psession ? @psession.current_task() : nil
 
         #if(@user.role == 'admin')
-        @events = PlannerEvent.last(20)
+        #@events = PlannerEvent.last(20)
         #puts "HERE GOES THE EVENTS: #{@events.size}"
         #redirect_to action: "_index"
         #end
