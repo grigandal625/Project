@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141226123353) do
+ActiveRecord::Schema.define(version: 20150304161504) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20141226123353) do
     t.text     "dictionary"
     t.text     "studentcode"
     t.text     "framecode"
+    t.text     "result"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "mistakes"
@@ -242,11 +243,11 @@ ActiveRecord::Schema.define(version: 20141226123353) do
     t.integer  "etalonframe_id"
     t.integer  "student_id"
     t.text     "studentcode"
-    t.integer  "result"
+    t.text     "result"
+    t.boolean  "isfinish"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "mistakes"
-    t.boolean  "isfinish"
     t.text     "studentmistakes"
   end
 
