@@ -16,7 +16,9 @@ table
         td.correct = a.ka_answer.correct
 
 h4 Проблемные зоны
-table
+form
+  input type="button" class="button small" onClick="$('#problem_table').table2CSV();" value="Экспорт CSV"
+table id="problem_table"
   thead
     tr
       th.topic = "Тема"
