@@ -6,7 +6,6 @@ class PlanningSession < ActiveRecord::Base
     serialize :goal, JSON
 
     serialize :plan, JSON
-
     def close
         self.closed = 1
         self.save
@@ -39,6 +38,7 @@ class PlanningSession < ActiveRecord::Base
 
             Dir.chdir(dir) do
                 #Run preprocess
+
                 run_cmd = "python #{Rails.configuration.planning_bin}/fast-downward.py domain.pddl problem.pddl --search 'lazy_greedy(ff(), preferred=ff())'"
                 puts "Running #{run_cmd}"
                 system(run_cmd)

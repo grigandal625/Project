@@ -5,7 +5,7 @@ import os
 import os.path
 import subprocess
 import sys
-
+import platform
 from . import portfolio_runner
 from .plan_manager import PlanManager
 
@@ -35,6 +35,8 @@ def run_translate(args):
     logging.info("Running translator.")
     logging.info("translator inputs: %s" % args.translate_inputs)
     logging.info("translator arguments: %s" % args.translate_options)
+    if platform.system() == "Linux":
+        PREPROCESS = os.path.join(SRC_DIR, "preprocess", "preprocess") + "-ubuntu"
     call_cmd(TRANSLATE, args.translate_inputs + args.translate_options,
              debug=args.debug)
 
@@ -58,6 +60,9 @@ def run_search(args):
         executable = os.path.join(SEARCH_DIR, "downward-debug")
     else:
         executable = os.path.join(SEARCH_DIR, "downward-release")
+    if platform.system() == "Linux":
+        executable +="-ubuntu"
+    logging.info("System OS: %s" % platform.system())
     logging.info("search executable: %s" % executable)
 
     if args.portfolio:
