@@ -2,12 +2,20 @@ h2 Детальные результаты
 h3 #{@student.fio}
 h4 Итоговая оценка: #{@detail_result.assessment}
 - @detail_result.detail_questions.each do |question_id, q|
-  h5 #{q.question.text}
-  h6 #{q.assessment}
   table
     thead
       tr
-        th.answer = "Текст"
+        th.text = "Вопрос"
+        th.difficulty = "Сложность"
+        th.assessment = "Оценка"
+    tbody
+      tr
+        td.text = q.question.text
+        td.difficulty = q.question.difficulty
+        td.assessment = q.assessment
+    thead
+      tr
+        th.answer = "Текст ответ"
         th.real_correct = "Ответ"
         th.correct = "Ответ студента"
     tbody
