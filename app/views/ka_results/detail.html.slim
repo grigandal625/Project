@@ -5,25 +5,36 @@ h4 Итоговая оценка: #{@detail_result.assessment}
   table
     thead
       tr
-        th.text = "Вопрос"
+        th.text = "Текст вопроса"
+        th.answers = "Ответы"
+        th.right_count = "Кол-во верных"
+        th.wrong_count = "Кол-во неверных"
+        th.mark_right_count = "Кол-во данных верных"
+        th.mark_wrong_count = "Кол-во данных неверных"
         th.difficulty = "Сложность"
         th.assessment = "Оценка"
     tbody
       tr
         td.text = q.question.text
+        td.answers
+          table
+            thead
+              tr
+                th.answer_text = "Текст ответа"
+                th.real_answer = "Ответ"
+                th.student_answer = "Ответ студента"
+            tbody
+              - q.detail_answers.each do |answer_id, a|
+                tr
+                  td.answer_text = a.answer.text
+                  td.real_answer = a.real_correct
+                  td.student_answer = a.student_correct
+        td.right_count = q.right_count
+        td.wrong_count = q.wrong_count
+        td.mark_right_count = q.mark_right_count
+        td.mark_wrong_count = q.mark_wrong_count
         td.difficulty = q.question.difficulty
         td.assessment = q.assessment
-    thead
-      tr
-        th.answer = "Текст ответ"
-        th.real_correct = "Ответ"
-        th.correct = "Ответ студента"
-    tbody
-      - q.detail_answers.each do |answer_id, a|
-        tr
-          td.answer = a.answer.text
-          td.real_correct = a.real_correct
-          td.student_correct = a.student_correct
     
 
 h4 Проблемные зоны

@@ -27,6 +27,42 @@ class DetailQuestionResult
     @assessment = 0
     @question = question
     @detail_answers = {}
+    @right_count = 0
+    @wrong_count = 0
+    @mark_right_count = 0
+    @mark_wrong_count = 0
+  end
+
+  def mark_right_count
+    @mark_right_count
+  end
+
+  def mark_right_count=(x)
+    @mark_right_count = x
+  end
+
+  def mark_wrong_count=(x)
+    @mark_wrong_count = x
+  end
+
+  def mark_wrong_count
+    @mark_wrong_count
+  end
+
+  def right_count
+    @right_count
+  end
+
+  def right_count=(x)
+    @right_count = x
+  end
+
+  def wrong_count=(x)
+    @wrong_count = x
+  end
+
+  def wrong_count
+    @wrong_count
   end
 
   def detail_answers
@@ -50,6 +86,8 @@ class KaDetailResult
   def initialize(variant, answers)
     @assessment = 0
     @detail_questions = {}
+    @right_count = 0
+    @wrong_count = 0
 
     question_marks = {}
     questions = variant.ka_question.each
@@ -62,6 +100,11 @@ class KaDetailResult
       @detail_questions[q.id] = DetailQuestionResult.new(q)
       q.ka_answer.each do |ans|
         @detail_questions[q.id].detail_answers[ans.id] = DetailAnswer.new(ans)
+        if ans.correct != 0
+          @detail_questions[q.id].right_count += 1
+        else
+          @detail_questions[q.id].wrong_count += 1
+        end
       end
     end
 
@@ -69,8 +112,10 @@ class KaDetailResult
       ans = KaAnswer.find(a)
       if ans.correct != 0
         question_marks[ans.ka_question_id][:score] += 1.0 / question_marks[ans.ka_question_id][:right_ans_count]
+        @detail_questions[ans.ka_question_id].mark_right_count += 1
       else
         question_marks[ans.ka_question_id][:score] -= 1.0 / question_marks[ans.ka_question_id][:wrong_ans_count]
+        @detail_questions[ans.ka_question_id].mark_wrong_count += 1
       end
       @detail_questions[ans.ka_question_id].detail_answers[ans.id].student_correct = 1
     end
