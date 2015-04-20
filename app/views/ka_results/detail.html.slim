@@ -1,6 +1,6 @@
 h2 Детальные результаты
 h3 #{@student.fio}
-h4 Итоговая оценка: #{@result.assessment}
+h4 Итоговая оценка: #{@detail_result.assessment}
 - @detail_result.detail_questions.each do |question_id, q|
   h5 #{q.question.text}
   h6 #{q.assessment}

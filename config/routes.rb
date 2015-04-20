@@ -40,6 +40,7 @@ UIR::Application.routes.draw do
   get '/ka_results',                   to: 'ka_results#index',  as: :ka_results
   get '/ka_results/show/:test_id',     to: 'ka_results#show',   as: :show_ka_results
   get '/ka_results/detail/:result_id', to: 'ka_results#detail', as: :show_detail_ka_result
+  get '/ka_results/recalc/:id',        to: 'ka_results#recalc', as: :recalc_ka_results
 
   resources :competences
   post 'competences/attach' => 'competences#attach'

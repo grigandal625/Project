@@ -10,6 +10,24 @@ class KaResultsController < ApplicationController
     @test = KaTest.find(test_id)
   end
 
+  def recalc
+    test_id = params[:id]
+    test = KaTest.find(test_id)
+
+    test.ka_results.each do |r|
+      answers = []
+      r.ka_answer_logs.each do |al|
+        answers.push(al.ka_answer_id)
+      end
+      variant = r.ka_variant
+      detail_result = KaDetailResult.new(variant, answers)
+      r.assessment = detail_result.assessment
+      r.save
+    end
+
+    redirect_to :back
+  end
+
   def detail
     result_id = params[:result_id]
     @result = KaResult.find(result_id)
