@@ -1,19 +1,22 @@
 h2 Детальные результаты
 h3 #{@student.fio}
 h4 Итоговая оценка: #{@result.assessment}
-h4 Данные студентом ответы
-table
-  thead
-    tr
-      th.question = "Вопрос"
-      th.text = "Ответ"
-      th.correct = "Корректность"
-  tbody
-    - @result.ka_answer_logs.each do |a|
+- @detail_result.detail_questions.each do |question_id, q|
+  h5 #{q.question.text}
+  h6 #{q.assessment}
+  table
+    thead
       tr
-        td.answer_id = a.ka_answer.ka_question.text
-        td.text = a.ka_answer.text
-        td.correct = a.ka_answer.correct
+        th.answer = "Текст"
+        th.real_correct = "Ответ"
+        th.correct = "Ответ студента"
+    tbody
+      - q.detail_answers.each do |answer_id, a|
+        tr
+          td.answer = a.answer.text
+          td.real_correct = a.real_correct
+          td.student_correct = a.student_correct
+    
 
 h4 Проблемные зоны
 form
@@ -27,7 +30,7 @@ table id="problem_table"
     - @result.problem_areas.each do |p|
       tr
         td.topic = p.ka_topic.text
-        td.mark = p.mark.round(2)
+        td.mark = p.mark.round(6)
 
 h4 Охват компетенций
 table
@@ -41,4 +44,4 @@ table
       tr
         td.code = c.competence.code
         td.desc = c.competence.description
-        td.mark = c.mark.round(2)
+        td.mark = c.mark.round(6)
