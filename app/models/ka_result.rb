@@ -88,6 +88,7 @@ class KaDetailResult
     if @assessment < 0
       @assessment = 0
     end
+    @assessment *= 100.0
     @assessment = @assessment.to_i
   end
 
