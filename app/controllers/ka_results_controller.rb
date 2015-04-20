@@ -39,12 +39,5 @@ class KaResultsController < ApplicationController
     end
 
     @detail_result = KaDetailResult.new(@result.ka_variant, answers)
-
-    @detail_result.detail_questions.each do |q_id, q|
-      puts q.question.text + " " + q.assessment.to_s
-      q.detail_answers.each do |a_id, a|
-        puts "  " + a.answer.text + " " + a.real_correct.to_s + " " + a.student_correct.to_s
-      end
-    end
   end
 end

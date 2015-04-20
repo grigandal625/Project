@@ -82,7 +82,7 @@ class KaDetailResult
       sum_score += q.difficulty * question_marks[q.id][:score]
       sum_diff += q.difficulty
       @detail_questions[q.id].assessment = q.difficulty * question_marks[q.id][:score]
-     end
+    end
 
     @assessment = sum_score / sum_diff
     if @assessment < 0
