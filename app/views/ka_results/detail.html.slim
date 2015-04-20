@@ -1,21 +1,17 @@
 h2 Детальные результаты
 h3 #{@student.fio}
 h4 Итоговая оценка: #{@result.assessment}
-h4 Данные ответы
+h4 Данные студентом ответы
 table
   thead
     tr
       th.question = "Вопрос"
-      th.answers_count = "Кол-во ответов"
-      th.correct_count = "Кол-во корректных"
-      th.text = "Текст"
+      th.text = "Ответ"
       th.correct = "Корректность"
   tbody
     - @result.ka_answer_logs.each do |a|
       tr
         td.answer_id = a.ka_answer.ka_question.text
-        td.answers_count = a.ka_answer.ka_question.ka_answer.count
-        td.correct_count = a.ka_answer.ka_question.ka_answer.where(correct: 1).count
         td.text = a.ka_answer.text
         td.correct = a.ka_answer.correct
 
