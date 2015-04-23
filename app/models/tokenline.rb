@@ -98,7 +98,7 @@ class Tokenline
 
 
   def parsestringmod(temp )
-
+    list = ["$","*", "/'", "_"]
     sost = 0
     lexem = []
     count = 0
@@ -125,8 +125,8 @@ class Tokenline
       elsif sost == 1 and (
       (string[i] >= '+' and string[i] <= '?' ) or
           (string[i] >= 'a' and string[i] <= 'z') or
-          (string[i] >= 'а' and string[i] <= 'я') or '_'
-      )
+          (string[i] >= 'а' and string[i] <= 'я')  or list.include?(string[i]))
+
         if count > 0
           sost = 2
           word = word + string[i]
@@ -139,7 +139,7 @@ class Tokenline
       (string[i] >= '+' and string[i] <= '?' ) or
           (string[i] >= 'a' and string[i] <= 'z') or
           (string[i] >= 'а' and string[i] <= 'я') or
-          (string[i] >= 'А' and string[i] <= 'Я') or string[i] == '_'
+          (string[i] >= 'А' and string[i] <= 'Я') or string[i] == '_' or list.include?(string[i])
       )
         if count > 0
           word = word + string[i]

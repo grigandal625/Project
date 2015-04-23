@@ -1,22 +1,6 @@
 Оценка : <%=   @studentframe.result%>
 Ошибки : <%=   @studentframe.studentmistakes%>
-
- ТИПЫ ОШИБОК :
-
-
-<% if not @solver == nil %>
-Лексические ошибки      <%=   @solver.lexicalmistakes%>
-sintaxmistakes          <%=   @solver.sintaxmistakes%>
-semanticmistakes        <%=   @solver.semanticmistakes%>
-framenamemistakes       <%=   @solver.framenamemistakes%>
-slotsSizeMistakes       <%=   @solver.slotsSizeMistakes%>
-nameSlotsMistakes       <%=   @solver.nameSlotsMistakes%>
-typeSlotsMistakes       <%=   @solver.typeSlotsMistakes%>
-valueSizeMistakes       <%=   @solver.valueSizeMistakes%>
-valuetypeMistakes       <%=   @solver.valuetypeMistakes%>
-valuenotFoundMistakes   <%=   @solver.valuenotFoundMistakes%>
-<%end %>
-
+<%= stylesheet_link_tag "framestudent" %>
 <script>
     function insertTab(o, e)
     {
@@ -46,6 +30,24 @@ valuenotFoundMistakes   <%=   @solver.valuenotFoundMistakes%>
         }
         return true;
     }
+
+    function HighlightTextareaText(nameTextArea, strSearch) {
+        eTextarea = document.getElementById(nameTextArea);
+        strLength = strSearch.length;
+        if (strLength <= 0)
+            return;
+        contents = eTextarea.value;
+        startPos = contents.indexOf(strSearch);
+        if (startPos < 0)
+            return;
+        eTextarea.selectionStart = startPos;
+        eTextarea.selectionEnd = startPos + strLength;
+        eTextarea.focus();
+    }
+
+    HighlightTextareaText("#studentcode", ")")
+
+
 </script>
 
 <%= form_tag(framestudent_updateframe_path , method: "POST") do %>
@@ -53,7 +55,10 @@ valuenotFoundMistakes   <%=   @solver.valuenotFoundMistakes%>
       <%= hidden_field_tag(:id, value=params[:id])%>
       <%= label_tag(name="Название: " + @studentframe.etalonframe.name)%>
       <br>
-      <%= text_area_tag(:studentcode, @studentframe.studentcode, autofocus: true,  rows: 20,  cols: 70, onkeydown: "insertTab(this, event)" , maxlength: 2500) %>
+      <%= text_area_tag(:studentcode, @studentframe.studentcode, autofocus: true,rows: 20,  cols: 80, onkeydown: "insertTab(this, event)" , maxlength: 2500) %>
+      <%= text_area_tag(:dictionary, @studentframe.etalonframe.dictionary, autofocus: true,  rows: 20,  cols: 25, onkeydown: "insertTab(this, event)" ) %>
+      <%= text_area_tag(:console, @studentframe.mistakes.to_s + "\n" , autofocus: true,  rows: 20,  cols: 40, onkeydown: "insertTab(this, event)", :id => "666" ) %>
+
       <br>
 
 
@@ -64,11 +69,9 @@ valuenotFoundMistakes   <%=   @solver.valuenotFoundMistakes%>
     </div>
 <% end %>
 <%= label_tag(name="Словарь")%>
-<br>
-<%= text_area_tag(:dictionary, @studentframe.etalonframe.dictionary, autofocus: true,  rows: 5,  cols: 70, onkeydown: "insertTab(this, event)" ) %>
-<br>
+
+
 
 <%= label_tag(name="Вывод")%>
 <br>
-<%= text_area_tag(:console, @studentframe.mistakes.to_s + "\n" , autofocus: true,  rows: 5,  cols: 70, onkeydown: "insertTab(this, event)", :id => "666" ) %>
 <%= render partial: "frametable"%>

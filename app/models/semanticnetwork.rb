@@ -14,7 +14,7 @@ class Semanticnetwork < ActiveRecord::Base
   	end
   	
   	return 100
-  end
+  end #+
   
   def check_predicat(answer, etalon)
   	s_answer = JSON.parse(answer) 
@@ -32,7 +32,7 @@ class Semanticnetwork < ActiveRecord::Base
     end
     return 0
   	
-  end
+  end #+
   
   
   
@@ -79,9 +79,10 @@ class Semanticnetwork < ActiveRecord::Base
   	
   	for i in 0..s_answer.length - 1
   		for j in 0..s_etalon.length - 1
-  			if (s_answer[i]["predicat"] == "true" && s_etalon[i]["predicat"] == "true")
-  			  
-  				for k in 0..s_answer[i]["connect"].length - 1
+  			if (s_answer[i]["predicat"] == "true" && s_etalon[j]["predicat"] == "true")
+
+
+				for k in 0..s_answer[i]["connect"].length - 1
   					for l in 0..s_etalon[j]["connect"].length - 1
   						if (s_answer[i]["connect"][k]["to"] == s_etalon[j]["connect"][l]["to"] && 
   						s_answer[i]["connect"][k]["deepCase"] != s_etalon[j]["connect"][l]["deepCase"])
@@ -93,7 +94,8 @@ class Semanticnetwork < ActiveRecord::Base
   							return 20
   						end
   						
-  					end
+            end
+
   				end
   			end
   		end

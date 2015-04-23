@@ -191,6 +191,7 @@ class Frame
       end
       if etalontree.find(i).struct[0] == "fput"
         fputMod(etalontree.find(i).struct[1..-1], etalontree.find(i).children)
+        #mistakes << etalontree.find(i).struct[1..-1]
 =begin        if etalontree.find(i).struct.length >= 2
 
           foundframe = findFrameByName(etalontree.find(i).struct[1])
@@ -382,8 +383,8 @@ class Frame
   def  fputMod(name, children)
     frame = find_object(name)
 
-    if frame.type == "frame"
-      children.each do |slot|
+    if (not (frame.nil?)) and (frame.type == "frame")
+     children.each do |slot|
         if inherit.include?(slot.struct[0])
           print("Наследование") #Реализована
           fassert_ako(slot, frame)
@@ -396,7 +397,13 @@ class Frame
           fassert_slot(slot, frame)
         end
 
-      end
+
+
+    end
+
+
+
+
     else
       children.each do |child|
         if child.struct.length == 2

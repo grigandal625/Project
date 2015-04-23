@@ -19,6 +19,7 @@ class FrameadminController < AdminToolsController
     etalon.framecode = "{}"
     etalon.dictionary = "{}"
     etalon.studentcode = "{}"
+    etalon.kbmistakes = "50,20,10,5,10,5,10"
     etalon.save
     redirect_to :back
   end
@@ -64,7 +65,7 @@ class FrameadminController < AdminToolsController
     framecode.inic(params[:framecode])
     framecode.createframe(params[:framecode])
     etalon.dictionary = framecode.getdictionary.to_s
-    etalon.mistakes = "Ошибки в фрейме" + framecode.mistakes.to_s + " \nОшибки в фрейме для студента " + framestudentcode.mistakes.to_s
+    etalon.mistakes = "Ошибки в фрейме" + framecode.mistakes.to_s + "  \nОшибки в фрейме для студента " + framestudentcode.mistakes.to_s
     etalon.save
 
     redirect_to :back
