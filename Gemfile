@@ -38,10 +38,6 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-group :development, :test do
-    gem 'railroady'
-end
-
 #You need install imagemagick to get all features from using paperclip
 gem 'dragonfly', '~> 1.0.7'
 
@@ -64,3 +60,12 @@ gem 'ckeditor'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+# HTML templates
+gem 'slim'
+
+# Generator of test tasks
+gem 'tasks_generator', '>= 1.4'
+
+# Translit
+gem 'translit'

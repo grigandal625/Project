@@ -27,10 +27,12 @@
       <%= link_to "Лингвистика", get_task_path%></br>
       <span>Оценки:</span><br>
       <%= link_to "Просмотр", group_student_path(@user.student.group, @user.student),:target => "_blank" %>
-      <span>Психологические тесты:</span>
-      <%= link_to 'Перейти', personality_tests_path %>
-      <span>Методические материалы:</span><br/>
-      <%= link_to("Перейти", methodical_materials_path) %>
+      <span>Психологические тесты:</span><br>
+      <%= link_to 'Перейти', personality_tests_path %><br>
+      <span>Методические материалы:</span><br>
+      <%= link_to("Перейти", methodical_materials_path) %><br>
+      <span>Тестирование:</span><br>
+      <%= link_to("Перейти", ka_welcome_path) %>
     </td>
     <td id="content"><%= yield %></td>
   </tr>

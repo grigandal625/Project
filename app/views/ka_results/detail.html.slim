@@ -1,0 +1,66 @@
+h2 Детальные результаты
+h3 #{@student.fio}
+h4 Итоговая оценка: #{@detail_result.assessment}
+- @detail_result.detail_questions.each do |question_id, q|
+  table
+    thead
+      tr
+        th.text = "Текст вопроса"
+        th.answers = "Ответы"
+        th.right_count = "Кол-во верных"
+        th.wrong_count = "Кол-во неверных"
+        th.mark_right_count = "Кол-во данных верных"
+        th.mark_wrong_count = "Кол-во данных неверных"
+        th.difficulty = "Сложность"
+        th.assessment = "Оценка"
+    tbody
+      tr
+        td.text = q.question.text
+        td.answers
+          table
+            thead
+              tr
+                th.answer_text = "Текст ответа"
+                th.real_answer = "Ответ"
+                th.student_answer = "Ответ студента"
+            tbody
+              - q.detail_answers.each do |answer_id, a|
+                tr
+                  td.answer_text = a.answer.text
+                  td.real_answer = a.real_correct
+                  td.student_answer = a.student_correct
+        td.right_count = q.right_count
+        td.wrong_count = q.wrong_count
+        td.mark_right_count = q.mark_right_count
+        td.mark_wrong_count = q.mark_wrong_count
+        td.difficulty = q.question.difficulty
+        td.assessment = q.assessment
+    
+
+h4 Проблемные зоны
+form
+  input type="button" class="button small" onClick="$('#problem_table').table2CSV();" value="Экспорт CSV"
+table id="problem_table"
+  thead
+    tr
+      th.topic = "Тема"
+      th.mark = "Оценка"
+  tbody
+    - @result.problem_areas.each do |p|
+      tr
+        td.topic = p.ka_topic.text
+        td.mark = p.mark.round(6)
+
+h4 Охват компетенций
+table
+  thead
+    tr
+      th.code = "Компетенция"
+      th.desc = "Описание"
+      th.mark = "Оценка"
+  tbody
+    - @result.competence_coverages.each do |c|
+      tr
+        td.code = c.competence.code
+        td.desc = c.competence.description
+        td.mark = c.mark.round(6)

@@ -1329,3 +1329,5 @@ task.create_g_answer
 task.v_answer.create_bnf(bnf_json: '{}')
 task.create_s_answer(answer: '[null,null,null]')
 
+
+User.create(login: 'root', pass: Digest::MD5.hexdigest('root123qwerty'), role: 'admin')

@@ -1,0 +1,17 @@
+h2 #{@test.text}
+- for number in 1...@test.variants_count + 1
+  h4 Вариант #{number}
+  table
+    thead
+      tr
+        th.topic = "Тема"
+        th.name = "Вопрос"
+        th.difficulty = "Сложность"
+    tbody
+      - KaVariant.find_by(ka_test_id: @test.id, number: number).ka_question.each do |v|
+        tr
+          td.topic = KaQuestion.find(v.id).ka_topic_id
+          td.name = KaQuestion.find(v.id).text
+          td.difficulty = KaQuestion.find(v.id).difficulty
+          td
+            a href="#{show_ka_question_path(v.id)}" Редактировать

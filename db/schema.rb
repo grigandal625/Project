@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407123056) do
+ActiveRecord::Schema.define(version: 20150416082533) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -20,6 +20,24 @@ ActiveRecord::Schema.define(version: 20150407123056) do
   end
 
   add_index "bnfs", ["component_id", "component_type"], name: "index_bnfs_on_component_id_and_component_type"
+
+  create_table "competence_coverages", id: false, force: true do |t|
+    t.integer  "ka_result_id"
+    t.integer  "competence_id"
+    t.float    "mark",          default: 0.0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "competence_coverages", ["competence_id"], name: "index_competence_coverages_on_competence_id"
+  add_index "competence_coverages", ["ka_result_id"], name: "index_competence_coverages_on_ka_result_id"
+
+  create_table "competences", force: true do |t|
+    t.string   "code",        default: "", null: false
+    t.string   "description", default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "etalonframes", force: true do |t|
     t.string   "name"
@@ -92,6 +110,81 @@ ActiveRecord::Schema.define(version: 20150407123056) do
   create_table "groups", force: true do |t|
     t.text "number"
   end
+
+  create_table "ka_answer_logs", force: true do |t|
+    t.integer  "ka_result_id"
+    t.integer  "ka_answer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ka_answers", force: true do |t|
+    t.text     "text",           default: "", null: false
+    t.integer  "correct",        default: 0,  null: false
+    t.integer  "ka_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ka_answers", ["ka_question_id"], name: "index_ka_answers_on_ka_question_id"
+
+  create_table "ka_questions", force: true do |t|
+    t.text     "text",        default: "", null: false
+    t.integer  "difficulty",  default: 0,  null: false
+    t.integer  "ka_topic_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ka_questions", ["ka_topic_id"], name: "index_ka_questions_on_ka_topic_id"
+
+  create_table "ka_questions_variants", id: false, force: true do |t|
+    t.integer  "ka_variant_id"
+    t.integer  "ka_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ka_questions_variants", ["ka_variant_id", "ka_question_id"], name: "ka_q_ka_v", unique: true
+
+  create_table "ka_results", force: true do |t|
+    t.integer  "ka_variant_id"
+    t.integer  "ka_test_id"
+    t.integer  "user_id"
+    t.integer  "assessment",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ka_results", ["ka_test_id"], name: "index_ka_results_on_ka_test_id"
+
+  create_table "ka_tests", force: true do |t|
+    t.text     "text",                        null: false
+    t.integer  "on",              default: 0, null: false
+    t.integer  "variants_count",  default: 0, null: false
+    t.integer  "questions_count", default: 0, null: false
+    t.integer  "minutes",         default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ka_topics", force: true do |t|
+    t.string   "text",       default: "", null: false
+    t.integer  "parent_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ka_topics", ["parent_id"], name: "index_ka_topics_on_parent_id"
+
+  create_table "ka_variants", force: true do |t|
+    t.integer  "ka_test_id"
+    t.integer  "number",     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ka_variants", ["ka_test_id", "number"], name: "index_ka_variants_on_ka_test_id_and_number"
 
   create_table "logs", force: true do |t|
     t.text    "result"
@@ -211,6 +304,17 @@ ActiveRecord::Schema.define(version: 20150407123056) do
     t.datetime "updated_at"
   end
 
+  create_table "problem_areas", id: false, force: true do |t|
+    t.integer  "ka_result_id"
+    t.integer  "ka_topic_id"
+    t.float    "mark",         default: 0.0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "problem_areas", ["ka_result_id"], name: "index_problem_areas_on_ka_result_id"
+  add_index "problem_areas", ["ka_topic_id"], name: "index_problem_areas_on_ka_topic_id"
+
   create_table "results", force: true do |t|
     t.integer  "student_id"
     t.integer  "task_id"
@@ -255,7 +359,11 @@ ActiveRecord::Schema.define(version: 20150407123056) do
     t.integer  "etalonframe_id"
     t.integer  "student_id"
     t.text     "studentcode"
+<<<<<<< HEAD
     t.integer  "result"
+=======
+    t.text     "result"
+>>>>>>> e71d6c40472afc637b06e3273c46ef6bfd35c3cf
     t.boolean  "isfinish"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -284,6 +392,17 @@ ActiveRecord::Schema.define(version: 20150407123056) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "topic_competences", id: false, force: true do |t|
+    t.integer  "ka_topic_id"
+    t.integer  "competence_id"
+    t.integer  "weight",        default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "topic_competences", ["competence_id"], name: "index_topic_competences_on_competence_id"
+  add_index "topic_competences", ["ka_topic_id"], name: "index_topic_competences_on_ka_topic_id"
 
   create_table "trees", force: true do |t|
     t.datetime "created_at"

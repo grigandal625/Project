@@ -1,0 +1,31 @@
+h2 Новая компетенция
+form method="post" action="#{competences_path}"
+  div class="row"
+    div class="large-12 columns"
+      div class="row collapse"
+        div class="small-2 columns"
+          input type="text" name="code" placeholder="Код"
+		div class="small-8 columns"
+		  input type="text" name="description" placeholder="Описание"
+        div class="small-2 columns"
+          input type="submit" class="button postfix"
+h1 Компетенции
+- if Competence.exists?
+  table
+    thead
+      tr
+        th.id = "Идентификатор"
+        th.code = "Код"
+		th.desctiption = "Описание"
+    tbody
+      - Competence.all.each do |c|
+        tr
+          td.id = c.id
+          td.code = c.code
+		  td.description = c.description
+          td
+            a href="#{edit_competence_path(c.id)}" Редактировать
+          td
+           = link_to "Удалить", competence_path(c), method: :delete
+- else
+  p Пока не добавлено ни одной компетенции

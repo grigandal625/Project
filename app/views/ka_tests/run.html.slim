@@ -1,0 +1,39 @@
+h3 #{@test.text}
+form method="post" action="#{check_ka_variant_path(@variant.id)}"
+  div class="fixed"
+    input type="submit" class="button expand" id="button" value="Отправить #{@test.minutes}:00"
+  - @questions.each do |number, question, answers|
+    h5 #{number}. #{question.text}
+    table
+      - answers.each do |a|
+        tr
+          td
+            input type="checkbox" name="answer_id:#{a.id}"
+          td.answer = a.text
+
+javascript:
+  setInterval(function() {
+    var arr = $("#button").attr("value").split(' ');
+    var t = arr[1].split(':')
+    var minutes = parseInt(t[0]);
+    var seconds = parseInt(t[1]);
+    if (seconds === 0 && minutes === 0) {
+      $("#button").click();
+    } else if (seconds == 0) {
+      --minutes;
+      seconds = 59;
+    } else {
+      --seconds;
+    }
+
+    var min = minutes.toString()
+    var sec = seconds.toString()
+    if (min.length < 2) {
+      min = "0" + min;
+    }
+    if (sec.length < 2) {
+      sec = "0" + sec;
+    }
+
+    $("#button").attr("value", arr[0] + " " + min + ":" + sec);
+  }, 1000);

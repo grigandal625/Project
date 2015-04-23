@@ -1,0 +1,11 @@
+h2 Включенные тесты
+table
+  thead
+    th.test = "Тест"
+  tbody
+    - KaTest.where(on: 1).each do |t|
+      form method="get"
+        tr
+          td.test = t.text
+          td
+            a href="#{run_ka_test_path(t.id)}" Пройти

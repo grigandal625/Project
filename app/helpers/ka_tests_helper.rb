@@ -1,0 +1,2 @@
+module KaTestsHelper
+end

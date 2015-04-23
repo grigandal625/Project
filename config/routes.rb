@@ -3,7 +3,48 @@ UIR::Application.routes.draw do
   get "auth/login", to: "auth#login", as: "login"
   post "auth/authentificate"
   post "auth/logout", as: "logout"
+  get  "auth/logout", as: "get_logout"
 
+  get '/ka_welcome',               to: 'ka_welcome#index',    as: :ka_welcome
+
+  get  '/ka_topics',               to: 'ka_topics#index',     as: :ka_topics
+  get  '/ka_topics/all',           to: 'ka_topics#all',       as: :all_ka_topics
+  get  '/ka_topics/:id',           to: 'ka_topics#show',      as: :ka_topic
+  get  '/ka_topics/destroy/:id',   to: 'ka_topics#destroy',   as: :ka_topic_destroy
+  post '/ka_topics/new',           to: 'ka_topics#new',       as: :new_ka_topic
+  get  '/ka_topics/edit/:id',      to: 'ka_topics#edit',      as: :edit_ka_topic
+  post '/ka_topics/edit_text/:id', to: 'ka_topics#edit_text', as: :edit_ka_topic_text
+
+  get  '/ka_questions',             to: 'ka_questions#index',   as: :ka_questions
+  get  '/ka_questions/:id',         to: 'ka_questions#show',    as: :ka_question
+  get  '/ka_questions/destroy/:id', to: 'ka_questions#destroy', as: :ka_question_destroy
+  post '/ka_questions/new',         to: 'ka_questions#new',     as: :new_ka_question
+  post '/ka_questions/edit/:id',    to: 'ka_questions#edit',    as: :edit_ka_question
+  get  '/ka_questions/show/:id',    to: 'ka_questions#show',    as: :show_ka_question
+
+  get  '/ka_answers',             to: 'ka_answers#index',   as: :ka_answers
+  get  '/ka_answers/destroy/:id', to: 'ka_answers#destroy', as: :ka_answer_destroy
+  post '/ka_answers/new',         to: 'ka_answers#new',     as: :new_ka_answer
+  post '/ka_answers/edit/:id',    to: 'ka_answers#edit',    as: :edit_ka_answer
+
+  get  '/ka_tests',             to: 'ka_tests#index',   as: :ka_tests
+  get  '/ka_tests/new',         to: 'ka_tests#new',     as: :new_ka_test
+  get  '/ka_tests/:id',         to: 'ka_tests#show',    as: :ka_test
+  get  '/ka_tests/destroy/:id', to: 'ka_tests#destroy', as: :ka_test_destroy
+  post '/ka_tests',             to: 'ka_tests#save',    as: :save_ka_test
+  post '/ka_tests/edit',        to: 'ka_tests#edit',    as: :edit_ka_tests
+  get  '/ka_tests/run/:id',     to: 'ka_tests#run',     as: :run_ka_test
+
+  post '/ka_variant/check/:id', to: 'ka_variants#check', as: :check_ka_variant
+
+  get '/ka_results',                   to: 'ka_results#index',  as: :ka_results
+  get '/ka_results/show/:test_id',     to: 'ka_results#show',   as: :show_ka_results
+  get '/ka_results/detail/:result_id', to: 'ka_results#detail', as: :show_detail_ka_result
+  get '/ka_results/recalc/:id',        to: 'ka_results#recalc', as: :recalc_ka_results
+
+  resources :competences
+  post 'competences/attach' => 'competences#attach'
+  get 'competence/:c_id/detach_from/:t_id' => 'competences#detach', as: :competence_detach
 
 
 
