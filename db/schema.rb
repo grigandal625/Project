@@ -345,7 +345,7 @@ ActiveRecord::Schema.define(version: 20150416082533) do
     t.integer  "etalon_id"
     t.integer  "student_id"
     t.text     "json"
-    t.text     "result",     default: " Вы еще не прошли тест :) "
+    t.text     "mistakes",   default: " Вы еще не прошли тест :) "
     t.boolean  "iscomplite", default: false
     t.integer  "rating"
     t.datetime "created_at"
@@ -359,11 +359,7 @@ ActiveRecord::Schema.define(version: 20150416082533) do
     t.integer  "etalonframe_id"
     t.integer  "student_id"
     t.text     "studentcode"
-<<<<<<< HEAD
     t.integer  "result"
-=======
-    t.text     "result"
->>>>>>> e71d6c40472afc637b06e3273c46ef6bfd35c3cf
     t.boolean  "isfinish"
     t.datetime "created_at"
     t.datetime "updated_at"
