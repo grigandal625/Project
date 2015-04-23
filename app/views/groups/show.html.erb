@@ -6,7 +6,11 @@
 <%= content_tag :span, @group.number %><br/>
 
 <%= display_standard_table([{name: "fio", display_name: "ФИО"},
-                            {name: "login", display_name: "Логин"}], @students) %>
+                            {name: "login", display_name: "Логин"},
+                            {name: "fio", display_name: "Пароль"}
+
+
+                           ], @students) %>
 <% if @showmenu == true %>
   <%= link_to "Сгенерировать пароли", pass_gen_path, target: "_blank" %>
   <%= link_to "Результаты группы", report_gen_path %>

@@ -56,7 +56,59 @@
       <%= label_tag(name="Вывод")%>
       <br>
       <%= text_area_tag(:console, @etalon.mistakes.to_s + "\n" , autofocus: true,  rows: 10,  cols: 70, onkeydown: "insertTab(this, event)", :id => "666" ) %>
+      <br>
+      <%= label_tag(name="KB mistakes")%>
+      <br>
 
+      <%= text_area_tag(:tempdd, @etalon.kbmistakes.to_s + "\n" ) %>
+
+
+      <br>
+      <%
+         etalonname = @etalon.kbmistakes.to_s.split(",").map { |s| s.to_i }
+
+
+      %>
+      <%= label_tag(name="Ошибки")%>
+      <table align="center">
+        <tr>
+          <td>Ошибка №1</td>
+          <td>Несовпадение имени фрейма с эталоном</td>
+          <td><%=number_field_tag(:parametalonname0, value=etalonname[0], in: 0..100)%></td>
+        </tr>
+        <tr>
+          <td>Ошибка №2</td>
+          <td>Несовпадение количества слотов с эталоном</td>
+          <td><%=number_field_tag(:parametalonname1, value=etalonname[1], in: 0..100)%></td>
+        </tr>
+        <tr>
+          <td>Ошибка №3</td>
+          <td>Несовпадение имен слотов с эталоном</td>
+          <td><%=number_field_tag(:parametalonname2, value=etalonname[2], in: 0..100)%></td>
+        </tr>
+        <tr>
+          <td>Ошибка №4</td>
+          <td>Несовпадение имен слотов с эталоном</td>
+          <td><%=number_field_tag(:parametalonname3, value=etalonname[3], in: 0..100)%></td>
+        </tr>
+        <tr>
+          <td>Ошибка №5</td>
+          <td>Несовпадение имен слотов с эталоном</td>
+          <td><%=number_field_tag(:parametalonname4, value=etalonname[4], in: 0..100)%></td>
+        </tr>
+        <tr>
+          <td>Ошибка №6</td>
+          <td>Несовпадение имен слотов с эталоном</td>
+          <td><%=number_field_tag(:parametalonname5, value=etalonname[5], in: 0..100)%></td>
+        </tr>
+        <tr>
+          <td>Ошибка №7</td>
+          <td>Несовпадение имен слотов с эталоном</td>
+          <td><%=number_field_tag(:parametalonname6, value=etalonname[6], in: 0..100)%></td>
+        </tr>
+
+
+      </table>
 
       <br>
       <%= submit_tag("Сохранить") %>

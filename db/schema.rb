@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20150416082533) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "mistakes"
+    t.text     "kbmistakes"
   end
 
   create_table "etalons", force: true do |t|
@@ -70,12 +71,23 @@ ActiveRecord::Schema.define(version: 20150416082533) do
     t.datetime "updated_at"
   end
 
+  create_table "frameobjectmistakes", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "frameobjects", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "frames", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "framesmistakes", force: true do |t|
+    t.text     "mistakes"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -175,7 +187,7 @@ ActiveRecord::Schema.define(version: 20150416082533) do
   add_index "ka_variants", ["ka_test_id", "number"], name: "index_ka_variants_on_ka_test_id_and_number"
 
   create_table "logs", force: true do |t|
-    t.text    "mistakes"
+    t.text    "result"
     t.text    "data"
     t.integer "component_id"
     t.string  "component_type"
@@ -333,7 +345,7 @@ ActiveRecord::Schema.define(version: 20150416082533) do
     t.integer  "etalon_id"
     t.integer  "student_id"
     t.text     "json"
-    t.text     "mistakes",   default: " Вы еще не прошли тест :) "
+    t.text     "result",     default: " Вы еще не прошли тест :) "
     t.boolean  "iscomplite", default: false
     t.integer  "rating"
     t.datetime "created_at"
@@ -347,12 +359,17 @@ ActiveRecord::Schema.define(version: 20150416082533) do
     t.integer  "etalonframe_id"
     t.integer  "student_id"
     t.text     "studentcode"
+<<<<<<< HEAD
+    t.integer  "result"
+=======
     t.text     "result"
+>>>>>>> e71d6c40472afc637b06e3273c46ef6bfd35c3cf
     t.boolean  "isfinish"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "mistakes"
     t.text     "studentmistakes"
+    t.text     "kbstudentmistakes"
   end
 
   add_index "studentframes", ["etalonframe_id"], name: "index_studentframes_on_etalonframe_id"

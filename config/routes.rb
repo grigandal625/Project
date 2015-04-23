@@ -46,12 +46,12 @@ UIR::Application.routes.draw do
   post 'competences/attach' => 'competences#attach'
   get 'competence/:c_id/detach_from/:t_id' => 'competences#detach', as: :competence_detach
 
-  get  "frames/index"
-  get "frames/list"
-  post  "frames/translate"
-  post  "frames/createframe"
+
+
   post "frameadmin/createframe"
   post "frameadmin/updateframe"
+  get "frameadmin/results"
+  get "frameadmin/mistakes"
 
   post "framestudent/createstudentframe"
   post "framestudent/updateframe"

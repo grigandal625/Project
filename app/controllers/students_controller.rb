@@ -26,4 +26,5 @@ class StudentsController < ApplicationController
       role: 'student'}
   end
 
+
 end

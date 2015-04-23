@@ -1,6 +1,7 @@
 #coding: utf-8
-class FramestudentController < ApplicationController
-  layout 'test'
+class FramestudentController <  ApplicationController
+skip_before_filter :verify_authenticity_token
+
   def index
 
   end
@@ -24,7 +25,10 @@ class FramestudentController < ApplicationController
     redirect_to framestudent_path(@studentframe.id)
   end
 
-
+  def destroy
+    Studentframe.find(params[:id]).destroy
+    redirect_to :back
+  end
 
 
   def updateframe
@@ -43,14 +47,17 @@ class FramestudentController < ApplicationController
       frame.mistakes = "Ошибки в фрейме: "  + framestudentcode.mistakes.to_s
 
       if params[:commit]  == "Завершить"
-        solver = FrameSolver.new
-        solver.inic(framestudentcode,ecode )
-        solver.differentnames
-        frame.studentmistakes = solver.mistakes.to_s
-        frame.result =  100 + solver.result
+        @solver = FrameSolver.new
+        @solver.inic(framestudentcode,ecode )
+        @solver.differentnames
+
+        frame.studentmistakes = @solver.mistakes.to_s
+        frame.kbstudentmistakes = @solver.getstring
+        frame.result =  (100 + @solver.result)
 
 
         frame.isfinish = true
+
 
       end
     if frame.result.to_i < 0
