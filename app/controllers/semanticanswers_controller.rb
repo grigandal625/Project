@@ -44,7 +44,7 @@ skip_before_filter :verify_authenticity_token
   
   def updatesemanticjson 
   	@semantic = Semanticnetwork.find(params[:id])
-    @semantic.result = ""
+    @semantic.mistakes = ""
   	@user = User.find (session["user_id"])
   		if (@user.role == 'admin' || (@user.role == 'student' && !@semantic.iscomplite))
   			@semantic.json = params[:json]
@@ -56,14 +56,14 @@ skip_before_filter :verify_authenticity_token
   			
   			if (@semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson) > 0 )
   				result -= @semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson)
-          @semantic.result += "Ошибка в предикатной вершине\n"
+          @semantic.mistakes += "Ошибка в предикатной вершине\n"
   			end
   			print ("result p=" )
   			print (result )
   			
   			if (@semantic.check_act(@semantic.json, @semantic.etalon.etalonjson) > 0 )
   				result -= @semantic.check_act(@semantic.json, @semantic.etalon.etalonjson)
-          @semantic.result += "Ошибка в определении количества актантов ситуации\n"
+          @semantic.mistakes += "Ошибка в определении количества актантов ситуации\n"
   			end
 	  			
   			
@@ -72,54 +72,54 @@ skip_before_filter :verify_authenticity_token
   			
   			if (@semantic.check_repetition(@semantic.json) > 0 )
   				result -= @semantic.check_repetition(@semantic.json)
-          @semantic.result += "Наличие повторяющихся актантов\n"
+          @semantic.mistakes += "Наличие повторяющихся актантов\n"
   			end
   			
   			if (@semantic.is_not_link(@semantic.json,@semantic.etalon.etalonjson) > 0)
   				result -= @semantic.is_not_link(@semantic.json,@semantic.etalon.etalonjson)
-          @semantic.result += "Есть недостающие связи"
+          @semantic.mistakes += "Есть недостающие связи"
   			end 
   			print ("result = repetition" )
   			print (result )
   			
   			if (@semantic.check_goodNodes(@semantic.json,@semantic.etalon.etalonjson) > 0 )
   				result -= @semantic.check_goodNodes(@semantic.json, @semantic.etalon.etalonjson)
-          @semantic.result += "Ошибка в определении типа актанта\n"
+          @semantic.mistakes += "Ошибка в определении типа актанта\n"
   			end
   			print ("result =" )
   			print (result)
   			
   			if (@semantic.search_outlength(@semantic.json,@semantic.etalon.etalonjson) > 0 )
   				result -= @semantic.search_outlength(@semantic.json, @semantic.etalon.etalonjson)
-          @semantic.result += "Ошибка в определении вершины-понятия\n"
+          @semantic.mistakes += "Ошибка в определении вершины-понятия\n"
   			end
   			print ("result =" )
   			print (result)
   			
   			if (@semantic.search_deepcase(@semantic.json,@semantic.etalon.etalonjson) > 0 )
   				result -= @semantic.search_deepcase(@semantic.json, @semantic.etalon.etalonjson)
-          @semantic.result += "Ошибка в определении типа дуги для очередной вершины\n"
+          @semantic.mistakes += "Ошибка в определении типа дуги для очередной вершины\n"
   			end
   			print ("result =" )
   			print ("///////-----////")
   			print (result)
   			if (result > 0 && result < 20)
-          @semantic.result += "Очень плохой результат >:-("
+          @semantic.mistakes += "Очень плохой результат >:-("
   			end
   			if (result >= 20 && result < 40)
-          @semantic.result += "Плохой результат :("
+          @semantic.mistakes += "Плохой результат :("
   			end
   			if (result >= 40 && result <60)
-          @semantic.result += "не самый плохой результат :-| "
+          @semantic.mistakes += "не самый плохой результат :-| "
   			end
   			if ( result >= 60 && result < 80)
-          @semantic.result += "Хороший результат :) "
+          @semantic.mistakes += "Хороший результат :) "
   			end
   			if ( result >= 80 && result < 100)
-          @semantic.result += "Отличный результат :3 "
+          @semantic.mistakes += "Отличный результат :3 "
   			end
   			if ( result == 100)
-          @semantic.result += "\m/ Отлично \m/ :3 "
+          @semantic.mistakes += "\m/ Отлично \m/ :3 "
   			end
   			
   			  			
@@ -137,6 +137,6 @@ skip_before_filter :verify_authenticity_token
   
   def getmistakes
   	@semantic = Semanticnetwork.find(params[:id])
-  	render text: @semantic.result
+  	render text: @semantic.mistakes
   end
 end
