@@ -113,9 +113,9 @@ end
       end
 
       if ! find
-        self.result = self.result - 10
+        self.result = self.result-10
         self.mistakes << "Значение не найдено " + eslot.name
-        self.omistake.valuenotFoundMistakes +1
+        self.omistake.valuenotFoundMistakes += 1
       end
     end
   end
