@@ -12,7 +12,17 @@
  *= require auth
  */
 
-table.standardTable
-{
-	margin: 0 auto;
+table.standardTable {
+    margin: 0 auto;
+}
+
+.planning-window {
+    background-color: #aaaaaa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-left: 0;
+    margin-left: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }

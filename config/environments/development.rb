@@ -26,4 +26,7 @@ UIR::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  config.planning_bin = Rails.root.join('bin', 'fd').to_s
+  config.planning_kb = Rails.root.join('planning_kb').to_s
 end

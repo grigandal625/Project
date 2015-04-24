@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20150416082533) do
+=======
+ActiveRecord::Schema.define(version: 20150405083353) do
+>>>>>>> planning
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -304,16 +308,47 @@ ActiveRecord::Schema.define(version: 20150416082533) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
   create_table "problem_areas", id: false, force: true do |t|
     t.integer  "ka_result_id"
     t.integer  "ka_topic_id"
     t.float    "mark",         default: 0.0, null: false
+=======
+  create_table "planner_events", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "type_id"
+    t.string   "description"
+>>>>>>> planning
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
   add_index "problem_areas", ["ka_result_id"], name: "index_problem_areas_on_ka_result_id"
   add_index "problem_areas", ["ka_topic_id"], name: "index_problem_areas_on_ka_topic_id"
+=======
+  create_table "planning_sessions", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "closed",     default: 0
+    t.string   "state"
+    t.string   "plan"
+    t.string   "procedure"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "planning_tasks", force: true do |t|
+    t.integer  "planning_session_id"
+    t.integer  "closed",              default: 0
+    t.string   "executor"
+    t.string   "result"
+    t.string   "action"
+    t.string   "description"
+    t.string   "params"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+>>>>>>> planning
 
   create_table "results", force: true do |t|
     t.integer  "student_id"
@@ -345,7 +380,7 @@ ActiveRecord::Schema.define(version: 20150416082533) do
     t.integer  "etalon_id"
     t.integer  "student_id"
     t.text     "json"
-    t.text     "mistakes",   default: " Вы еще не прошли тест :) "
+    t.text     "result",     default: " Вы еще не прошли тест :) "
     t.boolean  "iscomplite", default: false
     t.integer  "rating"
     t.datetime "created_at"

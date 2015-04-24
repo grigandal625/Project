@@ -1,0 +1,6 @@
+
+<a style="font-size: 12pt;">Log</a><br/>
+
+<% get_planning_log().each do |ev| %>
+    <a style="font-size: 8pt;"><%= ev["created_at"] %> [<%= ev["event"] %>, user <%=ev["user"] %>] <%=ev["descr"] %></a><br/>
+<% end %>
