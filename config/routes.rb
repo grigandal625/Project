@@ -71,6 +71,10 @@ UIR::Application.routes.draw do
   get  "planning/update"
   get  "planning/begin_task"
   get  "planning/close_task"
+
+  get  "dummy/index"
+  get  "dummy/execute"
+  get  "dummy/commit"
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

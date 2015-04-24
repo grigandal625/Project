@@ -16,7 +16,7 @@
 <% end %>
 <% if psession.plan %>
 <% psession.plan.each do |pt| %>
-    <a style="font-size: 10pt;"><%= pt["description"] %>[<%= (pt["available"] && (!cur_task)) ? link_to("Приступить", :controller => "planning", :action => "begin_task", :plan_step => pt["number"], :remote => true) : nil %>]</a><br/>
+    <a style="font-size: 10pt;"><%= pt["description"] %>[<%= (pt["available"] && (!cur_task)) ? link_to("Приступить", :controller => "planning", :action => "begin_task", :plan_step => pt["number"], :remote => false) : nil %>]</a><br/>
 <% end %>
 <% end %>
 
