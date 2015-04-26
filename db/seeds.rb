@@ -1,5 +1,11 @@
 ﻿#coding=utf-8
 
+test_group = Group.create(number: 'Test group')
+st = test_group.students.create(fio: "Test Student")
+testuser = st.create_user(login: 'student0', pass: Digest::MD5.hexdigest('lolka'), role: 'student')
+
+admin = User.create(login: 'admin', pass: Digest::MD5.hexdigest('lgkofpes'), role: 'admin')
+
 MethodicalMaterial.create(
   name: 'Components',
   title: '<h1>Методические материалы</h1>',
@@ -1265,6 +1271,7 @@ MethodicalMaterial.create(
                                             <p class="text-center"><img class="img-thumbnail img-responsive" src="/assets/done_test_psycho.png"></p>
                                             <p class="indent lead font-lg bg-danger">Если в тесте есть хотя бы один вопрос без ответа, то система не разрешит вам его завершить. Должны быть даны ответы на все вопросы.</p>
                                             <h4 class="text-center">Будьте внимательны, и&nbsp;удачи!</h4>')
+
 task = Task.create(sentence1: 'По итогам научной конференции МИФИ-2008 срочно произвести награждение   дипломами и премиями МИФИ  лучших студентов в  актовом зале МИФИ с 10 до 12.',
                    sentence2: 'Какими дипломами будут награждены лучшие студенты МИФИ в актовом зале в апреле 2008 года?',
                    sentence3: 'На научную конференцию в город Н в сентябре 2008 года могут поехать студенты старших курсов МИФИ  с докладами.')
@@ -1331,3 +1338,4 @@ task.create_s_answer(answer: '[null,null,null]')
 
 
 User.create(login: 'root', pass: Digest::MD5.hexdigest('root123qwerty'), role: 'admin')
+

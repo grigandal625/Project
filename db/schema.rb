@@ -304,6 +304,36 @@ ActiveRecord::Schema.define(version: 20150416082533) do
     t.datetime "updated_at"
   end
 
+  create_table "planner_events", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "type_id"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "planning_sessions", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "closed",     default: 0
+    t.string   "state"
+    t.string   "plan"
+    t.string   "procedure"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "planning_tasks", force: true do |t|
+    t.integer  "planning_session_id"
+    t.integer  "closed",              default: 0
+    t.string   "executor"
+    t.string   "result"
+    t.string   "action"
+    t.string   "description"
+    t.string   "params"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "problem_areas", id: false, force: true do |t|
     t.integer  "ka_result_id"
     t.integer  "ka_topic_id"

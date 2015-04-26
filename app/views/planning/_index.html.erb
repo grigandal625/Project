@@ -1,0 +1,46 @@
+
+<div class="planning-window" stype="height: 200px; width: 400px; overflow-y: scroll;">
+    <div class="planning_content" style="height: 200px; width: 400px; overflow-y: scroll;">
+<% psession = current_planning_session() 
+    cur_task = psession ? psession.current_task() : nil
+%>
+
+<% if (psession != nil) %>
+<a>Текущий план:</a><br>
+
+<% psession.completed_tasks.each do |ct| %>
+    <a style="font-size: 10pt;"><%= ct.description %> [Завершено]</a><br/>
+<% end %>
+<% if cur_task %>
+    <a style="font-size: 10pt;"><%= cur_task.description %> [Выполняется, <%= link_to("Завершить", :controller => "planning", :action => "close_task", :task => cur_task, :remote => true)%>]</a><br/>
+<% end %>
+<% if psession.plan %>
+<% psession.plan.each do |pt| %>
+    <a style="font-size: 10pt;"><%= pt["description"] %>[<%= (pt["available"] && (!cur_task)) ? link_to("Приступить", :controller => "planning", :action => "begin_task", :plan_step => pt["number"], :remote => false) : nil %>]</a><br/>
+<% end %>
+<% end %>
+
+------------------<br/>
+
+<%= !cur_task ? link_to("Replan", :controller => "planning", :action => "update", :remote => true ) : nil%><br/>
+<%= link_to "Close planning session", controller: "planning", action: "close_session", id: psession.id, :remote => true %><br/>
+
+<% else %>
+
+Для запуска интеллектуального планировщика выберете необходимый пункт.<br/>
+
+<% if(@user.role == 'admin') %>
+    <%= link_to "Start TPP 'Tutor IES Development Designtime (first time)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_initial", :remote => true %><br/>
+    <%= link_to "Start TPP 'Tutor IES Development Designtime (reengineering)'", controller: "planning", action: "new_session", procedure: "tutor_designtime_reeng", :remote => true %><br/>
+<% else %>
+    <%= link_to "Start TPP 'Tutor IES Development Runtime'", controller: "planning", action: "new_session", procedure: "tutor_runtime", :remote => true %><br/>
+<% end %>
+
+<% end %>
+
+<% if(@user.role == 'admin') %>
+    <%= render partial:'planning/log' %>
+<% end %>
+
+</div>
+</div>
