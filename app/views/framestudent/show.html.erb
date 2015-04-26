@@ -1,7 +1,57 @@
 Оценка : <%=   @studentframe.result%>
 Ошибки : <%=   @studentframe.studentmistakes%>
+
+
 <%= stylesheet_link_tag "framestudent" %>
+<br>
+ <div align="center"> Время(<label id="min" contentEditable=true>15</label>:<label id="sec" contentEditable=true>0</label>:<label id="complete" contentEditable=true></label>) </div>
+
+
 <script>
+
+
+    var horcreat =  parseInt("<%=@studentframe.created_at.hour %>");
+    var mincreat =  parseInt("<%=@studentframe.created_at.min %>")*horcreat;
+    var seccreat =  parseInt("<%=@studentframe.created_at.sec %>");
+
+    var minutes = 1 -  (parseInt("<%=Time.now.hour * Time.now.min  %>") - mincreat);
+    var seconds = - (parseInt("<%= Time.now.sec %>") - seccreat);
+    if (seconds < 0)
+    {
+        seconds = 60 - seccreat;
+    }
+
+    //alert ("<%=@mytime%>" + " " + "<%=@studentframe.created_at %>")
+    //alert(min + " " + sec)
+    var time = []
+    time.push(minutes);
+    time.push(seconds);
+    timerId = setInterval(function() {
+
+        time[1] --;
+        if (time[1] < 0)
+        {
+            time[1] = 59
+            time[0] --;
+        }
+        $("#min").text(time[0]);
+        $("#sec").text(time[1]);
+        if (time[0] <= 0)
+        {
+            $("#complete").text("ЗАВЕРШИТЬ");
+            $("#min").text(0);
+            $("#sec").text(0);
+
+        }
+
+
+    }, 1000);
+
+</script>
+
+
+<script>
+
     function insertTab(o, e)
     {
         var kC = e.keyCode ? e.keyCode : e.charCode ? e.charCode : e.which;
@@ -31,21 +81,7 @@
         return true;
     }
 
-    function HighlightTextareaText(nameTextArea, strSearch) {
-        eTextarea = document.getElementById(nameTextArea);
-        strLength = strSearch.length;
-        if (strLength <= 0)
-            return;
-        contents = eTextarea.value;
-        startPos = contents.indexOf(strSearch);
-        if (startPos < 0)
-            return;
-        eTextarea.selectionStart = startPos;
-        eTextarea.selectionEnd = startPos + strLength;
-        eTextarea.focus();
-    }
 
-    HighlightTextareaText("#studentcode", ")")
 
 
 </script>
@@ -53,6 +89,9 @@
 <%= form_tag(framestudent_updateframe_path , method: "POST") do %>
     <div id="line">
       <%= hidden_field_tag(:id, value=params[:id])%>
+
+
+
       <%= label_tag(name="Название: " + @studentframe.etalonframe.name)%>
       <br>
       <%= text_area_tag(:studentcode, @studentframe.studentcode, autofocus: true,rows: 20,  cols: 80, onkeydown: "insertTab(this, event)" , maxlength: 2500) %>

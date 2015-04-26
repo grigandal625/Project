@@ -11,6 +11,7 @@ skip_before_filter :verify_authenticity_token
     @framestudentcode = Frame.new
     @framestudentcode.inic(@studentframe.studentcode)
     @framestudentcode.createframe(@studentframe.studentcode)
+    @mytime = Time.now
   end
 
   def createstudentframe
@@ -21,7 +22,11 @@ skip_before_filter :verify_authenticity_token
     @studentframe.mistakes = ""
     @studentframe.isfinish = false
     @studentframe.studentcode = @studentframe.etalonframe.studentcode
+    @studentframe.created_at= Time.now
     @studentframe.save
+
+
+
     redirect_to framestudent_path(@studentframe.id)
   end
 
