@@ -110,14 +110,16 @@ class KaDetailResult
 
     answers.each do |a, _buf|
       ans = KaAnswer.find(a)
-      if ans.correct != 0
-        question_marks[ans.ka_question_id][:score] += 1.0 / question_marks[ans.ka_question_id][:right_ans_count]
-        @detail_questions[ans.ka_question_id].mark_right_count += 1
-      else
-        question_marks[ans.ka_question_id][:score] -= 1.0 / question_marks[ans.ka_question_id][:wrong_ans_count]
-        @detail_questions[ans.ka_question_id].mark_wrong_count += 1
+      if ans
+        if ans.correct != 0
+          question_marks[ans.ka_question_id][:score] += 1.0 / question_marks[ans.ka_question_id][:right_ans_count]
+          @detail_questions[ans.ka_question_id].mark_right_count += 1
+        else
+          question_marks[ans.ka_question_id][:score] -= 1.0 / question_marks[ans.ka_question_id][:wrong_ans_count]
+          @detail_questions[ans.ka_question_id].mark_wrong_count += 1
+        end
+        @detail_questions[ans.ka_question_id].detail_answers[ans.id].student_correct = 1
       end
-      @detail_questions[ans.ka_question_id].detail_answers[ans.id].student_correct = 1
     end
 
     sum_score = 0
