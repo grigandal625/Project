@@ -47,7 +47,7 @@ class FrameSolver
         end
       end
       if ! find
-        self.result = self.result - 50
+        self.result = self.result - 100
         self.mistakes << "Ненайден фрейм " + eframe.name
         self.omistake.framenamemistakes += 1
       end

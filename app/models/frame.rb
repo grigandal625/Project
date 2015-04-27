@@ -93,7 +93,7 @@ class Frame
     else
       self.inherit =  ["ako", "instance"]
       self.classification =  [ "generic", "individual"]
-      self.values = ["value", "default", "require", "prefer", "if_needed"]
+      self.values = ["value", "default", "require", "prefer", "if-needed"]
       self.frames = []
       self.forUser = []
       self.etalontree = tree

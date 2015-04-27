@@ -53,3 +53,18 @@
     
   <% end %>
 </table>
+
+<%= form_tag(students_passupdate_path , method: "POST") do %>
+    <div id="line">
+      <%= hidden_field_tag(:id, value=@student.id)%>
+
+
+
+      <%= label_tag(name="Новый пароль: " )%>
+      <%= text_field_tag(:newpass, "") %>
+
+
+      <%= submit_tag("Обновить") %>
+
+    </div>
+<% end %>

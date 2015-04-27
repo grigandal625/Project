@@ -17,6 +17,12 @@ class StudentsController < ApplicationController
     redirect_to edit_group_path(params[:group_id])
   end
 
+  def passupdate
+    st = User.where("student_id" => params[:id])[0]
+    st.pass = Digest::MD5.hexdigest(params[:newpass])
+    st.save
+    redirect_to :back
+  end
   private
   def make_user_data(student)
     return {login: student.group.number[-3..-1] +
@@ -25,6 +31,7 @@ class StudentsController < ApplicationController
       pass: Digest::MD5.hexdigest(rand(36**10).to_s(36)),
       role: 'student'}
   end
+
 
 
 end

@@ -4,23 +4,20 @@
 
 <%= stylesheet_link_tag "framestudent" %>
 <br>
- <div align="center"> Время(<label id="min" contentEditable=true>15</label>:<label id="sec" contentEditable=true>0</label>:<label id="complete" contentEditable=true></label>) </div>
+ <div align="center"> Время(<label id="min" contentEditable=true></label>:<label id="sec" contentEditable=true></label>:<label id="complete" contentEditable=true></label>) </div>
 
 
 <script>
 
 
-    var horcreat =  parseInt("<%=@studentframe.created_at.hour %>");
-    var mincreat =  parseInt("<%=@studentframe.created_at.min %>")*horcreat;
-    var seccreat =  parseInt("<%=@studentframe.created_at.sec %>");
 
-    var minutes = 1 -  (parseInt("<%=Time.now.hour * Time.now.min  %>") - mincreat);
-    var seconds = - (parseInt("<%= Time.now.sec %>") - seccreat);
-    if (seconds < 0)
-    {
-        seconds = 60 - seccreat;
-    }
 
+    var mytime = <%= 900 - ( (Time.now.to_i).floor - (@studentframe.created_at.to_i).floor) %>
+    var minutes =  (mytime/60).toFixed(0);
+    var seconds =  (mytime % 60);
+    //alert(minutes)
+    //alert(seconds)
+    //alert("<%= 900 - ( (Time.now.to_i).floor - (@studentframe.created_at.to_i).floor) %>")
     //alert ("<%=@mytime%>" + " " + "<%=@studentframe.created_at %>")
     //alert(min + " " + sec)
     var time = []

@@ -2,6 +2,8 @@
 class FrameadminController < AdminToolsController
   def index
     @etalons = Etalonframe.all
+
+
   end
 
   def show
@@ -11,6 +13,8 @@ class FrameadminController < AdminToolsController
     @framecode = Frame.new
     @framecode.inic(@etalon.framecode)
     @framecode.createframe(@etalon.framecode)
+
+
   end
 
   def createframe

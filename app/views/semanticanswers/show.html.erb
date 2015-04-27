@@ -10,8 +10,47 @@
 <script type="text/javascript" src="/jquery.js"></script>
 <script type="text/javascript" src="/raphael.js"></script>
 
+<div align="center"> Время(<label id="min" contentEditable=true></label>:<label id="sec" contentEditable=true></label>:<label id="complete" contentEditable=true></label>) </div>
+
 
 <script>
+
+
+
+
+    var mytime = <%= 900 - ( (Time.now.to_i).floor - (@semantic.created_at.to_i).floor) %>
+    var minutes =  (mytime/60).toFixed(0);
+    var seconds =  (mytime % 60);
+
+    var time = []
+    time.push(minutes);
+    time.push(seconds);
+    timerId = setInterval(function() {
+
+        time[1] --;
+        if (time[1] < 0)
+        {
+            time[1] = 59
+            time[0] --;
+        }
+        $("#min").text(time[0]);
+        $("#sec").text(time[1]);
+        if (time[0] <= 0)
+        {
+            $("#complete").text("ЗАВЕРШИТЬ");
+            $("#min").text(0);
+            $("#sec").text(0);
+
+        }
+
+
+    }, 1000);
+
+</script>
+<script>
+
+
+
 var nodes = [];
 window.onload = function() 
 {
