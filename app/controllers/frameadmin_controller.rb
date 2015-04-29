@@ -44,7 +44,38 @@ class FrameadminController < AdminToolsController
 
 
   def results
-    @results = Studentframe.all
+    @groups = Group.all
+    @date_from =Time.now.to_date
+    @date_to = Time.now.to_date
+    if not params[:date].nil?
+      @date_from = params[:date][:from]
+      @date_to = params[:date][:to]
+    end
+    group = params[:group] || ""
+    students = []
+    if group == ""
+      group = Group.all
+      for i in 0..group.length - 1
+        for j in 0..group[i].students.length - 1
+          students.push(group[i].students[j].id)
+        end
+      end
+    else
+      group = Group.find(params[:group])
+      for i in 0..group.students.length - 1
+        students.push(group.students[i].id)
+      end
+    end
+    print "----------"
+    print students.to_json
+
+        @results = Studentframe.where( :created_at => @date_from.to_date..@date_to.to_date.tomorrow).where(:student_id => students)
+
+
+
+
+
+
   end
 
 

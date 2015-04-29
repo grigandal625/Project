@@ -32,7 +32,7 @@ skip_before_filter :verify_authenticity_token
   end
   
   def results 
-	 if params[:date] == nil
+=begin	 if params[:date] == nil
       @date_from = 1.year.ago
       @date_to = Date.today
     else
@@ -45,8 +45,38 @@ skip_before_filter :verify_authenticity_token
     
     @results = []
 
-    @semantic = Semanticnetwork.all    
-   
+    @semantic = Semanticnetwork.all
+=end
+
+  @groups = Group.all
+  @date_from =Time.now.to_date
+  @date_to = Time.now.to_date
+  if not params[:date].nil?
+    @date_from = params[:date][:from]
+    @date_to = params[:date][:to]
   end
+  group = params[:group] || ""
+  students = []
+  if group == ""
+    group = Group.all
+    for i in 0..group.length - 1
+      for j in 0..group[i].students.length - 1
+        students.push(group[i].students[j].id)
+      end
+    end
+  else
+    group = Group.find(params[:group])
+    for i in 0..group.students.length - 1
+      students.push(group.students[i].id)
+    end
+  end
+  print "----------"
+  print students.to_json
+
+  @results = Semanticnetwork.where( :created_at => @date_from.to_date..@date_to.to_date.tomorrow).where(:student_id => students)
+
+
+
+end
   
 end

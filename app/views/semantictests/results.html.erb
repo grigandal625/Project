@@ -1,79 +1,57 @@
 
-<%= content_for :head do %>
 
-<link rel="stylesheet" type="text/css" href="/stylesheets/table.css">
-<script src="/jquery.tablesorter.min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#result").tablesorter({ sortList: [[0, 1]] });
-        });
-    </script>
-<% end %>
 
 
 <% if @showmenu == true %>
-  <%= form_tag semantictests_results_path, method: "GET" do %>
-    <%= label_tag nil, "С:" %>
-    <%= date_field :date, :from, value: @date_from.to_s %>
-    <%= label_tag nil, "По:" %>
-    <%= date_field :date, :to, value: @date_to.to_s %>
-    <%= label_tag nil, "Группа:" %>
-    <%= select_tag :group,
-      options_from_collection_for_select(@groups, "id", "number"),
-      include_blank: true%>
-    <%= submit_tag "Найти" %>
-  <% end %>
+    <%= form_tag semantictests_results_path, method: "GET" do %>
+        <%= label_tag nil, "С:" %>
+        <%= date_field :date, :from, value: @date_from.to_s %>
+        <%= label_tag nil, "По:" %>
+        <%= date_field :date, :to, value: @date_to.to_s %>
+        <%= label_tag nil, "Группа:" %>
+        <%= select_tag :group,
+                       options_from_collection_for_select(@groups, "id", "number"),
+                       include_blank: true%>
+        <%= submit_tag "Найти" %>
+    <% end %>
 <% end %>
 
 
-<table id="result" border="1"> 
-<caption class="top"><b>Результаты</b></caption>
-<thead>
-<tr class ="center">
-	<th>ФИО</th>
-	<th>Оценка</th>
-	
+<table id="result" border="1">
+  <caption class="top"><b>Результаты</b></caption>
+  <thead>
+  <tr class ="center">
+    <th>ФИО</th>
+    <th>Оценка</th>
+
     <th>Ситуация</th>
     <th>Дата</th>
     <th>Группа</th>
-    
-</tr>
-</thead>
-<% @semantic.each do |test| %>
 
-   		<%if (  (@date_from <= test.updated_at.to_date && @date_to >= test.updated_at.to_date)  && test.student.group.id  == params[:group].to_i)%>
-   			
-   		
-	   		<tr class ="center">
-					 <td><%= test.student.fio %></td>
-					 <td><%= link_to  test.rating, semanticanswer_path(test)%></td>
-					 <td><%= link_to  test.etalon.name, semantictest_path(test.etalon)%></td>
-					 <td><%=test.updated_at.to_date%></td>
-					 <td><%= test.student.group.number %></td>
-					 <td><%= link_to  "Удалить", semanticanswer_path(test), method: :delete , data: { confirm: 'Are you sure?' }%></td>
-				 </tr>
-		<%end%>
-		
-   		<%if (   params[:group] == "")%>
-   			   		
-	   		<tr class ="center">
-					 <td><%= test.student.fio %></td>
-					 <td><%= link_to  test.rating, semanticanswer_path(test)%></td>
-					 <td><%= link_to  test.etalon.name, semantictest_path(test.etalon)%></td>
-					 <td><%=test.updated_at.to_date%></td>
-					 <td><%= test.student.group.number %></td>
-					 <td><%= link_to  "Удалить", semanticanswer_path(test), method: :delete , data: { confirm: 'Are you sure?' }%></td>
-				 </tr>
-   		<%end%>
-	   		
-   		
+    <th></th>
 
-   				 
+  </tr>
+  </thead>
+  <% @results.each do |test| %>
 
 
-			   
 
-      
-    
+
+
+      <tr class ="center">
+        <td><%= test.student.fio %></td>
+        <td><%= link_to  test.rating, semanticanswer_path(test)%></td>
+        <td><%= link_to  test.etalon.name, semantictest_path(test.etalon)%></td>
+
+
+
+
+        <td><%= test.created_at.to_date %></td>
+        <td><%= test.student.group.number %></td>
+        <td><%= link_to  "Удалить", semanticanswer_path(test), method: :delete , data: { confirm: 'Are you sure?' }%></td>
+
+
+
+      </tr>
   <% end %>
 </table>

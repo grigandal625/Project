@@ -1,4 +1,20 @@
 
+<% if @showmenu == true %>
+    <%= form_tag frameadmin_results_path, method: "GET" do %>
+        <%= label_tag nil, "С:" %>
+        <%= date_field :date, :from, placeholder: "YYYY-MM-DD", value: @date_from.to_date %>
+        <%= label_tag nil, "По:" %>
+        <%= date_field :date, :to, placeholder: "YYYY-MM-DD", value: @date_to.to_date %>
+        <%= label_tag nil, "Группа:" %>
+        <%= select_tag :group,
+                       options_from_collection_for_select(@groups, "id", "number"),
+                       include_blank: true
+
+
+                       %>
+        <%= submit_tag "Найти" %>
+    <% end %>
+<% end %>
 
 <table id="result" border="1">
   <caption class="top"><b>Результаты</b></caption>
@@ -31,7 +47,7 @@
                 if ( test.etalonframe == nil)
                   nameetalon = "Вариант Удален"
                 else
-                  nameetalon =    link_to "Просмотр ", framestudent_path(test)
+                  nameetalon =    link_to test.etalonframe.name, framestudent_path(test)
                   #nameetalon = test.etalonframe.name
                 end
             %>
