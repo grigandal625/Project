@@ -1,0 +1,21 @@
+table id="table" border="1"
+  thead
+    tr
+      th.name = "ФИО"
+      th.group = "Группа"
+      th.assessment = "Оценка"
+      th.problem_areas = "Проблемные зоны"
+  tbody
+    - KaResult.where(ka_test_id: @test.id).each do |r|
+      - if r.user.student
+        tr
+          td.name = r.user.student.fio
+          td.group = r.user.student.group.number
+          td.assessment = r.assessment
+          td.problem_areas
+            table border="1" width="100%"
+              tbody
+                - r.problem_areas.each do |p|
+                  tr
+                    td = p.ka_topic.text
+                    td = p.mark

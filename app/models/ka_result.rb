@@ -89,6 +89,9 @@ class KaDetailResult
     @right_count = 0
     @wrong_count = 0
 
+    @problem_areas = {}
+    @competence_coverages = {}
+
     question_marks = {}
     questions = variant.ka_question.each
 
@@ -125,10 +128,19 @@ class KaDetailResult
     sum_score = 0
     sum_diff = 0
 
+    topic_marks = {}
+
+    questions.each do |q|
+      topic_marks[q.ka_topic_id] = {sum_score: 0.0, sum_diff: 0.0}
+    end
+
     questions.each do |q|
       sum_score += q.difficulty * question_marks[q.id][:score]
       sum_diff += q.difficulty
       @detail_questions[q.id].assessment = q.difficulty * question_marks[q.id][:score]
+
+      topic_marks[q.ka_topic_id][:sum_score] += @detail_questions[q.id].assessment
+      topic_marks[q.ka_topic_id][:sum_diff] += q.difficulty
     end
 
     @assessment = sum_score / sum_diff
@@ -137,6 +149,26 @@ class KaDetailResult
     end
     @assessment *= 100.0
     @assessment = @assessment.to_i
+
+    competence_marks = {}
+
+    topic_marks.each do |id, t|
+      @problem_areas[id] = t[:sum_score] / t[:sum_diff]
+      @problem_areas[id] = 0 if @problem_areas[id] < 0
+
+      top = KaTopic.find(id)
+      top.topic_competences.each do |c|
+        if not competence_marks.has_key?(c.competence_id)
+          competence_marks[c.competence_id] = {sum_score: 0.0, sum_weight: 0.0}
+        end
+        competence_marks[c.competence_id][:sum_score] += @problem_areas[id] * c.weight
+        competence_marks[c.competence_id][:sum_weight] += c.weight
+      end
+    end
+
+    competence_marks.each do |id, c|
+      @competence_coverages[id] = c[:sum_score] / c[:sum_weight]
+    end
   end
 
   def detail_questions
@@ -145,6 +177,14 @@ class KaDetailResult
 
   def assessment
     @assessment
+  end
+
+  def problem_areas
+    @problem_areas
+  end
+
+  def competence_coverages
+    @competence_coverages
   end
 end
 

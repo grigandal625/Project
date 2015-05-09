@@ -23,6 +23,15 @@ class KaResultsController < ApplicationController
       detail_result = KaDetailResult.new(variant, answers)
       r.assessment = detail_result.assessment
       r.save
+
+      #Юзаются такие костыли, т.к. у ProblemArea и CompetenceCoverage нет ключей
+      detail_result.problem_areas.each do |id, mark|
+        ProblemArea.update_all("mark = #{mark} WHERE ka_result_id = #{r.id} AND ka_topic_id = #{id}")
+      end
+
+      detail_result.competence_coverages.each do |id, mark|
+        CompetenceCoverage.update_all("mark = #{mark} WHERE ka_result_id = #{r.id} AND competence_id = #{id}")
+      end
     end
 
     redirect_to :back
@@ -39,5 +48,10 @@ class KaResultsController < ApplicationController
     end
 
     @detail_result = KaDetailResult.new(@result.ka_variant, answers)
+  end
+
+  def show_problem_areas
+    @test = KaTest.find(params[:test_id])
+    render :layout => false
   end
 end

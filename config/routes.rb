@@ -46,6 +46,7 @@ UIR::Application.routes.draw do
   post 'competences/attach' => 'competences#attach'
   get 'competence/:c_id/detach_from/:t_id' => 'competences#detach', as: :competence_detach
 
+  get 'ka_results/:test_id/problem_areas' => 'ka_results#show_problem_areas', as: :show_problem_areas
 
 
   post "frameadmin/createframe"
