@@ -6,6 +6,9 @@ class KaTopic < ActiveRecord::Base
   has_many :topic_competences, dependent: :delete_all
   has_many :competences, through: :topic_competences
 
+  has_many :topic_constructs, dependent: :delete_all
+  has_many :constructs, through: :topic_constructs
+
   has_many :problem_areas,  dependent: :delete_all
   has_many :ka_results,     through: :problem_areas
 end

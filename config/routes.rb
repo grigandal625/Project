@@ -42,11 +42,15 @@ UIR::Application.routes.draw do
   get '/ka_results/detail/:result_id', to: 'ka_results#detail', as: :show_detail_ka_result
   get '/ka_results/recalc/:id',        to: 'ka_results#recalc', as: :recalc_ka_results
 
+  get 'ka_results/:test_id/problem_areas' => 'ka_results#show_problem_areas', as: :show_problem_areas
+
   resources :competences
   post 'competences/attach' => 'competences#attach'
   get 'competence/:c_id/detach_from/:t_id' => 'competences#detach', as: :competence_detach
 
-  get 'ka_results/:test_id/problem_areas' => 'ka_results#show_problem_areas', as: :show_problem_areas
+  resources :constructs
+  post 'constructs/attach' => 'constructs#attach'
+  get 'constructs/:c_id/detach_from/:t_id' => 'constructs#detach', as: :construct_detach
 
 
   post "frameadmin/createframe"
