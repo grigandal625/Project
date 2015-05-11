@@ -1,0 +1,36 @@
+/TEMP: для отчета ГВ
+p
+table
+  thead
+    th.id = "Идентификатор"
+    th.text = "Название"
+    th.questions = "Номера вопросов"
+  tbody
+    - @topics.each do |t|
+      tr
+        td.id = t.id
+        td.text = t.text
+        td.questions = t.ka_question.pluck(:id).join(", ")
+
+table
+  thead
+    th.id = "Идентификатор"
+    th.text = "Название"
+    th.difficulty = "Сложность"
+    th.answers = "Варианты ответов"
+  tbody
+    - @questions.each do |q|
+      tr
+        td.id = q.id
+        td.text = q.text
+        td.difficulty = q.difficulty
+        td.answers
+          table
+            tbody
+              - q.ka_answer.each do |a|
+                tr
+                  td
+                    - if a.correct == 1
+                      b = a.text
+                    - else
+                      = a.text

@@ -52,6 +52,8 @@ UIR::Application.routes.draw do
   post 'constructs/attach' => 'constructs#attach'
   get 'constructs/:c_id/detach_from/:t_id' => 'constructs#detach', as: :construct_detach
 
+  #TEMP: для отчета ГВ
+  get 'ka_topics/:root_id/tree' => 'ka_topics#show_table_with_questions'
 
   post "frameadmin/createframe"
   post "frameadmin/updateframe"
