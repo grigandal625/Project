@@ -108,6 +108,7 @@ UIR::Application.routes.draw do
 
   root 'menu#index'
   get "test", to: "test#get_task", as: "get_task"
+  get "test/execute", to: "test#execute"
   post "test", to: "test#next_component", as: "next_component"
 
 

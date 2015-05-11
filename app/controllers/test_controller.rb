@@ -1,5 +1,6 @@
 #coding utf-8
 class TestController < ApplicationController
+  include 'PlanningHelper'
   layout 'test'
   before_action :check_student
 
@@ -58,9 +59,19 @@ class TestController < ApplicationController
           result.s_result.log.data =
           @task.s_answer.check_answer(result.s_result.answer)
       end
+
+      task = PlanningTask.find(session["planning_task_id"])
+      task.result = {:delete => {"pending-skills" => "linguistic-skill"}}
+      current_planning_session().commit_task(task)
+
       redirect_to result_path(result)
     end
     result.save
+  end
+
+  def execute
+    session[:planning_task_id] = params["planning_task_id"]
+    redirect_to :action => "get_task"
   end
 
   private
