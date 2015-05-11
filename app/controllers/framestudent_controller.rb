@@ -1,10 +1,17 @@
 #coding: utf-8
 class FramestudentController <  ApplicationController
 skip_before_filter :verify_authenticity_token
+include PlanningHelper
 
   def index
 
   end
+
+def execute
+  session["planning_task_id"] = params[:planning_task_id]
+  createstudentframe
+
+end
 
   def show
     @studentframe = Studentframe.find(params[:id])
@@ -62,6 +69,10 @@ skip_before_filter :verify_authenticity_token
 
 
         frame.isfinish = true
+        task = PlanningTask.find(session[:planning_task_id])
+        task.result = {:delete => {"pending-skills" => "frame-skill"}}
+        current_planning_session().commit_task(task)
+
 
 
       end

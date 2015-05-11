@@ -1,6 +1,8 @@
 #coding: utf-8
 class SemanticanswersController < ActionController::Base
 skip_before_filter :verify_authenticity_token
+include PlanningHelper
+
 
   def index
   		@user = User.find (session["user_id"])
@@ -10,6 +12,11 @@ skip_before_filter :verify_authenticity_token
   		else
   			redirect_to :root
   		end
+  end
+
+  def execute
+    session["planning_task_id"] = params[:planning_task_id]
+    create
   end
 	
   def create 
@@ -130,6 +137,9 @@ skip_before_filter :verify_authenticity_token
   				@semantic.iscomplite = true
   				#@semantic.mistakes = mistakes
   				@semantic.save()
+          task = PlanningTask.find(session[:planning_task_id])
+          task.result = {:delete => {"pending-skills" => "sem-network-skill"}}
+          current_planning_session().commit_task(task)
   		end
   		render text: @semantic.rating
   	

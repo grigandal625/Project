@@ -23,29 +23,19 @@
   <tr class ="center">
     <th>ФИО</th>
     <th>Оценка</th>
-
     <th>Ситуация</th>
     <th>Дата</th>
     <th>Группа</th>
-
     <th></th>
 
   </tr>
   </thead>
   <% @results.each do |test| %>
 
-
-
-
-
       <tr class ="center">
         <td><%= test.student.fio %></td>
         <td><%= link_to  test.rating, semanticanswer_path(test)%></td>
         <td><%= link_to  test.etalon.name, semantictest_path(test.etalon)%></td>
-
-
-
-
         <td><%= test.created_at.to_date %></td>
         <td><%= test.student.group.number %></td>
         <td><%= link_to  "Удалить", semanticanswer_path(test), method: :delete , data: { confirm: 'Are you sure?' }%></td>

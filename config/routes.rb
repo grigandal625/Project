@@ -52,7 +52,9 @@ UIR::Application.routes.draw do
   post "frameadmin/updateframe"
   get "frameadmin/results"
   get "frameadmin/mistakes"
+  get "semanticanswers/execute"
 
+  get "framestudent/execute"
   post "framestudent/createstudentframe"
   post "framestudent/updateframe"
   post "framestudent/finalframe"
@@ -100,6 +102,8 @@ UIR::Application.routes.draw do
   post "semantictests/updateJson"
   post "semanticanswers/getmistakes"
   get  "semanticanswers/new"
+
+
   get  "menu/results"
 
   root 'menu#index'
