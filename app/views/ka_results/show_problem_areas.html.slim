@@ -1,21 +1,30 @@
-table id="table" border="1"
-  thead
-    tr
-      th.name = "ФИО"
-      th.group = "Группа"
-      th.assessment = "Оценка"
-      th.problem_areas = "Проблемные зоны"
-  tbody
-    - KaResult.where(ka_test_id: @test.id).each do |r|
-      - if r.user.student
-        tr
-          td.name = r.user.student.fio
-          td.group = r.user.student.group.number
-          td.assessment = r.assessment
-          td.problem_areas
-            table border="1" width="100%"
-              tbody
-                - r.problem_areas.each do |p|
-                  tr
-                    td = p.ka_topic.text
-                    td = p.mark
+- Group.all[21..24].each do |g|
+  h3 = g.number
+  table border="1"
+    thead
+      tr
+        th.name = "ФИО"
+        th.assessment = "Оценка"
+        th.problem_areas = "Проблемные зоны"
+        th.competences = "Компетенции"
+    tbody
+      - g.students.order(:fio).each do |s|
+        - r = KaResult.find_by(user_id: s.user.id, ka_test_id: @test.id)
+        - if r
+          tr
+            td.name = s.fio
+            td.assessment = r.assessment
+            td.problem_areas
+              table border="1" width="100%"
+                tbody
+                  - r.problem_areas.each do |p|
+                    tr
+                      td = p.ka_topic.text
+                      td = p.mark
+            td.problem_areas
+              table border="1" width="100%"
+                tbody
+                  - r.competence_coverages.each do |c|
+                    tr
+                      td = c.competence.code
+                      td = c.mark
