@@ -1,4 +1,6 @@
 h1 #{@topic.text}
+- if !@task.nil? && @task.executor == "onthology"
+  = link_to "Завершить построение онтологии", ka_topics_commit_path
 h3 Редактировать
 form method="post" action="#{edit_ka_topic_text_path(@topic.id)}"
   div class="row"
