@@ -150,6 +150,29 @@ class KaTestsController < ApplicationController
     end
   end
 
+  def topics_list(topic_id)
+    topics = []
+    while topic_id do
+      topics.push(topic_id)
+      topic = KaTopic.find(topic_id)
+      if not topic
+        break
+      end
+      topic_id = topic.parent_id
+    end
+    s = ""
+    topics = topics.reverse
+    for i in 0..topics.size
+      s += topics[i].to_s
+      if i + 1 <  topics.size
+        s += "."
+      end
+    end
+    return s
+  end
+
+  helper_method :topics_list
+
   private
   def generate_tree(topic_id, step, topics_tree, topics_all, topics)
     topics.push([step, topics_all[topic_id]])
