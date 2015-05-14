@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150509172138) do
+ActiveRecord::Schema.define(version: 20150513114546) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -446,6 +446,16 @@ ActiveRecord::Schema.define(version: 20150509172138) do
 
   add_index "topic_constructs", ["construct_id"], name: "index_topic_constructs_on_construct_id"
   add_index "topic_constructs", ["ka_topic_id"], name: "index_topic_constructs_on_ka_topic_id"
+
+  create_table "topic_relations", id: false, force: true do |t|
+    t.integer  "ka_topic_id"
+    t.integer  "related_topic_id"
+    t.integer  "type",             default: 2, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "topic_relations", ["ka_topic_id"], name: "index_topic_relations_on_ka_topic_id"
 
   create_table "trees", force: true do |t|
     t.datetime "created_at"

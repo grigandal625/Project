@@ -11,4 +11,8 @@ class KaTopic < ActiveRecord::Base
 
   has_many :problem_areas,  dependent: :delete_all
   has_many :ka_results,     through: :problem_areas
+
+  def topic_relations
+    return TopicRelation.where(ka_topic_id: self.id) | TopicRelation.where(related_topic_id: self.id)
+  end
 end

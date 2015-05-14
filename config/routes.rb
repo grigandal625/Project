@@ -54,6 +54,7 @@ UIR::Application.routes.draw do
 
   #TEMP: для отчета ГВ
   get 'ka_topics/:root_id/tree' => 'ka_topics#show_table_with_questions'
+  get 'ka_topics/calc_rel/:root_id' => 'constructs#calculate_relations'
 
   post "frameadmin/createframe"
   post "frameadmin/updateframe"
