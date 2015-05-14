@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150509172138) do
+ActiveRecord::Schema.define(version: 20150513121050) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 20150509172138) do
     t.integer  "ka_topic_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "disable",     default: 0,  null: false
   end
 
   add_index "ka_questions", ["ka_topic_id"], name: "index_ka_questions_on_ka_topic_id"
@@ -193,7 +194,7 @@ ActiveRecord::Schema.define(version: 20150509172138) do
   add_index "ka_variants", ["ka_test_id", "number"], name: "index_ka_variants_on_ka_test_id_and_number"
 
   create_table "logs", force: true do |t|
-    t.text    "mistakes"
+    t.text    "result"
     t.text    "data"
     t.integer "component_id"
     t.string  "component_type"
@@ -395,7 +396,7 @@ ActiveRecord::Schema.define(version: 20150509172138) do
     t.integer  "etalonframe_id"
     t.integer  "student_id"
     t.text     "studentcode"
-    t.text     "result"
+    t.integer  "result"
     t.boolean  "isfinish"
     t.datetime "created_at"
     t.datetime "updated_at"

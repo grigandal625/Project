@@ -42,7 +42,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
-    dragonfly (1.0.7)
+    dragonfly (1.0.9)
       addressable (~> 2.3)
       multi_json (~> 1.0)
       rack
@@ -66,7 +66,7 @@ GEM
     multi_json (1.11.0)
     orm_adapter (0.5.0)
     polyglot (0.3.5)
-    rack (1.5.2)
+    rack (1.5.3)
     rack-test (0.6.3)
       rack (>= 1.0)
     railroady (1.3.0)
@@ -85,9 +85,9 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     rdoc (4.2.0)
-      json (~> 1.4)
     ref (1.0.5)
     remotipart (1.2.1)
+    rice (1.7.0)
     sass (3.2.19)
     sass-rails (4.0.5)
       railties (>= 4.0.0, < 5.0)
@@ -97,6 +97,9 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    slim (3.0.3)
+      temple (~> 0.7.3)
+      tilt (>= 1.3.3, < 2.1)
     sprockets (2.12.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -107,7 +110,12 @@ GEM
       activesupport (>= 3.0)
       sprockets (~> 2.8)
     sqlite3 (1.3.10)
-    therubyracer (0.12.1)
+    tasks_generator (1.4)
+      bundler (~> 1.6)
+      rake
+      rice
+    temple (0.7.5)
+    therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
     thor (0.19.1)
@@ -119,7 +127,7 @@ GEM
       polyglot (>= 0.3.1)
     turbolinks (2.5.3)
       coffee-rails
-    tzinfo (0.3.43)
+    tzinfo (0.3.44)
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
