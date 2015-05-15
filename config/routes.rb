@@ -42,11 +42,18 @@ UIR::Application.routes.draw do
   get '/ka_results/detail/:result_id', to: 'ka_results#detail', as: :show_detail_ka_result
   get '/ka_results/recalc/:id',        to: 'ka_results#recalc', as: :recalc_ka_results
 
+  get 'ka_results/:test_id/problem_areas' => 'ka_results#show_problem_areas', as: :show_problem_areas
+
   resources :competences
   post 'competences/attach' => 'competences#attach'
   get 'competence/:c_id/detach_from/:t_id' => 'competences#detach', as: :competence_detach
 
+  resources :constructs
+  post 'constructs/attach' => 'constructs#attach'
+  get 'constructs/:c_id/detach_from/:t_id' => 'constructs#detach', as: :construct_detach
 
+  #TEMP: для отчета ГВ
+  get 'ka_topics/:root_id/tree' => 'ka_topics#show_table_with_questions'
 
   post "frameadmin/createframe"
   post "frameadmin/updateframe"

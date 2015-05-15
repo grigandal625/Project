@@ -29,7 +29,7 @@ class CompetencesController < ApplicationController
   end
 
   def attach
-    if TopicCompetence.where(ka_topic_id: params[:topic_id], competence_id: params[:competence_id]).empty?
+    if TopicCompetence.where(ka_topic_id: params[:topic_id], competence_id: params[:competence_id]).empty? && !params[:competence_id].nil?
       TopicCompetence.create(ka_topic_id: params[:topic_id], competence_id: params[:competence_id], weight: params[:weight])
     end
 

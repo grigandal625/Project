@@ -4,10 +4,17 @@ form method="post" action="#{edit_ka_question_path(@question.id)}"
   div class="row"
     div class="large-12 columns"
       div class="row collapse"
-        div class="small-8 columns"
+        div class="small-6 columns"
           input type="text" name="text" placeholder="Новый текст" value="#{@question.text}"
         div class="small-2 columns"
           input type="number" name="difficulty" placeholder="Сложность" value="#{@question.difficulty}"
+        div class="small-2 columns"
+          span class="prefix"
+            - if @question.disable != 0
+              input type="checkbox" id="disable" name="disable" checked="checked"
+            - else
+              input type="checkbox" id="disable" name="disable"
+            label for="disable" Отключить
         div class="small-2 columns"
           input type="submit" class="button postfix"
 h3 Новый ответ

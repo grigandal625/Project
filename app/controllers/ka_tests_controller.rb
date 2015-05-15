@@ -99,11 +99,13 @@ class KaTestsController < ApplicationController
 
     questions = []
     KaQuestion.find_each do |q|
-      question_id = q.id
-      topic_id = q.ka_topic_id
-      difficulty = q.difficulty
-      text = q.text
-      questions.push(TasksGenerator::Question.new(question_id, topic_id, difficulty, text))
+      if q.disable == 0
+        question_id = q.id
+        topic_id = q.ka_topic_id
+        difficulty = q.difficulty
+        text = q.text
+        questions.push(TasksGenerator::Question.new(question_id, topic_id, difficulty, text))
+      end
     end
 
     generator = TasksGenerator::Generator.new(config, topics, questions)
@@ -148,11 +150,36 @@ class KaTestsController < ApplicationController
     end
   end
 
+  def topics_list(topic_id)
+    topics = []
+    while topic_id do
+      topics.push(topic_id)
+      topic = KaTopic.find(topic_id)
+      if not topic
+        break
+      end
+      topic_id = topic.parent_id
+    end
+    s = ""
+    topics = topics.reverse
+    for i in 0..topics.size
+      s += topics[i].to_s
+      if i + 1 <  topics.size
+        s += "."
+      end
+    end
+    return s
+  end
+
+  helper_method :topics_list
+
   private
   def generate_tree(topic_id, step, topics_tree, topics_all, topics)
     topics.push([step, topics_all[topic_id]])
-    topics_tree[topic_id].each do |t|
-      generate_tree(t, step + 1, topics_tree, topics_all, topics)
+    if step == 0
+      topics_tree[topic_id].each do |t|
+        generate_tree(t, step + 1, topics_tree, topics_all, topics)
+      end
     end
   end
 end

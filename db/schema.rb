@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416082533) do
+ActiveRecord::Schema.define(version: 20150513121050) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -35,6 +35,12 @@ ActiveRecord::Schema.define(version: 20150416082533) do
   create_table "competences", force: true do |t|
     t.string   "code",        default: "", null: false
     t.string   "description", default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "constructs", force: true do |t|
+    t.string   "name",       default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -134,6 +140,7 @@ ActiveRecord::Schema.define(version: 20150416082533) do
     t.integer  "ka_topic_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "disable",     default: 0,  null: false
   end
 
   add_index "ka_questions", ["ka_topic_id"], name: "index_ka_questions_on_ka_topic_id"
@@ -429,6 +436,17 @@ ActiveRecord::Schema.define(version: 20150416082533) do
 
   add_index "topic_competences", ["competence_id"], name: "index_topic_competences_on_competence_id"
   add_index "topic_competences", ["ka_topic_id"], name: "index_topic_competences_on_ka_topic_id"
+
+  create_table "topic_constructs", id: false, force: true do |t|
+    t.integer  "ka_topic_id"
+    t.integer  "construct_id"
+    t.integer  "mark",         default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "topic_constructs", ["construct_id"], name: "index_topic_constructs_on_construct_id"
+  add_index "topic_constructs", ["ka_topic_id"], name: "index_topic_constructs_on_ka_topic_id"
 
   create_table "trees", force: true do |t|
     t.datetime "created_at"

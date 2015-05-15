@@ -47,6 +47,22 @@ form method="post" action="#{competences_attach_path}"
         div class="small-2 columns"
           input type="submit" class="button postfix"
 
+h3 Новый конструкт
+form method="post" action="#{constructs_attach_path}"
+  div class="row"
+    div class="large-12 columns"
+      div class="row collapse"
+        input type="hidden" name="topic_id" value="#{@topic.id}"
+        div class="small-8 columns"
+          select name="construct_id"
+			- @constructs.each do |c|
+			  option value="#{c.id}"
+			    = c.name
+        div class="small-2 columns"
+          input type="number" name="mark" placeholder="Оценка"
+        div class="small-2 columns"
+          input type="submit" class="button postfix"
+
 h3 Подтемы
 table
   thead
@@ -97,3 +113,19 @@ table
         td.weight = c.weight
         td
           a href="#{competence_detach_path(c.competence_id, @topic.id)}" Удалить
+
+h3 Конструкты
+table
+  thead
+    tr
+      th.id = "Идентификатор"
+      th.name = "Название"
+      th.mark = "Оценка"
+  tbody
+    - TopicConstruct.where(ka_topic_id: @topic.id).each do |c|
+      tr
+        td.id = c.construct_id
+        td.name = Construct.find(c.construct_id).name
+        td.mark = c.mark
+        td
+          a href="#{construct_detach_path(c.construct_id, @topic.id)}" Удалить

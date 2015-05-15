@@ -1,6 +1,9 @@
 h3 Результаты за тест: #{@test.text}
 form
   input type="button" class="button small" onClick="$('#table').table2CSV();" value="Экспорт CSV"
+  |:&nbsp;
+  a href="#{show_problem_areas_path(@test.id)}" target="_blank"
+    input type="button" class="button small" value="Вывести проблемные зоны"
 table id="table"
   thead
     tr
