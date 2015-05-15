@@ -1,4 +1,6 @@
-/TEMP: для отчета ГВ
+/TEMP: костыльный вывод для отчетности
+
+/Перечень тем по курсу с номерами вопросов
 p
 table
   thead
@@ -10,8 +12,14 @@ table
       tr
         td.id = t.id
         td.text = t.text
-        td.questions = t.ka_question.pluck(:id).join(", ")
+        - @arr = []
+        - t.ka_question.each do |q|
+          - if @questions_ids.include?(q.id)
+            - @arr.push(q.id)
+        td.questions = @arr.join(", ")
+        /td.questions = t.ka_question.pluck(:id).join(", ")
 
+/Список самих вопросов с вариантами ответов
 table
   thead
     th.id = "Идентификатор"
@@ -34,3 +42,19 @@ table
                       b = a.text
                     - else
                       = a.text
+
+/Таблица с компетенциями
+p
+table
+  thead
+    th.id = "Идентификатор"
+    th.text = "Название"
+    - Competence.all.each do |c|
+      th = c.code
+  tbody
+    - @topics.each do |t|
+      tr
+        td.id = t.id
+        td.text = t.text
+        - t.topic_competences.each do |c|
+          td = c.weight
