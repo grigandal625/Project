@@ -50,8 +50,12 @@ class KaResultsController < ApplicationController
     @detail_result = KaDetailResult.new(@result.ka_variant, answers)
   end
 
-  def show_problem_areas
+  def show_problem_areas_and_competences_coverage
     @test = KaTest.find(params[:test_id])
-    render :layout => false
+
+    users_ids = KaResult.where(ka_test_id: @test.id).distinct.pluck(:user_id)
+    students_ids = User.where(:id => users_ids).distinct.pluck(:student_id)
+    groups_ids = Student.where(:id => students_ids).distinct.pluck(:group_id)
+    @groups = Group.find(groups_ids)
   end
 end

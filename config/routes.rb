@@ -42,7 +42,7 @@ UIR::Application.routes.draw do
   get '/ka_results/detail/:result_id', to: 'ka_results#detail', as: :show_detail_ka_result
   get '/ka_results/recalc/:id',        to: 'ka_results#recalc', as: :recalc_ka_results
 
-  get 'ka_results/:test_id/problem_areas' => 'ka_results#show_problem_areas', as: :show_problem_areas
+  get 'ka_results/:test_id/problem_areas_and_competences_coverage' => 'ka_results#show_problem_areas_and_competences_coverage', as: :problem_areas_and_competences_coverage
 
   resources :competences
   post 'competences/attach' => 'competences#attach'
@@ -52,8 +52,9 @@ UIR::Application.routes.draw do
   post 'constructs/attach' => 'constructs#attach'
   get 'constructs/:c_id/detach_from/:t_id' => 'constructs#detach', as: :construct_detach
 
-  #TEMP: для отчета ГВ
-  get 'ka_topics/:root_id/tree' => 'ka_topics#show_table_with_questions'
+  get 'ka_topics/:root_id/topics_with_questions' => 'ka_topics#show_topics_with_questions', as: :topics_with_questions
+  get 'ka_topics/:root_id/all_competences' => 'ka_topics#show_all_competences', as: :all_competences
+  get 'ka_topics/:root_id/all_constructs' => 'ka_topics#show_all_constructs', as: :all_constructs
 
   post "frameadmin/createframe"
   post "frameadmin/updateframe"
