@@ -2,8 +2,8 @@ class PlanningController < ApplicationController
     include PlanningHelper
 
     def _index
-        #@psession = current_planning_session()
-        #@cur_task = @psession ? @psession.current_task() : nil
+        @psession = current_planning_session()
+        @cur_task = @psession ? @psession.current_task() : nil
 
         #if(@user.role == 'admin')
         #@events = PlannerEvent.last(20)
@@ -14,6 +14,7 @@ class PlanningController < ApplicationController
     
     def new_session
         case params[:procedure]
+        
         when "tutor_designtime_initial"
             if(@user.role != 'admin')
                 throw "Invalid user role"
@@ -32,7 +33,8 @@ class PlanningController < ApplicationController
 
             ps = PlanningSession.create(:user => @user, :closed => 0, :state => {"pending-skills" => ["frame-skill", "sem-network-skill", "linguistic-skill", "reasoning-skill"], "pending-knowledge" => [23, 41], "pending-psycho" => ["main"], "low-knowledge" => [], "pending-tutoring" => []}, :procedure => "tutor_runtime")
             ps.generate_plan()
-            redirect_to action: "_index"
+            #redirect_to action: "_index"
+            _index
 
         else
           render :text => "Invalid procedure name"
