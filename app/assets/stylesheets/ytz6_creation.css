@@ -1,0 +1,57 @@
+.question_title{
+   width: 500px;
+}
+
+.image_add {
+	padding-bottom: 5px;
+	padding-top: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	display: inline-block;
+	border: 1px solid; 
+	border-radius: 10px;
+}
+
+.del {
+	display: inline-block;
+}
+
+.task {
+    width: 100%
+}
+
+.settings_button {
+  width: 80%
+}
+
+.spinner {
+  display: inline-block;
+  opacity: 0;
+  width: 0;
+
+  -webkit-transition: opacity 0.1s, width 0.1s;
+  -moz-transition: opacity 0.1s, width 0.1s;
+  -o-transition: opacity 0.1s, width 0.1s;
+  transition: opacity 0.1s, width 0.1s;
+}
+
+.has-spinner.active {
+  cursor:progress;
+}
+
+.has-spinner.active .spinner {
+  opacity: 1;
+  width: auto; /* This doesn't work, just fix for unkown width elements */
+}
+
+.has-spinner.btn.active .spinner {
+    width: 16px;
+}
+ 
+.icon-spin {
+	background-image: url("loading_ytz.gif");
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	vertical-align: center;
+}

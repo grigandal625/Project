@@ -1,0 +1,139 @@
+<div class="col-md-12 col-sm-12">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>Упорядочивание графических изображений</h4>
+    </div>
+    <div class="panel-body">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#A" data-toggle="tab">Создание</a>
+        </li>
+        <li class=""><a href="#B" data-toggle="tab">Использование</a>
+        </li>
+      </ul>
+      <div class="tabbable">
+        <div class="tab-content">
+          <div class="tab-pane active" id="A">
+            <div class="well well-sm">
+              <table class="table table-hover" style=" font-size: 14px; " id="table">
+                <colgroup>
+                  <col span="1" style="width: 10%;">
+                  <col span="1" style="width: 50%;">
+                  <col span="1" style="width: 5%;">
+                  <col span="1" style="width: 35%;">
+                </colgroup>
+                <thead>
+                <tr>
+                  <th colspan="4">
+                    <center>Введите новое задание</center>
+                  </th>
+                </tr>
+                <tr>
+                  <th colspan="4">
+                    <center>
+                      <button class="btn btn-default task">
+                        <small>
+                          <a href="#" data-pk="1" data-inputclass="question_title" data-type="textarea" data-emptytext="Введите цель задачи" class="edit_task" id="task_aim">
+                          </a>
+                        </small>
+                      </button>
+                    </center>
+                  </th>
+                </tr>
+                <tr>
+                  <th colspan="4">
+                    <center>
+                      <button class="btn btn-default task">
+                        <small>
+                          <a href="#" data-pk="1" data-inputclass="question_title" data-type="textarea" data-emptytext="Введите тему задачи" class="edit_task" id="task_theme">
+                          </a>
+                        </small>
+                      </button>
+                    </center>
+                  </th>
+                </tr>
+                </thead>
+                <tbody id="rows">
+                <!--<tr class="drag">
+                    <td>
+                        <center>
+                            <a href="#" class="image_add">+</a>
+
+                        </center>
+                    </td>
+                    <td>
+                        <img class="preview-img">
+                    </td>
+                    <td>
+                        <input type="file" name="images[]" style="opacity: 0; width: 0; height: 0">
+                    </td>
+                    <td>
+                        <center>
+                            <small>
+                                <button id="row_del" type="button" class="btn btn-danger btn-xs del" value="1">del
+                                </button>
+                            </small>
+                        </center>
+                    </td>
+                </tr>-->
+                </tbody>
+                <tfoot>
+                <tr>
+                  <td colspan="2">
+                    <center>
+                      <button class="btn btn-default settings_button" id="add_row">
+                        +
+                      </button>
+                    </center>
+                  </td>
+                  <td colspan="2">
+                    <center>
+                      <button class="btn btn-default settings_button">
+                        <small>
+                          Уровень сложности:
+                          <a href="#" id="level" data-type="select" data-pk="1" data-title="Выберите уровень сложности"></a>
+                        </small>
+                      </button>
+                    </center>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <center>
+                      <button class="btn btn-default settings_button">
+                        <small>
+                          <a href="#" id="hint" data-type="textarea" data-pk="1"></a>
+                        </small>
+                      </button>
+                    </center>
+                  </td>
+                  <td colspan="2">
+                    <center>
+                      <button class="btn btn-info has-spinner settings_button" id="done">
+                        <span class="spinner"><i class="icon-spin"></i></span>
+                        Создать
+                      </button>
+                    </center>
+                  </td>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <div class="tab-pane" id="B">
+            <div class="well well-sm">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= link_to 'Назад', utz_path %>
+
+<% content_for :head do %>
+    <%= stylesheet_link_tag    "ytz6_creation", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "Sortable.min", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "ytz6_creation", "data-turbolinks-track" => true %>
+<% end %>

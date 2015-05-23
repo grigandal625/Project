@@ -1,0 +1,14 @@
+<%= render partial: 'utz', locals: {:controller => :test_utz_questions, :collection => TestUtzQuestion.all,
+                                    :utz_header => 'Выбор вариантов ответа'} %>
+
+<%= render partial: 'utz', locals: {:controller => :matching_utz, :collection => MatchingUtz.all,
+                                    :utz_header => 'Расстановка соответствий между блоками'} %>
+
+<%= render partial: 'utz', locals: {:controller => :filling_utz, :collection => FillingUtz.all,
+                                    :utz_header => 'Заполнение пропусков в тексте'} %>
+
+<%= render partial: 'utz', locals: {:controller => :text_correction_utz, :collection => TextCorrectionUtz.all,
+                                    :utz_header => 'Маркировки или корректировки текста'} %>
+
+<%= render partial: 'utz', locals: {:controller => :images_sort_utz, :collection => ImagesSortUtz.all,
+                                    :utz_header => 'Упорядочивание графических изображений'} %>

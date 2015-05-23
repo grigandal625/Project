@@ -65,6 +65,33 @@ ActiveRecord::Schema.define(version: 20150513121050) do
     t.datetime "updated_at"
   end
 
+  create_table "filling_utz_answers", force: true do |t|
+    t.string   "text"
+    t.integer  "filling_utz_interval_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "filling_utz_answers", ["filling_utz_interval_id"], name: "index_filling_utz_answers_on_filling_utz_interval_id"
+
+  create_table "filling_utz_intervals", force: true do |t|
+    t.integer  "start"
+    t.integer  "end"
+    t.string   "answer"
+    t.integer  "filling_utz_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "filling_utzs", force: true do |t|
+    t.string   "name"
+    t.text     "hint"
+    t.integer  "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text     "text"
+  end
+
   create_table "frame_solvers", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -115,6 +142,25 @@ ActiveRecord::Schema.define(version: 20150513121050) do
 
   create_table "groups", force: true do |t|
     t.text "number"
+  end
+
+  create_table "images_sort_utz_pictures", force: true do |t|
+    t.text     "src"
+    t.integer  "ordering"
+    t.integer  "images_sort_utz_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "images_sort_utz_pictures", ["images_sort_utz_id"], name: "index_images_sort_utz_pictures_on_images_sort_utz_id"
+
+  create_table "images_sort_utzs", force: true do |t|
+    t.text     "goal"
+    t.text     "theme"
+    t.string   "hint"
+    t.integer  "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "ka_answer_logs", force: true do |t|
@@ -194,13 +240,35 @@ ActiveRecord::Schema.define(version: 20150513121050) do
   add_index "ka_variants", ["ka_test_id", "number"], name: "index_ka_variants_on_ka_test_id_and_number"
 
   create_table "logs", force: true do |t|
-    t.text    "mistakes"
+    t.text    "result"
     t.text    "data"
     t.integer "component_id"
     t.string  "component_type"
   end
 
   add_index "logs", ["component_id", "component_type"], name: "index_logs_on_component_id_and_component_type"
+
+  create_table "matching_utz_answers", force: true do |t|
+    t.text     "text"
+    t.integer  "matching_utz_question_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  create_table "matching_utz_questions", force: true do |t|
+    t.text     "text"
+    t.integer  "matching_utz_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "matching_utzs", force: true do |t|
+    t.string   "name"
+    t.text     "hint"
+    t.integer  "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "methodical_materials", force: true do |t|
     t.string   "name"
@@ -396,7 +464,7 @@ ActiveRecord::Schema.define(version: 20150513121050) do
     t.integer  "etalonframe_id"
     t.integer  "student_id"
     t.text     "studentcode"
-    t.text     "result"
+    t.integer  "result"
     t.boolean  "isfinish"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -419,6 +487,32 @@ ActiveRecord::Schema.define(version: 20150513121050) do
     t.text "sentence1"
     t.text "sentence2"
     t.text "sentence3"
+  end
+
+  create_table "test_utz_answers", force: true do |t|
+    t.text     "text"
+    t.boolean  "is_correct"
+    t.integer  "test_utz_question_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "test_utz_answers", ["test_utz_question_id"], name: "index_test_utz_answers_on_test_utz_question_id"
+
+  create_table "test_utz_questions", force: true do |t|
+    t.text     "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "text_correction_utzs", force: true do |t|
+    t.string   "name"
+    t.text     "text_with_errors"
+    t.text     "text_without_errors"
+    t.integer  "errors_count"
+    t.string   "hint"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "tokenlines", force: true do |t|
