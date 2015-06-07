@@ -5,6 +5,10 @@ class KaTopicsController < ApplicationController
   layout "ka_application"
 
   def show
+    respond_to do |format|
+      format.html
+      format.json { render json: KaTopic.find(params[:id]).get_tree }
+    end
   end
 
   def new
