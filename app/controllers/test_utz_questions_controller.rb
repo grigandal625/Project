@@ -6,7 +6,7 @@ class TestUtzQuestionsController < ApplicationController
   end
 
   def create
-    question = TestUtzQuestion.create text: params['question']
+    question = TestUtzQuestion.create text: params['question'], ka_topic_id: params['topic_id']
 
     answers = params['answers']
 

@@ -38,6 +38,7 @@ $(document).ready(function() {
     $(document).on('click', '#done', function() {
         task.selections = selections;
         task.hint = $('#hint').text;
+        task.topic_id = $('#select_topic').val();
         task.level =
         $.ajax({
             type: "POST",

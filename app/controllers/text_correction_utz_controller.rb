@@ -10,7 +10,8 @@ class TextCorrectionUtzController < ApplicationController
                        errors_count: params[:errors_count],
                        text_with_errors: params[:text_with_errors],
                        text_without_errors: params[:text_without_errors],
-                       hint: ( params[:hint] == 'Введите подсказку' ? '' : params[:hint] )
+                       hint: ( params[:hint] == 'Введите подсказку' ? '' : params[:hint] ),
+                       ka_topic_id: params[:topic_id]
 
     render nothing: true
   end

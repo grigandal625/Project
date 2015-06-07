@@ -46,6 +46,7 @@ $(document).ready(function() {
         var json = {};
         var answers = [];
         json.question = q[0].firstChild.data;
+        json.topic_id = $('#select_topic').val();
 
         for (var i = 0; i < rows.length; ++i) {
             //console.log((counter++) + ") " + data[i].firstChild.data + ": " + data[i + 1].firstChild.data);

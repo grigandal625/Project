@@ -67,6 +67,7 @@ $(document).ready(function() {
         json.text_without_errors = b.value;
         json.errors_count = $('#errors_count')[0].innerText;
         json.hint = $('#hint')[0].text;
+        json.topic_id = $('#select_topic').val();
 
         $.ajax({
             type: "POST",

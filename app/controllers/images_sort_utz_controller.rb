@@ -12,7 +12,8 @@ class ImagesSortUtzController < ApplicationController
     utz = ImagesSortUtz.create goal: params['goal'],
                                theme: params['theme'],
                                hint: params['hint'],
-                               level: level_dict[params['level']]
+                               level: level_dict[params['level']],
+                               ka_topic_id: params[:topic_id]
 
     params['images'].each_with_index do |src, index|
       ImagesSortUtzPicture.create src: src, images_sort_utz_id: utz.id, ordering: index + 1

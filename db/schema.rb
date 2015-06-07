@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150513121050) do
+ActiveRecord::Schema.define(version: 20150607115244) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -87,10 +87,13 @@ ActiveRecord::Schema.define(version: 20150513121050) do
     t.string   "name"
     t.text     "hint"
     t.integer  "level"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.text     "text"
+    t.integer  "ka_topic_id"
   end
+
+  add_index "filling_utzs", ["ka_topic_id"], name: "index_filling_utzs_on_ka_topic_id"
 
   create_table "frame_solvers", force: true do |t|
     t.datetime "created_at"
@@ -159,9 +162,12 @@ ActiveRecord::Schema.define(version: 20150513121050) do
     t.text     "theme"
     t.string   "hint"
     t.integer  "level"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "ka_topic_id"
   end
+
+  add_index "images_sort_utzs", ["ka_topic_id"], name: "index_images_sort_utzs_on_ka_topic_id"
 
   create_table "ka_answer_logs", force: true do |t|
     t.integer  "ka_result_id"
@@ -240,7 +246,7 @@ ActiveRecord::Schema.define(version: 20150513121050) do
   add_index "ka_variants", ["ka_test_id", "number"], name: "index_ka_variants_on_ka_test_id_and_number"
 
   create_table "logs", force: true do |t|
-    t.text    "result"
+    t.text    "mistakes"
     t.text    "data"
     t.integer "component_id"
     t.string  "component_type"
@@ -266,9 +272,12 @@ ActiveRecord::Schema.define(version: 20150513121050) do
     t.string   "name"
     t.text     "hint"
     t.integer  "level"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "ka_topic_id"
   end
+
+  add_index "matching_utzs", ["ka_topic_id"], name: "index_matching_utzs_on_ka_topic_id"
 
   create_table "methodical_materials", force: true do |t|
     t.string   "name"
@@ -464,7 +473,7 @@ ActiveRecord::Schema.define(version: 20150513121050) do
     t.integer  "etalonframe_id"
     t.integer  "student_id"
     t.text     "studentcode"
-    t.integer  "result"
+    t.text     "result"
     t.boolean  "isfinish"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -501,9 +510,12 @@ ActiveRecord::Schema.define(version: 20150513121050) do
 
   create_table "test_utz_questions", force: true do |t|
     t.text     "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "ka_topic_id"
   end
+
+  add_index "test_utz_questions", ["ka_topic_id"], name: "index_test_utz_questions_on_ka_topic_id"
 
   create_table "text_correction_utzs", force: true do |t|
     t.string   "name"
@@ -513,7 +525,10 @@ ActiveRecord::Schema.define(version: 20150513121050) do
     t.string   "hint"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.integer  "ka_topic_id"
   end
+
+  add_index "text_correction_utzs", ["ka_topic_id"], name: "index_text_correction_utzs_on_ka_topic_id"
 
   create_table "tokenlines", force: true do |t|
     t.datetime "created_at"

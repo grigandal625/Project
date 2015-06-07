@@ -1,5 +1,6 @@
 class MatchingUtz < ActiveRecord::Base
   has_many :matching_utz_questions, dependent: :destroy
+  belongs_to :ka_topic
 
   def questions
     matching_utz_questions

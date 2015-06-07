@@ -135,6 +135,7 @@ $(document).ready(function() {
         json.theme = $('#task_theme')[0].text == 'Введите тему задачи' ? '' : $('#task_theme')[0].text;
         json.hint = $('#hint')[0].text;
         json.level = $('#level').editable()[0].text; //change this into id
+        json.topic_id = $('#select_topic').val();
         console.log(json);
         $.ajax({
             type: "POST",

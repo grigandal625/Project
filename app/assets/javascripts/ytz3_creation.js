@@ -71,6 +71,7 @@ $(document).ready(function() {
         //var tmp = $('#level').editable();
         json.hint = $('#hint')[0].text;
         json.level = $('#level').editable()[0].text; //change this into id
+        json.topic_id = $('#select_topic').val();
         $.ajax({
             type: "POST",
             url: "/matching_utz",

@@ -11,7 +11,8 @@ class FillingUtzController < ApplicationController
 
     utz = FillingUtz.create name: 'Задание ' + (FillingUtz.count + 1).to_s, hint: params['hint'],
                             level: level_dict[params['level']],
-                            text: params['text']
+                            text: params['text'],
+                            ka_topic_id: params['topic_id']
 
     selections = params['selections']
 
