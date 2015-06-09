@@ -11,9 +11,6 @@
   <div class="col-sm-6" id="select_topic_container" style="display: none">
     <label for="select_topic">Выберите контролируемый элемент курса:</label>
     <select id="select_topic" class="form-control">
-      <% KaTopic.where(parent_id: nil).each do |t| %>
-          <option value='<%= t.id %>'><%= t.text %></option>
-      <% end %>
     </select>
   </div>
 </div>
