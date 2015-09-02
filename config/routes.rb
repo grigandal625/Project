@@ -123,6 +123,9 @@ UIR::Application.routes.draw do
   get  "planning/begin_task"
   get  "planning/close_task"
 
+  get  "schedule/index"
+  get  "schedule/show"
+
   get  "dummy/index"
   get  "dummy/execute"
   get  "dummy/commit"

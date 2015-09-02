@@ -10,7 +10,7 @@ class PlanningSession < ActiveRecord::Base
         self.closed = 1
         self.save
 
-        PlannerEvent.create(:user => self.user, :type_id => 2, :description => "executed #{planning_tasks.size} tasks")
+        PlannerEvent.create(:user => self.user, :type_id => 2, :description => "executed  tasks") ##{planning_tasks.size}
     end
 
     def generate_plan
@@ -200,15 +200,32 @@ class PlanningSession < ActiveRecord::Base
         plain_action = pddl_action[1, pddl_action.length - 3]
         parts = plain_action.split(" ")
 
+        pddl_act = parts[0]
+        avail = !pddl_act.start_with?("future-")
+        pddl_act = pddl_act.gsub("future-", "")
+
+        cur_step = {}
+        ext = ExtensionDatabase.get_extension_for_task(pddl_act, parts[1])
+        if(ext == nil)
+            cur_step[:available] = false
+            cur_step[:description] = "Неизвестная задача"
+        else
+            cur_step[:available] = true
+            cur_step[:description] = ext.get_task_description(parts[1])
+
+            ep = ext.get_task_exec_path(pddl_act, parts[1])
+            cur_step[:controller] = ep["controller"]
+            cur_step[:action] = ep["action"]
+            cur_step[:params] = ep["params"]
+        end
+
+        return cur_step
+
         skill_mappings = {"frame-skill" => {:description => "Выявить уровень умений моделировать ситуации с помощью фреймов", :executor => "framer", :action => "run"}, 
                             "sem-network-skill" => {:description => "Выявить уровень умений моделировать ситуации с помощью семантических сетей", :executor => "semnetter", :action => "run"},
                             "linguistic-skill" => {:description => "Выявить уровень умений строить компоненты лингвистической модели подъязыка деловой прозы", :executor => "lingvo", :action => "run"},
                             "reasoning-skill" => {:description => "Выявить уровень умений моделировать прямой/обратный вывод", :executor => "reasoner", :action => "run"}
             }
-
-        pddl_act = parts[0]
-        avail = !pddl_act.start_with?("future-")
-        pddl_act = pddl_act.gsub("future-", "")
 
         case pddl_act
         when "extract-skill"

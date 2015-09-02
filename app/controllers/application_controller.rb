@@ -5,6 +5,14 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :check_auth
 
+  def initialize
+    ext_db = ExtensionDatabase.new
+    ext_db.add("frames", DummyController)
+    #ext_db.add("reasoner", DummyController)
+    #ext_db.add("tester", DummyController)
+    #ext_db.add("psycho", DummyController)
+  end
+
   def check_admin
     if @user.role != 'admin'
       redirect_to :root

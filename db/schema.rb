@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150607115244) do
+ActiveRecord::Schema.define(version: 20150820141459) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -61,6 +61,11 @@ ActiveRecord::Schema.define(version: 20150607115244) do
     t.string   "name"
     t.text     "etalonjson"
     t.text     "nodejson"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "extension_databases", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -246,7 +251,7 @@ ActiveRecord::Schema.define(version: 20150607115244) do
   add_index "ka_variants", ["ka_test_id", "number"], name: "index_ka_variants_on_ka_test_id_and_number"
 
   create_table "logs", force: true do |t|
-    t.text    "mistakes"
+    t.text    "result"
     t.text    "data"
     t.integer "component_id"
     t.string  "component_type"
@@ -455,6 +460,13 @@ ActiveRecord::Schema.define(version: 20150607115244) do
 
   add_index "s_results", ["result_id"], name: "index_s_results_on_result_id"
 
+  create_table "schedules", force: true do |t|
+    t.integer  "duration"
+    t.string   "data",       default: "{}", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "semanticnetworks", force: true do |t|
     t.integer  "etalon_id"
     t.integer  "student_id"
@@ -473,7 +485,7 @@ ActiveRecord::Schema.define(version: 20150607115244) do
     t.integer  "etalonframe_id"
     t.integer  "student_id"
     t.text     "studentcode"
-    t.text     "result"
+    t.integer  "result"
     t.boolean  "isfinish"
     t.datetime "created_at"
     t.datetime "updated_at"
