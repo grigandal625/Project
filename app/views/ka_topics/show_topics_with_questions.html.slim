@@ -1,7 +1,5 @@
-/TEMP: костыльный вывод для отчетности
-
-/Перечень тем по курсу с номерами вопросов
-p
+h2 = @root.text
+h3 Перечень тем с номерами активных вопросов
 table
   thead
     th.id = "Идентификатор"
@@ -14,12 +12,11 @@ table
         td.text = t.text
         - @arr = []
         - t.ka_question.each do |q|
-          - if @questions_ids.include?(q.id)
+          - if q.disable == 0
             - @arr.push(q.id)
         td.questions = @arr.join(", ")
-        /td.questions = t.ka_question.pluck(:id).join(", ")
 
-/Список самих вопросов с вариантами ответов
+h3 Перечень активных вопросов
 table
   thead
     th.id = "Идентификатор"
@@ -43,18 +40,3 @@ table
                     - else
                       = a.text
 
-/Таблица с компетенциями
-p
-table
-  thead
-    th.id = "Идентификатор"
-    th.text = "Название"
-    - Competence.all.each do |c|
-      th = c.code
-  tbody
-    - @topics.each do |t|
-      tr
-        td.id = t.id
-        td.text = t.text
-        - t.topic_competences.each do |c|
-          td = c.weight

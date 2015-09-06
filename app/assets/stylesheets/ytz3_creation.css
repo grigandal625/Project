@@ -1,0 +1,12 @@
+.task {
+    width: 100%
+}
+
+td {
+    content-align: center; /* not working */
+}
+
+.settings_button {
+  width: 80%
+}
+

@@ -1,7 +1,8 @@
 # Set up gems listed in the Gemfile.
 
 require 'yaml'
-YAML::ENGINE.yamler= 'syck'
+#YAML::ENGINE.yamler= 'syck'
+
 
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 

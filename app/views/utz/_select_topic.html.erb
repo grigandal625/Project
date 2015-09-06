@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-sm-6">
+    <label for="select_root">Выберите онтологию:</label>
+    <select id="select_root" class="form-control">
+      <option selected disabled style="display: none"></option>
+      <% KaTopic.where(parent_id: nil).each do |t| %>
+          <option value='<%= t.id %>'><%= t.text %></option>
+      <% end %>
+    </select>
+  </div>
+  <div class="col-sm-6" id="select_topic_container" style="display: none">
+    <label for="select_topic">Выберите контролируемый элемент курса:</label>
+    <select id="select_topic" class="form-control">
+    </select>
+  </div>
+</div>
+
+<% content_for :head do %>
+    <%= javascript_include_tag "topic_selection_for_utz", "data-turbolinks-track" => true %>
+<% end %>

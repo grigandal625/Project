@@ -1,0 +1,4 @@
+
+<% @schedules.each do |sc| %>
+	<%= sc.id.to_s %> <%= link_to "Edit", controller: "schedule", action: "show", id: sc.id %> </br>
+<% end %>

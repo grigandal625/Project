@@ -1,0 +1,6 @@
+<li class="list-group-item">
+    <%= link_to model.name, model %>
+
+    <%= link_to "", {:controller => controller, :action => :destroy, :id => model.id}, :method => :delete,
+                class: 'glyphicon glyphicon-remove pull-right' %>
+</li>

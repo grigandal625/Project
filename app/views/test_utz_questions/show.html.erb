@@ -1,0 +1,75 @@
+<div class="col-md-12 col-sm-12">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>Ввод ответа из предложенного перечня</h4>
+    </div>
+    <div class="panel-body">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#B" data-toggle="tab">
+            Использование
+          </a>
+        </li>
+      </ul>
+      <div class="tabbable">
+        <div class="tab-content">
+          <div class="tab-pane active" id="B">
+            <div class="well well-sm">
+              <table class="table table-hover" style=" font-size: 14px; " id="table">
+                <colgroup>
+                  <col span="1" style="width: 15%;">
+                  <col span="1" style="width: 85%">
+                </colgroup>
+                <thead>
+                <tr>
+                  <th colspan="3">
+                    <center id="question_title_usage" question_id="">
+                      <%= @question.text %>
+                    </center>
+                  </th>
+                </tr>
+                </thead>
+                <tbody id="test_rows">
+                    <% @question.answers.each do |answer| %>
+                        <tr class="test_answer">
+                          <td>
+                            <center>
+                              <input type="checkbox">
+                            </center>
+                          </td>
+                          <td>
+                            <button class="btn btn-default task" data-answer-id="<%= answer.id %>">
+                              <%= answer.text %>
+                            </button>
+                          </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+                <tfoot>
+                <tr>
+                  <td></td>
+                  <td>
+                    <center>
+                      <button class="btn btn-info settings_button" id="test_done">
+                        Готово
+                      </button>
+                    </center>
+                  </td>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= hidden_field_tag :question_id, @question.id %>
+<%= link_to 'Назад', utz_path %>
+
+<% content_for :head do %>
+    <%= stylesheet_link_tag    "ytz1_creation", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "ytz1_usage", "data-turbolinks-track" => true %>
+<% end %>

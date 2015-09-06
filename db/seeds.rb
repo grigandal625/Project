@@ -6,6 +6,13 @@ testuser = st.create_user(login: 'student0', pass: Digest::MD5.hexdigest('lolka'
 
 admin = User.create(login: 'admin', pass: Digest::MD5.hexdigest('lgkofpes'), role: 'admin')
 
+schedule = Schedule.create(:duration => 16)
+schedule.add_record(2, {"pending-psycho" => "psycho-main"})
+schedule.add_record(6, {"pending-skills" => "frame-skill"})
+schedule.add_record(7, {"pending-knowledge" => "kb-0"})
+schedule.add_record(11, {"pending-skills" => "reasoning-skill"})
+schedule.add_record(11, {"pending-skills" => "sem-network-skill"})
+
 MethodicalMaterial.create(
   name: 'Components',
   title: '<h1>Методические материалы</h1>',
