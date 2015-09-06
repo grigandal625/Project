@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.3'
@@ -65,7 +65,9 @@ gem 'ckeditor'
 gem 'slim'
 
 # Generator of test tasks
-gem 'tasks_generator', '>= 1.9'
+group :trash do
+  gem 'tasks_generator', '>= 1.9'
+end
 
 # Translit
 gem 'translit'

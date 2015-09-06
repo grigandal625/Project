@@ -5,6 +5,25 @@ UIR::Application.routes.draw do
   post "auth/logout", as: "logout"
   get  "auth/logout", as: "get_logout"
 
+    # FORWARD / REVERSE
+  
+  get "forwards/index"
+   get "forwards/execute"
+  get "viewsresult/index"
+  get "reverse/index"
+  get "adminpanel/index"
+   get "forwards2/index"
+    # root 'forwards#index'
+#     
+    post "forwards2/getfile"
+   
+    post "adminpanel/getCSV"
+    post "adminpanel/getBothMethod"
+     post "adminpanel/saveJSON"
+    post "reverse/getfile"
+
+ # END FORWARD/REVERSE
+ 
   get '/ka_welcome',               to: 'ka_welcome#index',    as: :ka_welcome
 
   get  '/ka_topics',               to: 'ka_topics#index',     as: :ka_topics
@@ -70,6 +89,8 @@ UIR::Application.routes.draw do
 
   post "students/passupdate"
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
+  
+    post "semantictests/updateJson"
 
   resources :results
   resources :frameadmin

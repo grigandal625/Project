@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Просмотр трассы вывода</title>
+      <link href="/general/css/jgrowl.css" rel="stylesheet" />
+		<link href="/general/css/main.css" rel="stylesheet" />
+		<script src="/general/js/jquery.js"></script>
+		<script src="/general/js/jgrowl.js"></script>
+		<script src="/general/js/raphael-min.js"></script>
+        <script src="/general/functions.js"></script>
+		<script src="/general/generateKB.js"></script>
+         <script src="/general/draw.js"></script>
+</head>
+<style>
+a {
+	transition: all 0.3s ease-in-out;
+}
+ body,td {
+ 	font-family: "Trebuchet MS";font-size: 11pt;
+ }
+	#header {
+		display:block; width:auto; height:auto;
+		padding:20px; color:#fff;  font-size:24px;
+		background: #a90329;
+	}
+	#forward_menu,#reverse_menu {
+		margin:10px;
+	}
+	#forward_menu table, #reverse_menu table{
+		background:#f3efe6;
+	}
+	#forward_title td, #reverse_title td {
+		font-weight:bold;
+	}
+	a.gradus {
+		color:#a90329; margin:20px; display:inline-block;
+		font-size:14pt;
+	}
+	a.gradus:hover {
+		color:#000; text-decoration: none;
+	}
+	.menu_check {
+		display: block; width:auto; height:auto; padding:20px; border-radius:10px;
+		background: #282824; margin:20px;
+		background: -moz-linear-gradient(top,  #282824 0%, #000000 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#282824), color-stop(100%,#000000));
+		background: -webkit-linear-gradient(top,  #282824 0%,#000000 100%);
+		background: -o-linear-gradient(top,  #282824 0%,#000000 100%);
+		background: -ms-linear-gradient(top,  #282824 0%,#000000 100%);
+		background: linear-gradient(to bottom,  #282824 0%,#000000 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#282824', endColorstr='#000000',GradientType=0 );
+		opacity: 1.0;
+	}
+	.menu_check a {
+		color:#fff; font-size:24px; text-decoration:none; border-bottom:1px dashed #fff;
+	}
+	.menu_check a:hover {
+		text-decoration: none; color:#3fb2f0; border-bottom: 1px transparent;
+	}
+	a.bottom_menu_link {
+		display:block; text-decoration: none; padding:10px; width:auto;
+		color:#c85614; background:#ead3c6; border-bottom:0px;
+	}
+	a.menu_link {
+		font-size:12px; color:#2787B7; border-bottom:0px;
+	}
+	.make_S {
+				background:#14a311;
+			
+			}
+			.make_H {
+				background:#b0b3b3;
+				
+			}
+			.make_P {
+				background: #a69ff0;
+				
+			}
+</style>
+<body style="padding:0px; margin:0px;">
+
+<input id="user_id_now" type="hidden" value="<%= session[:user_id] %>" />
+<input id="user_name_now" type="hidden" value="<%= @user.name %>" />
+<div id="header" align="left">
+	Панель управления АТ-ТЕХНОЛОГИЯ — режим RunTime
+	<div style="float:right; font-size:12px;">
+    <%= form_tag(logout_path, method: "POST") do %>
+    <%= hidden_field_tag(:path, request.fullpath) %>
+   	<%="Вы авторизованны как  " + @user.name %>  
+	<%= submit_tag("Выход") %>  
+	
+  	<% end %>
+  	</div>
+</div>
+<div align="left">
+	
+	<div style="float:right;">
+<h3 style="margin: 20px;">ФИО: <%=@user.fio%> | Группа: <%=@user.group%></h3>
+</div>
+<a href="/" class="gradus">Панель управления</a>→ Просмотр трассы вывода
+</div>
+   <% flash.each do |name, msg| -%>
+   <%= content_tag :div, msg, class: name %>
+  <% end -%>
+<%= yield %>
+  <script type="text/javascript">
+ 
+ functions.getJSONtrace();
+  </script>
+</body>
+</html>

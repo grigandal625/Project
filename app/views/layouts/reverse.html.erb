@@ -1,0 +1,101 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="/general/css/jgrowl.css" rel="stylesheet" />
+		<link href="/general/css/main.css" rel="stylesheet" />
+		<title>Обратный вывод</title>
+		<script src="/general/js/jquery.js"></script>
+		<script src="/general/js/jgrowl.js"></script>
+		<script src="/general/js/raphael-min.js"></script>
+                <script src="/general/functions.js"></script>
+		<script src="/general/generateKB.js"></script>
+                <script src="/backward/draw.js"></script>
+                <script src="/backward/solver.js"></script>
+                
+		<script type="text/javascript" src="/general/js/jquery-ui-1.10.3.custom.js"></script>
+		
+	
+		<style>
+		#set_block {
+			display:none;
+		}
+		#header {
+			display:block; width:auto; height:auto;
+			padding:20px; color:#fff;  font-size:24px;
+			background: #a90329;
+		}
+		a.gradus {
+			color:#a90329; margin:20px; display:inline-block;
+			font-size:14pt;
+		}
+		a.gradus:hover {
+			color:#000; text-decoration: none;
+		}
+			
+			.panel {
+				position: fixed;
+				top: 50px;
+				left: 0;
+				display: none;
+				background: #000000;
+				border: 1px solid #111111;
+				-moz-border-radius-topright: 20px;
+				-webkit-border-top-right-radius: 20px;
+				-moz-border-radius-bottomright: 20px;
+				-webkit-border-bottom-right-radius: 20px;
+				width: 330px;
+				height: auto;
+				padding: 30px 30px 30px 130px;
+				filter: alpha(opacity=85);
+				opacity: .85;
+			}
+
+			.panel p {
+				margin: 0 0 15px 0;
+				padding: 0;
+				color: #cccccc;
+				font-size: 13px;
+			}
+			.panel h3 {
+				font-size: 14px;
+				font-family: verdana, helvetica, arial, sans-serif;
+				letter-spacing: -1px;
+				color: #fff;
+				font-weight: 700;
+				text-transform: uppercase;
+				margin: 0;
+				padding: 8px 0 8px 0;
+			}
+			
+			.function_trace_step a {
+				float:left; margin: 2px; background:#CCCCCC; border:1px solid #B4B4B4; padding:3px;
+			}
+			.timer {
+				display:block; position:fixed;
+				right:0;top:0; background:#000000; color:#fff; opacity:0.4;
+			}
+		</style>
+	</head>
+<body style="padding:0px;margin:0px;">
+	 <input id="user_id_now" type="hidden" value="<%= session[:user_id] %>" />
+	 <input id="user_name_now" type="hidden" value="<%= @user.login %>" />
+	 <input id="name_component" type="hidden" value="reverse" />
+	   <div id='set_block'>
+<div id="header" align="left">
+	Панель управления АТ-ТЕХНОЛОГИЯ — режим RunTime
+	
+</div>
+<div align="left">
+	
+	<div style="float:right;">
+<h3 style="margin: 20px;">ФИО: <%=@user.login%> | Группа: <%=@user.login%></h3>
+</div>
+<a href="/forwards/index/?planning_task_id=<%=params['planning_task_id']%>" class="gradus">Панель управления</a>→ Прохождение тестирования обратного вывода
+</div>
+</div>
+<div class="timer" id="mytimer">
+
+</div>
+	<%= yield %>
+</body>
+</html>
