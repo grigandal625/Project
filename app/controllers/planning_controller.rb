@@ -89,9 +89,7 @@ class PlanningController < ApplicationController
             #redirect_to :action => "index"
             update
 
-
-            pik_wrapper = {"framer" => "dummy", "onthology" => "dummy", "reasoner" => "forwards"}
-
+            redirect_to :controller => new_task["executor"], :action => "execute", :planning_task_id => new_task.id
 
             #pik_wrapper = {"framer" => "dummy", "onthology" => "dummy"}
             #redirect_to :controller => pik_wrapper[new_task["executor"]], :action => "execute", :planning_task_id => new_task.id
