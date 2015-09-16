@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  group: MyString
+  psyho: 1
+  knowledge1: 1
+  knowledge2: 1
+  frame_sem: 1
+  vivod: 1
+
+two:
+  group: MyString
+  psyho: 1
+  knowledge1: 1
+  knowledge2: 1
+  frame_sem: 1
+  vivod: 1

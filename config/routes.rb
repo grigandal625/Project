@@ -81,7 +81,6 @@ UIR::Application.routes.draw do
   end
    get "semantictests/results"
    
-
   resources :menu
   resources :semantictests
   resources :semanticanswers
@@ -123,8 +122,6 @@ UIR::Application.routes.draw do
   get  "planning/begin_task"
   get  "planning/close_task"
 
-  get  "schedule/index"
-  get  "schedule/show"
 
   get  "dummy/index"
   get  "dummy/execute"
@@ -155,7 +152,11 @@ UIR::Application.routes.draw do
   resources :images_sort_utz do
     post :check_answer, on: :member
   end
-  
+   
+  get "schedules/pokaz"
+ 
+  resources :schedules
+     
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

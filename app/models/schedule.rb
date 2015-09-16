@@ -1,40 +1,32 @@
 class Schedule < ActiveRecord::Base
-	serialize :data, JSON
+        validates :psyho, presence: true, numericality: {only_integer: true, less_than: 17, greater_than: 0}
+	validates :knowledge1, presence: true, numericality: {only_integer: true, less_than: 17, greater_than: 0}
+	validates :knowledge2, presence: true, numericality: {only_integer: true, less_than: 17, greater_than: 0}
+	validates :frame_sem, presence: true, numericality: {only_integer: true, less_than: 17, greater_than: 0}
+	validates :vivod, presence: true, numericality: {only_integer: true, less_than: 17, greater_than: 0}
+        validates :group, presence: true  
 
-	def add_record(week_idx, event)
-		week_data = self.data[week_idx.to_s]
-		if(week_data == nil)
-			week_data = Hash.new
-		end
-
-		#puts week_data
-		event.each do |k,v|
-			if(week_data[k] == nil)
-				week_data[k] = Array.new
-			end
-
-			week_data[k].push(v)
-		end
-
-		self.data[week_idx.to_s] = week_data
-
-		self.save
-	end
-
-	def find_recs(week_idx, group_name)
-		week_data = self.data[week_idx.to_s]
-		if(week_data == nil)
-			return []
-		end
-
-		if(week_data[group_name] == nil)
-			return []
-		end
-
-		week_data[group_name]
-	end
-
-	def self.current_week
-		return 9
+	def current_week
+	    a = Date.today.beginning_of_week
+	    begin_autumn = Date.today.change(:month => 9, :day => 1).beginning_of_week
+            begin_spring = Date.today.change(:month => 2, :day => 9).beginning_of_week
+            week = 0
+           
+            if (a > begin_autumn) or (a == begin_autumn)  
+	    	week += 1
+                while a > begin_autumn do
+			a = a.weeks_ago(1)
+			week += 1
+	    	end
+                return week
+            end
+            if ((a > begin_spring) or (a == begin_spring)) and (a < begin_autumn) 
+                week += 1
+                while a > begin_spring do
+			a = a.weeks_ago(1)
+			week += 1
+	    	end
+            end
+            return week
 	end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150820141459) do
+ActiveRecord::Schema.define(version: 20150910154536) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -461,8 +461,12 @@ ActiveRecord::Schema.define(version: 20150820141459) do
   add_index "s_results", ["result_id"], name: "index_s_results_on_result_id"
 
   create_table "schedules", force: true do |t|
-    t.integer  "duration"
-    t.string   "data",       default: "{}", null: false
+    t.string   "group"
+    t.integer  "psyho"
+    t.integer  "knowledge1"
+    t.integer  "knowledge2"
+    t.integer  "frame_sem"
+    t.integer  "vivod"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
