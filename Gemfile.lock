@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     actionmailer (4.0.3)
       actionpack (= 4.0.3)
@@ -112,6 +112,7 @@ GEM
       activesupport (>= 3.0)
       sprockets (~> 2.8)
     sqlite3 (1.3.10)
+    sqlite3 (1.3.10-x86-mingw32)
     tasks_generator (1.9)
       bundler (~> 1.6)
       rake
@@ -137,6 +138,7 @@ GEM
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   ckeditor
