@@ -2,6 +2,11 @@
 class PlanningController < ApplicationController
     include PlanningHelper
 
+    module ModeType
+        DesignTime = 1
+        RunTime = 2
+    end
+
     def _index
         #@psession = current_planning_session()
         #@cur_task = @psession ? @psession.current_task() : nil
@@ -14,13 +19,16 @@ class PlanningController < ApplicationController
     end
     
     def new_session
+        schedule = Schedule.take
         case params[:procedure]
         when "tutor_designtime_initial"
             if(@user.role != 'admin')
                 throw "Invalid user role"
             end
 
-            ps = PlanningSession.create(:user => @user, :closed => 0, :state => {"finished" => []}, :procedure => "tutor_designtime_initial")
+            state = ExtensionDatabase.generate_state(Schedule.current_week, ModeType::DesignTime, schedule)
+            #{"finished" => []}
+            ps = PlanningSession.create(:user => @user, :closed => 0, :state => state, :procedure => "tutor_designtime_initial")
             ps.generate_plan()
             #render action: "_index"
             #redirect_to action: "_index"
@@ -31,7 +39,9 @@ class PlanningController < ApplicationController
                 throw "Invalid user role"
             end
 
-            ps = PlanningSession.create(:user => @user, :closed => 0, :state => {"pending-skills" => ["frame-skill", "sem-network-skill", "linguistic-skill", "reasoning-skill"], "pending-knowledge" => [23, 41], "pending-psycho" => ["main"], "low-knowledge" => [], "pending-tutoring" => []}, :procedure => "tutor_runtime")
+            state = ExtensionDatabase.generate_state(Schedule.current_week, ModeType::RunTime, schedule)
+            #{"pending-skills" => ["frame-skill", "sem-network-skill", "linguistic-skill", "reasoning-skill"], "pending-knowledge" => [23, 41], "pending-psycho" => ["main"], "low-knowledge" => [], "pending-tutoring" => []}
+            ps = PlanningSession.create(:user => @user, :closed => 0, :state => state, :procedure => "tutor_runtime")
             ps.generate_plan()
             redirect_to action: "_index"
 
@@ -67,7 +77,7 @@ class PlanningController < ApplicationController
             step_el = (pses.plan.select { |step| step["number"] == params[:plan_step].to_i})[0]
 
             #Create planning task
-            new_task = PlanningTask.create(:planning_session => pses, :action => step_el["action"], :executor => step_el["executor"], :description => step_el["description"], :params => step_el["params"], :closed => 0)
+            new_task = PlanningTask.create(:planning_session => pses, :action => step_el["action"], :executor => step_el["controller"], :description => step_el["description"], :params => step_el["params"], :closed => 0)
 
             #Remove from plan
             pses.plan.delete(step_el)
@@ -82,8 +92,10 @@ class PlanningController < ApplicationController
 
             pik_wrapper = {"framer" => "framestudent", "onthology" => "ka_topics", "semnetter" => "semanticanswers",
               "lingvo" => "test"}
+            redirect_to :controller => new_task["executor"], :action => "execute", :planning_task_id => new_task.id
 
-            redirect_to :controller => pik_wrapper[new_task["executor"]], :action => "execute", :planning_task_id => new_task.id
+            #pik_wrapper = {"framer" => "dummy", "onthology" => "dummy"}
+            #redirect_to :controller => pik_wrapper[new_task["executor"]], :action => "execute", :planning_task_id => new_task.id
 
             #_index
         end

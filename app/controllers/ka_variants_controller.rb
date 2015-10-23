@@ -96,9 +96,5 @@ class KaVariantsController < ApplicationController
         CompetenceCoverage.create(ka_result_id: result.id, competence_id: id, mark: c[:score])
       end
     end
-
-    #Для полного вывода
-    #@result = result
-    #@question_marks = question_marks
   end
 end

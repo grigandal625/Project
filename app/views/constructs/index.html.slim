@@ -1,0 +1,27 @@
+h2 Новый конструкт
+form method="post" action="#{constructs_path}"
+  div class="row"
+    div class="large-12 columns"
+      div class="row collapse"
+		div class="small-10 columns"
+		  input type="text" name="name" placeholder="Название"
+        div class="small-2 columns"
+          input type="submit" class="button postfix"
+h1 Конструкты
+- if Construct.exists?
+  table
+    thead
+      tr
+        th.id = "Идентификатор"
+        th.name = "Название"
+    tbody
+      - Construct.all.each do |c|
+        tr
+          td.id = c.id
+		  td.name = c.name
+          td
+            a href="#{edit_construct_path(c.id)}" Редактировать
+          td
+           = link_to "Удалить", construct_path(c), method: :delete
+- else
+  p Пока не добавлено ни одного конструкта

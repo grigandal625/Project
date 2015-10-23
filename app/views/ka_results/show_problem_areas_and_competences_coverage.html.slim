@@ -1,0 +1,30 @@
+- @groups.each do |g|
+  h3 = g.number
+  table
+    thead
+      tr
+        th.name = "ФИО"
+        th.assessment = "Оценка"
+        th.problem_areas = "Проблемные зоны"
+        th.competences = "Компетенции"
+    tbody
+      - g.students.order(:fio).each do |s|
+        tr
+          td.name = s.fio
+          - r = KaResult.find_by(user_id: s.user.id, ka_test_id: @test.id)
+          - if r
+            td.assessment = r.assessment
+            td.problem_areas
+              table width="100%"
+                tbody
+                  - r.problem_areas.each do |p|
+                    tr
+                      td = p.ka_topic.text
+                      td = p.mark
+            td.competences
+              table width="100%"
+                tbody
+                  - r.competence_coverages.each do |c|
+                    tr
+                      td = c.competence.code
+                      td = c.mark

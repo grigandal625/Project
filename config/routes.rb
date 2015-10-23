@@ -5,6 +5,25 @@ UIR::Application.routes.draw do
   post "auth/logout", as: "logout"
   get  "auth/logout", as: "get_logout"
 
+    # FORWARD / REVERSE
+  
+  get "forwards/index"
+   get "forwards/execute"
+  get "viewsresult/index"
+  get "reverse/index"
+  get "adminpanel/index"
+   get "forwards2/index"
+    # root 'forwards#index'
+#     
+    post "forwards2/getfile"
+   
+    post "adminpanel/getCSV"
+    post "adminpanel/getBothMethod"
+     post "adminpanel/saveJSON"
+    post "reverse/getfile"
+
+ # END FORWARD/REVERSE
+ 
   get '/ka_welcome',               to: 'ka_welcome#index',    as: :ka_welcome
 
   get  '/ka_topics',               to: 'ka_topics#index',     as: :ka_topics
@@ -42,13 +61,21 @@ UIR::Application.routes.draw do
   get '/ka_results/detail/:result_id', to: 'ka_results#detail', as: :show_detail_ka_result
   get '/ka_results/recalc/:id',        to: 'ka_results#recalc', as: :recalc_ka_results
 
+  get 'ka_results/:test_id/problem_areas_and_competences_coverage' => 'ka_results#show_problem_areas_and_competences_coverage', as: :problem_areas_and_competences_coverage
+
   resources :competences
   post 'competences/attach' => 'competences#attach'
   get 'competence/:c_id/detach_from/:t_id' => 'competences#detach', as: :competence_detach
 
   get 'ka_topics_execute' => 'ka_topics#execute'
   get 'ka_topics_commit'  => 'ka_topics#commit', as: :ka_topics_commit
+  resources :constructs
+  post 'constructs/attach' => 'constructs#attach'
+  get 'constructs/:c_id/detach_from/:t_id' => 'constructs#detach', as: :construct_detach
 
+  get 'ka_topics/:root_id/topics_with_questions' => 'ka_topics#show_topics_with_questions', as: :topics_with_questions
+  get 'ka_topics/:root_id/all_competences' => 'ka_topics#show_all_competences', as: :all_competences
+  get 'ka_topics/:root_id/all_constructs' => 'ka_topics#show_all_constructs', as: :all_constructs
 
   post "frameadmin/createframe"
   post "frameadmin/updateframe"
@@ -67,6 +94,8 @@ UIR::Application.routes.draw do
 
   post "students/passupdate"
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
+  
+    post "semantictests/updateJson"
 
   resources :results
   resources :frameadmin
@@ -77,7 +106,6 @@ UIR::Application.routes.draw do
   end
    get "semantictests/results"
    
-
   resources :menu
   resources :semantictests
   resources :semanticanswers
@@ -122,10 +150,41 @@ UIR::Application.routes.draw do
   get  "planning/begin_task"
   get  "planning/close_task"
 
+
   get  "dummy/index"
   get  "dummy/execute"
   get  "dummy/commit"
-  
+
+  get 'utz/index', as: 'utz'
+
+  get 'images_sort_utz/new'
+
+  get 'images_sort_utz/show'
+
+  resources :test_utz_questions do
+    post :check_answer, on: :member
+  end
+
+  resources :matching_utz do
+    post :check_answers, on: :member
+  end
+
+  resources :filling_utz do
+    post :check_answers, on: :member
+  end
+
+  resources :text_correction_utz do
+    post :check_answer, on: :member
+  end
+
+  resources :images_sort_utz do
+    post :check_answer, on: :member
+  end
+   
+  get "schedules/pokaz"
+ 
+  resources :schedules
+     
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

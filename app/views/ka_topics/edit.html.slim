@@ -49,6 +49,22 @@ form method="post" action="#{competences_attach_path}"
         div class="small-2 columns"
           input type="submit" class="button postfix"
 
+h3 Новый конструкт
+form method="post" action="#{constructs_attach_path}"
+  div class="row"
+    div class="large-12 columns"
+      div class="row collapse"
+        input type="hidden" name="topic_id" value="#{@topic.id}"
+        div class="small-8 columns"
+          select name="construct_id"
+			- @constructs.each do |c|
+			  option value="#{c.id}"
+			    = c.name
+        div class="small-2 columns"
+          input type="number" name="mark" placeholder="Оценка"
+        div class="small-2 columns"
+          input type="submit" class="button postfix"
+
 h3 Подтемы
 table
   thead
@@ -70,7 +86,7 @@ table
     tr
       th.id = "Идентификатор"
       th.text = "Текст"
-      th.text = "Сложность"
+      th.difficulty = "Сложность"
   tbody
     - KaQuestion.where(ka_topic_id: @topic.id).each do |t|
       tr
@@ -81,6 +97,43 @@ table
           a href="#{show_ka_question_path(t.id)}" Редактировать
         td
           a href="#{ka_question_destroy_path(t.id)}" Удалить
+
+h3 УТЗ
+table
+  thead
+    th.text = "Наименование"
+    th.type = "Тип"
+  tbody
+    - @topic.test_utz_questions.each do |u|
+      tr
+        td.text
+          a href="#{test_utz_question_path(u.id)}"
+            = u.text
+        td.type = "Выбор вариантов ответа"
+    - @topic.matching_utzs.each do |u|
+      tr
+        td.text
+          a href="#{matching_utz_path(u.id)}"
+            = u.name
+        td.type = "Расстановка соответствий между блоками"
+    - @topic.filling_utzs.each do |u|
+      tr
+        td.text
+          a href="#{filling_utz_path(u.id)}"
+            = u.text
+        td.type = "Заполнение пропусков в тексте"
+    - @topic.text_correction_utzs.each do |u|
+      tr
+        td.text
+          a href="#{text_correction_utz_path(u.id)}"
+            = u.name
+        td.type = "Маркировки или корректировки текста"
+    - @topic.images_sort_utzs.each do |u|
+      tr
+        td.text
+          a href="#{images_sort_utz_path(u.id)}"
+            = u.theme
+        td.type = "Упорядочивание графических изображений"
 
 h3 Компетенции
 table
@@ -99,3 +152,19 @@ table
         td.weight = c.weight
         td
           a href="#{competence_detach_path(c.competence_id, @topic.id)}" Удалить
+
+h3 Конструкты
+table
+  thead
+    tr
+      th.id = "Идентификатор"
+      th.name = "Название"
+      th.mark = "Оценка"
+  tbody
+    - TopicConstruct.where(ka_topic_id: @topic.id).each do |c|
+      tr
+        td.id = c.construct_id
+        td.name = Construct.find(c.construct_id).name
+        td.mark = c.mark
+        td
+          a href="#{construct_detach_path(c.construct_id, @topic.id)}" Удалить

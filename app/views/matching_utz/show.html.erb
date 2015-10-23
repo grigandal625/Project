@@ -1,0 +1,113 @@
+<div class="col-md-12 col-sm-12">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>Расстановка соответствий между блоками</h4>
+    </div>
+    <div class="panel-body">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#B" data-toggle="tab">Использование</a>
+        </li>
+      </ul>
+      <div class="tabbable">
+        <div class="tab-content">
+         <div class="tab-pane active" id="B">
+            <div class="well well-sm">
+              <div class="row">
+                <div class="col-md-8">
+                  <table class="table table-hover" style=" font-size: 14px; " id="task_table">
+                    <colgroup>
+                      <col span="1" style="width: 40%;">
+                      <col span="1" style="width: 10%">
+                      <col span="1" style="width: 40%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                      <th colspan="3">
+                        <center>Задание</center>
+                      </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <% @questions.each do |question| %>
+                            <td>
+                                <div>
+                                  <button class="btn btn-default answer">
+                                    <small>
+                                      <%= question.text %>
+                                    </small>
+                                  </button>
+                                </div>
+                            </td>
+                            <td>
+                              <center>&lt;--&gt;</center>
+                            </td>
+                            <td class="drop droppable">
+
+                            </td>
+                          </tr>
+                        <% end %>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                      <td>
+                        <button class="btn btn-default settings_button" style="width: 100%">
+                          <small>
+                            <a href="#" data-toggle="tooltip" title="<%= @utz.hint %>" id="task_hint">Подсказка</a>
+                          </small>
+                        </button>
+                      </td>
+                      <td></td>
+                      <td>
+                        <button class="btn btn-default settings_button" id="task_done" style="width: 100%">
+                          <small>
+                            <a href="#">Готово</a>
+                          </small>
+                        </button>
+                      </td>
+                    </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="col-md-4">
+                  <table class="table table-hover" id="variants">
+                    <thead>
+                    <tr>
+                      <th>
+                        <center>Варианты</center>
+                      </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <% @answers.each do |answer| %>
+                            <tr>
+                              <td>
+                                <div class="item" style="position: static; left: 23px; top: 48px;">
+                                  <button class="btn btn-default answer">
+                                    <small>
+                                      <%= answer.text %>
+                                    </small>
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= link_to 'Назад', utz_path %>
+<%= hidden_field_tag :id, @utz.id, id: :utz_id %>
+
+<% content_for :head do %>
+    <%= stylesheet_link_tag    "ytz3_usage", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "ytz3_creation", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "ytz3_usage", "data-turbolinks-track" => true %>
+<% end %>

@@ -1,0 +1,16 @@
+h2 = @root.text
+h3 Компетенции
+/Временное допущение, должны выводиться только те компетенции, которые относятся к данному курсу
+table
+  thead
+    th.id = "Идентификатор"
+    th.text = "Название"
+    - Competence.all.each do |c|
+      th = c.code
+  tbody
+    - @topics.each do |t|
+      tr
+        td.id = t.id
+        td.text = t.text
+        - t.topic_competences.each do |c|
+          td = c.weight

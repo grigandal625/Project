@@ -1,0 +1,10 @@
+<h1><%= utz_header %></h1>
+<ul class="list-group">
+  <%= render partial: 'utz/utz_task', collection: collection, as: :model, locals: {controller: controller} %>
+
+  <% if @user.role =='admin' %>
+      <li class="list-group-item">
+        <%= link_to 'Создать', {:controller => controller, :action => :new} %>
+      </li>
+  <% end %>
+</ul>

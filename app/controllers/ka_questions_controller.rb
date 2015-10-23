@@ -19,6 +19,10 @@ class KaQuestionsController < ApplicationController
     if question and params[:text] and params[:difficulty]
       question.text = params[:text]
       question.difficulty = params[:difficulty]
+      question.disable = 0
+      if params[:disable] and params[:disable] = "on"
+        question.disable = 1
+      end
       question.save
     end
     redirect_to :back

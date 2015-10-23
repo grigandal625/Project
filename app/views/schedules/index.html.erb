@@ -1,0 +1,17 @@
+<h3>Расписания_групп</h3>
+
+<table>
+  <tr>
+    <th>Группа</th>
+  </tr>
+ 
+  <% @schedules.each do |schedule| %>
+    <tr>
+      <td><%= schedule.group %></td>
+      <td><%= link_to 'Показать', controller: "schedules", action: "pokaz", id: schedule.id %></td>
+      <td><%= link_to 'Изменить', edit_schedule_path(schedule) %></td>
+      <td><%= link_to 'Удалить', schedule_path(schedule), method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+    </tr>
+  <% end %>
+</table>
+<%= link_to 'Новое_расписание', new_schedule_path %>

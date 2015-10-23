@@ -7,6 +7,10 @@ class KaTopicsController < ApplicationController
   layout "ka_application"
 
   def show
+    respond_to do |format|
+      format.html
+      format.json { render json: KaTopic.find(params[:id]).get_tree }
+    end
   end
 
   def new
@@ -30,6 +34,7 @@ class KaTopicsController < ApplicationController
     @competences = Competence.all
 
     @task = PlanningTask.find(session[:planning_task_id])
+    @constructs = Construct.all
   end
 
   def edit_text
@@ -60,5 +65,19 @@ class KaTopicsController < ApplicationController
     session[:planning_task_id] = nil
 
     redirect_to "/"
+  def show_topics_with_questions
+    @root = KaTopic.find(params[:root_id])
+    @topics = @root.get_tree
+    @questions = @root.get_active_questions
+  end
+
+  def show_all_competences
+    @root = KaTopic.find(params[:root_id])
+    @topics = @root.get_tree
+  end
+
+  def show_all_constructs
+    @root = KaTopic.find(params[:root_id])
+    @topics = @root.get_tree
   end
 end
