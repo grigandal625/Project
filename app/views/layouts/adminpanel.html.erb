@@ -90,12 +90,12 @@ a {
 	<div style="float:right;">
 <h3 style="margin: 5px;">ФИО: <%=@user.login%> | Группа: <%=@user.login%></h3>
 </div>
-<a href="/forwards/index" class="gradus">Панель RunTime</a>
+<a href="/forwards2/results" class="gradus">Результаты</a>
 </div>
    <% flash.each do |name, msg| -%>
    <%= content_tag :div, msg, class: name %>
   <% end -%>
 <%= yield %>
-
+<a href="/" class="gradus">Главное меню</a>
 </body>
 </html>

@@ -2,7 +2,7 @@
 class ForwardsController < ApplicationController
      include PlanningHelper
   def index
-      @task = PlanningTask.find(params["planning_task_id"])
+      # @task = PlanningTask.find(params["planning_task_id"])
      
   end
   

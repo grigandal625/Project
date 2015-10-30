@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150910154536) do
+ActiveRecord::Schema.define(version: 20151030013102) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -66,6 +66,15 @@ ActiveRecord::Schema.define(version: 20150910154536) do
   end
 
   create_table "extension_databases", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "fbresults", force: true do |t|
+    t.text     "group"
+    t.string   "fio"
+    t.string   "fb"
+    t.integer  "result"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

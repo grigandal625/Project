@@ -7,20 +7,22 @@ UIR::Application.routes.draw do
 
     # FORWARD / REVERSE
   
-  get "forwards/index"
-   get "forwards/execute"
-  get "viewsresult/index"
+  # get "forwards/index"
+  # get "forwards/execute"
+  # get "viewsresult/index"
   get "reverse/index"
-  get "adminpanel/index"
-   get "forwards2/index"
+  get "forwards2/results",          to: 'forwards2#results',     as: :fb_results 
+  get "adminpanel/index",          to: 'adminpanel#index',     as: :adminpanel
+  get "forwards2/index",           to: 'forwards2#index',      as: :forwards2
     # root 'forwards#index'
 #     
-    post "forwards2/getfile"
-   
-    post "adminpanel/getCSV"
-    post "adminpanel/getBothMethod"
-     post "adminpanel/saveJSON"
-    post "reverse/getfile"
+  post "forwards2/getfile"   
+  post "forwards2/saveResult"
+  post "reverse/saveResult"
+  post "adminpanel/getCSV"
+  post "adminpanel/getBothMethod"
+  post "adminpanel/saveJSON"
+  post "reverse/getfile"
 
  # END FORWARD/REVERSE
  
