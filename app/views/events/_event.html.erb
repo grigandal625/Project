@@ -1,0 +1,6 @@
+<div class='events' data-event="<%=event.id%>">
+  <%=event.name%>
+  <%= link_to event, remote: true, method: :delete,  data: { confirm: 'Удалить?' } do %>
+    <span class="delete">&times</span>
+  <% end %>
+</div>

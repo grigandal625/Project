@@ -1,0 +1,6 @@
+$("<%= escape_javascript(render @event) %>").appendTo("#addTo");
+$('div.events').draggable({
+      containment: 'table',
+      revert : 'invalid'
+});
+$td.removeAttr('id');

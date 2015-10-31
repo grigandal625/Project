@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <!-- <link rel="stylesheet" type="text/css" href="../timetable/main.css"> -->
+  <%= stylesheet_link_tag 'timetables' %>
+  <%= javascript_include_tag 'timetables', 'jquery' %>
+  <!--<script src="http://code.jquery.com/jquery-2.1.4.js"></script>-->
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
+</head>
+<body>
+<table>
+  <tr>
+    <th></th>
+    <th class="num">1</th>
+    <th class="num">2</th>
+    <th class="num">3</th>
+    <th class="num">4</th>
+    <th class="num">5</th>
+    <th class="num">6</th>
+    <th class="num">7</th>
+    <th class="num">8</th>
+    <th class="num">9</th>
+    <th class="num">10</th>
+    <th class="num">11</th>
+    <th class="num">12</th>
+    <th class="num">13</th>
+    <th class="num">14</th>
+    <th class="num">15</th>
+    <th class="num">16</th>
+  </tr>
+  <% @groups.each do |group| %>
+    <% timetable = Timetable.find_by(group_id: group.id) %>
+    <% if timetable == nil%>
+      <% timetable = Timetable.new() %>
+      <% timetable.group_id = group.id %>
+      <% timetable.save %>
+    <%end%>
+    <tr data-timetable=<%=timetable.id%>>
+      <td class="num"><%=group.number%></td>
+      <% for i in 1..16 %>
+        <td class="events" data-week="<%=i%>">
+          <% event = timetable.events.find_by(week: i)%>
+          <% if event!=nil %>
+            <%= render event %>
+          <%end%>
+        </td>
+      <%end%>
+    </tr>
+  <% end %>
+</table>
+
+  <div id="events_form">
+        <span id="events_close">X</span>
+    <p>Выберите тест на проверку знаний:</p>
+    <%= form_for(@event, remote: true) do |f| %>
+      <p>
+        <%= f.label :test_id %><br>
+        <%= f.text_field :test_id %>
+      </p>
+      <p>
+        <%= f.label :name %><br>
+        <%= f.text_field :name %>
+      </p>
+      <p class="event_hidden">
+        <%= f.label :timetable_id %><br>
+        <%= f.text_field :timetable_id %>
+      </p>
+      <p class="event_hidden">
+        <%= f.label :week %><br>
+        <%= f.text_field :week %>
+      </p>
+      <p>
+        <%= f.submit %>
+      </p>
+    <% end %>
+    <!-- <form name="events">
+      
+      <select name="events" id="select_events">
+        <option value="1">Психологическое тестирование</option>
+        <option value="2">Проверка знаний</option>
+        <option value="3">Семантические сети и фреймы</option>
+        <option value="4">Прямой/обратный вывод</option>
+      </select>
+      
+    </form> 
+        <button id="init">OK</button>-->
+  </div>
+  <div id="overlay"></div>
+</body>
+</html>

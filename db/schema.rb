@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150910154536) do
+ActiveRecord::Schema.define(version: 20151030173323) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -65,7 +65,27 @@ ActiveRecord::Schema.define(version: 20150910154536) do
     t.datetime "updated_at"
   end
 
+  create_table "events", force: true do |t|
+    t.string   "name"
+    t.integer  "test_id"
+    t.integer  "week"
+    t.integer  "timetable_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "events", ["timetable_id"], name: "index_events_on_timetable_id"
+
   create_table "extension_databases", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "fbresults", force: true do |t|
+    t.text     "group"
+    t.string   "fio"
+    t.string   "fb"
+    t.integer  "result"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -545,6 +565,14 @@ ActiveRecord::Schema.define(version: 20150910154536) do
   end
 
   add_index "text_correction_utzs", ["ka_topic_id"], name: "index_text_correction_utzs_on_ka_topic_id"
+
+  create_table "timetables", force: true do |t|
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "timetables", ["group_id"], name: "index_timetables_on_group_id"
 
   create_table "tokenlines", force: true do |t|
     t.datetime "created_at"

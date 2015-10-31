@@ -184,6 +184,10 @@ UIR::Application.routes.draw do
   get "schedules/pokaz"
  
   resources :schedules
+
+  get "timetables", to: "timetables#index", as: "timetables"
+  post "events/move"
+  resources :events
      
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
