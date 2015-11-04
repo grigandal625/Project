@@ -1,9 +1,5 @@
 $(document).ready(function (){
-  $('div.events').draggable({
-      containment: 'table',
-      revert : 'invalid'
-  });
-  $(document).on('click', 'td.events', function() {
+ $(document).on('click', 'td.events', function() {
     if ($('div', this).length==0) { //true if $(this) dont include divs
       $('#overlay').fadeIn(400,
       function(){
@@ -17,8 +13,22 @@ $(document).ready(function (){
       $(this).attr('id', 'addTo'); // save td to add div.events 
     };
   });
-  $("#events_close, #overlay, input[name='commit']").click( function(){ 
-    $('#events_form')
+    $(document).on('click', '#add_groups', function() {
+            $('#overlay').fadeIn(400,
+                function(){
+                    $('#groups_form')
+                        .css('display', 'block')
+                        .animate({opacity: 1, top: '50%'}, 200);
+                });
+    });
+    $('#check_all').click(function() {
+        $('input[type=checkbox]').prop('checked', true);
+    });
+    $('#uncheck_all').click(function() {
+        $('input[type=checkbox]').prop('checked', false);
+    });
+  $("#events_close, #groups_close, #overlay, input[name='commit']").click( function(){
+    $('#events_form, #groups_form')
       .animate({opacity: 0, top: '45%'}, 200,  
         function(){ 
           $(this).css('display', 'none'); 
@@ -26,29 +36,12 @@ $(document).ready(function (){
         }
       );
   });
-  $('td.events').droppable({
-    accept: 'div.events',
-    tolerance: 'intersect',
-    drop: function(event, ui) {
-      if ($('div', this).length==0) {
-        $div=$(ui.draggable);
-        $div.appendTo($(this));
-        var event_id = $div.data('event');
-        var week = $(this).data('week');
-        var timetable_id = $(this).parent().data('timetable');
-        moveEvent(event_id,week,timetable_id);
-        $div.css({
-          'top': '0px',
-          'left': '0px'
-        });
-      } else {
-        $(ui.draggable).animate({ top: 0, left: 0 }, 'slow'); //revert
-      }
-    }
-  });
+
+
   $(document).on('click', '.delete', function() {
     $(this).parent().parent().attr('id', 'toDelete');
   });
+    $( "#add_groups" ).trigger( "click" );
 });
 function moveEvent(event_id,week,timetable_id){
   $.ajax({

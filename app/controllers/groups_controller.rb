@@ -67,6 +67,7 @@ class GroupsController < AdminToolsController
 
   def create
     group = Group.create(number: params[:number])
+    group.create_timetable
     redirect_to edit_group_path(group)
   end
 

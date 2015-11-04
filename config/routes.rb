@@ -187,6 +187,8 @@ UIR::Application.routes.draw do
 
   get "timetables", to: "timetables#index", as: "timetables"
   post "events/move"
+  post "timetables/add"
+  resources :timetables
   resources :events
      
   # The priority is based upon order of creation: first created -> highest priority.

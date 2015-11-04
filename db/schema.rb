@@ -81,15 +81,6 @@ ActiveRecord::Schema.define(version: 20151030173323) do
     t.datetime "updated_at"
   end
 
-  create_table "fbresults", force: true do |t|
-    t.text     "group"
-    t.string   "fio"
-    t.string   "fb"
-    t.integer  "result"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "filling_utz_answers", force: true do |t|
     t.string   "text"
     t.integer  "filling_utz_interval_id"

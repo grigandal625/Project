@@ -1,0 +1,31 @@
+<%for i in @show.keys%>
+  <%if @show["#{i}"]=="1"%>
+    $('table').append("<%= j (render Timetable.find_by id: i) %>");
+    $("#show_<%=i%>").remove();
+  <%end%>
+<%end%>
+
+$('div.events').draggable({
+  containment: 'table',
+  revert: 'invalid'
+});
+$('td.events').droppable({
+  accept: 'div.events',
+  tolerance: 'intersect',
+  drop: function (event, ui) {
+    if ($('div', this).length == 0) {
+      $div = $(ui.draggable);
+      $div.appendTo($(this));
+      var event_id = $div.data('event');
+      var week = $(this).data('week');
+      var timetable_id = $(this).parent().data('timetable');
+      moveEvent(event_id, week, timetable_id);
+      $div.css({
+        'top': '0px',
+        'left': '0px'
+      });
+    } else {
+      $(ui.draggable).animate({top: 0, left: 0}, 'slow'); //revert
+    }
+  }
+});

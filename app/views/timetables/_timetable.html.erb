@@ -1,0 +1,11 @@
+  <tr data-timetable=<%=timetable.id%>>
+    <td class="num"><%=timetable.group.number%></td>
+    <% for i in 1..16 %>
+        <td class="events" data-week="<%=i%>">
+          <% event = timetable.events.find_by(week: i)%>
+          <% if event!=nil %>
+              <%= render event %>
+          <%end%>
+        </td>
+    <%end%>
+  </tr>

@@ -10,6 +10,7 @@
   <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
 </head>
 <body>
+<button id="add_groups">Добавить группы</button>
 <table>
   <tr>
     <th></th>
@@ -30,29 +31,10 @@
     <th class="num">15</th>
     <th class="num">16</th>
   </tr>
-  <% @groups.each do |group| %>
-    <% timetable = Timetable.find_by(group_id: group.id) %>
-    <% if timetable == nil%>
-      <% timetable = Timetable.new() %>
-      <% timetable.group_id = group.id %>
-      <% timetable.save %>
-    <%end%>
-    <tr data-timetable=<%=timetable.id%>>
-      <td class="num"><%=group.number%></td>
-      <% for i in 1..16 %>
-        <td class="events" data-week="<%=i%>">
-          <% event = timetable.events.find_by(week: i)%>
-          <% if event!=nil %>
-            <%= render event %>
-          <%end%>
-        </td>
-      <%end%>
-    </tr>
-  <% end %>
 </table>
 
-  <div id="events_form">
-        <span id="events_close">X</span>
+  <div class="form" id="events_form">
+        <span class="close" id="events_close">&times</span>
     <p>Выберите тест на проверку знаний:</p>
     <%= form_for(@event, remote: true) do |f| %>
       <p>
@@ -75,17 +57,22 @@
         <%= f.submit %>
       </p>
     <% end %>
-    <!-- <form name="events">
-      
-      <select name="events" id="select_events">
-        <option value="1">Психологическое тестирование</option>
-        <option value="2">Проверка знаний</option>
-        <option value="3">Семантические сети и фреймы</option>
-        <option value="4">Прямой/обратный вывод</option>
-      </select>
-      
-    </form> 
-        <button id="init">OK</button>-->
+    </div>
+    <div class="form" id="groups_form">
+      <span class="close" id="groups_close">&times</span>
+      <button id="check_all">Выделить все</button> <button id="uncheck_all">Снять выделение</button>
+      <%= form_tag('/timetables/add', remote: true) do %>
+          <div style="width: 290px; height: 270px; overflow-y: scroll;">
+          <% @timetables.each do |timetable| %>
+              <p id="show_<%=timetable.id%>">
+              <%= check_box("show", timetable.id) %>
+              <%= label("show", timetable.id, timetable.group.number) %>
+              </p>
+          <%end%>
+          </div>
+          <%= submit_tag ("Добавить")%>
+      <% end %>
+
   </div>
   <div id="overlay"></div>
 </body>
