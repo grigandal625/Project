@@ -2,7 +2,7 @@
   <%if @show["#{i}"]=="1"%>
     $('table').append("<%= j (render Timetable.find_by id: i) %>");
     $("#show_<%=i%>").remove();
-  <%end%>
+    <%end%>
 <%end%>
 
 $('div.events').draggable({
@@ -28,4 +28,8 @@ $('td.events').droppable({
       $(ui.draggable).animate({top: 0, left: 0}, 'slow'); //revert
     }
   }
+});
+$(document).on('scroll', function(){
+  var leftScroll = $(document).scrollLeft();
+  $('.num').css({'left':-leftScroll});
 });

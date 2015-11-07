@@ -1,5 +1,11 @@
   <tr data-timetable=<%=timetable.id%>>
-    <td class="num"><%=timetable.group.number%></td>
+    <td class="num">
+      <%=timetable.group.number%><br>
+      <%= link_to to_json_timetable_path(timetable), remote: true do %>
+          <span class="to_json">В JSON</span>
+      <% end %><br>
+      <span class="from_json">Правка</span>
+    </td>
     <% for i in 1..16 %>
         <td class="events" data-week="<%=i%>">
           <% event = timetable.events.find_by(week: i)%>

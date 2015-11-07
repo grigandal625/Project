@@ -7,73 +7,94 @@
   <%= stylesheet_link_tag 'timetables' %>
   <%= javascript_include_tag 'timetables', 'jquery' %>
   <!--<script src="http://code.jquery.com/jquery-2.1.4.js"></script>-->
-  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 </head>
 <body>
 <button id="add_groups">Добавить группы</button>
 <table>
   <tr>
     <th></th>
-    <th class="num">1</th>
-    <th class="num">2</th>
-    <th class="num">3</th>
-    <th class="num">4</th>
-    <th class="num">5</th>
-    <th class="num">6</th>
-    <th class="num">7</th>
-    <th class="num">8</th>
-    <th class="num">9</th>
-    <th class="num">10</th>
-    <th class="num">11</th>
-    <th class="num">12</th>
-    <th class="num">13</th>
-    <th class="num">14</th>
-    <th class="num">15</th>
-    <th class="num">16</th>
+    <th>1</th>
+    <th>2</th>
+    <th>3</th>
+    <th>4</th>
+    <th>5</th>
+    <th>6</th>
+    <th>7</th>
+    <th>8</th>
+    <th>9</th>
+    <th>10</th>
+    <th>11</th>
+    <th>12</th>
+    <th>13</th>
+    <th>14</th>
+    <th>15</th>
+    <th>16</th>
   </tr>
 </table>
 
-  <div class="form" id="events_form">
-        <span class="close" id="events_close">&times</span>
-    <p>Выберите тест на проверку знаний:</p>
-    <%= form_for(@event, remote: true) do |f| %>
+<div class="form" id="events_form">
+  <span class="close" id="events_close">&times</span>
+
+  <p>Выберите тест на проверку знаний:</p>
+  <%= form_for(@event, remote: true) do |f| %>
       <p>
         <%= f.label :test_id %><br>
         <%= f.text_field :test_id %>
       </p>
+
       <p>
         <%= f.label :name %><br>
         <%= f.text_field :name %>
       </p>
+
       <p class="event_hidden">
         <%= f.label :timetable_id %><br>
         <%= f.text_field :timetable_id %>
       </p>
+
       <p class="event_hidden">
         <%= f.label :week %><br>
         <%= f.text_field :week %>
       </p>
+
       <p>
         <%= f.submit %>
       </p>
-    <% end %>
-    </div>
-    <div class="form" id="groups_form">
-      <span class="close" id="groups_close">&times</span>
-      <button id="check_all">Выделить все</button> <button id="uncheck_all">Снять выделение</button>
-      <%= form_tag('/timetables/add', remote: true) do %>
-          <div style="width: 290px; height: 270px; overflow-y: scroll;">
-          <% @timetables.each do |timetable| %>
-              <p id="show_<%=timetable.id%>">
+  <% end %>
+</div>
+
+<div class="form" id="groups_form">
+  <span class="close" id="groups_close">&times</span>
+  <button id="check_all">Выделить все</button>
+  <button id="uncheck_all">Снять выделение</button>
+  <%= form_tag('/timetables/add', remote: true) do %>
+      <div style="width: 290px; height: 270px; overflow-y: scroll;">
+        <% @timetables.each do |timetable| %>
+            <p id="show_<%= timetable.id %>">
               <%= check_box("show", timetable.id) %>
               <%= label("show", timetable.id, timetable.group.number) %>
-              </p>
-          <%end%>
-          </div>
-          <%= submit_tag ("Добавить")%>
-      <% end %>
+            </p>
+        <% end %>
+      </div>
+      <%= submit_tag ("Добавить") %>
+  <% end %>
+</div>
 
-  </div>
-  <div id="overlay"></div>
+<div class="form" id="to_json_form">
+  <span class="close" id="to_json_close">&times</span>
+  <textarea id="json" rows="14" cols="38" disabled></textarea>
+
+</div>
+
+<div class="form" id="from_json_form">
+  <span class="close" id="from_json_close">&times</span>
+  <button id="template1">Шаблон 1</button>
+  <button id="template2">Шаблон 2</button>
+  <textarea id="from_json" rows="14" cols="38"></textarea>
+  <button id="from_json_submit">Пересоздать</button>
+</div>
+
+<div id="overlay"></div>
 </body>
 </html>

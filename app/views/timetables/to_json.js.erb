@@ -1,0 +1,5 @@
+<% @json = [] %>
+<% @events.each do |event|  %>
+  <% @json << JSON[event.to_json]  %>
+<% end %>
+$('#json').html('<%= @json.to_json(:only => ["test_id", "week"]).html_safe %>');

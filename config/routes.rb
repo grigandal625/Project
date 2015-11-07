@@ -188,6 +188,8 @@ UIR::Application.routes.draw do
   get "timetables", to: "timetables#index", as: "timetables"
   post "events/move"
   post "timetables/add"
+  get "timetables/:id/to_json", to: "timetables#to_json", as: "to_json_timetable"
+  post "timetables/:id/from_json", to: "timetables#from_json", as: "from_json_timetable"
   resources :timetables
   resources :events
      
