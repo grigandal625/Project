@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151030173323) do
+ActiveRecord::Schema.define(version: 20151108100150) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -556,6 +556,13 @@ ActiveRecord::Schema.define(version: 20151030173323) do
   end
 
   add_index "text_correction_utzs", ["ka_topic_id"], name: "index_text_correction_utzs_on_ka_topic_id"
+
+  create_table "timetable_templates", force: true do |t|
+    t.string   "name"
+    t.text     "json"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "timetables", force: true do |t|
     t.integer  "group_id"

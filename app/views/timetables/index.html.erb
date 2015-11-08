@@ -34,30 +34,23 @@
 </table>
 
 <div class="form" id="events_form">
-  <span class="close" id="events_close">&times</span>
-
+    <span class="close" id="events_close">&times</span>
   <p>Выберите тест на проверку знаний:</p>
   <%= form_for(@event, remote: true) do |f| %>
       <p>
         <%= f.label :test_id %><br>
         <%= f.text_field :test_id %>
       </p>
-
       <p>
         <%= f.label :name %><br>
         <%= f.text_field :name %>
       </p>
-
       <p class="event_hidden">
-        <%= f.label :timetable_id %><br>
+        <%= f.label :timetable_id %>
         <%= f.text_field :timetable_id %>
-      </p>
-
-      <p class="event_hidden">
-        <%= f.label :week %><br>
+        <%= f.label :week %>
         <%= f.text_field :week %>
       </p>
-
       <p>
         <%= f.submit %>
       </p>
@@ -65,11 +58,14 @@
 </div>
 
 <div class="form" id="groups_form">
-  <span class="close" id="groups_close">&times</span>
+    <span class="close" id="groups_close">&times</span>
+  <%= link_to timetables_init_path, remote: true do%>
+      Инициалировать
+  <% end %><br>
   <button id="check_all">Выделить все</button>
   <button id="uncheck_all">Снять выделение</button>
   <%= form_tag('/timetables/add', remote: true) do %>
-      <div style="width: 290px; height: 270px; overflow-y: scroll;">
+      <div id="timetables">
         <% @timetables.each do |timetable| %>
             <p id="show_<%= timetable.id %>">
               <%= check_box("show", timetable.id) %>
@@ -80,17 +76,32 @@
       <%= submit_tag ("Добавить") %>
   <% end %>
 </div>
-
 <div class="form" id="to_json_form">
-  <span class="close" id="to_json_close">&times</span>
-  <textarea id="json" rows="14" cols="38" disabled></textarea>
+    <span class="close" id="to_json_close">&times</span>
+  <%= form_for(@template, remote: true) do |f| %>
+      <p>
+        <%= f.label("Имя шаблона") %><br>
+        <%= f.text_field :name %>
+        <%= f.submit ("Создать шаблон") %>
+      </p>
+      <p>
+        <%= f.label ("JSON") %><br>
+        <%= f.text_area(:json, options={size: "38x14", readonly:''}) %>
+      </p>
+  <% end %>
+  <!--<textarea id="json" rows="14" cols="38" disabled></textarea>-->
 
 </div>
 
 <div class="form" id="from_json_form">
   <span class="close" id="from_json_close">&times</span>
-  <button id="template1">Шаблон 1</button>
-  <button id="template2">Шаблон 2</button>
+  <select id="templates">
+    <%@templates.each do |template| %>
+      <option value="<%=template.id%>"><%=template.name%> </option>
+    <%end%>
+  </select>
+  <button id="template">Вставить</button>
+  <button id="template_delete">Удалить</button>
   <textarea id="from_json" rows="14" cols="38"></textarea>
   <button id="from_json_submit">Пересоздать</button>
 </div>
