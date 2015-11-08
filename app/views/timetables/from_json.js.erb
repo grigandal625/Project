@@ -1,2 +1,19 @@
-$('#toAddFromJSON').remove();
-$('table').append("<%= j (render @timetable) %>");
+$('#toAddFromJSON').html('<td class="num"><%=@timetable.group.number%><br><%= link_to to_json_timetable_path(@timetable), remote: true do %><span class="to_json">Сохранить</span><% end %><br> <a class="from_json">Правка</a> </td> <td class="events" data-week="1"></td> <td class="events" data-week="2"></td> <td class="events" data-week="3"></td> <td class="events" data-week="4"></td> <td class="events" data-week="5"></td> <td class="events" data-week="6"></td> <td class="events" data-week="7"></td> <td class="events" data-week="8"></td> <td class="events" data-week="9"></td> <td class="events" data-week="10"></td> <td class="events" data-week="11"></td> <td class="events" data-week="12"></td> <td class="events" data-week="13"></td> <td class="events" data-week="14"></td> <td class="events" data-week="15"></td> <td class="events" data-week="16"></td>');
+<%events = @timetable.events%>
+<%events.each do |event|%>
+$('td[data-week="<%= event.week %>"]','#toAddFromJSON').append("<%= j (render event) %>");
+<%end%>
+$(document).on('click', 'div.events', function () {
+  $('#overlay').fadeIn(400,
+      function () {
+        $('#events_form_upd')
+            .css('display', 'block')
+            .animate({opacity: 1, top: '50%'}, 200);
+      });
+  $('.event_hidden').hide();
+  $("input[name='event[timetable_id]']").val($(this).parent().parent().data('timetable')); // submit timetable_id and week in db by ror form
+  $("input[name='event[week]']").val($(this).data('week'));
+  $('#toUpd').removeAttr('id');
+  $(this).attr('id', 'toUpd');
+});
+$('#download').fadeOut(400);

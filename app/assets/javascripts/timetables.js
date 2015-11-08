@@ -10,6 +10,7 @@ $(document).ready(function () {
       $('.event_hidden').hide();
       $("input[name='event[timetable_id]']").val($(this).parent().data('timetable')); // submit timetable_id and week in db by ror form
       $("input[name='event[week]']").val($(this).data('week'));
+      $('#addTo').removeAttr('id'); // must be only one 'addTo'
       $(this).attr('id', 'addTo'); // save td to add div.events
     }
     ;
@@ -37,6 +38,7 @@ $(document).ready(function () {
               .css('display', 'block')
               .animate({opacity: 1, top: '50%'}, 200);
         });
+    $('#toAddFromJSON').removeAttr('id');
     $(this).parent().parent().attr('id', 'toAddFromJSON');
   });
   $(".close, #from_json_submit, #overlay, input[name='commit']").click(function () {
@@ -48,18 +50,26 @@ $(document).ready(function () {
         }
       );
   });
+  $("#from_json_submit, input[value='Добавить'], input[value='Пересоздать']").click(function () {
+    $('#download').fadeIn(400);
+  });
   $('#check_all').click(function () {
     $('input[type=checkbox]').prop('checked', true);
   });
   $('#uncheck_all').click(function () {
     $('input[type=checkbox]').prop('checked', false);
   });
-  $(document).on('click', '.delete', function () {
-    $(this).parent().parent().attr('id', 'toDelete');
-  });
   $(document).on('click', '#from_json_submit', function () {
     if (confirm("Текущий учебный план будет удален. Вы уверены?")) {
       fromJSON($('#toAddFromJSON').data('timetable'), $('#from_json').val());
+    }
+  });
+  $(document).on('click', '#template', function () {
+    paste($('#templates').val());
+  });
+  $(document).on('click', '#template_delete', function () {
+    if (confirm("Удалить шаблон?")) {
+      destroy($('#templates').val());
     }
   });
   $("#add_groups").trigger("click");
@@ -78,4 +88,18 @@ function fromJSON(timetable_id, json) {
     data: "json=" + json
   });
 };
+function paste(template_id) {
+  $.ajax({
+    type: "GET",
+    url: "/timetables/paste",
+    data: "id=" + template_id
+  });
+};
+function destroy(template_id) {
+  $.ajax({
+    type: "DELETE",
+    url: "/timetable_templates/"+template_id
+  });
+};
+
 

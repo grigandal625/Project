@@ -1,1 +1,1 @@
-$("#toDelete").remove();
+$('td[data-week="<%= @event.week %>"]','tr[data-timetable="<%= @event.timetable_id %>"]').html('');

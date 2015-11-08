@@ -2,16 +2,24 @@
     <td class="num">
       <%=timetable.group.number%><br>
       <%= link_to to_json_timetable_path(timetable), remote: true do %>
-          <span class="to_json">В JSON</span>
+          <span class="to_json">Сохранить</span>
       <% end %><br>
-      <span class="from_json">Правка</span>
+      <a class="from_json">Правка</a>
     </td>
-    <% for i in 1..16 %>
-        <td class="events" data-week="<%=i%>">
-          <% event = timetable.events.find_by(week: i)%>
-          <% if event!=nil %>
-              <%= render event %>
-          <%end%>
-        </td>
-    <%end%>
+    <td class="events" data-week="1"></td>
+    <td class="events" data-week="2"></td>
+    <td class="events" data-week="3"></td>
+    <td class="events" data-week="4"></td>
+    <td class="events" data-week="5"></td>
+    <td class="events" data-week="6"></td>
+    <td class="events" data-week="7"></td>
+    <td class="events" data-week="8"></td>
+    <td class="events" data-week="9"></td>
+    <td class="events" data-week="10"></td>
+    <td class="events" data-week="11"></td>
+    <td class="events" data-week="12"></td>
+    <td class="events" data-week="13"></td>
+    <td class="events" data-week="14"></td>
+    <td class="events" data-week="15"></td>
+    <td class="events" data-week="16"></td>
   </tr>

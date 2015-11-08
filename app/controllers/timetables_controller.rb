@@ -1,11 +1,25 @@
 class TimetablesController < ApplicationController
   skip_before_filter :verify_authenticity_token
   def index
-    @groups = Group.all
     @event = Event.new
     @timetables = Timetable.all
+    @template = TimetableTemplate.new
+    @templates = TimetableTemplate.all
   end
-  def add
+  def init
+    @groups = Group.all
+    @count = 0
+    @groups.each do |group|
+      if group.timetable==nil
+        group.timetable = Timetable.new
+        @count+= 1
+      end
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+  def show
     @timetables = Timetable.all
     @show = params[:show]
     respond_to do |format|
@@ -19,11 +33,18 @@ class TimetablesController < ApplicationController
       format.js
     end
   end
+  def paste
+    @template = TimetableTemplate.find(params[:id])
+    respond_to do |format|
+      format.js
+    end
+  end
   def from_json
     @timetable = Timetable.find(params[:id])
     @timetable.events.each do |event|
       event.destroy
     end
+    @timetable = Timetable.find(params[:id])
     if params[:json]!=''
       json = JSON.parse(params[:json])
       (0..json.length-1).each do |i|

@@ -187,11 +187,14 @@ UIR::Application.routes.draw do
 
   get "timetables", to: "timetables#index", as: "timetables"
   post "events/move"
-  post "timetables/add"
+  get "timetables/init"
+  post "timetables/show"
   get "timetables/:id/to_json", to: "timetables#to_json", as: "to_json_timetable"
+  get "timetables/paste"
   post "timetables/:id/from_json", to: "timetables#from_json", as: "from_json_timetable"
   resources :timetables
   resources :events
+  resources :timetable_templates
      
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

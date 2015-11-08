@@ -1,9 +1,16 @@
-<%for i in @show.keys%>
-  <%if @show["#{i}"]=="1"%>
-    $('table').append("<%= j (render Timetable.find_by id: i) %>");
-    $("#show_<%=i%>").remove();
+<% if @show!=nil %>
+  <%@show.keys.each do |i|%>
+    <%if @show["#{i}"]=="1"%>
+      <%timetable = Timetable.find_by id: i%>
+      $('table').append("<%= j (render timetable) %>");
+      $("#show_<%=i%>").remove();
+      <%events = timetable.events%>
+      <%events.each do |event|%>
+          $('td[data-week="<%= event.week %>"]','tr[data-timetable="<%= timetable.id %>"]').append("<%= j (render event) %>");
+      <%end%>
     <%end%>
-<%end%>
+  <%end%>
+<% end %>
 
 $('div.events').draggable({
   containment: 'table',
@@ -33,3 +40,4 @@ $(document).on('scroll', function(){
   var leftScroll = $(document).scrollLeft();
   $('.num').css({'left':-leftScroll});
 });
+$('#download').fadeOut(400);
