@@ -1,6 +1,6 @@
   <tr data-timetable=<%=timetable.id%>>
     <td class="num">
-      <%=timetable.group.number%><br>
+      <%=timetable.group_number %><br>
       <%= link_to to_json_timetable_path(timetable), remote: true do %>
           <span class="to_json">Сохранить</span>
       <% end %><br>

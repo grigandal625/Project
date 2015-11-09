@@ -1,7 +1,10 @@
 <div class='events' data-event="<%=event.id%>">
-  Test identificator: <%=event.test_id%><br>
-  Test name: <%=event.name%>
+  <%=event.test_id%><br>
+  <%=event.name%>
+  <%= link_to edit_event_path(event), remote: true do %>
+      <span class="edit">e</span>
+  <% end %>
   <%= link_to event, remote: true, method: :delete,  data: { confirm: 'Удалить?' } do %>
-    <span class="delete">&times</span>
+      <span class="delete">&times</span>
   <% end %>
 </div>

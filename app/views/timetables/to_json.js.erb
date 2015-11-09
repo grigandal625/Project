@@ -3,4 +3,3 @@
   <% @json << JSON[event.to_json]  %>
 <% end %>
 $('#timetable_template_json').html('<%= @json.to_json(:only => ["test_id", "week"]).html_safe %>');
-$('#download').fadeIn(400);

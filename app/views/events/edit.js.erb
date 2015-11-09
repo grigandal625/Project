@@ -1,0 +1,16 @@
+$('#events_form').html("<%= j (render 'form') %>");
+$('#overlay').fadeIn(400,
+    function () {
+      $('#events_form')
+          .css('display', 'block')
+          .animate({opacity: 1, top: '50%'}, 200);
+    });
+$(".close, #overlay, input[name='commit']").click(function () {
+  $('#events_form')
+      .animate({opacity: 0, top: '45%'}, 200,
+          function () {
+            $(this).css('display', 'none');
+            $('#overlay').fadeOut(400);
+          }
+      );
+});

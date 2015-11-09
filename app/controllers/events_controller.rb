@@ -1,7 +1,13 @@
 class EventsController < ApplicationController
   skip_before_filter :verify_authenticity_token
+  before_action :set_events, only: [:move, :edit, :update, :destroy]
   def new
-
+    @event  = Event.new
+    @timetable_id = params[:timetable_id]
+    @week = params[:week]
+    respond_to do |format|
+      format.js
+    end
   end
 
   def create
@@ -14,7 +20,6 @@ class EventsController < ApplicationController
   end
 
   def move
-    @event = Event.find(params[:id])
     @event.week = params[:week]
     @event.timetable_id = params[:timetable_id]
     @event.save
@@ -24,11 +29,10 @@ class EventsController < ApplicationController
   end
 
   def update
-
+    @event.update_attributes(event_params)
   end
 
   def destroy
-    @event = Event.find(params[:id])
     if @event.destroy
       respond_to do |format|
         format.js
@@ -36,7 +40,11 @@ class EventsController < ApplicationController
     end
   end
 
-    private
+  private
+
+    def set_events
+      @event = Event.find(params[:id])
+    end
     def event_params
       params.require(:event).permit(:test_id, :name, :week, :timetable_id)
     end

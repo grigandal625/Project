@@ -1,7 +1,6 @@
-$("<%= escape_javascript(render @event) %>").appendTo("#addTo");
+$("#addTo").html("<%= escape_javascript(render @event) %>");
 $('div.events').draggable({
       containment: 'table',
       revert : 'invalid'
 });
 $('#addTo').removeAttr('id');
-$('#download').fadeOut(400);

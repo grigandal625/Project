@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151108100150) do
+ActiveRecord::Schema.define(version: 20151109202940) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -568,6 +568,7 @@ ActiveRecord::Schema.define(version: 20151108100150) do
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "group_number"
   end
 
   add_index "timetables", ["group_id"], name: "index_timetables_on_group_id"

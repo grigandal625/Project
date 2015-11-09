@@ -1,0 +1,6 @@
+$("#upd").html("<%= escape_javascript(render @event) %>");
+$('div.events').draggable({
+  containment: 'table',
+  revert : 'invalid'
+});
+$('#upd').removeAttr('id');

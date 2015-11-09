@@ -11,7 +11,9 @@ class TimetablesController < ApplicationController
     @count = 0
     @groups.each do |group|
       if group.timetable==nil
-        group.timetable = Timetable.new
+        timetable = Timetable.new
+        timetable.group_number = group.number
+        group.timetable = timetable
         @count+= 1
       end
     end
@@ -20,8 +22,8 @@ class TimetablesController < ApplicationController
     end
   end
   def show
-    @timetables = Timetable.all
-    @show = params[:show]
+    show = params[:show]
+    @timetables = Timetable.where(id: show.select{|k,v| v == '1'}.keys)
     respond_to do |format|
       format.js
     end
@@ -49,8 +51,8 @@ class TimetablesController < ApplicationController
       json = JSON.parse(params[:json])
       (0..json.length-1).each do |i|
         event = @timetable.events.new
-        event.test_id = json[i]["test_id"]
-        event.week = json[i]["week"]
+        event.test_id = json[i]['test_id']
+        event.week = json[i]['week']
         event.save
       end
     end

@@ -1,22 +1,27 @@
 table{
   width:  2000px;
+  border: solid 1px #606060;
 }
 td{
   width: 300px;
   height: 100px;
   text-align: center;  
-  border: solid 1px gray;
+  border: solid 1px #606060;
+}
+th{
+  border: solid 1px #606060;
 }
 .events{
   cursor: pointer;
 }
 div.events{
   text-align: center;
-  width: 90%;
+  width: 85%;
   height: 90%;
   padding-right: 13px;
   margin: auto;
-  background-color: gray;
+  background-color: #AAAAAA;
+  border: 1px black solid;
   border-radius: 5px; 
   position: relative;
   /*display: inline-block;*/
@@ -41,6 +46,16 @@ span.delete{
   right: 0px;
   display: block;
 }
+span.edit{
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 24px;
+  text-shadow: 0px 0px 5px #222;
+  position: absolute;
+  top: 5px;
+  right: 2px;
+  display: block;
+}
 #timetables{
   width: 290px;
   height: 270px;
@@ -49,6 +64,10 @@ span.delete{
 a {
   cursor: pointer;
   text-decoration: none;
+  color: black;
+}
+#event_hidden{
+  display: none;
 }
 
 

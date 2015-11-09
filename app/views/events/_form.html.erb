@@ -1,0 +1,21 @@
+<span class="close" id="events_close">&times</span>
+<p>Выберите тест на проверку знаний:</p>
+<%= form_for(@event, remote: true) do |f| %>
+    <p>
+      <%= f.label :test_id %><br>
+      <%= f.text_field :test_id %>
+    </p>
+    <p>
+      <%= f.label :name %><br>
+      <%= f.text_field :name %>
+    </p>
+    <p id="event_hidden">
+      <%= f.label :timetable_id %>
+      <%= f.text_field :timetable_id %>
+      <%= f.label :week %>
+      <%= f.text_field :week %>
+    </p>
+    <p>
+      <%= f.submit %>
+    </p>
+<% end %>

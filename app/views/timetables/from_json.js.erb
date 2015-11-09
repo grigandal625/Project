@@ -3,17 +3,28 @@ $('#toAddFromJSON').html('<td class="num"><%=@timetable.group.number%><br><%= li
 <%events.each do |event|%>
 $('td[data-week="<%= event.week %>"]','#toAddFromJSON').append("<%= j (render event) %>");
 <%end%>
-$(document).on('click', 'div.events', function () {
-  $('#overlay').fadeIn(400,
-      function () {
-        $('#events_form_upd')
-            .css('display', 'block')
-            .animate({opacity: 1, top: '50%'}, 200);
+$('div.events').draggable({
+  containment: 'table',
+  revert: 'invalid'
+});
+$('td.events').droppable({
+  accept: 'div.events',
+  tolerance: 'intersect',
+  drop: function (event, ui) {
+    if ($('div', this).length == 0) {
+      $div = $(ui.draggable);
+      $div.appendTo($(this));
+      var event_id = $div.data('event');
+      var week = $(this).data('week');
+      var timetable_id = $(this).parent().data('timetable');
+      moveEvent(event_id, week, timetable_id);
+      $div.css({
+        'top': '0px',
+        'left': '0px'
       });
-  $('.event_hidden').hide();
-  $("input[name='event[timetable_id]']").val($(this).parent().parent().data('timetable')); // submit timetable_id and week in db by ror form
-  $("input[name='event[week]']").val($(this).data('week'));
-  $('#toUpd').removeAttr('id');
-  $(this).attr('id', 'toUpd');
+    } else {
+      $(ui.draggable).animate({top: 0, left: 0}, 'slow'); //revert
+    }
+  }
 });
 $('#download').fadeOut(400);

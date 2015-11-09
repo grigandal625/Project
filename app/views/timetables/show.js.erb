@@ -1,14 +1,9 @@
-<% if @show!=nil %>
-  <%@show.keys.each do |i|%>
-    <%if @show["#{i}"]=="1"%>
-      <%timetable = Timetable.find_by id: i%>
-      $('table').append("<%= j (render timetable) %>");
-      $("#show_<%=i%>").remove();
-      <%events = timetable.events%>
-      <%events.each do |event|%>
-          $('td[data-week="<%= event.week %>"]','tr[data-timetable="<%= timetable.id %>"]').append("<%= j (render event) %>");
-      <%end%>
-    <%end%>
+<% @timetables.each do |timetable| %>
+  $('table').append("<%= j (render timetable) %>");
+  $("#show_<%=timetable.id%>").remove(); // delete checkbox from form
+  <%events = timetable.events%>
+  <%events.each do |event|%>
+    $('td[data-week="<%= event.week %>"]', 'tr[data-timetable="<%= timetable.id %>"]').append("<%= j (render event) %>");
   <%end%>
 <% end %>
 
@@ -35,9 +30,5 @@ $('td.events').droppable({
       $(ui.draggable).animate({top: 0, left: 0}, 'slow'); //revert
     }
   }
-});
-$(document).on('scroll', function(){
-  var leftScroll = $(document).scrollLeft();
-  $('.num').css({'left':-leftScroll});
 });
 $('#download').fadeOut(400);
