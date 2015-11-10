@@ -6,7 +6,7 @@ class TimetablesController < ApplicationController
     @template = TimetableTemplate.new
     @templates = TimetableTemplate.all
   end
-  def init
+  def init #if group haven't timetable => creates timetable
     @groups = Group.all
     @count = 0
     @groups.each do |group|
@@ -21,27 +21,31 @@ class TimetablesController < ApplicationController
       format.js
     end
   end
-  def show
+  def show #shows checked timetables
     show = params[:show]
     @timetables = Timetable.where(id: show.select{|k,v| v == '1'}.keys)
     respond_to do |format|
       format.js
     end
   end
-  def to_json
+  def to_json #shows timetable events in to_json_form textarea
     @timetable = Timetable.find(params[:id])
     @events = @timetable.events
+    @json = []
+    @events.each do |event|
+      @json << JSON[event.to_json]
+    end
     respond_to do |format|
       format.js
     end
   end
-  def paste
+  def paste #paste template json in from_json_form textarea
     @template = TimetableTemplate.find(params[:id])
     respond_to do |format|
       format.js
     end
   end
-  def from_json
+  def from_json #destroy all events of chosen timetable and creates new from json in from_json_form textarea
     @timetable = Timetable.find(params[:id])
     @timetable.events.each do |event|
       event.destroy

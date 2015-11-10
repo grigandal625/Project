@@ -1,6 +1,6 @@
 <% @timetables.each do |timetable| %>
   $('table').append("<%= j (render timetable) %>");
-  $("#show_<%=timetable.id%>").remove(); // delete checkbox from form
+  $("#show_<%=timetable.id%>").remove(); // delete checkbox from groups_form
   <%events = timetable.events%>
   <%events.each do |event|%>
     $('td[data-week="<%= event.week %>"]', 'tr[data-timetable="<%= timetable.id %>"]').append("<%= j (render event) %>");

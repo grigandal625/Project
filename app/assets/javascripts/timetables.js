@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  //to create new event
   $(document).on('click', 'td.events', function () {
     if ($('div', this).length == 0) { //true if $(this) dont include divs
       newEvent($(this).data('week'), $(this).parent().data('timetable'))
@@ -7,10 +8,12 @@ $(document).ready(function () {
     }
     ;
   });
+  //to edit event
   $(document).on('click', 'span.edit', function () {
     $('#upd').removeAttr('id');
     $(this).parent().parent().parent().attr('id', 'upd');
   });
+  //to show groups_form with checkboxes
   $(document).on('click', '#add_groups', function () {
     $('#overlay').fadeIn(400,
         function () {
@@ -19,6 +22,7 @@ $(document).ready(function () {
               .animate({opacity: 1, top: '50%'}, 200);
         });
   });
+  //to show to_json_form
   $(document).on('click', '.to_json', function () {
     $('#overlay').fadeIn(400,
         function () {
@@ -27,6 +31,7 @@ $(document).ready(function () {
               .animate({opacity: 1, top: '50%'}, 200);
         });
   });
+  //to show from_json_form and add #toAddFromJSON to timetable tr
   $(document).on('click', '.from_json', function () {
     $('#overlay').fadeIn(400,
         function () {
@@ -37,6 +42,7 @@ $(document).ready(function () {
     $('#toAddFromJSON').removeAttr('id');
     $(this).parent().parent().attr('id', 'toAddFromJSON');
   });
+  //to hide forms
   $(".close, #from_json_submit, #overlay, input[name='commit']").click(function () {
     $('#events_form, #groups_form, #to_json_form, #from_json_form')
         .animate({opacity: 0, top: '45%'}, 200,
@@ -46,6 +52,7 @@ $(document).ready(function () {
             }
         );
   });
+  //to show download overlay
   $("#from_json_submit, input[value='Добавить'], input[value='Пересоздать']").click(function () {
     $('#download').fadeIn(400);
   });
@@ -62,19 +69,22 @@ $(document).ready(function () {
       $('#download').fadeOut(400);
     }
   });
+  //to paste template json to textarea
   $(document).on('click', '#template', function () {
     paste($('#templates').val());
   });
+  // to delete template
   $(document).on('click', '#template_delete', function () {
     if (confirm("Удалить шаблон?")) {
       destroy($('#templates').val());
     }
   });
+  // to fix group_number on horizontal scroll
   $(document).on('scroll', function(){
     var leftScroll = $(document).scrollLeft();
     $('.num').css({'left':leftScroll});
   });
-  $("#add_groups").trigger("click");
+  $("#add_groups").trigger("click"); //to show groups_form
 });
 function newEvent(week, timetable_id) {
   $.ajax({

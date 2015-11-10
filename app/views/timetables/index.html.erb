@@ -37,7 +37,7 @@
 
 <div class="form" id="groups_form">
     <span class="close" id="groups_close">&times</span>
-  <%= link_to timetables_init_path, remote: true do%>
+  <%= link_to timetables_init_path, remote: true,  data: { confirm: 'Страница будет перезагружена. Инициализировать?' } do%>
       Инициалировать
   <% end %><br>
   <button id="check_all">Выделить все</button>

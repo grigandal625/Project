@@ -5,7 +5,7 @@ $('#overlay').fadeIn(400,
           .css('display', 'block')
           .animate({opacity: 1, top: '50%'}, 200);
     });
-$(".close, #overlay, input[name='commit']").click(function () {
+$(".close, input[name='commit']").click(function () {
   $('#events_form')
       .animate({opacity: 0, top: '45%'}, 200,
           function () {

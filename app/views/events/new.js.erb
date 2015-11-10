@@ -7,7 +7,7 @@ $('#overlay').fadeIn(400,
 });
 $("input[name='event[timetable_id]']").val(<%= @timetable_id %>); // submit timetable_id and week in db by ror form
 $("input[name='event[week]']").val(<%= @week %>);
-$(".close, #overlay, input[name='commit']").click(function () {
+$(".close, input[name='commit']").click(function () {
   $('#events_form')
       .animate({opacity: 0, top: '45%'}, 200,
           function () {
