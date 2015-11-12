@@ -22,8 +22,9 @@ include PlanningHelper
   def create 
     @semantic = Semanticnetwork.new()
     @semantic.rating = 0;
-    @semantic.etalon = Etalon.find(:all, :order => "RANDOM()", :limit => 1).first
-
+    @semantic.etalon = Etalon.where(:check => true).order("RANDOM()").first
+    print ("-------------------")
+    print (@semantic.etalon.to_json)
 
     @semantic.json = ""
     @semantic.student = User.find(session[:user_id]).student

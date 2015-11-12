@@ -94,6 +94,8 @@ UIR::Application.routes.draw do
   get "groups/:id/generate_report", to: "groups#generate_report", as: "report_gen"
   get  "semanticanswers/result"
 
+
+
   post "students/passupdate"
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
   
@@ -132,6 +134,7 @@ UIR::Application.routes.draw do
   post "semanticanswers/create"
   post "semanticanswers/updatesemanticjson"
   post "semantictests/updateJson"
+  post "semantictests/setEtalonCheck"
   post "semanticanswers/getmistakes"
   get  "semanticanswers/new"
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151030013102) do
+ActiveRecord::Schema.define(version: 20151112121002) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20151030013102) do
     t.text     "nodejson"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "check"
   end
 
   create_table "extension_databases", force: true do |t|
