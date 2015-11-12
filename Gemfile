@@ -66,7 +66,7 @@ gem 'slim'
 
 # Generator of test tasks
 group :trash do
-  #gem 'tasks_generator', '>= 1.9'
+  gem 'tasks_generator', '>= 1.9'
 end
 
 # Translit
