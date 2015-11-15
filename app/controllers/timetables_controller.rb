@@ -5,6 +5,8 @@ class TimetablesController < ApplicationController
     @timetables = Timetable.all
     @template = TimetableTemplate.new
     @templates = TimetableTemplate.all
+    @tips = Tip.all
+    @works = Work.all
   end
   def init #if group haven't timetable => creates timetable
     @groups = Group.all
