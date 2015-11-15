@@ -5,8 +5,6 @@ class TimetablesController < ApplicationController
     @timetables = Timetable.all
     @template = TimetableTemplate.new
     @templates = TimetableTemplate.all
-    @tips = Tip.all
-    @works = Work.all
   end
   def init #if group haven't timetable => creates timetable
     @groups = Group.all
@@ -58,6 +56,7 @@ class TimetablesController < ApplicationController
       (0..json.length-1).each do |i|
         event = @timetable.events.new
         event.test_id = json[i]['test_id']
+        event.name =  json[i]['name']
         event.week = json[i]['week']
         event.save
       end

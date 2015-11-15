@@ -2,6 +2,8 @@ class EventsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_events, only: [:move, :edit, :update, :destroy]
   def new
+    @tips = Tip.all
+    @works = Work.all
     @event  = Event.new
     @timetable_id = params[:timetable_id]
     @week = params[:week]
@@ -26,6 +28,10 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.js
     end
+  end
+  def edit
+    @tips = Tip.all
+    @works = Work.all
   end
 
   def update

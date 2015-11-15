@@ -262,7 +262,7 @@ ActiveRecord::Schema.define(version: 20151114135803) do
   add_index "ka_variants", ["ka_test_id", "number"], name: "index_ka_variants_on_ka_test_id_and_number"
 
   create_table "logs", force: true do |t|
-    t.text    "result"
+    t.text    "mistakes"
     t.text    "data"
     t.integer "component_id"
     t.string  "component_type"
@@ -500,7 +500,7 @@ ActiveRecord::Schema.define(version: 20151114135803) do
     t.integer  "etalonframe_id"
     t.integer  "student_id"
     t.text     "studentcode"
-    t.integer  "result"
+    t.text     "result"
     t.boolean  "isfinish"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -557,10 +557,18 @@ ActiveRecord::Schema.define(version: 20151114135803) do
 
   add_index "text_correction_utzs", ["ka_topic_id"], name: "index_text_correction_utzs_on_ka_topic_id"
 
+  create_table "timetable_templates", force: true do |t|
+    t.string   "name"
+    t.text     "json"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "timetables", force: true do |t|
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "group_number"
   end
 
   add_index "timetables", ["group_id"], name: "index_timetables_on_group_id"
