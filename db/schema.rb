@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151030173323) do
+ActiveRecord::Schema.define(version: 20151114135803) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -77,15 +77,6 @@ ActiveRecord::Schema.define(version: 20151030173323) do
   add_index "events", ["timetable_id"], name: "index_events_on_timetable_id"
 
   create_table "extension_databases", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "fbresults", force: true do |t|
-    t.text     "group"
-    t.string   "fio"
-    t.string   "fb"
-    t.integer  "result"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -271,7 +262,7 @@ ActiveRecord::Schema.define(version: 20151030173323) do
   add_index "ka_variants", ["ka_test_id", "number"], name: "index_ka_variants_on_ka_test_id_and_number"
 
   create_table "logs", force: true do |t|
-    t.text    "mistakes"
+    t.text    "result"
     t.text    "data"
     t.integer "component_id"
     t.string  "component_type"
@@ -509,7 +500,7 @@ ActiveRecord::Schema.define(version: 20151030173323) do
     t.integer  "etalonframe_id"
     t.integer  "student_id"
     t.text     "studentcode"
-    t.text     "result"
+    t.integer  "result"
     t.boolean  "isfinish"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -574,6 +565,12 @@ ActiveRecord::Schema.define(version: 20151030173323) do
 
   add_index "timetables", ["group_id"], name: "index_timetables_on_group_id"
 
+  create_table "tips", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "tokenlines", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -629,5 +626,13 @@ ActiveRecord::Schema.define(version: 20151030173323) do
   end
 
   add_index "v_results", ["result_id"], name: "index_v_results_on_result_id"
+
+  create_table "works", force: true do |t|
+    t.string   "title"
+    t.integer  "tip_id"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

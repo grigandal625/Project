@@ -51,17 +51,34 @@
   <% end %>
 </table>
 
+
+
   <div id="events_form">
         <span id="events_close">X</span>
-    <p>Выберите тест на проверку знаний:</p>
+    <p>Выберите тест:</p>
     <%= form_for(@event, remote: true) do |f| %>
       <p>
-        <%= f.label :test_id %><br>
-        <%= f.text_field :test_id %>
-      </p>
-      <p>
-        <%= f.label :name %><br>
-        <%= f.text_field :name %>
+        <%= f.label :test_id, 'Тип теста:'%>
+        <%= f.collection_select :test_id, @tips, :id, :name, include_blank: true %>
+        <%= javascript_include_tag 'events' %> 
+        <br><%= f.label :name, 'Тест:'%>
+         <%= f.grouped_collection_select :name, @tips, :works, :name, :title, :title, include_blank: true %>
+       
+        
+        <!--<script>
+  $(document).ready(function() {
+    $('#tips_select').change(function() {
+      $.ajax({
+        url: "<%= get_names_for_select_path %>",
+        data: {
+          test_id : $('#tips_select').val()
+        },
+        dataType: "script"
+      });
+    });
+  });
+      </script>-->
+        
       </p>
       <p class="event_hidden">
         <%= f.label :timetable_id %><br>
@@ -72,7 +89,7 @@
         <%= f.text_field :week %>
       </p>
       <p>
-        <%= f.submit %>
+        <%= f.submit 'Добавить'%>
       </p>
     <% end %>
     <!-- <form name="events">
