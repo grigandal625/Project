@@ -35,8 +35,6 @@ def run_translate(args):
     logging.info("Running translator.")
     logging.info("translator inputs: %s" % args.translate_inputs)
     logging.info("translator arguments: %s" % args.translate_options)
-    if platform.system() == "Linux":
-        PREPROCESS = os.path.join(SRC_DIR, "preprocess", "preprocess") + "-ubuntu"
     call_cmd(TRANSLATE, args.translate_inputs + args.translate_options,
              debug=args.debug)
 
@@ -45,6 +43,12 @@ def run_preprocess(args):
     logging.info("Running preprocessor.")
     logging.info("preprocessor input: %s" % args.preprocess_input)
     logging.info("preprocessor arguments: %s" % args.preprocess_options)
+    if platform.system() == "Linux":
+        PREPROCESS = os.path.join(SRC_DIR, "preprocess", "preprocess") + "-ubuntu"
+        print PREPROCESS
+    else:
+        print "playform.system():"
+        print platform.system()
     call_cmd(PREPROCESS, args.preprocess_options, debug=args.debug,
              stdin=args.preprocess_input)
 
