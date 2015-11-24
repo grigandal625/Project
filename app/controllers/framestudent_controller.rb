@@ -69,9 +69,9 @@ end
 
 
         frame.isfinish = true
-        task = PlanningTask.find(session[:planning_task_id])
-        task.result = {:delete => {"pending-skills" => "frame-skill"}}
-        current_planning_session().commit_task(task)
+        #task = PlanningTask.find(session[:planning_task_id])
+        #task.result = {:delete => {"pending-skills" => "frame-skill"}}
+        #current_planning_session().commit_task(task)
 
 
 
