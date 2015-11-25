@@ -22,38 +22,43 @@ class PlanningSession < ActiveRecord::Base
 
         #Form initial state
         init_state = generate_initial_state(self.procedure, self.state)
+        p init_state.inspect #TODO remove
 
         problem_str = problem_str.gsub("##OBJECTS##", init_state[0])
         problem_str = problem_str.gsub("##INITIAL-STATE##", init_state[1])
+        p problem_str.inspect #TODO remove
 
         cur_plan = []
 
         dir = Dir.mktmpdir
         begin
-            puts dir
+          puts dir
 
-            FileUtils.cp(Rails.configuration.planning_kb + '/' + kb_mapping[self.procedure][0], "#{dir}/domain.pddl")
+          FileUtils.cp(Rails.configuration.planning_kb + '/' + kb_mapping[self.procedure][0], "#{dir}/domain.pddl")
 
-            File.open("#{dir}/problem.pddl", 'w') { |file| file.write(problem_str) }
+          File.open("#{dir}/problem.pddl", 'w') { |file| file.write(problem_str) }
 
-            Dir.chdir(dir) do
-                #Run preprocess
+          Dir.chdir(dir) do
+            #Run preprocess
 
-                run_cmd = "python #{Rails.configuration.planning_bin}/fast-downward.py domain.pddl problem.pddl --search 'lazy_greedy(ff(), preferred=ff())'"
-                puts "Running #{run_cmd}"
-                system(run_cmd)
+            run_cmd = "python #{Rails.configuration.planning_bin}/fast-downward.py domain.pddl problem.pddl --search 'lazy_greedy(ff(), preferred=ff())'"
+            puts "Running #{run_cmd}"
+            system(run_cmd)
 
-                File.open("#{dir}/sas_plan", "r") do |f|
-                f.each_line do |line|
-                    if(!line.start_with?(";") && !line.start_with?("(int-"))
-                        cur_plan.push(line)
-                    end
+            File.open("#{dir}/sas_plan", "r") do |f|
+              f.each_line do |line|
+                if(!line.start_with?(";") && !line.start_with?("(int-"))
+                  cur_plan.push(line)
                 end
+              end
             end
-            end
+          end
+
         ensure
           #FileUtils.remove_entry_secure dir
         end
+
+        p cur_plan.inspect
 
         cur_step_number = 0
         self.plan = []
@@ -69,6 +74,8 @@ class PlanningSession < ActiveRecord::Base
             cur_step_number = cur_step_number + 1
             self.plan.push(cur_step)
         end
+
+        p plan.inspect
 
         end_time = Time.now.to_f
         

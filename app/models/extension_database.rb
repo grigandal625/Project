@@ -59,7 +59,7 @@ class ExtensionDatabase
   		end
   	end
 
-  	def self.generate_state(mode_id, week_id, schedule)
+  	def self.generate_state(week_id, mode_id, schedule)
   		state = {"pending-skills" => [], "pending-knowledge" => [], "pending-psycho" => [], "low-knowledge" => [], "pending-tutoring" => []}
 
   		@@singleton.extensions.each do |ext|

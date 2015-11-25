@@ -19,35 +19,40 @@ class PlanningController < ApplicationController
     end
     
     def new_session
+      @psession = current_planning_session()
+      if (@psession != nil)
+        render text: "Session already started"
+      else
         schedule = Schedule.take
         case params[:procedure]
         when "tutor_designtime_initial"
-            if(@user.role != 'admin')
-                throw "Invalid user role"
-            end
+          if(@user.role != 'admin')
+            throw "Invalid user role"
+          end
 
-            state = ExtensionDatabase.generate_state(Schedule.current_week, ModeType::DesignTime, schedule)
-            #{"finished" => []}
-            ps = PlanningSession.create(:user => @user, :closed => 0, :state => state, :procedure => "tutor_designtime_initial")
-            ps.generate_plan()
-            #render action: "_index"
-            #redirect_to action: "_index"
-            _index
+          state = ExtensionDatabase.generate_state(Schedule.current_week, ModeType::DesignTime, schedule)
+          #{"finished" => []}
+          ps = PlanningSession.create(:user => @user, :closed => 0, :state => state, :procedure => "tutor_designtime_initial")
+          ps.generate_plan()
+          #render action: "_index"
+          #redirect_to action: "_index"
+          _index
         when "tutor_runtime"
 
-            if(@user.role == 'admin')
-                throw "Invalid user role"
-            end
+          if(@user.role == 'admin')
+            throw "Invalid user role"
+          end
 
-            state = ExtensionDatabase.generate_state(Schedule.current_week, ModeType::RunTime, schedule)
-            #{"pending-skills" => ["frame-skill", "sem-network-skill", "linguistic-skill", "reasoning-skill"], "pending-knowledge" => [23, 41], "pending-psycho" => ["main"], "low-knowledge" => [], "pending-tutoring" => []}
-            ps = PlanningSession.create(:user => @user, :closed => 0, :state => state, :procedure => "tutor_runtime")
-            ps.generate_plan()
-            redirect_to action: "_index"
+          state = ExtensionDatabase.generate_state(Schedule.current_week, ModeType::RunTime, schedule)
+          #{"pending-skills" => ["frame-skill", "sem-network-skill", "linguistic-skill", "reasoning-skill"], "pending-knowledge" => [23, 41], "pending-psycho" => ["main"], "low-knowledge" => [], "pending-tutoring" => []}
+          ps = PlanningSession.create(:user => @user, :closed => 0, :state => state, :procedure => "tutor_runtime")
+          ps.generate_plan()
+          redirect_to action: "_index"
 
         else
           render :text => "Invalid procedure name"
         end
+      end
     end
 
     def close_session
