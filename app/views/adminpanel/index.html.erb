@@ -1,5 +1,4 @@
-<% #group = Groups.find(:all, :order => "id ASC")%>
-%>
+<% group = Group.find(:all, :order => "id ASC")%>
 <%user = User.find(:all, :order => "login ASC")%>
 <script>
 	var f = {
@@ -59,7 +58,7 @@
 <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
 	<tr>
 		<td valign="top" align="left">
-			<div class="menu_check">
+			<!-- <div class="menu_check">
 				<a href="javascript://" onClick="$('#result_menu').slideToggle('slow');">Вывод результатов</a><br />
 				<div style="display:none; width:auto;" id="result_menu">
 				<table width="100%" class="tbl_insert">
@@ -71,9 +70,9 @@
 					</tr>
 					<tr>
 						<td><select id="group_select_search">
-							<!-- group.each do |g| 
-							<option value="<=g.name%>"><=g.name%></option>
-							<end%> -->
+							# <%group.each do |g|%> 
+							# <option value="<%=g.number%>"><%=g.number%></option>
+							# <%end%> 
 						</select></td>
 						<td><input type="text" id="year_search" class="input_search" value="<%=(Time.at(Time.now.utc.to_i ).strftime("%d.%m.%Y")).to_s%>" /></td>
 						<td>
@@ -87,7 +86,7 @@
 					</tr>
 				</table>
 				</div>
-			</div>
+			</div> -->
 			
 			<div class="menu_check">
 				<a href="javascript://" onClick="$('#get_action').slideToggle('slow');">Назначение задания</a><br />
@@ -101,11 +100,11 @@
 					<tr>
 						
 						<td>
-							<input id = "input" onkeyup = "f.findHim(this.value);" type = "text" /><br />
 					<select id="user_select_search">
-							<!-- <user.each do |u| %>
-							<option value="<=u.name%>"><=u.fio%> /<=u.group%> </option>
-							<end%> -->
+							 <% students = User.where(:role => "student");
+							 students.each do |u| %>
+							<option value=<%=u.login%>><%=u.student.fio%> /<%=u.student.group.number%> </option>
+							<%end%> -->
 						</select>
 						</td>
 						

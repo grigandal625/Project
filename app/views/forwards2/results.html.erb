@@ -1,0 +1,32 @@
+<table id="result" border="1">
+  <caption class="top"><b>Результаты</b></caption>
+  <script>
+    window.onbeforeunload = null;
+  </script>
+  <thead>
+  <tr class ="center">
+    <th>Группа</th>
+    <th>ФИО</th>
+    <th>П/О</th>
+    <th>Оценка</th>
+    <th>Дата</th>
+    
+
+  </tr>
+  </thead>
+  <% @results.each do |result| %>
+
+      <tr class ="center">
+        <td><%= result.group %></td>
+        <td><%= result.fio %></td>
+        <td><%= result.fb%></td>
+        <td><%= result.result%></td>
+        <td><%= result.created_at.to_date %></td>
+        
+
+
+
+      </tr>
+  <% end %>
+</table>
+<a href="/adminpanel/index" class="gradus">Задания  </a> <br/><a href="/" class="gradus">Главное меню</a>

@@ -49,7 +49,11 @@
       <span>Методические материалы:</span><br/>
       <%= link_to("Перейти", methodical_materials_path) %>
       <span>Тестирование:</span><br/>
-      <%= link_to("Перейти", ka_welcome_path) %>
+      <%= link_to("Перейти", ka_welcome_path) %><br/>
+      <span>Прямой/обратный вывод:</span><br/>
+      <%= link_to("Задания", adminpanel_path) %>
+      <br/>
+      <%= link_to('Результаты',  fb_results_path) %>
     </td>
     <td id="content"><%= yield %></td>
   </tr>

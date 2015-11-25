@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  group: MyText
+  fio: MyString
+  fb: MyString
+  result: 1
+
+two:
+  group: MyText
+  fio: MyString
+  fb: MyString
+  result: 1

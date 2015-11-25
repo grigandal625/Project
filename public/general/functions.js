@@ -811,32 +811,41 @@ var functions = {
     result: function(met) {
     	if (met=='R') {
     		var o = solverR.estimate();
-    		var need = {
-    				name: $('#user_name_now').val(),
-    				e: o.e,
-    				id: $('#user_id_now').val(),
-    				end: 'yes',
-    				trace: this.TraceR(KB.memoryStep),
-					solution: this.SolR(KB.memorySolve),
-    				url: '/reverse/getfile'
-    		}
-    		this.p2s(need);
+    	// 	var need = {
+    	// 			name: $('#user_name_now').val(),
+    	// 			e: o.e,
+    	// 			id: $('#user_id_now').val(),
+    	// 			end: 'yes',
+    	// 			trace: this.TraceR(KB.memoryStep),
+					// solution: this.SolR(KB.memorySolve),
+    	// 			url: '/reverse/getfile'
+    	// 	}
+    	// 	this.p2s(need);
     		$('#set_block').fadeIn();
+            alert("Ваша оценка: "+o.e);
+            this.ipost(o.e);
+            window.onbeforeunload = null;
+            window.location.replace("/");
     	} else {
     		var o = solverF.estimate();
-    		var need = {
-    				name: $('#user_name_now').val(),
-    				e: o.e,
-    				id: $('#user_id_now').val(),
-    				end: 'yes',
-    				trace: this.TraceF(KB.memoryStep),
-					solution: this.SolF(KB.memorySolve),
-    				url: '/menu/getfile'
-    		}
+    	// 	var need = {
+    	// 			name: $('#user_name_now').val(),
+    	// 			e: o.e,
+    	// 			id: $('#user_id_now').val(),
+    	// 			end: 'yes',
+    	// 			trace: this.TraceF(KB.memoryStep),
+					// solution: this.SolF(KB.memorySolve),
+    	// 			url: '/menu/getfile'
+    	// 	}
     	
-    		this.p2s(need);
+    	// 	this.p2s(need);
     		$('#set_block').fadeIn();
     		alert("Ваша оценка: "+o.e);
+            this.ipost(o.e);
+            if (confirm("Осуществить обратный вывод?")){
+                window.onbeforeunload = null;
+                window.location.replace("/reverse/index");
+            };
     	}
     },
     TraceR: function() {
@@ -925,6 +934,18 @@ var functions = {
     			);
     			 
     			
+    },
+    ipost: function(ocenka){
+        $.ajax({
+                     type: "POST",
+                     url: "saveResult",
+                     data: "result=" + ocenka,
+                     success: function()
+                     {
+                         $.jGrowl("Результат сохранен!");
+                     }
+            
+            });
     },
     completeAjax: function(data) {
     	$.jGrowl(data,3000);

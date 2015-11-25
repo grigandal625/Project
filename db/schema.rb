@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20151114135803) do
     t.text     "nodejson"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "check"
   end
 
   create_table "events", force: true do |t|
@@ -77,6 +78,15 @@ ActiveRecord::Schema.define(version: 20151114135803) do
   add_index "events", ["timetable_id"], name: "index_events_on_timetable_id"
 
   create_table "extension_databases", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "fbresults", force: true do |t|
+    t.text     "group"
+    t.string   "fio"
+    t.string   "fb"
+    t.integer  "result"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

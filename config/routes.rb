@@ -7,20 +7,22 @@ UIR::Application.routes.draw do
 
     # FORWARD / REVERSE
   
-  get "forwards/index"
-   get "forwards/execute"
-  get "viewsresult/index"
+  # get "forwards/index"
+  # get "forwards/execute"
+  # get "viewsresult/index"
   get "reverse/index"
-  get "adminpanel/index"
-   get "forwards2/index"
+  get "forwards2/results",          to: 'forwards2#results',     as: :fb_results 
+  get "adminpanel/index",          to: 'adminpanel#index',     as: :adminpanel
+  get "forwards2/index",           to: 'forwards2#index',      as: :forwards2
     # root 'forwards#index'
 #     
-    post "forwards2/getfile"
-   
-    post "adminpanel/getCSV"
-    post "adminpanel/getBothMethod"
-     post "adminpanel/saveJSON"
-    post "reverse/getfile"
+  post "forwards2/getfile"   
+  post "forwards2/saveResult"
+  post "reverse/saveResult"
+  post "adminpanel/getCSV"
+  post "adminpanel/getBothMethod"
+  post "adminpanel/saveJSON"
+  post "reverse/getfile"
 
  # END FORWARD/REVERSE
  
@@ -92,6 +94,8 @@ UIR::Application.routes.draw do
   get "groups/:id/generate_report", to: "groups#generate_report", as: "report_gen"
   get  "semanticanswers/result"
 
+
+
   post "students/passupdate"
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
   
@@ -130,6 +134,7 @@ UIR::Application.routes.draw do
   post "semanticanswers/create"
   post "semanticanswers/updatesemanticjson"
   post "semantictests/updateJson"
+  post "semantictests/setEtalonCheck"
   post "semanticanswers/getmistakes"
   get  "semanticanswers/new"
 
@@ -199,6 +204,7 @@ UIR::Application.routes.draw do
 
   resources :works
 
+     
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
