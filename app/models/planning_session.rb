@@ -95,20 +95,20 @@ class PlanningSession < ActiveRecord::Base
         task.closed = 1
         task.save
 
+        if(task.result["delete"])
+            task.result["delete"].each{|key, value|
+                if(self.state[key])
+                    self.state[key].delete(value)
+                end
+            }
+        end
+
         if(task.result["add"])
             task.result["add"].each{|key, value|
                 if(!self.state[key])
                     self.state[key] = []
                 end
                 self.state[key].push(value)
-            }
-        end
-
-        if(task.result["delete"])
-            task.result["delete"].each{|key, value|
-                if(self.state[key])
-                    self.state[key].delete(value)
-                end
             }
         end
 

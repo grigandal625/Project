@@ -93,7 +93,14 @@ class TestController < ApplicationController
       end
 
       task = PlanningTask.find(session["planning_task_id"])
-      task.result = {:delete => {"pending-skills" => "linguistic-skill"}}
+      threshold = 50
+      task.result = {delete: {"pending-skills" => "linguistic-skill"}}
+      if (result.v_result.mark < threshold ||
+          result.g_result.mark < threshold ||
+          result.s_result.mark < threshold)
+        task.result = task.result.merge({add: {"pending-skills" => "linguistic-skill"}})
+        p task.result.inspect
+      end
       current_planning_session().commit_task(task)
 
       redirect_to result_path(result)
