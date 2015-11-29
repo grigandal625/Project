@@ -84,6 +84,10 @@ $(document).ready(function () {
     var leftScroll = $(document).scrollLeft();
     $('.num').css({'left':leftScroll});
   });
+  $(document).on('scroll', function(){
+    var topScroll = $(document).scrollTop();
+    $('th').css({'top':topScroll});
+  });
   $("#add_groups").trigger("click"); //to show groups_form
 });
 function newEvent(week, timetable_id) {
