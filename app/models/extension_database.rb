@@ -8,8 +8,16 @@ class ExtensionDatabase
   end
 
   class ATExtension
-    attr_accessor :name, :controller_class, :ext_type, :description
-    attr_accessor :accepts_action, :accepts_task, :generate_state, :task_description, :task_exec_path
+    attr_accessor :name, :controller_class, :ext_type, :description, :tasks
+    attr_accessor :generate_state, :task_description, :task_exec_path
+
+
+    AcceptableActions = {
+      ExtensionType::Knowledge => ["extract-knowledge"],
+      ExtensionType::Psycho => [],
+      ExtensionType::Skill => ["extract-skill"],
+      ExtensionType::Other => []
+    }
 
     def get_task_description(leaf_id)
       return task_description.call(leaf_id)
@@ -17,6 +25,17 @@ class ExtensionDatabase
 
     def get_task_exec_path(pddl_act, leaf_id)
       return task_exec_path.call(pddl_act, leaf_id)
+    end
+
+    def accepts_action(action_name)
+      p AcceptableActions.to_s
+      p AcceptableActions[@ext_type].to_s
+      p @ext_type
+      return AcceptableActions[@ext_type].include?(action_name)
+    end
+
+    def accepts_task(task_name)
+      return @tasks.include?(task_name)
     end
   end
 
@@ -45,7 +64,7 @@ class ExtensionDatabase
     #Find suitable extension
     found_ext = nil
     @@singleton.extensions.each do |ext|
-      if((ext.ext_type == task_type) && (ext.accepts_task.call(leaf_id)))
+      if((ext.ext_type == task_type) && (ext.accepts_task(leaf_id)))
         found_ext = ext
         break
       end
@@ -68,9 +87,9 @@ class ExtensionDatabase
     return state
   end
 
-  def self.get_extension_for_task(task_group, leaf_id)
+  def self.get_extension_for_task(action, leaf_id)
     @@singleton.extensions.each do |ext|
-      if(ext.accepts_action.call(task_group) && ext.accepts_task.call(leaf_id))
+      if(ext.accepts_action(action) && ext.accepts_task(leaf_id))
         return ext
       end
     end

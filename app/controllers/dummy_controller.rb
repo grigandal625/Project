@@ -6,14 +6,7 @@ class DummyController < ApplicationController
         ext = ExtensionDatabase::ATExtension.new
         ext.ext_type = ExtensionDatabase::ExtensionType::Skill
         ext.description = "Компонент выявления уровня умений моделировать простейшие ситуации с помощью фреймов"
-
-        ext.accepts_action = lambda { |task_name|
-                                    return task_name == "extract-skill"
-                            }
-
-        ext.accepts_task = lambda { |task_name|
-                                    return task_name == "frame-skill"
-                            }
+        ext.tasks = ["frame-skill"]
 
         ext.generate_state = lambda { |mode_id, week_id, schedule, state|
                                 state["pending-skills"].push("frame-skill")
