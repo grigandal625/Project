@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
     super
     ext_db = ExtensionDatabase.new
     ext_db.add("frames", DummyController)
+    ext_db.add("lingvo", TestController)
     #ext_db.add("reasoner", DummyController)
     #ext_db.add("tester", DummyController)
     #ext_db.add("psycho", DummyController)
