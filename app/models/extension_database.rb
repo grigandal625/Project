@@ -28,9 +28,6 @@ class ExtensionDatabase
     end
 
     def accepts_action(action_name)
-      p AcceptableActions.to_s
-      p AcceptableActions[@ext_type].to_s
-      p @ext_type
       return AcceptableActions[@ext_type].include?(action_name)
     end
 
