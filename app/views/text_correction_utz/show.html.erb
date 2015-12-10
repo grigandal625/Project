@@ -1,0 +1,48 @@
+<div class="col-md-12 col-sm-12">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4>Маркировки или корректировки текста</h4>
+    </div>
+    <div class="panel-body">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#B" data-toggle="tab">Использование</a>
+        </li>
+      </ul>
+      <div class="tabbable">
+        <div class="tab-content">
+
+          <div class="tab-pan activee" id="B">
+            <div class="well well-sm">
+                <%= @utz.text_with_errors %>
+
+                <div class="form-group">
+                  <%= label_tag :answer, 'Введите исправленный текст:' %>
+                  <%= text_area_tag :answer, '', class: 'form-control' %>
+                </div>
+                <button id="done" class="btn btn-default pull-right">Отправить</button>
+
+                <div>
+                    <label>
+                        Количество ошибок для исправления: <%= @utz.errors_count %>
+                    </label>
+                </div>
+
+                <div>
+                    <label>
+                        Подсказка: <%= @utz.hint.blank? ? 'нет': @utz.hint %>
+                    </label>
+                </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= hidden_field_tag :id, @utz.id, id: 'utz_id' %>
+<%= link_to 'Назад', utz_path %>
+
+<% content_for :head do %>
+    <%= javascript_include_tag "ytz4_usage", "data-turbolinks-track" => true %>
+<% end %>

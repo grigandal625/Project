@@ -9,7 +9,13 @@ skip_before_filter :verify_authenticity_token
   def new
   end
   
-  
+  def setEtalonCheck
+    @etalon = Etalon.find(params[:id])
+    @etalon.check = params[:check]
+
+    @etalon.save()
+    render text: "Изменено"
+  end
   
   def create 
     @etalon = Etalon.new()

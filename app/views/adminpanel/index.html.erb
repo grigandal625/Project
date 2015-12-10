@@ -1,0 +1,125 @@
+<% group = Group.find(:all, :order => "id ASC")%>
+<%user = User.find(:all, :order => "login ASC")%>
+<script>
+	var f = {
+		findHim: function(input) {
+			 var field = document.getElementById('user_select_search').getElementsByTagName('option');
+				var q = new RegExp(input, 'ig');
+				for (var i = 0; i < field.length; i += 1) {
+				var option = field[i];
+				var opt = option.innerHTML;
+				if (opt.search(q) != -1) {
+				$(field[i]).detach();
+				var mat = option.value;
+				var st = document.getElementById('user_select_search').innerHTML;
+				document.getElementById('user_select_search').innerHTML = "<option value = '" + mat + "'>" + opt + "</option>" + st;	
+				}
+				}
+		},
+		checkerJSON: function() {
+		
+			var u = $('#user_select_search:first').val();
+			$.jGrowl('Проверка JSON для  <br /><b>'+u+' </b>',5000);
+			if ($('#JSONfile').val()=='') {
+				$.jGrowl('JSON поле пустое',2000);
+			} else {
+				window._forwardReverse = $("#JSONfile").val();
+				var iframe = document.getElementById('checkFrame').src = '/editer/index.html#JSONfile=true';
+				$('#checkFrameDiv').fadeIn();
+			}
+		}
+		
+	}
+	function getHTML() {
+		var g = $('#group_select_search').val();
+		var y = $('#year_search').val();
+		var m = $('#met_search').val();
+		var url = '';
+		if (m!=='both'){ url="/adminpanel/getCSV/";} else {
+			url="/adminpanel/getBothMethod/";
+		}
+		$.post(
+				 url,
+				  {
+					group: g,
+					year: y,
+					met: m
+				  },
+				  onAjaxSuccess
+				);
+				 
+				function onAjaxSuccess(data)
+				{
+				  // Здесь мы получаем данные, отправленные сервером и выводим их на экран.
+					window.open(data);
+				}
+		} 
+</script>
+<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
+	<tr>
+		<td valign="top" align="left">
+			<!-- <div class="menu_check">
+				<a href="javascript://" onClick="$('#result_menu').slideToggle('slow');">Вывод результатов</a><br />
+				<div style="display:none; width:auto;" id="result_menu">
+				<table width="100%" class="tbl_insert">
+					<tr>
+						<td>Группа</td>
+						<td>Дата</td>
+						<td>Вывод</td>
+						<td> Функции</td>
+					</tr>
+					<tr>
+						<td><select id="group_select_search">
+							# <%group.each do |g|%> 
+							# <option value="<%=g.number%>"><%=g.number%></option>
+							# <%end%> 
+						</select></td>
+						<td><input type="text" id="year_search" class="input_search" value="<%=(Time.at(Time.now.utc.to_i ).strftime("%d.%m.%Y")).to_s%>" /></td>
+						<td>
+							<select id="met_search">
+								<option value="forward">Прямой</option>
+								<option value="reverse">Обратный</option>
+								<option value="both">Прямой+Обратный</option>
+							</select>
+							</td>
+						<td><a href="javascript://" onClick="getHTML();" class="menu_link">Сгенерировать Результаты в HTML</a></td>
+					</tr>
+				</table>
+				</div>
+			</div> -->
+			
+			<div class="menu_check">
+				<a href="javascript://" onClick="$('#get_action').slideToggle('slow');">Назначение задания</a><br />
+				<div style="display:none; width:auto;" id="get_action">
+				<table width="100%" class="tbl_insert">
+					<tr>
+						
+						<td width="30%">Студент</td>
+						<td> Функции</td>
+					</tr>
+					<tr>
+						
+						<td>
+					<select id="user_select_search">
+							 <% students = User.where(:role => "student");
+							 students.each do |u| %>
+							<option value=<%=u.login%>><%=u.student.fio%> /<%=u.student.group.number%> </option>
+							<%end%> -->
+						</select>
+						</td>
+						
+							
+						<td>
+							JSON строка: <input value="" id="JSONfile" />
+							<a href="javascript://" onClick="f.checkerJSON();" class="menu_link">Проверка</a> | 
+							<a href="javascript://" onClick="admin.saveJSON(true);" class="menu_link">Допустить</a> / <a href="javascript://" onClick="admin.saveJSON(false);" class="menu_link">Не допустить</a> |
+							
+							</td>
+					</tr>
+				</table>
+				</div>
+			</div>
+		</td>
+	</tr>
+	
+</table>

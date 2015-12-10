@@ -6,6 +6,7 @@ testuser = st.create_user(login: 'student0', pass: Digest::MD5.hexdigest('lolka'
 
 admin = User.create(login: 'admin', pass: Digest::MD5.hexdigest('lgkofpes'), role: 'admin')
 
+
 MethodicalMaterial.create(
   name: 'Components',
   title: '<h1>Методические материалы</h1>',

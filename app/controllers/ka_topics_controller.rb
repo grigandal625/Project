@@ -1,10 +1,16 @@
 class KaTopicsController < ApplicationController
+  include PlanningHelper
+
   skip_before_filter :verify_authenticity_token
   before_action :check_admin
 
   layout "ka_application"
 
   def show
+    respond_to do |format|
+      format.html
+      format.json { render json: KaTopic.find(params[:id]).get_tree }
+    end
   end
 
   def new
@@ -26,6 +32,8 @@ class KaTopicsController < ApplicationController
   def edit
     @topic = KaTopic.find(params[:id])
     @competences = Competence.all
+
+    @task = PlanningTask.find(session[:planning_task_id])
     @constructs = Construct.all
   end
 
@@ -42,6 +50,21 @@ class KaTopicsController < ApplicationController
     topic = KaTopic.find(params[:id])
     topic.destroy
     redirect_to :back
+  end
+
+  def execute
+    session[:planning_task_id] = params[:planning_task_id]
+    redirect_to action: "index"
+  end
+
+  def commit
+    task = PlanningTask.find(session[:planning_task_id])
+    root_nodes_ids = KaTopic.where(parent_id: nil).pluck(:id)
+    task.result = {:add => {"finished" => "onthology-development-step", :add => {"onthologies" => root_nodes_ids}}}
+    current_planning_session().commit_task(task)
+    session[:planning_task_id] = nil
+
+    redirect_to "/"
   end
 
   def show_topics_with_questions

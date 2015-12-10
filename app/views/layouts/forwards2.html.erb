@@ -1,0 +1,216 @@
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="/general/css/jgrowl.css" rel="stylesheet" />
+		<link href="/general/css/main.css" rel="stylesheet" />
+		<title>Прямой вывод</title>
+		<script src="/general/js/jquery.js"></script>
+		<script src="/general/js/jgrowl.js"></script>
+		<script src="/general/js/raphael-min.js"></script>
+        <script src="/general/functions.js"></script>
+		<script src="/general/generateKB.js"></script>
+         <script src="/general/draw.js"></script>
+         <script src="/forward/solver.js"></script>
+                
+		<script type="text/javascript" src="/general/js/jquery-ui-1.10.3.custom.js"></script>
+		
+		<style>
+		#set_block {
+			display:none;
+		}
+		#header {
+			display:block; width:auto; height:auto;
+			padding:20px; color:#fff;  font-size:24px;
+			background: #a90329;
+		}
+		a.gradus {
+			color:#a90329; margin:20px; display:inline-block;
+			font-size:14pt;
+		}
+		a.gradus:hover {
+			color:#000; text-decoration: none;
+		}
+			body,td {
+ 				font-family: "Trebuchet MS";font-size: 10pt;
+			 }
+			hr {
+				color: #BDBDBD;
+				height: 1px;
+				border-top: 0px;
+			}
+			#data_bz {
+				border: 1px solid #e95000;
+				background: #000;
+				color: #FFF;
+				padding: 10px;
+				margin: 10px;
+				font-family: "Courier new";
+				font-size: 16px;
+				border-radius: 5px;
+				box-shadow: 0 0 5px #ccc;
+			}
+			.version {
+				color: #BDBDBD;
+				font-size: 11px;
+			}
+			#menu ul {
+				background: url('/forward/src/bg_menu.png') repeat-x;
+				height: 40px;
+				width: 100%;
+				box-shadow: 0 0 10px #ccc;
+				padding: 0px;
+				margin: 0px;
+			}
+			#menu ul li {
+				list-style: none;
+				float: left;
+				padding: 10px 10px;
+				margin: 0px 5px;
+			}
+			#menu ul li:hover {
+				list-style: none;
+				float: left;
+				background: url('/forward/src/bg_menu_hov.png');
+				height: 30px;
+				border-radius: 0 0 5px 5px;
+			}
+			#menu ul li#sep {
+				list-style: none;
+				float: left;
+				margin: 0px 0px;
+				width: 5px;
+				padding: 0px 0px;
+			}
+			#menu ul li#sep:hover {
+				background: url('/forward/src/bg_menu.png');
+			}
+			#menu ul li a {
+				font-family: arial;
+				font-size: 16px;
+				text-decoration: none;
+				color: #00ffa8;
+				border-bottom: 1px dotted #00ffa8;
+			}
+			#menu ul li a:hover {
+				color: #fff;
+				border-bottom: 1px transparent;
+			}
+			#baza_text {
+				width: 70%;
+				height: 400px;
+			}
+
+			#select_fact input {
+				cursor: pointer;
+				margin: 5px;
+			}
+			#select_fact {
+				width: 90%;
+				height: 200px;
+				display: block;
+			}
+			#holder {
+				box-shadow: 0 0 10px #ccc;
+				border-radius: 5px;
+				width: auto;
+				margin: 5px;
+			}
+			.panel {
+				position: fixed;
+				top: 50px;
+				left: 0;
+				display: none;
+				background: #000000;
+				border: 1px solid #111111;
+				-moz-border-radius-topright: 20px;
+				-webkit-border-top-right-radius: 20px;
+				-moz-border-radius-bottomright: 20px;
+				-webkit-border-bottom-right-radius: 20px;
+				width: 330px;
+				height: auto;
+				padding: 30px 30px 30px 130px;
+				filter: alpha(opacity=85);
+				opacity: .85;
+			}
+
+			.panel p {
+				margin: 0 0 15px 0;
+				padding: 0;
+				color: #cccccc;
+				font-size: 13px;
+			}
+			.panel h3 {
+				font-size: 14px;
+				font-family: verdana, helvetica, arial, sans-serif;
+				letter-spacing: -1px;
+				color: #fff;
+				font-weight: 700;
+				text-transform: uppercase;
+				margin: 0;
+				padding: 8px 0 8px 0;
+			}
+			.radio_rule input[type=radio] {
+				cursor: pointer;
+			}
+			.name_tbl_rule {
+				font-weight: bold;
+			}
+			.title_tbl_rule {
+				font-weight: bold;
+			}
+			
+			.name_rule_trace {
+				font-weight: bold; font-size:13px;
+				background: #fff;
+				opacity: 0.9;
+			}
+			.trace_output div{
+				width:auto; display:block;
+			}
+			.trace_output {
+				display:none;
+			}
+			.tr_tbl_rule td:hover {
+				background: #ffa170;
+			}
+			.function_trace_step a {
+				float:left; margin: 2px; background:#CCCCCC; border:1px solid #B4B4B4; padding:3px;
+			}
+			.timer {
+				display:block; position:fixed;
+				right:0;top:0; background:#000000; color:#fff; opacity:0.4;
+			}
+		</style>
+	</head>
+	<body style="padding:0px; margin:0px;">
+		
+
+  <input id="user_id_now" type="hidden" value="<%= session[:user_id] %>" />
+  <input id="user_name_now" type="hidden" value="<%= @user.login %>" />
+  <input id="name_component" type="hidden" value="menu" />
+  <div id='set_block'>
+<div id="header" align="left">
+	Панель управления АТ-ТЕХНОЛОГИЯ — режим RunTime
+	
+</div>
+<div align="left">
+	
+	<div style="float:right;">
+<h3 style="margin: 20px;">ФИО: <%=@user.login%> | Группа: <%=@user.login%></h3>
+</div>
+<a href="/forwards/index/?planning_task_id=<%=params['planning_task_id']%>" class="gradus">Панель управления</a>→ Прохождение тестирования прямого вывода
+</div>
+</div>
+   <% flash.each do |name, msg| -%>
+   <%= content_tag :div, msg, class: name %>
+  <% end -%>
+  
+  <div class="timer" id="mytimer">
+
+</div>
+
+<%= yield %>
+
+</body>
+</html>

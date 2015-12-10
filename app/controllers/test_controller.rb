@@ -1,5 +1,6 @@
 #coding utf-8
 class TestController < ApplicationController
+  include PlanningHelper
   layout 'test'
   before_action :check_student
 
@@ -17,11 +18,11 @@ class TestController < ApplicationController
     if result == nil
       result = @task.results.create(results_mask: 0)
       result.create_g_result(mark: 0)
-      result.g_result.create_log(data: "", result: "")
+      result.g_result.create_log(data: "", mistakes: "")
       result.create_v_result(mark: 0)
-      result.v_result.create_log(data: "", result: "")
+      result.v_result.create_log(data: "", mistakes: "")
       result.create_s_result(mark: 0)
-      result.s_result.create_log(data: "", result: "")
+      result.s_result.create_log(data: "", mistakes: "")
       result.student = @user.student
       session[:result_id] = result.id
     end
@@ -58,9 +59,19 @@ class TestController < ApplicationController
           result.s_result.log.data =
           @task.s_answer.check_answer(result.s_result.answer)
       end
+
+      #task = PlanningTask.find(session["planning_task_id"])
+      #task.result = {:delete => {"pending-skills" => "linguistic-skill"}}
+      #current_planning_session().commit_task(task)
+
       redirect_to result_path(result)
     end
     result.save
+  end
+
+  def execute
+    session[:planning_task_id] = params["planning_task_id"]
+    redirect_to :action => "get_task"
   end
 
   private

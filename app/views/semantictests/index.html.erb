@@ -19,6 +19,7 @@
 <tr class ="center">
 	<th>Название</th>
 	<th>Редактирование</th>
+    <th>Активен</th>
 	
     
 </tr>
@@ -26,9 +27,16 @@
 <% @etalons.each do |test| %>
    
    				 <tr class ="center">
-   				 	
 					 <td><%= test.name %></td>
 					 <td><%= link_to  "Редактировать", semantictest_path(test, showmenu: false)%></td>
+                     <td>
+                       <%if test.check%>
+                            <input type="checkbox" id="<%= test.id%>" onClick="show_alert(<%= test.id%>)"  checked="">
+                       <%else%>
+                            <input type="checkbox" id="<%= test.id%>" onClick="show_alert(<%= test.id%>)" >
+
+                     <%end%>
+                          </td>
 				 </tr>
 
 
@@ -40,8 +48,48 @@
   
 </table>
 <tr>
-  </tr>							
-	
-	
-	
-	
+  </tr>
+
+
+
+<script>
+
+    function setStatus(status, id)
+    {
+        alert (status)
+        if (status == "True")
+        {
+            document.getElementById(id).prop('checked', true);
+        }else
+        {
+            document.getElementById(id).prop('checked', false);
+        }
+    }
+
+    function show_alert(id)
+    {
+        alert(id);
+        if (document.getElementById(id).checked)
+        {
+            alert("Флажок установлен" + id); }
+    else
+        {
+            alert("Флажок не установлен" + id)
+        }
+
+
+        $.ajax(
+        {
+            type: "POST",
+                url: "<%= semantictests_setEtalonCheck_path%>",
+                data: "id=" + id + ";check=" + document.getElementById(id).checked,
+                success: function(msg)
+                {
+                    alert(msg)
+                }
+
+        });
+
+    }
+
+</script>

@@ -1,4 +1,6 @@
 h1 #{@topic.text}
+- if !@task.nil? && @task.executor == "onthology"
+  = link_to "Завершить построение онтологии", ka_topics_commit_path
 h3 Редактировать
 form method="post" action="#{edit_ka_topic_text_path(@topic.id)}"
   div class="row"
@@ -84,7 +86,7 @@ table
     tr
       th.id = "Идентификатор"
       th.text = "Текст"
-      th.text = "Сложность"
+      th.difficulty = "Сложность"
   tbody
     - KaQuestion.where(ka_topic_id: @topic.id).each do |t|
       tr
@@ -95,6 +97,43 @@ table
           a href="#{show_ka_question_path(t.id)}" Редактировать
         td
           a href="#{ka_question_destroy_path(t.id)}" Удалить
+
+h3 УТЗ
+table
+  thead
+    th.text = "Наименование"
+    th.type = "Тип"
+  tbody
+    - @topic.test_utz_questions.each do |u|
+      tr
+        td.text
+          a href="#{test_utz_question_path(u.id)}"
+            = u.text
+        td.type = "Выбор вариантов ответа"
+    - @topic.matching_utzs.each do |u|
+      tr
+        td.text
+          a href="#{matching_utz_path(u.id)}"
+            = u.name
+        td.type = "Расстановка соответствий между блоками"
+    - @topic.filling_utzs.each do |u|
+      tr
+        td.text
+          a href="#{filling_utz_path(u.id)}"
+            = u.text
+        td.type = "Заполнение пропусков в тексте"
+    - @topic.text_correction_utzs.each do |u|
+      tr
+        td.text
+          a href="#{text_correction_utz_path(u.id)}"
+            = u.name
+        td.type = "Маркировки или корректировки текста"
+    - @topic.images_sort_utzs.each do |u|
+      tr
+        td.text
+          a href="#{images_sort_utz_path(u.id)}"
+            = u.theme
+        td.type = "Упорядочивание графических изображений"
 
 h3 Компетенции
 table

@@ -1,0 +1,118 @@
+<br />
+<%
+	results = Result.find(:all, :conditions=> { :student_id=>@user.id, :results_mask=>'forward'}, :order => "id ASC")
+	results_r = Result.find(:all, :conditions=> { :student_id=>@user.id, :results_mask=>'reverse'}, :order => "id ASC")
+	res_forward = 0
+	res_reverse = 0
+%>
+
+<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
+	<tr>
+		<td valign="top" align="left">
+			<div class="menu_check">
+				<div style="float:right; font-size:16px; margin:10px; color:#fff">
+					макс. <span></span>
+					</div>
+				<a href="javascript://" onClick="$('#forward_menu').slideToggle('slow')">Прямой вывод</a><br />
+				<div style="display:none; width:auto;" id="forward_menu">
+					<table width="100%">
+						<tr id="forward_title">
+							<td align="center" style="border-right:1px solid #575551;">№</td.>
+							<td align="left" style="border-right:1px solid #575551;">Время начала</td>
+							<td align="left" style="border-right:1px solid #575551;">Время окончания</td>
+							<td align="left" style="border-right:1px solid #575551;">Результат</td>
+							<td align="left">Функции</td>
+						</tr>
+						<%results.each do |r| %>
+						<tr>
+							<td align="center" style="border-right:1px solid #575551;"><%=res_forward=res_forward+1%></td.>
+							<td align="left" style="border-right:1px solid #575551;">	<%=
+							Time.at(r.timebegin).strftime("%d.%m.%Y / %H:%M:%S")
+							%>
+							</td>
+							<td align="left" style="border-right:1px solid #575551;">
+								<%=
+							Time.at(r.timeend ? r.timeend : r.timebegin).strftime("%d.%m.%Y / %H:%M:%S")
+							%>
+							</td>
+							<td align="left" style="border-right:1px solid #575551;">
+								<%=
+							r.result
+							%> за <%
+							
+							if ((Time.at(r.timeend ? r.timeend : r.timebegin).strftime("%S")).to_i-(Time.at(r.timebegin).strftime("%S")).to_i)<0
+								timeBegin = (((Time.at(r.timeend ? r.timeend : r.timebegin).strftime("%M")).to_i-(Time.at(r.timebegin).strftime("%M")).to_i)-1).to_s+':'+
+								(60+((Time.at(r.timeend ? r.timeend : r.timebegin).strftime("%S")).to_i-(Time.at(r.timebegin).strftime("%S")).to_i)).to_s
+							else 
+								timeBegin =  ((Time.at(r.timeend ? r.timeend : r.timebegin).strftime("%M")).to_i-(Time.at(r.timebegin).strftime("%M")).to_i).abs.to_s+':'+
+							((Time.at(r.timeend ? r.timeend : r.timebegin).strftime("%S")).to_i-(Time.at(r.timebegin).strftime("%S")).to_i).to_s
+							end
+							%><%=timeBegin%>
+
+							</td>
+							<td align="left"><a href="/viewsresult/index/<%='?/uploads/JSON/forward/'+session[:user_id].to_s+'/'+(r.endfile ? r.endfile : r.startfile)+'&forward' %>" title="Смотреть трассу вывода" class="menu_link">Смотреть трассу вывода</a></td>
+						</tr>
+						<%end%>
+					 <tr>
+					 	<td colspan="5" align="center"><a href="/forwards2/index/?planning_task_id=<%=params["planning_task_id"]%>" class="bottom_menu_link">Пройти тестирование</a></td>
+					 	</tr>
+					</table>
+				</div>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" align="left">
+			<div class="menu_check">
+				<div style="float:right; font-size:16px; margin:10px; color:#fff">
+					макс. <span></span>
+					</div>
+				<a href="javascript://" onClick="$('#reverse_menu').slideToggle('slow')">Обратный вывод</a><br />
+				<div style="display:none; width:auto;" id="reverse_menu">
+					<table width="100%">
+						<tr id="reverse_title">
+							<td align="center" style="border-right:1px solid #575551;">№</td.>
+							<td align="left" style="border-right:1px solid #575551;">Время начала</td>
+							<td align="left" style="border-right:1px solid #575551;">Время окончания</td>
+							<td align="left" style="border-right:1px solid #575551;">Результат</td>
+							<td align="left">Функции</td>
+						</tr>
+						<%results_r.each do |r| %>
+						<tr>
+							<td align="center" style="border-right:1px solid #575551;"><%=res_reverse=res_reverse+1%></td.>
+							<td align="left" style="border-right:1px solid #575551;">	<%=
+							Time.at(r.timebegin).strftime("%d.%m.%Y / %H:%M:%S")
+							%>
+							</td>
+							<td align="left" style="border-right:1px solid #575551;">
+								<%=
+							Time.at(r.timeend ? r.timeend : r.timebegin).strftime("%d.%m.%Y / %H:%M:%S")
+							%>
+							</td>
+							<td align="left" style="border-right:1px solid #575551;">
+								<%=
+							r.result
+							%> за <%
+							
+							if ((Time.at(r.timeend ? r.timeend : r.timebegin).strftime("%S")).to_i-(Time.at(r.timebegin).strftime("%S")).to_i)<0
+								timeBegin = (((Time.at(r.timeend ? r.timeend : r.timebegin).strftime("%M")).to_i-(Time.at(r.timebegin).strftime("%M")).to_i)-1).to_s+':'+
+								(60+((Time.at(r.timeend ? r.timeend : r.timebegin).strftime("%S")).to_i-(Time.at(r.timebegin).strftime("%S")).to_i)).to_s
+							else 
+								timeBegin =  ((Time.at(r.timeend ? r.timeend : r.timebegin).strftime("%M")).to_i-(Time.at(r.timebegin).strftime("%M")).to_i).abs.to_s+':'+
+							((Time.at(r.timeend ? r.timeend : r.timebegin).strftime("%S")).to_i-(Time.at(r.timebegin).strftime("%S")).to_i).to_s
+							end
+							%><%=timeBegin%>
+
+							</td>
+							<td align="left"><a href="/viewsresult/index/<%='?/uploads/JSON/reverse/'+session[:user_id].to_s+'/'+(r.endfile ? r.endfile : r.startfile)+'&reverse' %>" title="Смотреть трассу вывода" class="menu_link">Смотреть трассу вывода</a></td>
+						</tr>
+						<%end%>
+					  <tr>
+					 	<td colspan="5" align="center"><a href="/reverse/index/?planning_task_id=<%=params["planning_task_id"]%>" class="bottom_menu_link">Пройти тестирование</a></td>
+					 	</tr>
+					</table>
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>

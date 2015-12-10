@@ -29,15 +29,20 @@
       <%= link_to "Просмотр", group_student_path(@user.student.group, @user.student),:target => "_blank" %>
       <span>Психологические тесты:</span><br>
       <%= link_to 'Перейти', personality_tests_path %><br>
+      <span>УТЗ:</span><br>
+      <%= link_to 'Перейти', utz_path %> <br>
       <span>Методические материалы:</span><br>
       <%= link_to("Перейти", methodical_materials_path) %><br>
       <span>Тестирование:</span><br>
-      <%= link_to("Перейти", ka_welcome_path) %>
+      <%= link_to("Перейти", ka_welcome_path) %><br>
+      <span>Прямой/обратный вывод:</span><br>
+      <%= link_to("Перейти", forwards2_path) %>
     </td>
     <td id="content"><%= yield %></td>
   </tr>
 </table>
 
 </div>
+<%= render partial:'planning/index' %>
 </body>
 </html>
