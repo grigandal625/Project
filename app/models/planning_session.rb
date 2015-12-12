@@ -22,7 +22,6 @@ class PlanningSession < ActiveRecord::Base
 
         #Form initial state
         init_state = generate_initial_state(self.procedure, self.state)
-        #init_state = ["", ""] #TODO real state generation
         p init_state.inspect #TODO remove
 
         problem_str = problem_str.gsub("##OBJECTS##", init_state[0])
@@ -96,23 +95,6 @@ class PlanningSession < ActiveRecord::Base
         task.closed = 1
         task.save
 
-        if(task.result["delete"])
-            task.result["delete"].each{|key, value|
-                if(self.state[key])
-                    self.state[key].delete(value)
-                end
-            }
-        end
-
-        if(task.result["add"])
-            task.result["add"].each{|key, value|
-                if(!self.state[key])
-                    self.state[key] = []
-                end
-                self.state[key].push(value)
-            }
-        end
-
         self.save
         self.generate_plan()
 
@@ -143,15 +125,19 @@ class PlanningSession < ActiveRecord::Base
             psyhos = []
 
             state.knowledge.each do |atom|
-              kb_name = "kb-#{atom.task_name}"
-              kbs.push(kb_name)
-              init_facts.push("(pending #{kb_name})")
+              if atom.state == 1
+                kb_name = "kb-#{atom.task_name}"
+                kbs.push(kb_name)
+                init_facts.push("(pending #{kb_name})")
+              end
             end
 
             skills = []
             state.skill.each do |atom|
-              init_facts.push("(pending #{atom.task_name})")
-              skills.push(atom.task_name)
+              if atom.state == 1
+                init_facts.push("(pending #{atom.task_name})")
+                skills.push(atom.task_name)
+              end
             end
 
             #state["pending-tutoring"].each do |pt|
@@ -214,6 +200,7 @@ class PlanningSession < ActiveRecord::Base
 
         cur_step = {}
         ext = ExtensionDatabase.get_extension_for_task(pddl_act, parts[1])
+        task_name = parts[1]
         if(ext == nil)
             cur_step[:available] = false
             cur_step[:description] = "Неизвестная задача"
@@ -221,10 +208,11 @@ class PlanningSession < ActiveRecord::Base
             cur_step[:available] = true
             cur_step[:description] = ext.get_task_description(parts[1])
 
-            ep = ext.get_task_exec_path(pddl_act, parts[1])
+            ep = ext.get_task_exec_path(pddl_act, task_name)
             cur_step[:controller] = ep["controller"]
             cur_step[:action] = ep["action"]
             cur_step[:params] = ep["params"]
+            cur_step[:task_name] = task_name# = state.atoms.find_by(task_name: task_name)
         end
 
         return cur_step

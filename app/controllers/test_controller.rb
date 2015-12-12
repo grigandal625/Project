@@ -90,14 +90,10 @@ class TestController < ApplicationController
       end
 
       task = PlanningTask.find(session["planning_task_id"])
-      threshold = 50
-      task.result = {delete: {"pending-skills" => "linguistic-skill"}}
-      if (result.v_result.mark < threshold ||
-          result.g_result.mark < threshold ||
-          result.s_result.mark < threshold)
-        task.result = task.result.merge({add: {"pending-skills" => "linguistic-skill"}})
-        p task.result.inspect
-      end
+      transition = PlanningState::TransitionDescriptor.new
+      transition.from = 1
+      transition.to = 3
+      task.state_atom.transit_to transition
       current_planning_session().commit_task(task)
 
       redirect_to result_path(result)

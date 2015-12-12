@@ -81,15 +81,27 @@ class PlanningController < ApplicationController
             #Find step in plan
             step_el = (pses.plan.select { |step| step["number"] == params[:plan_step].to_i})[0]
 
+            #Find state atom
+            state_atom = pses.state.atoms.find_by(task_name: step_el["task_name"])
+            if (state_atom == nil)
+              render :text => "Unable to find state atom"
+            end
+
             #Create planning task
-            new_task = PlanningTask.create(:planning_session => pses, :action => step_el["action"], :executor => step_el["controller"], :description => step_el["description"], :params => step_el["params"], :closed => 0)
+            new_task = PlanningTask.create(:planning_session => pses,
+                                           :action => step_el["action"],
+                                           :executor => step_el["controller"],
+                                           :description => step_el["description"],
+                                           :params => step_el["params"],
+                                           :state_atom => state_atom,
+                                           :closed => 0)
+            p new_task.inspect
 
             #Remove from plan
             pses.plan.delete(step_el)
 
             pses.save()
 
-            
             PlannerEvent.create(:user => @user, :type_id => 3, :description => step_el.to_s)
 
             #redirect_to :action => "index"

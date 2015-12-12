@@ -44,7 +44,10 @@ class DummyController < ApplicationController
 
     def commit
         task = PlanningTask.find(params["planning_task_id"])
-        task.result = {:delete => {"pending-skills" => "frame-skill"}}
+        transition = PlanningState::TransitionDescriptor.new
+        transition.from = 1
+        transition.to = 3
+        task.state_atom.transit_to transition
         current_planning_session().commit_task(task)
 
         redirect_to "/"

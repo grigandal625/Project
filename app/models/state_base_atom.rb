@@ -11,9 +11,10 @@ class StateBaseAtom < ActiveRecord::Base
     from = transition_descriptor.from
     to = transition_descriptor.to
 
-    return if (from != state)
+    p from
+    p to
 
-    state = to # TODO logic, see StateSkill, StateKnowledge, StatePsycho
+    update_attribute :state, to # TODO logic, see StateSkill, StateKnowledge, StatePsycho
   end
 
 end

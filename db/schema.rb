@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151212173725) do
+ActiveRecord::Schema.define(version: 20151212190228) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -447,7 +447,10 @@ ActiveRecord::Schema.define(version: 20151212173725) do
     t.string   "params"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "state_atom_id"
   end
+
+  add_index "planning_tasks", ["state_atom_id"], name: "index_planning_tasks_on_state_atom_id"
 
   create_table "problem_areas", id: false, force: true do |t|
     t.integer  "ka_result_id"
