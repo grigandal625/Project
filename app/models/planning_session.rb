@@ -1,8 +1,8 @@
 class PlanningSession < ActiveRecord::Base
     belongs_to :user
     has_many :planning_tasks
+    has_one :state, class_name: "PlanningState"
 
-    serialize :state, JSON
     serialize :goal, JSON
 
     serialize :plan, JSON
@@ -21,7 +21,8 @@ class PlanningSession < ActiveRecord::Base
         problem_str = File.read(Rails.configuration.planning_kb + '/' + kb_mapping[self.procedure][1])
 
         #Form initial state
-        init_state = generate_initial_state(self.procedure, self.state)
+        #init_state = generate_initial_state(self.procedure, self.state)
+        init_state = ["", ""] #TODO real state generation
         p init_state.inspect #TODO remove
 
         problem_str = problem_str.gsub("##OBJECTS##", init_state[0])

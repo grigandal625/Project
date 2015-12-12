@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151114135803) do
+ActiveRecord::Schema.define(version: 20151212173725) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -272,7 +272,7 @@ ActiveRecord::Schema.define(version: 20151114135803) do
   add_index "ka_variants", ["ka_test_id", "number"], name: "index_ka_variants_on_ka_test_id_and_number"
 
   create_table "logs", force: true do |t|
-    t.text    "result"
+    t.text    "mistakes"
     t.text    "data"
     t.integer "component_id"
     t.string  "component_type"
@@ -425,9 +425,14 @@ ActiveRecord::Schema.define(version: 20151114135803) do
   create_table "planning_sessions", force: true do |t|
     t.integer  "user_id"
     t.integer  "closed",     default: 0
-    t.string   "state"
     t.string   "plan"
     t.string   "procedure"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "planning_states", force: true do |t|
+    t.integer  "planning_session_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -506,11 +511,24 @@ ActiveRecord::Schema.define(version: 20151114135803) do
   add_index "semanticnetworks", ["etalon_id"], name: "index_semanticnetworks_on_etalon_id"
   add_index "semanticnetworks", ["student_id"], name: "index_semanticnetworks_on_student_id"
 
+  create_table "state_base_atoms", force: true do |t|
+    t.string   "type"
+    t.integer  "state"
+    t.string   "ext_name"
+    t.string   "action_name"
+    t.string   "task_name"
+    t.integer  "planning_state_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "state_base_atoms", ["planning_state_id"], name: "index_state_base_atoms_on_planning_state_id"
+
   create_table "studentframes", force: true do |t|
     t.integer  "etalonframe_id"
     t.integer  "student_id"
     t.text     "studentcode"
-    t.integer  "result"
+    t.text     "result"
     t.boolean  "isfinish"
     t.datetime "created_at"
     t.datetime "updated_at"
