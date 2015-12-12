@@ -3,9 +3,9 @@ class StateBaseAtom < ActiveRecord::Base
 
   States = {1 => :pending, 2 => :low_level, 3 => :satisfactory_level}
 
-  def get_state
-    state
-  end
+  scope :skill, -> {where(type: "StateSkill")}
+  scope :knowledge, -> {where(type: "StateKnowledge")}
+  scope :psycho, -> {where(type: "StatePsycho")}
 
   def transit_to(transition_descriptor)
     from = transition_descriptor.from
@@ -16,12 +16,4 @@ class StateBaseAtom < ActiveRecord::Base
     state = to # TODO logic, see StateSkill, StateKnowledge, StatePsycho
   end
 
-  protected
-  def state
-    self[:state]
-  end
-
-  def state=(val)
-    write_attribute :state, val
-  end
 end

@@ -32,7 +32,7 @@ class PlanningController < ApplicationController
 
           state = ExtensionDatabase.generate_state(Schedule.current_week, ModeType::DesignTime, schedule)
           #{"finished" => []}
-          ps = PlanningSession.create(:user => @user, :closed => 0, :state => state, :procedure => "tutor_designtime_initial")
+          ps = PlanningSession.create(:user => @user, :state => state, :closed => 0, :procedure => "tutor_designtime_initial")
           ps.generate_plan()
           #render action: "_index"
           #redirect_to action: "_index"
@@ -45,7 +45,7 @@ class PlanningController < ApplicationController
 
           state = ExtensionDatabase.generate_state(Schedule.current_week, ModeType::RunTime, schedule)
           #{"pending-skills" => ["frame-skill", "sem-network-skill", "linguistic-skill", "reasoning-skill"], "pending-knowledge" => [23, 41], "pending-psycho" => ["main"], "low-knowledge" => [], "pending-tutoring" => []}
-          ps = PlanningSession.create(:user => @user, :closed => 0, :procedure => "tutor_runtime")
+          ps = PlanningSession.create(:user => @user, :state => state, :closed => 0, :procedure => "tutor_runtime")
           ps.generate_plan()
           redirect_to action: "_index"
 

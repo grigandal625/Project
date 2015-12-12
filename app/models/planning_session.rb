@@ -21,8 +21,8 @@ class PlanningSession < ActiveRecord::Base
         problem_str = File.read(Rails.configuration.planning_kb + '/' + kb_mapping[self.procedure][1])
 
         #Form initial state
-        #init_state = generate_initial_state(self.procedure, self.state)
-        init_state = ["", ""] #TODO real state generation
+        init_state = generate_initial_state(self.procedure, self.state)
+        #init_state = ["", ""] #TODO real state generation
         p init_state.inspect #TODO remove
 
         problem_str = problem_str.gsub("##OBJECTS##", init_state[0])
@@ -142,34 +142,34 @@ class PlanningSession < ActiveRecord::Base
             init_facts = []
             psyhos = []
 
-            state["pending-knowledge"].each do |pk|
-                kb_name = "kb-#{pk}"
-                kbs.push(kb_name)
-                init_facts.push("(pending #{kb_name})")
+            state.knowledge.each do |atom|
+              kb_name = "kb-#{atom.task_name}"
+              kbs.push(kb_name)
+              init_facts.push("(pending #{kb_name})")
             end
-            
+
             skills = []
-            state["pending-skills"].each do |ps|
-                init_facts.push("(pending #{ps})")
-                skills.push(ps)
+            state.skill.each do |atom|
+              init_facts.push("(pending #{atom.task_name})")
+              skills.push(atom.task_name)
             end
 
-            state["pending-tutoring"].each do |pt|
-                kb_name = "kb-#{pt}"
-                init_facts.push("(pending-tutoring #{kb_name})")
-                kbs.push(kb_name)
-            end            
+            #state["pending-tutoring"].each do |pt|
+            #    kb_name = "kb-#{pt}"
+            #    init_facts.push("(pending-tutoring #{kb_name})")
+            #    kbs.push(kb_name)
+            #end            
 
-            state["low-knowledge"].each do |lk|
-                kb_name = "kb-#{lk}"
-                init_facts.push("(low-knowledge-level #{kb_name})")
-                kbs.push(kb_name)
-            end
+            #state["low-knowledge"].each do |lk|
+            #    kb_name = "kb-#{lk}"
+            #    init_facts.push("(low-knowledge-level #{kb_name})")
+            #    kbs.push(kb_name)
+            #end
 
-            if(!state["pending-psycho"].empty?)
-                psyhos.push("psycho-main")
-                init_facts.push("(pending psycho-main)")
-            end
+            #if(!state["pending-psycho"].empty?)
+            #    psyhos.push("psycho-main")
+            #    init_facts.push("(pending psycho-main)")
+            #end
 
             kbs = kbs.uniq
             return [kbs.join(' ') + " - knowldege\n" + skills.join(' ') + " - skill\n" + psyhos.join(' ') + " - psycho\n", init_facts.join(' ')]

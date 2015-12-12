@@ -11,7 +11,11 @@ class TestController < ApplicationController
         ext.tasks = ["linguistic-skill"]
 
         ext.generate_state = lambda { |mode_id, week_id, schedule, state|
-                                state["pending-skills"].push("linguistic-skill")
+                                atom = StateSkill.create(state: 1,
+                                                         ext_name: "test",
+                                                         action_name: "extract-skill",
+                                                         task_name: "linguistic-skill")
+                                state.atoms.push << atom
                             }
 
         ext.task_description = lambda { |leaf_id|

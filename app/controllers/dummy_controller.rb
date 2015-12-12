@@ -9,7 +9,12 @@ class DummyController < ApplicationController
         ext.tasks = ["frame-skill"]
 
         ext.generate_state = lambda { |mode_id, week_id, schedule, state|
-                                state["pending-skills"].push("frame-skill")
+                                atom = StateSkill.create(
+                                                         ext_name: "dummy",
+                                                         action_name: "extract-skill",
+                                                         task_name: "frame-skill",
+                                                         state: 1)
+                                state.atoms.push << atom
                             }
 
         ext.task_description = lambda { |leaf_id|
