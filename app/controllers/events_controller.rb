@@ -2,8 +2,14 @@ class EventsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_events, only: [:move, :edit, :update, :destroy]
   def new
-    @tips = Tip.all
-    @works = Work.all
+    @actions = []
+    i=1
+    while (i<16)
+      @actions.push(ExtensionDatabase::ATExtension::get_acceptable_actions(i))
+      i*=2
+    end
+    @actions.flatten!
+    @tasks = KaTopic.where("ontology = 1")
     @event  = Event.new
     @timetable_id = params[:timetable_id]
     @week = params[:week]
@@ -30,8 +36,14 @@ class EventsController < ApplicationController
     end
   end
   def edit
-    @tips = Tip.all
-    @works = Work.all
+    @actions = []
+    i=1
+    while (i<16)
+      @actions.push(ExtensionDatabase::ATExtension::get_acceptable_actions(i))
+      i*=2
+    end
+    @actions.flatten!
+    @tasks = KaTopic.where("ontology = 1")
   end
 
   def update
@@ -52,6 +64,6 @@ class EventsController < ApplicationController
       @event = Event.find(params[:id])
     end
     def event_params
-      params.require(:event).permit(:test_id, :name, :week, :timetable_id)
+      params.require(:event).permit(:action, :task, :name, :week, :timetable_id)
     end
 end

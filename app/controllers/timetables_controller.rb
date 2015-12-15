@@ -55,7 +55,8 @@ class TimetablesController < ApplicationController
       json = JSON.parse(params[:json])
       (0..json.length-1).each do |i|
         event = @timetable.events.new
-        event.test_id = json[i]['test_id']
+        event.action = json[i]['action']
+        event.task = json[i]['task']
         event.name =  json[i]['name']
         event.week = json[i]['week']
         event.save

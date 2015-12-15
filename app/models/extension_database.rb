@@ -34,6 +34,10 @@ class ExtensionDatabase
     def accepts_task(task_name)
       return @tasks.include?(task_name)
     end
+
+    def self.get_acceptable_actions(type)
+      return AcceptableActions[type]
+    end
   end
 
   @@singleton = nil
@@ -73,6 +77,7 @@ class ExtensionDatabase
       return found_ext.description
     end
   end
+
 
   def self.generate_state(week_id, mode_id, schedule)
     state = PlanningState.new

@@ -68,11 +68,12 @@ ActiveRecord::Schema.define(version: 20151212190228) do
 
   create_table "events", force: true do |t|
     t.string   "name"
-    t.integer  "test_id"
     t.integer  "week"
     t.integer  "timetable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "action"
+    t.string   "task"
   end
 
   add_index "events", ["timetable_id"], name: "index_events_on_timetable_id"
@@ -258,6 +259,7 @@ ActiveRecord::Schema.define(version: 20151212190228) do
     t.integer  "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "ontology"
   end
 
   add_index "ka_topics", ["parent_id"], name: "index_ka_topics_on_parent_id"
@@ -604,12 +606,6 @@ ActiveRecord::Schema.define(version: 20151212190228) do
 
   add_index "timetables", ["group_id"], name: "index_timetables_on_group_id"
 
-  create_table "tips", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "tokenlines", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -665,13 +661,5 @@ ActiveRecord::Schema.define(version: 20151212190228) do
   end
 
   add_index "v_results", ["result_id"], name: "index_v_results_on_result_id"
-
-  create_table "works", force: true do |t|
-    t.string   "title"
-    t.integer  "tip_id"
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end
