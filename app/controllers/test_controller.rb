@@ -11,7 +11,11 @@ class TestController < ApplicationController
         ext.tasks = ["linguistic-skill"]
 
         ext.generate_state = lambda { |mode_id, week_id, schedule, state|
-                                state["pending-skills"].push("linguistic-skill")
+                                atom = StateSkill.create(state: 1,
+                                                         ext_name: "test",
+                                                         action_name: "extract-skill",
+                                                         task_name: "linguistic-skill")
+                                state.atoms.push << atom
                             }
 
         ext.task_description = lambda { |leaf_id|
@@ -86,14 +90,10 @@ class TestController < ApplicationController
       end
 
       task = PlanningTask.find(session["planning_task_id"])
-      threshold = 50
-      task.result = {delete: {"pending-skills" => "linguistic-skill"}}
-      if (result.v_result.mark < threshold ||
-          result.g_result.mark < threshold ||
-          result.s_result.mark < threshold)
-        task.result = task.result.merge({add: {"pending-skills" => "linguistic-skill"}})
-        p task.result.inspect
-      end
+      transition = PlanningState::TransitionDescriptor.new
+      transition.from = 1
+      transition.to = 3
+      task.state_atom.transit_to transition
       current_planning_session().commit_task(task)
 
       redirect_to result_path(result)

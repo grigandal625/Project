@@ -9,7 +9,12 @@ class DummyController < ApplicationController
         ext.tasks = ["frame-skill"]
 
         ext.generate_state = lambda { |mode_id, week_id, schedule, state|
-                                state["pending-skills"].push("frame-skill")
+                                atom = StateSkill.create(
+                                                         ext_name: "dummy",
+                                                         action_name: "extract-skill",
+                                                         task_name: "frame-skill",
+                                                         state: 1)
+                                state.atoms.push << atom
                             }
 
         ext.task_description = lambda { |leaf_id|
@@ -39,7 +44,10 @@ class DummyController < ApplicationController
 
     def commit
         task = PlanningTask.find(params["planning_task_id"])
-        task.result = {:delete => {"pending-skills" => "frame-skill"}}
+        transition = PlanningState::TransitionDescriptor.new
+        transition.from = 1
+        transition.to = 3
+        task.state_atom.transit_to transition
         current_planning_session().commit_task(task)
 
         redirect_to "/"

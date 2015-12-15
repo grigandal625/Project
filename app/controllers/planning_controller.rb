@@ -32,7 +32,7 @@ class PlanningController < ApplicationController
 
           state = ExtensionDatabase.generate_state(Schedule.current_week, ModeType::DesignTime, schedule)
           #{"finished" => []}
-          ps = PlanningSession.create(:user => @user, :closed => 0, :state => state, :procedure => "tutor_designtime_initial")
+          ps = PlanningSession.create(:user => @user, :state => state, :closed => 0, :procedure => "tutor_designtime_initial")
           ps.generate_plan()
           #render action: "_index"
           #redirect_to action: "_index"
@@ -45,7 +45,7 @@ class PlanningController < ApplicationController
 
           state = ExtensionDatabase.generate_state(Schedule.current_week, ModeType::RunTime, schedule)
           #{"pending-skills" => ["frame-skill", "sem-network-skill", "linguistic-skill", "reasoning-skill"], "pending-knowledge" => [23, 41], "pending-psycho" => ["main"], "low-knowledge" => [], "pending-tutoring" => []}
-          ps = PlanningSession.create(:user => @user, :closed => 0, :state => state, :procedure => "tutor_runtime")
+          ps = PlanningSession.create(:user => @user, :state => state, :closed => 0, :procedure => "tutor_runtime")
           ps.generate_plan()
           redirect_to action: "_index"
 
@@ -81,15 +81,27 @@ class PlanningController < ApplicationController
             #Find step in plan
             step_el = (pses.plan.select { |step| step["number"] == params[:plan_step].to_i})[0]
 
+            #Find state atom
+            state_atom = pses.state.atoms.find_by(task_name: step_el["task_name"])
+            if (state_atom == nil)
+              render :text => "Unable to find state atom"
+            end
+
             #Create planning task
-            new_task = PlanningTask.create(:planning_session => pses, :action => step_el["action"], :executor => step_el["controller"], :description => step_el["description"], :params => step_el["params"], :closed => 0)
+            new_task = PlanningTask.create(:planning_session => pses,
+                                           :action => step_el["action"],
+                                           :executor => step_el["controller"],
+                                           :description => step_el["description"],
+                                           :params => step_el["params"],
+                                           :state_atom => state_atom,
+                                           :closed => 0)
+            p new_task.inspect
 
             #Remove from plan
             pses.plan.delete(step_el)
 
             pses.save()
 
-            
             PlannerEvent.create(:user => @user, :type_id => 3, :description => step_el.to_s)
 
             #redirect_to :action => "index"

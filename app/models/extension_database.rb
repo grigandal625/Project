@@ -75,10 +75,14 @@ class ExtensionDatabase
   end
 
   def self.generate_state(week_id, mode_id, schedule)
-    state = {"pending-skills" => [], "pending-knowledge" => [], "pending-psycho" => [], "low-knowledge" => [], "pending-tutoring" => []}
+    state = PlanningState.new
+    PlanningState.transaction do
 
-    @@singleton.extensions.each do |ext|
-      ext.generate_state.call(mode_id, week_id, schedule, state)
+      @@singleton.extensions.each do |ext|
+        ext.generate_state.call(mode_id, week_id, schedule, state)
+      end
+
+      state.save
     end
 
     return state

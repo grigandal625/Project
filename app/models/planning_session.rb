@@ -1,8 +1,8 @@
 class PlanningSession < ActiveRecord::Base
     belongs_to :user
     has_many :planning_tasks
+    has_one :state, class_name: "PlanningState"
 
-    serialize :state, JSON
     serialize :goal, JSON
 
     serialize :plan, JSON
@@ -95,23 +95,6 @@ class PlanningSession < ActiveRecord::Base
         task.closed = 1
         task.save
 
-        if(task.result["delete"])
-            task.result["delete"].each{|key, value|
-                if(self.state[key])
-                    self.state[key].delete(value)
-                end
-            }
-        end
-
-        if(task.result["add"])
-            task.result["add"].each{|key, value|
-                if(!self.state[key])
-                    self.state[key] = []
-                end
-                self.state[key].push(value)
-            }
-        end
-
         self.save
         self.generate_plan()
 
@@ -141,34 +124,38 @@ class PlanningSession < ActiveRecord::Base
             init_facts = []
             psyhos = []
 
-            state["pending-knowledge"].each do |pk|
-                kb_name = "kb-#{pk}"
+            state.knowledge.each do |atom|
+              if atom.state == 1
+                kb_name = "kb-#{atom.task_name}"
                 kbs.push(kb_name)
                 init_facts.push("(pending #{kb_name})")
+              end
             end
-            
+
             skills = []
-            state["pending-skills"].each do |ps|
-                init_facts.push("(pending #{ps})")
-                skills.push(ps)
+            state.skill.each do |atom|
+              if atom.state == 1
+                init_facts.push("(pending #{atom.task_name})")
+                skills.push(atom.task_name)
+              end
             end
 
-            state["pending-tutoring"].each do |pt|
-                kb_name = "kb-#{pt}"
-                init_facts.push("(pending-tutoring #{kb_name})")
-                kbs.push(kb_name)
-            end            
+            #state["pending-tutoring"].each do |pt|
+            #    kb_name = "kb-#{pt}"
+            #    init_facts.push("(pending-tutoring #{kb_name})")
+            #    kbs.push(kb_name)
+            #end            
 
-            state["low-knowledge"].each do |lk|
-                kb_name = "kb-#{lk}"
-                init_facts.push("(low-knowledge-level #{kb_name})")
-                kbs.push(kb_name)
-            end
+            #state["low-knowledge"].each do |lk|
+            #    kb_name = "kb-#{lk}"
+            #    init_facts.push("(low-knowledge-level #{kb_name})")
+            #    kbs.push(kb_name)
+            #end
 
-            if(!state["pending-psycho"].empty?)
-                psyhos.push("psycho-main")
-                init_facts.push("(pending psycho-main)")
-            end
+            #if(!state["pending-psycho"].empty?)
+            #    psyhos.push("psycho-main")
+            #    init_facts.push("(pending psycho-main)")
+            #end
 
             kbs = kbs.uniq
             return [kbs.join(' ') + " - knowldege\n" + skills.join(' ') + " - skill\n" + psyhos.join(' ') + " - psycho\n", init_facts.join(' ')]
@@ -213,6 +200,7 @@ class PlanningSession < ActiveRecord::Base
 
         cur_step = {}
         ext = ExtensionDatabase.get_extension_for_task(pddl_act, parts[1])
+        task_name = parts[1]
         if(ext == nil)
             cur_step[:available] = false
             cur_step[:description] = "Неизвестная задача"
@@ -220,10 +208,11 @@ class PlanningSession < ActiveRecord::Base
             cur_step[:available] = true
             cur_step[:description] = ext.get_task_description(parts[1])
 
-            ep = ext.get_task_exec_path(pddl_act, parts[1])
+            ep = ext.get_task_exec_path(pddl_act, task_name)
             cur_step[:controller] = ep["controller"]
             cur_step[:action] = ep["action"]
             cur_step[:params] = ep["params"]
+            cur_step[:task_name] = task_name# = state.atoms.find_by(task_name: task_name)
         end
 
         return cur_step
