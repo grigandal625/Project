@@ -1,4 +1,5 @@
-User.find_by(role: "admin").each do |user|
-  user.pass = Digest::MD5.hexdigest("FlutterShy")
+User.where(role: "admin").each do |user|
+	puts user.login
+  user.pass = Digest::MD5.hexdigest("AIlabRybina914")
   user.save
-end|
+end
