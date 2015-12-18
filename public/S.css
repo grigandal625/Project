@@ -1,0 +1,95 @@
+*{
+  -moz-user-select: none;
+  -o-user-select:none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+   user-select: none;
+}
+body{
+	
+}
+#DraggingContainerS{
+
+	color:green;
+	font-size: 23px;
+	font-weight:bold;
+	position: absolute;
+	padding:150px;
+	cursor: move;
+}
+textarea{
+	margin: 0;
+	padding:0;
+	resize: none;
+}
+form{
+	display: inline;
+}
+.sentenceDragS{
+	font-size: 20px;
+	font-weight: bold;
+	left: 10px;
+	right: 0px;
+	top: 10px;
+	bottom: 0px;
+	height: 30px;
+	vertical-align: middle;
+	display: inline;
+}
+.RedS{
+	color:Red;
+	display: inline;
+	cursor: move;
+}
+.GreenS{
+	color:Green;
+	display: inline;
+	cursor: default;
+}
+#ScomponentDiv{
+	padding: 10px;
+}
+.resultTableS{
+	line-height: 25px;
+	width : 100%;
+	font-size: 18px;
+	border: 3px #33DDCC solid;
+} 
+.resultTableS td{
+	border: 1px #33DDCC solid;
+}
+.firstTRS{
+	 border-bottom-width: 3px  !important;	
+}
+.class0S{
+	padding-left: 0;
+}
+.class1S{
+	padding-left: 30px;
+}
+.class2S{
+	padding-left: 60px;
+}
+.class3S{
+	padding-left: 90px;
+}
+.class4S{
+	padding-left: 120px;
+}
+.class5S{
+	padding-left: 150px;
+}
+.ChangeLevel{
+	display: inline;
+	cursor: pointer;	
+}
+.inline{
+	display: inline;
+}
+.td3S{
+	text-align: center;
+}
+.td4S{
+	cursor: pointer;
+}
