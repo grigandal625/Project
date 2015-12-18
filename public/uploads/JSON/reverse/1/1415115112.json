@@ -1,1 +1,0 @@
-{"0"=>"step:1,memory:[],rule:[],checkRules:[],subGoal:G,", "1"=>"step:2,memory:[\"G\"],rule:[\"H\",\"H\",\"H\",\"H\",\"H\",\"H\",\"S\",\"H\"],checkRules:[],steckGoals:G,", "2"=>"step:3,memory:[],rule:[],checkRules:[],subGoal:F,"}
