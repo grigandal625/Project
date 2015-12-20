@@ -10,25 +10,26 @@
   <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
 </head>
 <body>
+
 <table>
   <tr>
     <th></th>
-    <th class="num">1</th>
-    <th class="num">2</th>
-    <th class="num">3</th>
-    <th class="num">4</th>
-    <th class="num">5</th>
-    <th class="num">6</th>
-    <th class="num">7</th>
-    <th class="num">8</th>
-    <th class="num">9</th>
-    <th class="num">10</th>
-    <th class="num">11</th>
-    <th class="num">12</th>
-    <th class="num">13</th>
-    <th class="num">14</th>
-    <th class="num">15</th>
-    <th class="num">16</th>
+    <th class="num">1<% if ((@event.current_week - 1) == 0) %> * <% end %></th>
+    <th class="num">2<% if ((@event.current_week - 2) == 0) %> * <% end %></th>
+    <th class="num">3<% if ((@event.current_week - 3) == 0) %> * <% end %></th>
+    <th class="num">4<% if ((@event.current_week - 4) == 0) %> * <% end %></th>
+    <th class="num">5<% if ((@event.current_week - 5) == 0) %> * <% end %></th>
+    <th class="num">6<% if ((@event.current_week - 6) == 0) %> * <% end %></th>
+    <th class="num">7<% if ((@event.current_week - 7) == 0) %> * <% end %></th>
+    <th class="num">8<% if ((@event.current_week - 8) == 0) %> * <% end %></th>
+    <th class="num">9<% if ((@event.current_week - 9) == 0) %> * <% end %></th>
+    <th class="num">10<% if ((@event.current_week - 10) == 0) %> * <% end %></th>
+    <th class="num">11<% if ((@event.current_week - 11) == 0) %> * <% end %></th>
+    <th class="num">12<% if ((@event.current_week - 12) == 0) %> * <% end %></th>
+    <th class="num">13<% if ((@event.current_week - 13) == 0) %> * <% end %></th>
+    <th class="num">14<% if ((@event.current_week - 14) == 0) %> * <% end %></th>
+    <th class="num">15<% if ((@event.current_week - 15) == 0) %> * <% end %></th>
+    <th class="num">16<% if ((@event.current_week - 16) == 0) %> * <% end %></th>
   </tr>
   <% @groups.each do |group| %>
     <% timetable = Timetable.find_by(group_id: group.id) %>
@@ -50,18 +51,20 @@
     </tr>
   <% end %>
 </table>
+<%= link_to 'Обновить тесты', controller: "timetables", action: "get_works" %>
+
 
   <div id="events_form">
         <span id="events_close">X</span>
-    <p>Выберите тест на проверку знаний:</p>
+    <p>Выберите тест:</p>
     <%= form_for(@event, remote: true) do |f| %>
       <p>
-        <%= f.label :test_id %><br>
-        <%= f.text_field :test_id %>
-      </p>
-      <p>
-        <%= f.label :name %><br>
-        <%= f.text_field :name %>
+        <%= f.label :test_id, 'Тип теста:'%>
+        <%= f.collection_select :test_id, @tips, :id, :name, include_blank: true %>
+        <%= javascript_include_tag 'events' %> 
+        <br><%= f.label :name, 'Тест:'%>
+         <%= f.grouped_collection_select :name, @tips, :works, :name, :title, :title, include_blank: true %>
+        
       </p>
       <p class="event_hidden">
         <%= f.label :timetable_id %><br>
@@ -72,20 +75,10 @@
         <%= f.text_field :week %>
       </p>
       <p>
-        <%= f.submit %>
+        <%= f.submit 'Добавить'%>
       </p>
     <% end %>
-    <!-- <form name="events">
-      
-      <select name="events" id="select_events">
-        <option value="1">Психологическое тестирование</option>
-        <option value="2">Проверка знаний</option>
-        <option value="3">Семантические сети и фреймы</option>
-        <option value="4">Прямой/обратный вывод</option>
-      </select>
-      
-    </form> 
-        <button id="init">OK</button>-->
+
   </div>
   <div id="overlay"></div>
 </body>

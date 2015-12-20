@@ -185,9 +185,14 @@ UIR::Application.routes.draw do
  
   resources :schedules
 
+  get "timetables/get_works"
+
   get "timetables", to: "timetables#index", as: "timetables"
   post "events/move"
+  get '/events/get_names_for_select', to: 'events#get_names_for_select', as: :get_names_for_select
   resources :events
+
+  resources :works
      
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
