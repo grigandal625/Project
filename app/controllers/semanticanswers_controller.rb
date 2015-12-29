@@ -3,6 +3,35 @@ class SemanticanswersController < ActionController::Base
 skip_before_filter :verify_authenticity_token
 include PlanningHelper
 
+    def self.create_extension
+        ext = ExtensionDatabase::ATExtension.new
+        ext.ext_type = ExtensionDatabase::ExtensionType::Skill
+        ext.description = "Компонент выявления уровня умений строить модель семантической сети"
+        ext.tasks = ["sem-network-skill"]
+
+        ext.generate_state = lambda { |mode_id, week_id, schedule, state|
+                                atom = StateSkill.create(state: 1,
+                                                         ext_name: "semanticanswers",
+                                                         action_name: "extract-skill",
+                                                         task_name: "sem-network-skill")
+                                state.atoms.push << atom
+                            }
+
+        ext.task_description = lambda { |leaf_id|
+                    return "Выявить уровень умений строить модель семантической сети"
+                }
+
+        ext.task_exec_path = lambda { |pddl_act, leaf_id|
+                    if((pddl_act == "extract-skill") && (leaf_id == "sem-network-skill"))
+                        return {"controller" => "semanticanswers", "params" => {}}
+                    else
+                        return {}
+                    end
+                }
+
+        return ext
+    end
+
 
   def index
   		@user = User.find (session["user_id"])
@@ -139,7 +168,11 @@ include PlanningHelper
   				#@semantic.mistakes = mistakes
   				@semantic.save()
           task = PlanningTask.find(session[:planning_task_id])
-          task.result = {:delete => {"pending-skills" => "sem-network-skill"}}
+          transition = PlanningState::TransitionDescriptor.new
+          transition.from = 1
+          transition.to = 3
+          task.state_atom.transit_to transition
+          #task.result = {:delete => {"pending-skills" => "sem-network-skill"}}
           current_planning_session().commit_task(task)
   		end
   		render text: @semantic.rating

@@ -8,7 +8,7 @@ UIR::Application.routes.draw do
     # FORWARD / REVERSE
   
   # get "forwards/index"
-  # get "forwards/execute"
+  get "forwards2/execute"
   # get "viewsresult/index"
   get "reverse/index"
   get "forwards2/results",          to: 'forwards2#results',     as: :fb_results 
