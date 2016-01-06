@@ -8,13 +8,12 @@ class ApplicationController < ActionController::Base
   def initialize
     super
     ext_db = ExtensionDatabase.new
-    #ext_db.add("framest", DummyController)
+    #ext_db.add("frames", DummyController)
     ext_db.add("lingvo", TestController)
-    ext_db.add("sem_network", SemanticanswersController)
-    ext_db.add("frames", FramestudentController)
-    ext_db.add("reasoning", Forwards2Controller)
-    #ext_db.add("reasoner", DummyController)
-    #ext_db.add("tester", DummyController)
+    ext_db.add("semnetter", SemanticanswersController)
+    ext_db.add("framer", FramestudentController)
+    ext_db.add("reasoner", Forwards2Controller)
+    ext_db.add("tester", KaTopicsController)
     #ext_db.add("psycho", DummyController)
   end
 

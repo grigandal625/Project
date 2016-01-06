@@ -10,7 +10,7 @@ class Forwards2Controller < ApplicationController
     def self.create_extension
         ext = ExtensionDatabase::ATExtension.new
         ext.ext_type = ExtensionDatabase::ExtensionType::Skill
-        ext.description = "Компонент выявления уровня умений выявлять причины"
+        ext.description = "Компонент выявления уровня умений моделировать прямой/обратный вывод"
         ext.tasks = ["reasoning-skill"]
 
         ext.generate_state = lambda { |mode_id, week_id, schedule, state|
@@ -22,7 +22,7 @@ class Forwards2Controller < ApplicationController
                             }
 
         ext.task_description = lambda { |leaf_id|
-                    return "Выявить уровень умений выявлять причины"
+                    return "Выявить уровень умений моделировать прямой/обратный вывод"
                 }
 
         ext.task_exec_path = lambda { |pddl_act, leaf_id|
