@@ -92,11 +92,7 @@ class TestController < ApplicationController
       task = PlanningTask.find(session["planning_task_id"])
       transition = PlanningState::TransitionDescriptor.new
       transition.from = 1
-      if result < 50
-        transition.to = 2
-      else
-        transition.to = 3
-      end
+      transition.to = 3
       task.state_atom.transit_to transition
       current_planning_session().commit_task(task)
 

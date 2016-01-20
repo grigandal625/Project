@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
     ext_db.add("semnetter", SemanticanswersController)
     ext_db.add("framer", FramestudentController)
     ext_db.add("reasoner", Forwards2Controller)
-    ext_db.add("tester", KaTopicsController)
+    #ext_db.add("tester", KaTopicsController)
     #ext_db.add("psycho", DummyController)
   end
 
