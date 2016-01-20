@@ -824,8 +824,10 @@ var functions = {
     		$('#set_block').fadeIn();
             alert("Ваша оценка: "+o.e);
             this.ipost(o.e);
-            window.onbeforeunload = null;
-            window.location.replace("/");
+            if (confirm("Тестирование окончено")) {
+                window.onbeforeunload = null;
+                window.location.replace("/");
+            };
     	} else {
     		var o = solverF.estimate();
     	// 	var need = {
