@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  state: 1
+  ext_name: MyString
+  action_name: MyString
+  task_name: MyString
+  planning_state_id: 
+
+two:
+  type: 
+  state: 1
+  ext_name: MyString
+  action_name: MyString
+  task_name: MyString
+  planning_state_id: 

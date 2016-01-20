@@ -189,6 +189,21 @@ UIR::Application.routes.draw do
   get "schedules/pokaz"
  
   resources :schedules
+
+  get "timetables", to: "timetables#index", as: "timetables"
+  post "events/move"
+  get "timetables/init"
+  post "timetables/show"
+  get "timetables/:id/to_json", to: "timetables#to_json", as: "to_json_timetable"
+  get "timetables/paste"
+  post "timetables/:id/from_json", to: "timetables#from_json", as: "from_json_timetable"
+  resources :timetables
+  get '/events/get_names_for_select', to: 'events#get_names_for_select', as: :get_names_for_select
+  resources :events
+  resources :timetable_templates
+
+  resources :works
+
      
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

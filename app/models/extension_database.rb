@@ -1,82 +1,106 @@
-
 class ExtensionDatabase
 
-	module ExtensionType
-	  Knowledge = 1
-	  Psycho = 2
-	  Skill = 4
-	  Other = 8
-	end
+  module ExtensionType
+    Knowledge = 1
+    Psycho = 2
+    Skill = 4
+    Other = 8
+  end
 
-	class ATExtension
-		attr_accessor :name, :controller_class, :ext_type, :description
-		attr_accessor :accepts_action, :accepts_task, :generate_state, :task_description, :task_exec_path
+  class ATExtension
+    attr_accessor :name, :controller_class, :ext_type, :description, :tasks
+    attr_accessor :generate_state, :task_description, :task_exec_path
 
-		def get_task_description(leaf_id)
-			return task_description.call(leaf_id)
-		end
 
-		def get_task_exec_path(pddl_act, leaf_id)
-			return task_exec_path.call(pddl_act, leaf_id)
-		end
-	end
+    AcceptableActions = {
+      ExtensionType::Knowledge => ["extract-knowledge"],
+      ExtensionType::Psycho => [],
+      ExtensionType::Skill => ["extract-skill"],
+      ExtensionType::Other => []
+    }
 
-	@@singleton = nil
-	attr_accessor :extensions
+    def get_task_description(leaf_id)
+      return task_description.call(leaf_id)
+    end
 
-	def initialize(*args)
-    	self.extensions = Array.new
-    	@@singleton = self
-  	end
+    def get_task_exec_path(pddl_act, leaf_id)
+      return task_exec_path.call(pddl_act, leaf_id)
+    end
 
-  	def add(new_ext_name, controller_class)
-  		new_ext = controller_class.create_extension() 
+    def accepts_action(action_name)
+      return AcceptableActions[@ext_type].include?(action_name)
+    end
 
-  		new_ext.name = new_ext_name
-  		new_ext.controller_class = controller_class
+    def accepts_task(task_name)
+      return @tasks.include?(task_name)
+    end
 
-  		self.extensions.push(new_ext)
-  	end
+    def self.get_acceptable_actions(type)
+      return AcceptableActions[type]
+    end
+  end
 
-  	def self.get_extension(ext_name)
-  		return self.extensions[0]
-  	end
+  @@singleton = nil
+  attr_accessor :extensions
 
-  	def self.get_task_description(task_type, leaf_id)
-  		#Find suitable extension
-  		found_ext = nil
-  		@@singleton.extensions.each do |ext|
-  			if((ext.ext_type == task_type) && (ext.accepts_task.call(leaf_id)))
-  				found_ext = ext
-  				break
-  			end
-  		end
+  def initialize(*args)
+    self.extensions = Array.new
+    @@singleton = self
+  end
 
-  		if(found_ext == nil)
-  			return "?"
-  		else
-  			return found_ext.description
-  		end
-  	end
+  def add(new_ext_name, controller_class)
+    new_ext = controller_class.create_extension() 
 
-  	def self.generate_state(mode_id, week_id, schedule)
-  		state = {"pending-skills" => [], "pending-knowledge" => [], "pending-psycho" => [], "low-knowledge" => [], "pending-tutoring" => []}
+    new_ext.name = new_ext_name
+    new_ext.controller_class = controller_class
 
-  		@@singleton.extensions.each do |ext|
-  			ext.generate_state.call(mode_id, week_id, schedule, state)
-  		end
+    self.extensions.push(new_ext)
+  end
 
-  		return state
-  	end
+  def self.get_extension(ext_name)
+    return self.extensions[0]
+  end
 
-  	def self.get_extension_for_task(task_group, leaf_id)
-  		@@singleton.extensions.each do |ext|
-  			if(ext.accepts_action.call(task_group) && ext.accepts_task.call(leaf_id))
-  				return ext
-  			end
-  		end
+  def self.get_task_description(task_type, leaf_id)
+    #Find suitable extension
+    found_ext = nil
+    @@singleton.extensions.each do |ext|
+      if((ext.ext_type == task_type) && (ext.accepts_task(leaf_id)))
+        found_ext = ext
+        break
+      end
+    end
 
-  		return nil
-  	end
+    if(found_ext == nil)
+      return "?"
+    else
+      return found_ext.description
+    end
+  end
+
+
+  def self.generate_state(week_id, mode_id, schedule)
+    state = PlanningState.new
+    PlanningState.transaction do
+
+      @@singleton.extensions.each do |ext|
+        ext.generate_state.call(mode_id, week_id, schedule, state)
+      end
+
+      state.save
+    end
+
+    return state
+  end
+
+  def self.get_extension_for_task(action, leaf_id)
+    @@singleton.extensions.each do |ext|
+      if(ext.accepts_action(action) && ext.accepts_task(leaf_id))
+        return ext
+      end
+    end
+
+    return nil
+  end
 end
 

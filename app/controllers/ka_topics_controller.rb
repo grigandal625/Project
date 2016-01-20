@@ -65,8 +65,6 @@ class KaTopicsController < ApplicationController
     session[:planning_task_id] = nil
 
     redirect_to "/"
-  end
-
   def show_topics_with_questions
     @root = KaTopic.find(params[:root_id])
     @topics = @root.get_tree

@@ -1,0 +1,1 @@
+$('#timetable_template_json').html('<%= @json.to_json(:only => ['action', 'task', 'name', 'week']).html_safe %>');

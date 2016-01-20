@@ -22,6 +22,9 @@
 *.dot
 *.svg
 models.png
+*.pyc
+/public/JSON
+/public/uploads
 
 # Ignore RubyMine project files
 *.iml

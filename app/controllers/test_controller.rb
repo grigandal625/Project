@@ -4,6 +4,35 @@ class TestController < ApplicationController
   layout 'test'
   before_action :check_student
 
+    def self.create_extension
+        ext = ExtensionDatabase::ATExtension.new
+        ext.ext_type = ExtensionDatabase::ExtensionType::Skill
+        ext.description = "Компонент выявления уровня умений строить модель подъязыка деловой прозы"
+        ext.tasks = ["linguistic-skill"]
+
+        ext.generate_state = lambda { |mode_id, week_id, schedule, state|
+                                atom = StateSkill.create(state: 1,
+                                                         ext_name: "test",
+                                                         action_name: "extract-skill",
+                                                         task_name: "linguistic-skill")
+                                state.atoms.push << atom
+                            }
+
+        ext.task_description = lambda { |leaf_id|
+                    return "Выявить уровень умений строить модель подъязыка деловой прозы"
+                }
+
+        ext.task_exec_path = lambda { |pddl_act, leaf_id|
+                    if((pddl_act == "extract-skill") && (leaf_id == "linguistic-skill"))
+                        return {"controller" => "test", "params" => {}}
+                    else
+                        return {}
+                    end
+                }
+
+        return ext
+    end
+
   def get_task
     @tasks = Task.all
   end
@@ -60,9 +89,12 @@ class TestController < ApplicationController
           @task.s_answer.check_answer(result.s_result.answer)
       end
 
-      #task = PlanningTask.find(session["planning_task_id"])
-      #task.result = {:delete => {"pending-skills" => "linguistic-skill"}}
-      #current_planning_session().commit_task(task)
+      task = PlanningTask.find(session["planning_task_id"])
+      transition = PlanningState::TransitionDescriptor.new
+      transition.from = 1
+      transition.to = 3
+      task.state_atom.transit_to transition
+      current_planning_session().commit_task(task)
 
       redirect_to result_path(result)
     end

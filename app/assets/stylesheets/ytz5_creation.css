@@ -1,0 +1,16 @@
+#task {
+	resize: vertical;
+	word-wrap: break-word;
+	overflow: auto;
+	/*max-height: 500px*/
+	height:100px; 
+}
+
+[contenteditable] strong {
+    font-weight: normal;
+    background: red;
+    color: white;
+}
+.settings_button {
+	width: 100%
+}
