@@ -348,7 +348,7 @@ var functions = {
         
         $('#'+id).html(c);
         
-        for (var _t=0;_t<KB.memoryStep.length-1;_t++) {
+        for (var _t=0;_t<KB.memoryStep.length;_t++) {
             var d='';
             var optionsRule = '<a href="javascript://" onClick="functions.editStep(KB.memoryStep['+_t+']);" title="Редактировать">Р</a>';
             if (_t==KB.memoryStep.length-1) {
@@ -371,50 +371,6 @@ var functions = {
 	'<td><div style="display:block; width:100px;" id="change_memory-step'+(_t+1)+'">'+(KB.memoryStep[_t].memory?KB.memoryStep[_t].memory.toString():'')+'</div></td><td><div style="display:block; width:100px;" id="change_goal-step'+(_t+1)+'">- '+(KB.memoryStep[_t].steckGoals?KB.memoryStep[_t].steckGoals.toString():'')+'</div></td><td class="function_trace_step"><div style="display:block; width:70px;">'+optionsRule+' </div></td></tr></table><br id="br_'+(_t+1)+'" />';
 	
 	$('#trace_val').html($('#trace_val').html()+d);
-            }
-           
-        
-        
-    },
-	_createSolTable: function(id) {
-        $('#trace_val'+1).html('');
-        document.getElementById(id).innerHTML='';
-       
-        var rules = KB.rules;
-        var width = rules.length*40+280;
-        var b = '';
-        for (var _i=0;_i<parseInt(rules.length);_i++) {
-            b+= '<td class="name_rule_trace" width="40" align="center"><div style="display:block; width:40px;">R'+(_i+1)+'</div></td>';
-        }
-        
-        var c = '<table border="0" cellspacing="3" width="'+width+'" align="center"><tr><td><div style="display:block; width:50px;"><div id="check_scroll_me" style="position:absolute"></div></div></td>'+b+'<td class="name_rule_trace">'+
-		'<div style="display:block; width:100px;">Изменение РП</div></td><td><div style="display:block; width:100px;">Изменение подцели</div></td><td><div style="display:block; width:70px;"><b>Функции</b></div></td></tr></table><div id="trace_val"></div>';
-        
-        $('#'+id+1).html(c);
-        
-        for (var _t=0;_t<KB.memorySolve.length-1;_t++) {
-            var d='';
-            var optionsRule = '<a href="javascript://" onClick="functions.editStep(KB.memorySolve['+_t+']);" title="Редактировать">Р</a>';
-            if (_t==KB.memorySolve.length-1) {
-                optionsRule+=' <a href="javascript://" onClick="functions.deleteStep(KB.memorySolve['+_t+']);" title="Удаление шага" class="del_btn">Х</a>';
-            }
-            if(KB.memorySolve[_t].subGoal) {
-                    d += '<td><div style="display:block; width:'+(parseInt(width)-40)+'px;">Изменение подцели '+KB.memorySolve[_t].subGoal+'</div></td>';
-                } else {
-                        for (var _tt=0;_tt<KB.memorySolve[_t].rule.length;_tt++) 
-                        {
-
-                            var needRule = KB.memorySolve[_t].rule;
-                            var rtn = needRule[_tt];
-                             d += '<td class="make_'+rtn+'" width="40"><div style="display:block; width:40px;"></div></td>';
-
-                        }
-		
-                }
-	d = '<table class="tbl_step_rule" id="tbl_step_'+(_t+1)+'" cellspacing="3" border="0" width="'+width+'" align="center"><tr><td width="50" class="name_rule_trace"><div style="display:block; width:50px;">Шаг '+(_t+1)+'</div></td>'+d+
-	'<td><div style="display:block; width:100px;" id="change_memory-step'+(_t+1)+'">'+(KB.memorySolve[_t].memory?KB.memorySolve[_t].memory.toString():'')+'</div></td><td><div style="display:block; width:100px;" id="change_goal-step'+(_t+1)+'">- '+(KB.memorySolve[_t].steckGoals?KB.memorySolve[_t].steckGoals.toString():'')+'</div></td><td class="function_trace_step"><div style="display:block; width:70px;">'+optionsRule+' </div></td></tr></table><br id="br_'+(_t+1)+'" />';
-	
-	$('#trace_val'+1).html($('#trace_val'+1).html()+d);
             }
            
         
