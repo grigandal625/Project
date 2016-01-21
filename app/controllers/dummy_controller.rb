@@ -10,8 +10,6 @@ class DummyController < ApplicationController
 
         ext.generate_state = lambda { |mode_id, week_id, schedule, state|
                                 atom = StateSkill.create(
-                                                         ext_name: "dummy",
-                                                         action_name: "extract-skill",
                                                          task_name: "frame-skill",
                                                          state: 1)
                                 state.atoms.push << atom

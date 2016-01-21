@@ -12,8 +12,6 @@ class TestController < ApplicationController
 
         ext.generate_state = lambda { |mode_id, week_id, schedule, state|
                                 atom = StateSkill.create(state: 1,
-                                                         ext_name: "test",
-                                                         action_name: "extract-skill",
                                                          task_name: "linguistic-skill")
                                 state.atoms.push << atom
                             }
