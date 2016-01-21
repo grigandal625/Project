@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151112121002) do
+ActiveRecord::Schema.define(version: 20151212190228) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -65,6 +65,18 @@ ActiveRecord::Schema.define(version: 20151112121002) do
     t.datetime "updated_at"
     t.boolean  "check"
   end
+
+  create_table "events", force: true do |t|
+    t.string   "name"
+    t.integer  "week"
+    t.integer  "timetable_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "action"
+    t.string   "task"
+  end
+
+  add_index "events", ["timetable_id"], name: "index_events_on_timetable_id"
 
   create_table "extension_databases", force: true do |t|
     t.datetime "created_at"
@@ -247,6 +259,7 @@ ActiveRecord::Schema.define(version: 20151112121002) do
     t.integer  "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "ontology"
   end
 
   add_index "ka_topics", ["parent_id"], name: "index_ka_topics_on_parent_id"
@@ -414,9 +427,14 @@ ActiveRecord::Schema.define(version: 20151112121002) do
   create_table "planning_sessions", force: true do |t|
     t.integer  "user_id"
     t.integer  "closed",     default: 0
-    t.string   "state"
     t.string   "plan"
     t.string   "procedure"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "planning_states", force: true do |t|
+    t.integer  "planning_session_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -431,7 +449,10 @@ ActiveRecord::Schema.define(version: 20151112121002) do
     t.string   "params"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "state_atom_id"
   end
+
+  add_index "planning_tasks", ["state_atom_id"], name: "index_planning_tasks_on_state_atom_id"
 
   create_table "problem_areas", id: false, force: true do |t|
     t.integer  "ka_result_id"
@@ -495,6 +516,19 @@ ActiveRecord::Schema.define(version: 20151112121002) do
   add_index "semanticnetworks", ["etalon_id"], name: "index_semanticnetworks_on_etalon_id"
   add_index "semanticnetworks", ["student_id"], name: "index_semanticnetworks_on_student_id"
 
+  create_table "state_base_atoms", force: true do |t|
+    t.string   "type"
+    t.integer  "state"
+    t.string   "ext_name"
+    t.string   "action_name"
+    t.string   "task_name"
+    t.integer  "planning_state_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "state_base_atoms", ["planning_state_id"], name: "index_state_base_atoms_on_planning_state_id"
+
   create_table "studentframes", force: true do |t|
     t.integer  "etalonframe_id"
     t.integer  "student_id"
@@ -556,6 +590,28 @@ ActiveRecord::Schema.define(version: 20151112121002) do
 
   add_index "text_correction_utzs", ["ka_topic_id"], name: "index_text_correction_utzs_on_ka_topic_id"
 
+  create_table "timetable_templates", force: true do |t|
+    t.string   "name"
+    t.text     "json"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "timetables", force: true do |t|
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "group_number"
+  end
+
+  add_index "timetables", ["group_id"], name: "index_timetables_on_group_id"
+
+  create_table "tips", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "tokenlines", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -611,5 +667,13 @@ ActiveRecord::Schema.define(version: 20151112121002) do
   end
 
   add_index "v_results", ["result_id"], name: "index_v_results_on_result_id"
+
+  create_table "works", force: true do |t|
+    t.string   "title"
+    t.integer  "tip_id"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
