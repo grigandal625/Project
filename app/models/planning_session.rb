@@ -21,7 +21,15 @@ class PlanningSession < ActiveRecord::Base
         problem_str = File.read(Rails.configuration.planning_kb + '/' + kb_mapping[self.procedure][1])
 
         #Form initial state
-        init_state = generate_initial_state(self.procedure, self.state)
+        if user.role == 'student'
+          group = user.student.group
+        else
+          group = Group.take #TODO remove
+        end
+        timetable = Timetable.find_by(group_id: group.id)
+        init_state = generate_initial_state(self.procedure, self.state, timetable)
+        p "timetable and initial state:" #TODO remove
+        p timetable.to_json #TODO remove
         p init_state.inspect #TODO remove
 
         problem_str = problem_str.gsub("##OBJECTS##", init_state[0])
@@ -107,7 +115,7 @@ class PlanningSession < ActiveRecord::Base
 
     private
 
-    def generate_initial_state(proc_name, state)
+    def generate_initial_state(proc_name, state, timetable)
         case proc_name
         when "tutor_designtime_initial"
 
