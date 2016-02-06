@@ -201,7 +201,7 @@ UIR::Application.routes.draw do
   get '/events/get_names_for_select', to: 'events#get_names_for_select', as: :get_names_for_select
   resources :events
   resources :timetable_templates
-
+  post "events/tasks"
   resources :works
 
      

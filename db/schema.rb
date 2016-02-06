@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160121112300) do
+ActiveRecord::Schema.define(version: 20160206215725) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -259,7 +259,7 @@ ActiveRecord::Schema.define(version: 20160121112300) do
     t.integer  "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "ontology"
+    t.integer  "ontology"
   end
 
   add_index "ka_topics", ["parent_id"], name: "index_ka_topics_on_parent_id"
@@ -604,12 +604,6 @@ ActiveRecord::Schema.define(version: 20160121112300) do
 
   add_index "timetables", ["group_id"], name: "index_timetables_on_group_id"
 
-  create_table "tips", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "tokenlines", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -665,13 +659,5 @@ ActiveRecord::Schema.define(version: 20160121112300) do
   end
 
   add_index "v_results", ["result_id"], name: "index_v_results_on_result_id"
-
-  create_table "works", force: true do |t|
-    t.string   "title"
-    t.integer  "tip_id"
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end

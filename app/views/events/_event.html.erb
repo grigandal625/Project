@@ -1,6 +1,17 @@
 <div class='events' data-event="<%=event.id%>">
-  <%=event.action%><br>
-  <%=KaTopic.where(id: event.task).take.text[0,22]+'...'%><br>
+  <%=case event.action
+       when "extract-knowledge"
+          "Выявить уровень знаний"
+       when "extract-skill"
+         "Выявить уровень умений"
+       when "psycho"
+         "Психологическое тестирование"
+       else
+         "Другое"
+         end %><br>
+  <% if event.task != nil %>
+      <%=KaTopic.where(id: event.task).take.text[0,22]+'...'%>
+  <% end %><br>
   <%=event.name%>
   <%= link_to edit_event_path(event), remote: true do %>
       <span class="edit">e</span>

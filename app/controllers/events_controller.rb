@@ -2,15 +2,9 @@ class EventsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_events, only: [:move, :edit, :update, :destroy]
   def new
-    @actions = []
-    i=1
-    while (i<16)
-      @actions.push(ExtensionDatabase::ATExtension::get_acceptable_actions(i))
-      i*=2
-    end
-    @actions.flatten!
-    @tasks = KaTopic.where("ontology = 1")
+    @actions = [["Выявить уровень знаний", "extract-knowledge"],["Выявить уровень умений", "extract-skill"],["Психологическое тестирование", "psycho"],["Другое", "other"]]
     @event  = Event.new
+    @tasks = KaTopic.where(ontology: [1])
     @timetable_id = params[:timetable_id]
     @week = params[:week]
     respond_to do |format|
@@ -35,15 +29,13 @@ class EventsController < ApplicationController
       format.js
     end
   end
+
   def edit
-    @actions = []
-    i=1
-    while (i<16)
-      @actions.push(ExtensionDatabase::ATExtension::get_acceptable_actions(i))
-      i*=2
+    @actions = [["Выявить уровень знаний", "extract-knowledge"],["Выявить уровень умений", "extract-skill"],["Психологическое тестирование", "psycho"],["Другое", "other"]]
+    @tasks = KaTopic.where(ontology: [1])
+    respond_to do |format|
+      format.js
     end
-    @actions.flatten!
-    @tasks = KaTopic.where("ontology = 1")
   end
 
   def update
@@ -55,6 +47,18 @@ class EventsController < ApplicationController
       respond_to do |format|
         format.js
       end
+    end
+  end
+
+  def tasks
+    @s_action=params[:s_action]
+    if @s_action=="extract-knowledge"
+      @tasks = KaTopic.where(ontology: [1])
+    elsif @s_action=="extract-skill"
+      @tasks = KaTopic.where(ontology: [2])
+    end
+    respond_to do |format|
+      format.js
     end
   end
 
