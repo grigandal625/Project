@@ -7,10 +7,8 @@ h4 Итоговая оценка: #{@detail_result.assessment}
       tr
         th.text = "Текст вопроса"
         th.answers = "Ответы"
-        th.right_count = "Кол-во верных"
-        th.wrong_count = "Кол-во неверных"
-        th.mark_right_count = "Кол-во данных верных"
-        th.mark_wrong_count = "Кол-во данных неверных"
+        th.etalon = "Эталон"
+        th.student = "Студент"
         th.difficulty = "Сложность"
         th.assessment = "Оценка"
     tbody
@@ -29,10 +27,26 @@ h4 Итоговая оценка: #{@detail_result.assessment}
                   td.answer_text = a.answer.text
                   td.real_answer = a.real_correct
                   td.student_answer = a.student_correct
-        td.right_count = q.right_count
-        td.wrong_count = q.wrong_count
-        td.mark_right_count = q.mark_right_count
-        td.mark_wrong_count = q.mark_wrong_count
+        td.etalon
+          table
+            thead
+              tr
+                th.right_count = "Кол-во верных"
+                th.wrong_count = "Кол-во неверных"
+            tbody
+              tr
+                td.right_count = q.right_count
+                td.wrong_count = q.wrong_count
+        td.student
+          table
+            thead
+              tr
+                th.mark_right_count = "Кол-во данных верных"
+                th.mark_wrong_count = "Кол-во данных неверных"
+            tbody
+              tr
+                td.mark_right_count = q.mark_right_count
+                td.mark_wrong_count = q.mark_wrong_count
         td.difficulty = q.question.difficulty
         td.assessment = q.assessment
     
