@@ -28,6 +28,12 @@
             <li>
               <%= link_to 'Вернуться в меню', root_path %>
             </li>
+            <% if session[:planning_task_id] != nil %>
+              <li>
+                <%= link_to 'Завершить задачу планировщика', :action => "commit"%>
+              </li>
+            <% end %>
+
         </ul>
     <% else %>
         <ul class="nav" id="pt_tests">

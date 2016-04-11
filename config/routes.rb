@@ -109,10 +109,13 @@ UIR::Application.routes.draw do
     resources :students, only: [:create, :show, :destroy]
   end
    get "semantictests/results"
-   
+
   resources :menu
   resources :semantictests
   resources :semanticanswers
+
+  get "personality_tests/execute"
+  get "personality_tests/commit"
   resources :personality_tests do
     get :results, on: :collection
     post :save_results, on: :collection

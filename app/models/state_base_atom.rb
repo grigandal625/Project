@@ -6,6 +6,7 @@ class StateBaseAtom < ActiveRecord::Base
   scope :skill, -> {where(type: "StateSkill")}
   scope :knowledge, -> {where(type: "StateKnowledge")}
   scope :psycho, -> {where(type: "StatePsycho")}
+  scope :facts, -> {where(type: "StateFacts")}
 
   def transit_to(transition_descriptor)
     from = transition_descriptor.from

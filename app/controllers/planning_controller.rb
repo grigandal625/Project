@@ -67,7 +67,7 @@ class PlanningController < ApplicationController
         ps = PlanningSession.where(:user => @user, :closed => 0).take
         ps.generate_plan()
         #redirect_to action: "_index"
-        _index
+        # _index
     end
 
     def begin_task
