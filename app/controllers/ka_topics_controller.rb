@@ -6,6 +6,34 @@ class KaTopicsController < ApplicationController
 
   layout "ka_application"
 
+  def self.create_extension
+    ext = ExtensionDatabase::ATExtension.new
+    ext.ext_type = ExtensionDatabase::ExtensionType::Other
+    ext.description = "Компонент построения онтологии курса/дисциплины"
+    ext.tasks = ["onthology-development-step"]
+
+    ext.generate_state = lambda { |mode_id, week_id, schedule, state|
+      atom = StateFacts.create(
+          task_name: "onthology-development-step",
+          state: 1)
+      state.atoms.push << atom
+    }
+
+    ext.task_description = lambda { |leaf_id|
+      return "Построение онтологии курса/дисциплины"
+    }
+
+    ext.task_exec_path = lambda { |pddl_act, leaf_id|
+      if((pddl_act == "execute-development-step") && (leaf_id == "onthology-development-step"))
+        return {"controller" => "ka_topics", "params" => {}}
+      else
+        return {}
+      end
+    }
+
+    return ext
+  end
+
   def show
     respond_to do |format|
       format.html
@@ -32,8 +60,9 @@ class KaTopicsController < ApplicationController
   def edit
     @topic = KaTopic.find(params[:id])
     @competences = Competence.all
-
+    if (session[:planning_task_id]!=nil)
     @task = PlanningTask.find(session[:planning_task_id])
+    end
     @constructs = Construct.all
   end
 
@@ -59,8 +88,10 @@ class KaTopicsController < ApplicationController
 
   def commit
     task = PlanningTask.find(session[:planning_task_id])
-    root_nodes_ids = KaTopic.where(parent_id: nil).pluck(:id)
-    task.result = {:add => {"finished" => "onthology-development-step", :add => {"onthologies" => root_nodes_ids}}}
+    transition = PlanningState::TransitionDescriptor.new
+    transition.from = 1
+    transition.to = 3
+    task.state_atom.transit_to transition
     current_planning_session().commit_task(task)
     session[:planning_task_id] = nil
 

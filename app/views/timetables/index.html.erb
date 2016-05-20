@@ -10,6 +10,11 @@
   <!--<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>-->
 </head>
 <body>
+<% if session[:planning_task_id] != nil %>
+    <li>
+      <%= link_to 'Завершить задачу планировщика', :action => "commit"%>
+    </li>
+<% end %>
 <button id="add_groups">Добавить группы</button>
 <table cellspacing="0">
   <tr>

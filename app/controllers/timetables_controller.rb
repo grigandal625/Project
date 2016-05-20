@@ -1,10 +1,60 @@
 class TimetablesController < ApplicationController
+  include PlanningHelper
   skip_before_filter :verify_authenticity_token
+
+  def self.create_extension
+    ext = ExtensionDatabase::ATExtension.new
+    ext.ext_type = ExtensionDatabase::ExtensionType::Other
+    ext.description = "Компонент составления расписаний"
+    ext.tasks = ["timetables-development-step"]
+
+    ext.generate_state = lambda { |mode_id, week_id, schedule, state|
+      atom = StateFacts.create(
+          task_name: "timetables-development-step",
+          state: 1)
+      state.atoms.push << atom
+    }
+
+    ext.task_description = lambda { |leaf_id|
+      return "Составление расписаний"
+    }
+
+    ext.task_exec_path = lambda { |pddl_act, leaf_id|
+      if((pddl_act == "execute-development-step") && (leaf_id == "timetables-development-step"))
+        return {"controller" => "timetables", "params" => {}}
+      else
+        return {}
+      end
+    }
+
+    return ext
+  end
+
+  def execute
+    session[:planning_task_id] = params[:planning_task_id]
+    redirect_to action: "index"
+  end
+
+  def commit
+    task = PlanningTask.find(session[:planning_task_id])
+    transition = PlanningState::TransitionDescriptor.new
+    transition.from = 1
+    transition.to = 3
+    task.state_atom.transit_to transition
+    current_planning_session().commit_task(task)
+    session[:planning_task_id] = nil
+
+    redirect_to "/"
+  end
+
   def index
     @event = Event.new
     @timetables = Timetable.all
     @template = TimetableTemplate.new
     @templates = TimetableTemplate.all
+    if (session[:planning_task_id]!=nil)
+      @task = PlanningTask.find(session[:planning_task_id])
+    end
   end
   def init #if group haven't timetable => creates timetable
     @groups = Group.all

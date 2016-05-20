@@ -213,7 +213,7 @@ class PersonalityTestsController < ApplicationController
     transition.to = 3
     task.state_atom.transit_to transition
     current_planning_session().commit_task(task)
-
+    session[:planning_task_id] = nil
     redirect_to "/"
   end
 end

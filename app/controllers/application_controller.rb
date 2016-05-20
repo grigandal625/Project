@@ -13,6 +13,10 @@ class ApplicationController < ActionController::Base
     #ext_db.add("reasoner", DummyController)
     #ext_db.add("tester", DummyController)
     @ext_db.add("psycho", PersonalityTestsController)
+    @ext_db.add("onthology", KaTopicsController)
+    @ext_db.add("competences", CompetencesController)
+    @ext_db.add("groups", GroupsController)
+    @ext_db.add("timetables", TimetablesController)
   end
 
   def check_admin

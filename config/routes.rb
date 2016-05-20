@@ -68,6 +68,8 @@ UIR::Application.routes.draw do
   resources :competences
   post 'competences/attach' => 'competences#attach'
   get 'competence/:c_id/detach_from/:t_id' => 'competences#detach', as: :competence_detach
+  get 'competences_execute' => 'competences#execute'
+  get 'competences_commit'  => 'competences#commit', as: :competences_commit
 
   get 'ka_topics_execute' => 'ka_topics#execute'
   get 'ka_topics_commit'  => 'ka_topics#commit', as: :ka_topics_commit
@@ -108,6 +110,8 @@ UIR::Application.routes.draw do
   resources :groups do
     resources :students, only: [:create, :show, :destroy]
   end
+  get 'groups_execute' => 'groups#execute'
+  get 'groups_commit'  => 'groups#commit', as: :groups_commit
    get "semantictests/results"
 
   resources :menu
@@ -200,6 +204,8 @@ UIR::Application.routes.draw do
   get "timetables/:id/to_json", to: "timetables#to_json", as: "to_json_timetable"
   get "timetables/paste"
   post "timetables/:id/from_json", to: "timetables#from_json", as: "from_json_timetable"
+  get 'timetables_execute' => 'timetables#execute'
+  get 'timetables_commit'  => 'timetables#commit', as: :timetables_commit
   resources :timetables
   get '/events/get_names_for_select', to: 'events#get_names_for_select', as: :get_names_for_select
   resources :events
