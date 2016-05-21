@@ -12,6 +12,7 @@ $(document).ready(function () {
   $(document).on('click', 'span.edit', function () {
     $('#upd').removeAttr('id');
     $(this).parent().parent().parent().attr('id', 'upd');
+
   });
   //to show groups_form with checkboxes
   $(document).on('click', '#add_groups', function () {
@@ -88,6 +89,9 @@ $(document).ready(function () {
     var topScroll = $(document).scrollTop();
     $('th').css({'top':topScroll});
   });
+  $(document).on('change', '#event_action', function () {
+    tasks($('#event_action').val());
+  });
   $("#add_groups").trigger("click"); //to show groups_form
 });
 function newEvent(week, timetable_id) {
@@ -127,6 +131,15 @@ function destroy(template_id) {
       url: "/timetable_templates/" + template_id
     });
   };
+};
+function tasks(action) {
+    if (action!=null) {
+        $.ajax({
+            type: "POST",
+            url: "/events/tasks",
+            data: "s_action=" + action
+        });
+    };
 };
 
 

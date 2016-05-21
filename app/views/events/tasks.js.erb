@@ -1,0 +1,7 @@
+<% if @s_action=="extract-knowledge" %>
+  $('#task').html('<%= collection_select(:event, :task, @tasks, :id, :text)%>');
+<% elsif @s_action=="extract-skill" %>
+  $('#task').html('<%= collection_select(:event, :task, @tasks, :id, :text)%>');
+<% else %>
+  $('#task').html('');
+<% end %>

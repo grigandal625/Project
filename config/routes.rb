@@ -213,6 +213,7 @@ UIR::Application.routes.draw do
   get 'development_execute' => 'development#execute'
   get 'development_commit'  => 'development#commit', as: :development_commit
   get 'development_index' => 'development#index'
+  post "events/tasks"
   resources :works
 
      

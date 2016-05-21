@@ -4,8 +4,8 @@
     <p>
       <%= f.select(:action, options_for_select(@actions))  %>
     </p>
-    <p>
-      <%= f.collection_select(:task, @tasks.all, :id, :text) %>
+    <p id="task">
+      <%= collection_select(:event, :task, @tasks, :id, :text)%>
     </p>
 
     <p>

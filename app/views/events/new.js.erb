@@ -1,4 +1,5 @@
 $('#events_form').html("<%= j (render 'form') %>");
+tasks($('#event_action').val());
 $('#overlay').fadeIn(400,
       function () {
   $('#events_form')
