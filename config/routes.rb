@@ -210,7 +210,9 @@ UIR::Application.routes.draw do
   get '/events/get_names_for_select', to: 'events#get_names_for_select', as: :get_names_for_select
   resources :events
   resources :timetable_templates
-
+  get 'development_execute' => 'development#execute'
+  get 'development_commit'  => 'development#commit', as: :development_commit
+  get 'development_index' => 'development#index'
   resources :works
 
      

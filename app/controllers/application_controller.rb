@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
     @ext_db.add("competences", CompetencesController)
     @ext_db.add("groups", GroupsController)
     @ext_db.add("timetables", TimetablesController)
+    @ext_db.add("development", DevelopmentController)
   end
 
   def check_admin

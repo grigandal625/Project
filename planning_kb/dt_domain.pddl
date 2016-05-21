@@ -7,7 +7,7 @@
     )
 
 (:constants 
- psycho-config-step group-config-step timetables-development-step competences-development-step skills-extraction-select-step onthology-development-step training-impact-development-step - development-step
+ psycho-config-step group-config-step timetables-development-step competences-development-step onthology-development-step training-impact-development-step - development-step
 )
 
 (:predicates 

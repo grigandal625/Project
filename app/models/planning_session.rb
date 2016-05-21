@@ -183,7 +183,6 @@ class PlanningSession < ActiveRecord::Base
         step_mapping = {"onthology-development-step" => {:description => "Построение онтологии курса/дисциплины", :executor => "onthology", :action => "develop"}, 
                         "psycho-config-step" => {:description => "Конфигурация построения психологического портрета", :executor => "psycho", :action => "config"},
                         "group-config-step" => {:description => "Добавление групп", :executor => "groups", :action => "config"},
-                        "skills-extraction-select-step" => {:description => "Выбор компонентов выявления уровня умений", :executor => "configurator", :action => "config_skills"},
                         "competences-development-step" => {:description => "Построение модели компетенций", :executor => "competences", :action => "develop"},
                         "timetables-development-step" => {:description => "Составление расписаний", :executor => "timetables", :action => "develop"},
                         "training-impact-development-step" => {:description => "Разработка обучающих воздействий", :executor => "configurator", :action => "config_training_impacts"}

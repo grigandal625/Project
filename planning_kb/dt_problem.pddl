@@ -6,7 +6,6 @@
 
 (:init
 
-(follows training-impact-development-step skills-extraction-select-step)
 (follows onthology-development-step competences-development-step)
 (follows training-impact-development-step onthology-development-step)
 (follows training-impact-development-step group-config-step)
