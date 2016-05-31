@@ -604,12 +604,6 @@ ActiveRecord::Schema.define(version: 20160121112300) do
 
   add_index "timetables", ["group_id"], name: "index_timetables_on_group_id"
 
-  create_table "tips", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "tokenlines", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -665,13 +659,5 @@ ActiveRecord::Schema.define(version: 20160121112300) do
   end
 
   add_index "v_results", ["result_id"], name: "index_v_results_on_result_id"
-
-  create_table "works", force: true do |t|
-    t.string   "title"
-    t.integer  "tip_id"
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end

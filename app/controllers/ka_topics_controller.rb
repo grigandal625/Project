@@ -33,7 +33,7 @@ class KaTopicsController < ApplicationController
     @topic = KaTopic.find(params[:id])
     @competences = Competence.all
 
-    @task = PlanningTask.find(session[:planning_task_id])
+    # @task = PlanningTask.find(session[:planning_task_id])
     @constructs = Construct.all
   end
 
