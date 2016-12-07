@@ -33,7 +33,9 @@ skip_before_filter :verify_authenticity_token
   	@etalon.etalonjson = params[:etalonjson]
   	@etalon.name = params[:name]
   	@etalon.nodejson = params[:namesjson]
+	@etalon.ka_topic_id = params[:ka_topic_id]
   	@etalon.save()
+
   	render text: "Сохранено"
   end
   

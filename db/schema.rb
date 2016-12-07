@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160121112300) do
+ActiveRecord::Schema.define(version: 20161206132456) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20160121112300) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "check"
+    t.integer  "ka_topic_id"
   end
 
   create_table "events", force: true do |t|
@@ -506,11 +507,13 @@ ActiveRecord::Schema.define(version: 20160121112300) do
     t.integer  "etalon_id"
     t.integer  "student_id"
     t.text     "json"
-    t.text     "mistakes",   default: " Вы еще не прошли тест :) "
-    t.boolean  "iscomplite", default: false
+    t.text     "mistakes",          default: " Вы еще не прошли тест :) "
+    t.boolean  "iscomplite",        default: false
     t.integer  "rating"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "ka_topic_id"
+    t.text     "recommendation_id"
   end
 
   add_index "semanticnetworks", ["etalon_id"], name: "index_semanticnetworks_on_etalon_id"

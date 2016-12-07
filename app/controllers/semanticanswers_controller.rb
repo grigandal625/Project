@@ -28,7 +28,10 @@ include PlanningHelper
 
     @semantic.json = ""
     @semantic.student = User.find(session[:user_id]).student
+    @etalon = Etalon.where(id: @semantic.etalon).take
+    @semantic.ka_topic_id = @etalon.ka_topic_id
     @semantic.save()
+
     redirect_to semanticanswer_path(@semantic.id)
   end
   
@@ -134,6 +137,14 @@ include PlanningHelper
   			if (result < 0 )
   				result = 0
   			end
+			if ( result < 60 )
+				rec = []
+				TestUtzQuestion.where(ka_topic_id: @semantic.ka_topic_id).find_each do |user|
+					rec.push(user.id)	
+				end
+				rec_json = rec.to_json
+			end
+				@semantic.recommendation_id = rec_json 
   				@semantic.rating = result
   				@semantic.iscomplite = true
   				#@semantic.mistakes = mistakes
