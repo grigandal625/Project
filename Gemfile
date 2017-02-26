@@ -70,3 +70,5 @@ gem 'tasks_generator', '= 1.4'
 
 # Translit
 gem 'translit'
+
+gem 'watu_table_builder', :require => 'table_builder'

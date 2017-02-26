@@ -48,6 +48,7 @@ class TimetablesController < ApplicationController
   end
 
   def index
+    @user = User.find_by(id: session[:user_id])
     @event = Event.new
     @timetables = Timetable.all
     @template = TimetableTemplate.new

@@ -6,20 +6,18 @@
       <% end %><br>
       <a class="from_json">Вставка</a>
     </td>
-    <td class="events" data-week="1"></td>
-    <td class="events" data-week="2"></td>
-    <td class="events" data-week="3"></td>
-    <td class="events" data-week="4"></td>
-    <td class="events" data-week="5"></td>
-    <td class="events" data-week="6"></td>
-    <td class="events" data-week="7"></td>
-    <td class="events" data-week="8"></td>
-    <td class="events" data-week="9"></td>
-    <td class="events" data-week="10"></td>
-    <td class="events" data-week="11"></td>
-    <td class="events" data-week="12"></td>
-    <td class="events" data-week="13"></td>
-    <td class="events" data-week="14"></td>
-    <td class="events" data-week="15"></td>
-    <td class="events" data-week="16"></td>
+    <% events = timetable.events %>
+    <% for i in 1..16 do %>
+        <% event = nil %>
+        <% events.each do |tmp| %>
+            <% if tmp.week == i %>
+              <% event = tmp %>
+            <% end %>
+        <% end %>
+      <td class="events" data-week="<%= i %>">
+        <% if event != nil %>
+            <%= render event %>
+        <% end %>
+      </td>
+    <% end %>
   </tr>

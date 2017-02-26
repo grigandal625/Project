@@ -1,12 +1,17 @@
 <% @timetables.each do |timetable| %>
   $('table').append("<%= j (render timetable) %>");
   $("#show_<%=timetable.id%>").remove(); // delete checkbox from groups_form
-  <%events = timetable.events%>
-  <%events.each do |event|%>
-    $('td[data-week="<%= event.week %>"]', 'tr[data-timetable="<%= timetable.id %>"]').append("<%= j (render event) %>");
-  <%end%>
 <% end %>
 
+//to create new event
+$(document).on('click', 'td.events', function () {
+  if ($('div', this).length == 0) { //true if $(this) dont include divs
+    newEvent($(this).data('week'), $(this).parent().data('timetable'))
+    $('#addTo').removeAttr('id'); // must be only one 'addTo'
+    $(this).attr('id', 'addTo'); // save td to add div.events
+  }
+  ;
+});
 $('div.events').draggable({
   containment: 'table',
   revert: 'invalid'

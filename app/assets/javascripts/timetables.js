@@ -1,13 +1,4 @@
 $(document).ready(function () {
-  //to create new event
-  $(document).on('click', 'td.events', function () {
-    if ($('div', this).length == 0) { //true if $(this) dont include divs
-      newEvent($(this).data('week'), $(this).parent().data('timetable'))
-      $('#addTo').removeAttr('id'); // must be only one 'addTo'
-      $(this).attr('id', 'addTo'); // save td to add div.events
-    }
-    ;
-  });
   //to edit event
   $(document).on('click', 'span.edit', function () {
     $('#upd').removeAttr('id');
@@ -80,7 +71,7 @@ $(document).ready(function () {
       destroy($('#templates').val());
     }
   });
-  // to fix group_number on horizontal scroll
+  // to slide group_number on horizontal scroll
   $(document).on('scroll', function(){
     var leftScroll = $(document).scrollLeft();
     $('.num').css({'left':leftScroll});
@@ -92,7 +83,6 @@ $(document).ready(function () {
   $(document).on('change', '#event_action', function () {
     tasks($('#event_action').val());
   });
-  $("#add_groups").trigger("click"); //to show groups_form
 });
 function newEvent(week, timetable_id) {
   $.ajax({

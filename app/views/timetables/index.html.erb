@@ -15,7 +15,9 @@
       <%= link_to 'Завершить задачу планировщика', :action => "commit"%>
     </li>
 <% end %>
-<button id="add_groups">Добавить группы</button>
+<% if @user.role=='admin' %>
+  <button id="add_groups">Добавить группы</button>
+<% end %>
 <table cellspacing="0">
   <tr>
     <th></th>
@@ -36,6 +38,9 @@
     <th>15</th>
     <th>16</th>
   </tr>
+  <% if @user.role=='student' %>
+      <%= render Timetable.find_by(group_id: Student.find(@user.student_id).group_id)%>
+  <% end %>
 </table>
 
 <div class="form" id="events_form"></div>

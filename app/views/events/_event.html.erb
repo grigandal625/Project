@@ -1,3 +1,4 @@
+<% user = User.find_by(id: session[:user_id]) %>
 <div class='events' data-event="<%=event.id%>">
   <%=case event.action
        when "extract-knowledge"
@@ -13,10 +14,16 @@
       <%=KaTopic.where(id: event.task).take.text[0,22]+'...'%>
   <% end %><br>
   <%=event.name%>
-  <%= link_to edit_event_path(event), remote: true do %>
-      <span class="edit">e</span>
-  <% end %>
-  <%= link_to event, remote: true, method: :delete,  data: { confirm: 'Удалить?' } do %>
-      <span class="delete"><b>&times</b></span>
+  <% if @user.role=='admin' %>
+    <%= link_to edit_event_path(event), remote: true do %>
+        <span class="edit">e</span>
+    <% end %>
+    <%= link_to event, remote: true, method: :delete,  data: { confirm: 'Удалить?' } do %>
+        <span class="delete"><b>&times</b></span>
+    <% end %>
+  <% else %>
+      <%= link_to "/", method: :get,  data: { confirm: 'Перейти на стартовую страницу?' } do %> <!--todo ссылка на компонент-->
+          <span><b>Перейти</b></span>
+      <% end %>
   <% end %>
 </div>
