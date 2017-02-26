@@ -176,7 +176,7 @@ class KaTestsController < ApplicationController
   private
   def generate_tree(topic_id, step, topics_tree, topics_all, topics)
     topics.push([step, topics_all[topic_id]])
-    if step == 0
+    if step < 3
       topics_tree[topic_id].each do |t|
         generate_tree(t, step + 1, topics_tree, topics_all, topics)
       end

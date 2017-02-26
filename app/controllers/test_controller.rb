@@ -87,12 +87,14 @@ class TestController < ApplicationController
           @task.s_answer.check_answer(result.s_result.answer)
       end
 
-      task = PlanningTask.find(session["planning_task_id"])
-      transition = PlanningState::TransitionDescriptor.new
-      transition.from = 1
-      transition.to = 3
-      task.state_atom.transit_to transition
-      current_planning_session().commit_task(task)
+      if (PlanningTask.exists?(session["planning_task_id"]))
+        task = PlanningTask.find(session["planning_task_id"])
+        transition = PlanningState::TransitionDescriptor.new
+        transition.from = 1
+        transition.to = 3
+        task.state_atom.transit_to transition
+        current_planning_session().commit_task(task)
+      end
 
       redirect_to result_path(result)
     end
