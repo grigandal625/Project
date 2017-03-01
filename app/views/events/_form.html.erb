@@ -13,11 +13,17 @@
       <%= f.text_field :name %>
     </p>
 
+    <p>
+      <%= f.label :only_time, 'Время:'%>
+      <%= f.time_select :only_time%>
+    </p>
+
+    <!--костыли для передачи параметра по ajax-->
     <p id="event_hidden">
       <%= f.label :timetable_id %>
-      <%= f.text_field :timetable_id %>
+      <%= f.text_field :timetable_id, options = {value: @timetable_id} %>
       <%= f.label :week %>
-      <%= f.text_field :week %>
+      <%= f.text_field :week, options = {value: @week} %>
     </p>
     <p>
       <%= f.submit %>

@@ -1,20 +1,26 @@
   <tr data-timetable=<%=timetable.id%>>
-    <td class="num">
-      <%=timetable.group_number %><br>
-      <%= link_to to_json_timetable_path(timetable), remote: true do %>
-          <span class="to_json">JSON</span>
-      <% end %><br>
-      <a class="from_json">Вставка</a>
-    </td>
+    <% if @user.role=='admin' %>
+        <td class="num">
+          <%=timetable.group_number %><br>
+          <%= link_to to_json_timetable_path(timetable), remote: true do %>
+              <span class="to_json">JSON</span>
+          <% end %><br>
+          <a class="from_json">Вставка</a>
+        </td>
+    <% end %>
     <% events = timetable.events %>
-    <% for i in 1..16 do %>
+    <% (Date.new(@date.year, @date.month, 01)..Date.new(@date.year, @date.month, -1)).each do |date| %>
         <% event = nil %>
         <% events.each do |tmp| %>
-            <% if tmp.week == i %>
+            <% if tmp.week == date %>
               <% event = tmp %>
             <% end %>
         <% end %>
-      <td class="events" data-week="<%= i %>">
+        <td
+        <% if @user.role == 'admin' %>
+          class="events"
+        <% end %>
+          data-week="<%= date %>">
         <% if event != nil %>
             <%= render event %>
         <% end %>

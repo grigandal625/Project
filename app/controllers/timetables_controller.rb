@@ -48,9 +48,22 @@ class TimetablesController < ApplicationController
   end
 
   def index
+    if params[:month] != nil
+      @date = Date.parse params[:month]
+    else
+      @date = Date.today
+    end
     @user = User.find_by(id: session[:user_id])
     @event = Event.new
     @timetables = Timetable.all
+
+    show = session[:show]
+    if show != nil
+      @timetables_showed = Timetable.where(id: show.select{|k,v| v == '1'}.keys)
+    end
+    if @user.role == 'student'
+      @timetables_showed = Timetable.find_by(group_id: Student.find(@user.student_id).group_id)
+    end
     @template = TimetableTemplate.new
     @templates = TimetableTemplate.all
     if (session[:planning_task_id]!=nil)
@@ -73,7 +86,13 @@ class TimetablesController < ApplicationController
     end
   end
   def show #shows checked timetables
+    if params[:month] != nil
+      @date = Date.parse params[:month][:month]
+    else
+      @date = Date.today
+    end
     show = params[:show]
+    session[:show] = show
     @timetables = Timetable.where(id: show.select{|k,v| v == '1'}.keys)
     respond_to do |format|
       format.js
@@ -97,6 +116,11 @@ class TimetablesController < ApplicationController
     end
   end
   def from_json #destroy all events of chosen timetable and creates new from json in from_json_form textarea
+    if params[:month] != nil
+      @date = Date.parse params[:month][:month]
+    else
+      @date = Date.today
+    end
     @timetable = Timetable.find(params[:id])
     @timetable.events.each do |event|
       event.destroy
@@ -110,6 +134,9 @@ class TimetablesController < ApplicationController
         event.task = json[i]['task']
         event.name =  json[i]['name']
         event.week = json[i]['week']
+        if json[i]['only_time'] != nil
+          event.only_time = Time.parse json[i]['only_time']
+        end
         event.save
       end
     end

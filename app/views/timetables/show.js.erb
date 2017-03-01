@@ -1,3 +1,4 @@
+$('table').html("<tr><th></th><% (Date.new(@date.year, @date.month, 01)..Date.new(@date.year, @date.month, -1)).each do |date| %><th><%= date.strftime("%d") %></th><% end %></tr>");
 <% @timetables.each do |timetable| %>
   $('table').append("<%= j (render timetable) %>");
   $("#show_<%=timetable.id%>").remove(); // delete checkbox from groups_form

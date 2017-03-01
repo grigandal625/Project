@@ -68,6 +68,6 @@ class EventsController < ApplicationController
       @event = Event.find(params[:id])
     end
     def event_params
-      params.require(:event).permit(:action, :task, :name, :week, :timetable_id)
+      params.require(:event).permit(:action, :task, :name, :week, :timetable_id, :only_time)
     end
 end

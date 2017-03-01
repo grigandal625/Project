@@ -12,42 +12,32 @@
 <body>
 <% if session[:planning_task_id] != nil %>
     <li>
-      <%= link_to 'Завершить задачу планировщика', :action => "commit"%>
+      <%= link_to 'Завершить задачу планировщика', :action => "commit" %>
     </li>
 <% end %>
 <% if @user.role=='admin' %>
-  <button id="add_groups">Добавить группы</button>
+    <button id="add_groups">Добавить группы</button>
 <% end %>
+<%= link_to "<", :month => (@date.beginning_of_month-1).strftime('%a, %d %b %Y %H:%M:%S %Z') %>
+<%= h @date.strftime("%B %Y") %>
+<%= link_to ">", :month => (@date.end_of_month+1).strftime('%a, %d %b %Y %H:%M:%S %Z') %>
 <table cellspacing="0">
   <tr>
-    <th></th>
-    <th>1</th>
-    <th>2</th>
-    <th>3</th>
-    <th>4</th>
-    <th>5</th>
-    <th>6</th>
-    <th>7</th>
-    <th>8</th>
-    <th>9</th>
-    <th>10</th>
-    <th>11</th>
-    <th>12</th>
-    <th>13</th>
-    <th>14</th>
-    <th>15</th>
-    <th>16</th>
+    <% if @user.role=='admin' %>
+        <th></th>
+    <% end %>
+    <% (Date.new(@date.year, @date.month, 01)..Date.new(@date.year, @date.month, -1)).each do |date| %>
+        <th><%= date.strftime("%d") %></th>
+    <% end %>
   </tr>
-  <% if @user.role=='student' %>
-      <%= render Timetable.find_by(group_id: Student.find(@user.student_id).group_id)%>
-  <% end %>
+  <%= render @timetables_showed %>
 </table>
-
+<% if @user.role=='admin' %>
 <div class="form" id="events_form"></div>
 
 <div class="form" id="groups_form">
-    <span class="close" id="groups_close">&times</span>
-  <%= link_to timetables_init_path, remote: true,  data: { confirm: 'Страница будет перезагружена. Инициализировать?' } do%>
+  <span class="close" id="groups_close">&times</span>
+  <%= link_to timetables_init_path, remote: true, data: {confirm: 'Страница будет перезагружена. Инициализировать?'} do %>
       <button>Инициалировать</button>
   <% end %><br>
   <button id="check_all">Выделить все</button>
@@ -56,16 +46,24 @@
       <div id="timetables">
         <% @timetables.each do |timetable| %>
             <p id="show_<%= timetable.id %>">
-              <%= check_box("show", timetable.id) %>
+              <% if @timetables_showed.include?(timetable) %>
+                  <%= check_box("show", timetable.id, options ={checked: true}) %>
+              <% else %>
+                  <%= check_box("show", timetable.id) %>
+              <% end %>
               <%= label("show", timetable.id, timetable.group.number) %>
             </p>
         <% end %>
       </div>
+      <!--костыли для передачи параметра по ajax, ам сорри ;)-->
+      <p id="month_hidden">
+        <%= text_field('month', :month, options ={value: @date}) %>
+      </p>
       <%= submit_tag ("Добавить") %>
   <% end %>
 </div>
 <div class="form" id="to_json_form">
-    <span class="close" id="to_json_close">&times</span>
+  <span class="close" id="to_json_close">&times</span>
   <%= form_for(@template, remote: true) do |f| %>
       <p>
         <%= f.label("Имя шаблона") %><br>
@@ -74,7 +72,7 @@
       </p>
       <p>
         <%= f.label ("JSON") %><br>
-        <%= f.text_area(:json, options={size: "38x14", readonly:''}) %>
+        <%= f.text_area(:json, options={size: "38x14", readonly: ''}) %>
       </p>
   <% end %>
   <!--<textarea id="json" rows="14" cols="38" disabled></textarea>-->
@@ -84,16 +82,20 @@
 <div class="form" id="from_json_form">
   <span class="close" id="from_json_close">&times</span>
   <select id="templates">
-    <%@templates.each do |template| %>
-      <option value="<%=template.id%>"><%=template.name%> </option>
-    <%end%>
+    <% @templates.each do |template| %>
+        <option value="<%= template.id %>"><%= template.name %> </option>
+    <% end %>
   </select>
   <button id="template">Вставить</button>
   <button id="template_delete">Удалить</button>
   <textarea id="from_json" rows="14" cols="38"></textarea>
+  <!--костыли для передачи параметра по ajax, ам сорри ;)-->
+  <p id="month_hidden">
+    <%= text_field('month', :month, options ={value: @date}) %>
+  </p>
   <button id="from_json_submit">Пересоздать</button>
 </div>
-
+<% end %>
 <div id="overlay"></div>
 <div id="download">Загрузка</div>
 </body>

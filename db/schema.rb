@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160206215725) do
+ActiveRecord::Schema.define(version: 20170226080008) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -68,12 +68,13 @@ ActiveRecord::Schema.define(version: 20160206215725) do
 
   create_table "events", force: true do |t|
     t.string   "name"
-    t.integer  "week"
+    t.date     "week"
     t.integer  "timetable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "action"
     t.string   "task"
+    t.datetime "only_time"
   end
 
   add_index "events", ["timetable_id"], name: "index_events_on_timetable_id"

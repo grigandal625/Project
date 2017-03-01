@@ -1,5 +1,8 @@
-<% user = User.find_by(id: session[:user_id]) %>
-<div class='events' data-event="<%=event.id%>">
+<div
+<% if @user.role == 'admin' %>
+class='events'
+<% end %>
+data-event="<%=event.id%>">
   <%=case event.action
        when "extract-knowledge"
           "Выявить уровень знаний"
@@ -12,6 +15,9 @@
          end %><br>
   <% if event.task != nil %>
       <%=KaTopic.where(id: event.task).take.text[0,22]+'...'%>
+  <% end %><br>
+  <% if event.only_time != nil %>
+      <%=event.only_time.strftime('%H:%M')%>
   <% end %><br>
   <%=event.name%>
   <% if @user.role=='admin' %>
