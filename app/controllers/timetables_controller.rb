@@ -56,7 +56,7 @@ class TimetablesController < ApplicationController
     @user = User.find_by(id: session[:user_id])
     @event = Event.new
     @timetables = Timetable.all
-
+    @timetables_showed = []
     show = session[:show]
     if show != nil
       @timetables_showed = Timetable.where(id: show.select{|k,v| v == '1'}.keys)
