@@ -11,7 +11,17 @@
       <%= t.day do |day, events| %>
           <%= day.day %>
           <% events.each do |event| %>
-              <p><%= event.only_time.strftime('%H:%M') %>: <%= event.task %></p>
+              <p><%= event.only_time.strftime('%H:%M') %>: <%= event.task %>
+              <% if @user.role=='admin' %>
+                  <%= link_to "/", method: :get,  data: { confirm: 'Перейти на стартовую страницу?(ссылка для преподавателя)' } do %> <!--todo ссылка на компонент-->
+                      Перейти
+                  <% end %>
+              <% else %>
+                  <%= link_to "/", method: :get,  data: { confirm: 'Перейти на стартовую страницу?(ссылка для студента)' } do %> <!--todo ссылка на компонент-->
+                      Перейти
+                  <% end %>
+              <% end %>
+              </p>
           <% end %>
       <% end %>
   <% end %>

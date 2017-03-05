@@ -29,9 +29,12 @@ data-event="<%=event.id%>">
     <%= link_to event, remote: true, method: :delete,  data: { confirm: 'Удалить?' } do %>
         <span class="delete"><b>&times</b></span>
     <% end %>
+      <%= link_to "/", method: :get,  data: { confirm: 'Перейти на стартовую страницу? (ссылка для преподавателя)' } do %> <!--todo ссылка на компонент-->
+          <span>Перейти</span>
+      <% end %>
   <% else %>
-      <%= link_to "/", method: :get,  data: { confirm: 'Перейти на стартовую страницу?' } do %> <!--todo ссылка на компонент-->
-          <span><b>Перейти</b></span>
+      <%= link_to "/", method: :get,  data: { confirm: 'Перейти на стартовую страницу? (ссылка для студента)' } do %> <!--todo ссылка на компонент-->
+          <span>Перейти</span>
       <% end %>
   <% end %>
 </div>
