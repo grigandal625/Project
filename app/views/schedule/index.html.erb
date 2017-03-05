@@ -1,0 +1,18 @@
+<%= stylesheet_link_tag 'schedule' %>
+<%= javascript_include_tag 'jquery', 'jquery-ui.min' %>
+<div id="calendar">
+  <h2 id="month">
+    <%= link_to '<', :month => (@date.beginning_of_month-1).strftime('%b-%Y') %>
+    <%=h @date.strftime('%B %Y') %>
+    <%= link_to '>', :month => (@date.end_of_month+1).strftime('%b-%Y') %>
+  </h2>
+  <%= calendar_for(@events, :year => @date.year, :month => @date.month, :first_day_of_week => 1) do |t| %>
+      <%= t.head('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun') %>
+      <%= t.day do |day, events| %>
+          <%= day.day %>
+          <% events.each do |event| %>
+              <p><%= event.only_time.strftime('%H:%M') %>: <%= event.task %></p>
+          <% end %>
+      <% end %>
+  <% end %>
+</div>

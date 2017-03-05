@@ -13,9 +13,11 @@ data-event="<%=event.id%>">
        else
          "Другое"
          end %><br>
-  <% if event.task != nil %>
-      <%=KaTopic.where(id: event.task).take.text[0,22]+'...'%>
-  <% end %><br>
+  <%# if event.task != nil %>
+      <%#=KaTopic.where(id: event.task).take.text[0,22]+'...'%>
+  <%# end %>
+  <%= event.task %>
+  <br>
   <% if event.only_time != nil %>
       <%=event.only_time.strftime('%H:%M')%>
   <% end %><br>

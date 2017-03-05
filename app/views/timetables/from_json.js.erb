@@ -2,7 +2,7 @@ $('#toAddFromJSON').replaceWith("<%= j (render @timetable) %>");
 //to create new event
 $(document).on('click', 'td.events', function () {
   if ($('div', this).length == 0) { //true if $(this) dont include divs
-    newEvent($(this).data('week'), $(this).parent().data('timetable'))
+    newEvent($(this).data('date'), $(this).parent().data('timetable'))
     $('#addTo').removeAttr('id'); // must be only one 'addTo'
     $(this).attr('id', 'addTo'); // save td to add div.events
   }
@@ -20,9 +20,9 @@ $('td.events').droppable({
       $div = $(ui.draggable);
       $div.appendTo($(this));
       var event_id = $div.data('event');
-      var week = $(this).data('week');
+      var date = $(this).data('date');
       var timetable_id = $(this).parent().data('timetable');
-      moveEvent(event_id, week, timetable_id);
+      moveEvent(event_id, date, timetable_id);
       $div.css({
         'top': '0px',
         'left': '0px'

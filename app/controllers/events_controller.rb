@@ -6,7 +6,7 @@ class EventsController < ApplicationController
     @event  = Event.new
     @tasks = KaTopic.where(ontology: [1])
     @timetable_id = params[:timetable_id]
-    @week = params[:week]
+    @date = params[:date]
     respond_to do |format|
       format.js
     end
@@ -22,7 +22,7 @@ class EventsController < ApplicationController
   end
 
   def move
-    @event.week = params[:week]
+    @event.date = params[:date]
     @event.timetable_id = params[:timetable_id]
     @event.save
     respond_to do |format|
@@ -31,8 +31,11 @@ class EventsController < ApplicationController
   end
 
   def edit
+    @event  = Event.find(params[:id])
     @actions = [["Выявить уровень знаний", "extract-knowledge"],["Выявить уровень умений", "extract-skill"],["Психологическое тестирование", "psycho"],["Другое", "other"]]
     @tasks = KaTopic.where(ontology: [1])
+    @timetable_id = @event.timetable_id
+    @date = @event.date
     respond_to do |format|
       format.js
     end
@@ -68,6 +71,6 @@ class EventsController < ApplicationController
       @event = Event.find(params[:id])
     end
     def event_params
-      params.require(:event).permit(:action, :task, :name, :week, :timetable_id, :only_time)
+      params.require(:event).permit(:action, :task, :name, :date, :timetable_id, :only_time)
     end
 end

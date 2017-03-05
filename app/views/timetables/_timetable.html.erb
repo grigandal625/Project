@@ -12,15 +12,18 @@
     <% (Date.new(@date.year, @date.month, 01)..Date.new(@date.year, @date.month, -1)).each do |date| %>
         <% event = nil %>
         <% events.each do |tmp| %>
-            <% if tmp.week == date %>
+            <% if tmp.date == date %>
               <% event = tmp %>
             <% end %>
         <% end %>
-        <td
-        <% if @user.role == 'admin' %>
-          class="events"
+        <td class="events
+        <% if date.today? %>
+          , today
+        <% elsif date.sunday? || date.saturday? %>
+          , weekend
         <% end %>
-          data-week="<%= date %>">
+        "
+          data-date="<%= date %>">
         <% if event != nil %>
             <%= render event %>
         <% end %>

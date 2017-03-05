@@ -2,7 +2,7 @@ $(document).ready(function () {
     //to create new event
     $(document).on('click', 'td.events', function () {
         if ($('div', this).length == 0) { //true if $(this) dont include divs
-            newEvent($(this).data('week'), $(this).parent().data('timetable'));
+            newEvent($(this).data('date'), $(this).parent().data('timetable'));
             $('#addTo').removeAttr('id'); // must be only one 'addTo'
             $(this).attr('id', 'addTo'); // save td to add div.events
         }
@@ -19,9 +19,9 @@ $(document).ready(function () {
                 $div = $(ui.draggable);
                 $div.appendTo($(this));
                 var event_id = $div.data('event');
-                var week = $(this).data('week');
+                var date = $(this).data('date');
                 var timetable_id = $(this).parent().data('timetable');
-                moveEvent(event_id, week, timetable_id);
+                moveEvent(event_id, date, timetable_id);
                 $div.css({
                     'top': '0px',
                     'left': '0px'
@@ -116,18 +116,18 @@ $(document).ready(function () {
         tasks($('#event_action').val());
     });
 });
-function newEvent(week, timetable_id) {
+function newEvent(date, timetable_id) {
     $.ajax({
         type: "GET",
         url: "/events/new",
-        data: "week=" + week + ";timetable_id=" + timetable_id
+        data: "date=" + date + ";timetable_id=" + timetable_id
     });
 }
-function moveEvent(event_id, week, timetable_id) {
+function moveEvent(event_id, date, timetable_id) {
     $.ajax({
         type: "POST",
         url: "/events/move",
-        data: "id=" + event_id + ";week=" + week + ";timetable_id=" + timetable_id
+        data: "id=" + event_id + ";date=" + date + ";timetable_id=" + timetable_id
     });
 }
 function fromJSON(timetable_id, json) {

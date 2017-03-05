@@ -193,9 +193,7 @@ UIR::Application.routes.draw do
     post :check_answer, on: :member
   end
    
-  get "schedules/pokaz"
- 
-  resources :schedules
+  get 'schedule', to: 'schedule#index', as: 'schedule'
 
   get "timetables", to: "timetables#index", as: "timetables"
   post "events/move"

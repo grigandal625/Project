@@ -133,7 +133,7 @@ class TimetablesController < ApplicationController
         event.action = json[i]['action']
         event.task = json[i]['task']
         event.name =  json[i]['name']
-        event.week = json[i]['week']
+        event.date = json[i]['date']
         if json[i]['only_time'] != nil
           event.only_time = Time.parse json[i]['only_time']
         end

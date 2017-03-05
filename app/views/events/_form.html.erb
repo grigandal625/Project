@@ -1,15 +1,23 @@
 <span class="close" id="events_close">&times</span>
-<p>Выберите тест на проверку знаний:</p>
 <%= form_for(@event, remote: true) do |f| %>
     <p>
       <%= f.select(:action, options_for_select(@actions))  %>
     </p>
-    <p id="task">
-      <%= collection_select(:event, :task, @tasks, :id, :text)%>
+    <!--<p id="task">-->
+      <!--<%#= collection_select(:event, :task, @tasks, :id, :text)%>-->
+    <!--</p>-->
+
+    <p>
+      <%= f.label :task, 'Компонент:'%>
+    </p>
+    <p>
+      <%= f.text_field :task %>
     </p>
 
     <p>
       <%= f.label :name, 'Краткое описание:'%>
+    </p>
+    <p>
       <%= f.text_field :name %>
     </p>
 
@@ -22,8 +30,8 @@
     <p id="event_hidden">
       <%= f.label :timetable_id %>
       <%= f.text_field :timetable_id, options = {value: @timetable_id} %>
-      <%= f.label :week %>
-      <%= f.text_field :week, options = {value: @week} %>
+      <%= f.label :date %>
+      <%= f.text_field :date, options = {value: @date} %>
     </p>
     <p>
       <%= f.submit %>

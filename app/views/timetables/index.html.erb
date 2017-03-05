@@ -18,16 +18,18 @@
 <% if @user.role=='admin' %>
     <button id="add_groups">Добавить группы</button>
 <% end %>
-<%= link_to "<", :month => (@date.beginning_of_month-1).strftime('%a, %d %b %Y %H:%M:%S %Z') %>
-<%= h @date.strftime("%B %Y") %>
-<%= link_to ">", :month => (@date.end_of_month+1).strftime('%a, %d %b %Y %H:%M:%S %Z') %>
+<h2 id="month">
+  <%= link_to '<', :month => (@date.beginning_of_month-1).strftime('%b-%Y') %>
+  <%=h @date.strftime('%B %Y') %>
+  <%= link_to '>', :month => (@date.end_of_month+1).strftime('%b-%Y') %>
+</h2>
 <table cellspacing="0">
   <tr>
     <% if @user.role=='admin' %>
         <th></th>
     <% end %>
     <% (Date.new(@date.year, @date.month, 01)..Date.new(@date.year, @date.month, -1)).each do |date| %>
-        <th><%= date.strftime("%d") %></th>
+        <th><span class="day"><%= date.strftime('%d') %></span><br><%= date.strftime('%a') %></th>
     <% end %>
   </tr>
   <%= render @timetables_showed %>
