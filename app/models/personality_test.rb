@@ -4,8 +4,8 @@ class PersonalityTest < ActiveRecord::Base
   has_and_belongs_to_many   :students
   accepts_nested_attributes_for :personality_test_questions
 
-  validate :name, presence: true
-  validate :personality_test_type, presence: true
+  validates :name, presence: true
+  validates :personality_test_type, presence: true
 
   def questions
     personality_test_questions
