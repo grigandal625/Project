@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161206132456) do
+ActiveRecord::Schema.define(version: 20170118091244) do
 
   create_table "bnfs", force: true do |t|
     t.integer "component_id"
@@ -39,6 +39,10 @@ ActiveRecord::Schema.define(version: 20161206132456) do
     t.datetime "updated_at"
   end
 
+  create_table "components", force: true do |t|
+    t.string "name"
+  end
+
   create_table "constructs", force: true do |t|
     t.string   "name",       default: "", null: false
     t.datetime "created_at"
@@ -55,6 +59,7 @@ ActiveRecord::Schema.define(version: 20161206132456) do
     t.datetime "updated_at"
     t.text     "mistakes"
     t.text     "kbmistakes"
+    t.integer  "ka_topic_id"
   end
 
   create_table "etalons", force: true do |t|
@@ -622,6 +627,11 @@ ActiveRecord::Schema.define(version: 20161206132456) do
 
   add_index "topic_competences", ["competence_id"], name: "index_topic_competences_on_competence_id"
   add_index "topic_competences", ["ka_topic_id"], name: "index_topic_competences_on_ka_topic_id"
+
+  create_table "topic_components", force: true do |t|
+    t.integer "ka_topic_id"
+    t.integer "component_id"
+  end
 
   create_table "topic_constructs", id: false, force: true do |t|
     t.integer  "ka_topic_id"

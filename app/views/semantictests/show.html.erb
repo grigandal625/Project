@@ -1,20 +1,7 @@
 
-	
 	<div id="newTest">
 	</div>
-	<div id="ontology">
-		<form id="select" action="/semantictests" method="post">
-		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-		<label for="select_root">Выберите онтологию:</label>
-    		<select id="select_root" class="form-control" name="ka_topic_id">
-     			 <option selected disabled style="display: none"></option>
-     			 <% KaTopic.where(parent_id: nil).each do |t| %>
-         		 <option value='<%= t.id %>'><%= t.text %></option>
-			 <% end %>
-    		</select>
-		</form>
-	</div>
-
+	
 <script type="text/javascript" src="/jquery.js"></script>
 <script type="text/javascript" src="/raphael.js" ></script>
 
@@ -443,11 +430,10 @@ function cleanLinks ()
 	 admButton.rect.click (
 		 function()
 		 {
-			var value_topic = document.getElementById('select_root').value;
 			 $.ajax({
 				 type: "POST",
 				 url: "updateJson",
-				 data: "id=<%=@etalon.id%>;ka_topic_id=" + value_topic + ";etalonjson=" + tojson () + ";name=" + name + ";namesjson=" + tonodenamelist(),
+				 data: "id=<%=@etalon.id%>;etalonjson=" + tojson () + ";name=" + name + ";namesjson=" + tonodenamelist(),
 				 success: function(msg)
 				 {
 					 alert(msg)

@@ -26,7 +26,6 @@
     <th>Ситуация</th>
     <th>Дата</th>
     <th>Группа</th>
-    <th>Рекомендуемые УТЗ</th>
     <th></th>
 
   </tr>
@@ -42,7 +41,6 @@
         <% end %>
 	<td><%= test.created_at.to_date %></td>
         <td><%= test.student.group.number %></td>
-	<td><%= test.recommendation_id %></td>
         <td><%= link_to  "Удалить", semanticanswer_path(test), method: :delete , data: { confirm: 'Are you sure?' }%></td>
 
 

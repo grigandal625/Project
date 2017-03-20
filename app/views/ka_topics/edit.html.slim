@@ -65,6 +65,20 @@ form method="post" action="#{constructs_attach_path}"
         div class="small-2 columns"
           input type="submit" class="button postfix"
 
+h3 Новый компонент выявления умений
+form method="post" action="#{components_attach_path}"
+  div class="row"
+    div class="large-12 columns"
+      div class="row collapse"
+        input type="hidden" name="topic_id" value="#{@topic.id}"
+        div class="small-8 columns"
+          select name="component_id"
+			- @components.each do |c|
+			  option value="#{c.id}"
+			    = c.name
+        div class="small-2 columns"
+          input type="submit" class="button postfix"
+
 h3 Подтемы
 table
   thead
@@ -168,3 +182,31 @@ table
         td.mark = c.mark
         td
           a href="#{construct_detach_path(c.construct_id, @topic.id)}" Удалить
+
+h3 Компоненты выявления умений
+table
+  thead
+    tr
+      th.id = "Идентификатор"
+      th.name = "Название"
+      th.link = "Ссылка"
+  tbody
+    - TopicComponent.where(ka_topic_id: @topic.id).each do |c|
+      tr
+        td.id = c.component_id
+        td.name = Component.find(c.component_id).name
+        td.link
+          - if Component.find(c.component_id).name == "Компонент выявления умений обучаемых моделировать простейшие ситуации ПрО с помощью семантических сетей" 
+            = link_to 'Варианты', semantictests_path
+          - else
+            - if Component.find(c.component_id).name == "Компонент выявления умений обучаемых моделировать простейшие ситуации ПрО с помощью фреймов"
+              = link_to 'Варианты', frameadmin_index_path
+            - else
+              - if Component.find(c.component_id).name == "Компонент выявления умений обучаемых моделировать стратегии прямого/обратного вывода"
+                = link_to 'Варианты', adminpanel_path
+              - else
+                - if Component.find(c.component_id).name == "Компонент выявления умений обучаемых строить компоненты лингвистической модели подъязыка деловой прозы"
+                  = link_to 'Варианты', tasks_path
+        td
+          a href="#{component_detach_path(c.component_id, @topic.id)}" Удалить
+	

@@ -28,6 +28,17 @@ class KaTopic < ActiveRecord::Base
     return topics
   end
 
+  def get_tree_utz(depth, limit)
+	topics = []
+        topics.push(self.id)
+	if depth < limit
+		self.children.each do |child|
+			topics = topics + child.get_tree_utz(depth+1, limit)
+		end
+	end
+	return topics
+    end
+
   def get_active_questions
     questions = []
     topics = self.get_tree
