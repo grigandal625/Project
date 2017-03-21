@@ -434,7 +434,7 @@ function cleanLinks ()
 			 $.ajax({
 				 type: "POST",
 				 url: "updateJson",
-				 data: "id=<%=@etalon.id%>;etalonjson=" + tojson () + ";name=" + name + ";namesjson=" + tonodenamelist(),
+				 data: {"id" :<%=@etalon.id%>, "etalonjson" :  tojson () , "name" : name , "namesjson": tonodenamelist()},
 				 success: function(msg)
 				 {
 					 alert(msg)

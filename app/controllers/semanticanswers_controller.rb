@@ -1,6 +1,6 @@
 #coding: utf-8
 class SemanticanswersController < ActionController::Base
-skip_before_filter :verify_authenticity_token
+
 include PlanningHelper
 
 
@@ -33,7 +33,13 @@ include PlanningHelper
   end
   
   def show
-  	@semantic = Semanticnetwork.find(params[:id])
+    currentuser = User.find(session[:user_id])
+    @semantic = Semanticnetwork.find(params[:id])
+
+    if ( not (currentuser.role == "admin" or currentuser.student_id == @semantic.student_id) )
+        redirect_to :root
+    end
+
   end
   
   def result
@@ -52,16 +58,13 @@ include PlanningHelper
   
   def updatesemanticjson 
   	@semantic = Semanticnetwork.find(params[:id])
-    @semantic.mistakes = ""
+    	@semantic.mistakes = ""
   	@user = User.find (session["user_id"])
   		if (@user.role == 'admin' || (@user.role == 'student' && !@semantic.iscomplite))
   			@semantic.json = params[:json]
   			
   			result = 100
 
-  			
-  			
-  			
   			if (@semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson) > 0 )
   				result -= @semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson)
           @semantic.mistakes += "Ошибка в предикатной вершине\n"
@@ -138,9 +141,6 @@ include PlanningHelper
   				@semantic.iscomplite = true
   				#@semantic.mistakes = mistakes
   				@semantic.save()
-          task = PlanningTask.find(session[:planning_task_id])
-          task.result = {:delete => {"pending-skills" => "sem-network-skill"}}
-          current_planning_session().commit_task(task)
   		end
   		render text: @semantic.rating
   	

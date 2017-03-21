@@ -506,7 +506,7 @@ function cleanLinks ()
 			 $.ajax({
 				 type: "POST",
 				 url: "updatesemanticjson",
-				 data: "id=" + <%=@semantic.id%> + ";json=" + tojson (),
+				 data: {"id" : <%=@semantic.id%> , "json"  : tojson ()},
 				 success: function(msg)
 				 {
 					 alert(msg)
