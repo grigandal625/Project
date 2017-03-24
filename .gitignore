@@ -23,7 +23,7 @@
 *.svg
 models.png
 *.pyc
-/public/JSON
+/public/JSON/*.json
 /public/uploads
 
 # Ignore RubyMine project files

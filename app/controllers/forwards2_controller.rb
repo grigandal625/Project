@@ -38,7 +38,7 @@ class Forwards2Controller < ApplicationController
     result.save
   end
   def results
-    @results = Fbresult.find(:all)
+    @results = Fbresult.all
   end
 
 end
