@@ -82,7 +82,7 @@
         {
             type: "POST",
                 url: "<%= semantictests_setEtalonCheck_path%>",
-                data: "id=" + id + ";check=" + document.getElementById(id).checked,
+                data: {"id" : id,  "check" : document.getElementById(id).checked},
                 success: function(msg)
                 {
                     alert(msg)
