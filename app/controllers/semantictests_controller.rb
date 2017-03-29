@@ -34,8 +34,7 @@ skip_before_filter :verify_authenticity_token
   	@etalon.name = params[:name]
   	@etalon.nodejson = params[:namesjson]
   	@etalon.save()
-
-  	render text: "Сохранено"
+  	render plain: 'Сохранено'
   end
   
   def results 

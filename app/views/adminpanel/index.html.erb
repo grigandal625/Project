@@ -1,5 +1,5 @@
-<% group = Group.find(:all, :order => "id ASC")%>
-<%user = User.find(:all, :order => "login ASC")%>
+<% group = Group.all.order("id ASC")%>
+<%user = User.all.order("login ASC")%>
 <script>
 	var f = {
 		findHim: function(input) {
