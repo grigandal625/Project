@@ -1,0 +1,243 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require auth
+ *= require bootstrap.min
+ *= require bootstrap-editable
+ *= require font-awesome.min
+*/
+
+#bs-example-navbar-collapse-1
+{
+	background-color: black;
+
+}
+
+#sidebar
+{
+	background-color: black;
+
+}
+
+#navbar-head
+{
+	background-color: black;
+
+}
+
+.navbar-default .navbar-brand
+{
+	color: #215;
+}
+
+.row {
+    margin-bottom: 15px;
+    padding: 5px 10px;
+}
+
+.aling-center {
+    text-align: center;
+}
+
+.button-right {
+    margin-left: 35px;
+}
+
+.no-margin {
+    margin: 0px;
+}
+
+.indent {
+    text-indent: 1.5em;
+    text-align: justify;
+}
+
+.indent-2 {
+    text-indent: 3em;
+    text-align: justify;
+}
+
+.tooltip-inner{
+    text-align: left;
+    text-indent: 0em;
+}
+
+p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 3px 30px;
+}
+
+.img-responsive{
+    max-width: 100%;
+    height: auto;
+}
+
+.font-lg {
+    font-size: 1.1em;
+}
+
+.inline-area {
+    display: none;
+}
+
+.btn {
+    text-indent: 0px;
+}
+
+.inline-content {
+    width: 100%;
+    min-height: 1em;
+}
+.inline-content:hover {
+    -webkit-box-shadow: 0 0 5px 1px rgba(51,122,183,1);
+    box-shadow: 0 0 5px 1px rgba(51,122,183,1);
+}
+.sidebar-nav li {
+    position: relative;
+}
+.mm-edit-name {
+    position: absolute;
+    text-decoration: underline;
+    color: #337AB7;
+    font-size: 0.7em;
+    right: 34px;
+    top:1px;
+    cursor: pointer;
+}
+
+.mm-delete {
+    position: absolute;
+    color: #FF4444;
+    font-size: 0.7em;
+    width: 5px;
+    right: 30px;
+    top:2px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+    padding-left: 250px;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background: #000;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 850px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #999999;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+    color: #999999;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+@media(min-width:640px) {
+
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+        width: 250px;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 0;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        padding-left: 300px;
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+}
+

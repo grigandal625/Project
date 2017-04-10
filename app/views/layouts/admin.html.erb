@@ -1,67 +1,142 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+
+  <title>Режим Design Time</title>
+
+  <!--TODO: Что это?-->
+  <meta name="generator" content="Bootply" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!--[if lt IE 9]>
+  <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= stylesheet_link_tag    "admin_tools", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-
-  <%= yield(:head) %>
-
 
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div class="page-container">
 
-<% if @showmenu == true %>
-<div id="page">
-<div id="header">
-  <%= form_tag(logout_path, method: "POST") do %>
-    <%= hidden_field_tag(:path, request.fullpath) %>
-    <%= content_tag(:span, @user.login) %>
-    <%= submit_tag("Выход") %>
-  <% end %>
-  <%= link_to "Версия для печати", @for_print, target: "_blank" %>
+  <!-- top navbar -->
+<nav class="navbar navbar-default">
+  <div class="container-fluid" id="navbar-head">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">
+	<% if @user.role == 'admin' && @showmenu == true %>
+		<%="Режим Disign Time"%>
+	<%else%>
+		<%="Режим Run Time"%>
+	<%end%>
+     
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">  
+	<%= form_tag(logout_path, method: "POST") do %>
+    	<%= hidden_field_tag(:path, request.fullpath) %>
+    	<%= content_tag(:span, @user.login) %>
+    	<%= submit_tag("Выход") %>
+  	<% end %></a></li>
+
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
 </div>
-<% end %>
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+      <li class="sidebar-brand">
+        <%= link_to 'Компоненты', methodical_materials_path %>
+      </li>
 
-<% if @user.role == 'admin' && @showmenu == true %>
-  <table id="body_table">
-  <tr>
-    <td id="menu">
-      <span>Навигация:</span><br/>
-      <%= link_to("Расписание", "/schedule/index") %><br/>
-      <%= link_to("Учебный план", "/timetables") %><br/>
-      <%= link_to("Группы", groups_path) %><br/>
-      <span>Лингвистика:</span><br>
-      <%= link_to("Задания", tasks_path) %><br/>
-      <%= link_to("Результаты", results_path) %><br/>
-      <span>Семантические сети:</span><br>
-      <%= link_to("Задания", semantictests_path) %><br/>
-      <%= link_to("Результаты", semantictests_results_path) %><br/>
-      <span>Фреймы:</span><br>
-      <%= link_to("Задания", frameadmin_index_path) %><br/>
-      <%= link_to 'Результаты',  frameadmin_results_path %>
 
-      <span>Психологические тесты:</span><br/>
-      <%= link_to("Тесты", personality_tests_path) %><br/>
-      <%= link_to("Результаты", results_personality_tests_path) %><br/>
-      <span>УТЗ:</span><br/>
-      <%= link_to("Перейти", utz_path) %>
-      <span>Методические материалы:</span><br/>
-      <%= link_to("Перейти", methodical_materials_path) %>
-      <span>Тестирование:</span><br/>
-      <%= link_to("Перейти", ka_welcome_path) %><br/>
-      <span>Прямой/обратный вывод:</span><br/>
-      <%= link_to("Задания", adminpanel_path) %>
-      <br/>
-      <%= link_to('Результаты',  fb_results_path) %>
-    </td>
-    <td id="content"><%= yield %></td>
-  </tr>
-</table>
-<% else %>
-  <%= yield %>
-<% end %>
+	<li class="dropdown">
+	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Общее <span class="caret"></span></a>
+	  <ul class="dropdown-menu">
+	    <li> <%= link_to("Расписание", "/schedule/index") %></li>
+	    <li><%= link_to("Учебный план", "/timetables") %></li>
+	    <li> <%= link_to("Группы", groups_path) %></li>
+	  </ul>
+	</li>
+	<li class="dropdown">
+	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Лингвистика <span class="caret"></span></a>
+	  <ul class="dropdown-menu">
+	    <li><%= link_to("Задания", tasks_path) %></li>
+	    <li><%= link_to("Результаты", results_path) %></li>
+	  </ul>
+	</li>
+	<li>
+	  <%= link_to("Прямой/обратный вывод", adminpanel_path) %>
+	</li>
+	<li class="dropdown">
+	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Семантические сети <span class="caret"></span></a>
+	  <ul class="dropdown-menu">
+	    <li><%= link_to("Задания", semantictests_path) %></li>
+	    <li><%= link_to("Результаты", semantictests_results_path) %></li>
+	  </ul>
+	</li>
+	<li>
+	<li class="dropdown">
+	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Фреймы <span class="caret"></span></a>
+	  <ul class="dropdown-menu">
+	    <li><%= link_to("Задания", frameadmin_index_path) %></li>
+	    <li><%= link_to 'Результаты',  frameadmin_results_path %></li>
+	  </ul>
+	</li>
+	<li>
+	<li class="dropdown">
+	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Психологические тесты <span class="caret"></span></a>
+	  <ul class="dropdown-menu">
+	    <li><%= link_to("Тесты", personality_tests_path) %></li>
+	    <li><%= link_to("Результаты", results_personality_tests_path) %></li>
+	  </ul>
+	</li><li>
+	  <%= link_to("УТЗ", utz_path) %>
+	</li><li>
+	  <%= link_to("Методические материалы", methodical_materials_path) %>
+	</li><li>
+	  <%= link_to("Тестирование", ka_welcome_path) %>
+	</li><li>
+	  <%= link_to('Результаты',  fb_results_path) %>
+	</li>
+
+
+    </ul>
+  </div>
+  <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <div class="container">
+      <%= yield %>
+    </div>
+  </div>
+  <!-- /#page-content-wrapper -->
 </div>
+
+<div id="footer">
+    <p class="pull-right">Copyright <i class="glyphicon glyphicon-copyright-mark"></i> at AI lab</p>
+</div>
+
+<div id="push"></div>
+
 </body>
 </html>
