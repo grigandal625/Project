@@ -18,7 +18,6 @@
 #bs-example-navbar-collapse-1
 {
 	background-color: black;
-
 }
 
 #sidebar
@@ -27,15 +26,14 @@
 
 }
 
-#navbar-head
-{
-	background-color: black;
-
+#navbar-head {
+    background-color: black;
+    border-color: black;	
 }
 
-.navbar-default .navbar-brand
-{
-	color: #215;
+.navbar-default {
+    background-color: black;
+    border-color: black;
 }
 
 .row {
@@ -71,13 +69,11 @@
 }
 
 p {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 3px 30px;
+
 }
 
 .img-responsive{
-    max-width: 100%;
+    max-width: 80%;
     height: auto;
 }
 
@@ -157,9 +153,9 @@ p {
 }
 
 #page-content-wrapper {
-    width: 100%;
+    width: 80%;
     position: absolute;
-    padding: 15px;
+
 }
 
 #wrapper.toggled #page-content-wrapper {
@@ -172,7 +168,6 @@ p {
 .sidebar-nav {
     position: absolute;
     top: 0;
-    width: 850px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -215,6 +210,15 @@ p {
     background: none;
 }
 
+
+
+#admin-container
+{
+	margin-left: 275px;
+	margin-top: 40px;
+	width: auto;
+}
+
 @media(min-width:640px) {
 
     #wrapper.toggled {
@@ -231,7 +235,6 @@ p {
 
     #page-content-wrapper {
         padding: 20px;
-        padding-left: 300px;
         position: relative;
     }
 

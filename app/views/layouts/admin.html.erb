@@ -21,10 +21,9 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<div class="page-container">
 
-  <!-- top navbar -->
-<nav class="navbar navbar-default">
+
+<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid" id="navbar-head">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -45,12 +44,27 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
+      <ul class="nav navbar-nav navbar-center">
+ 	<li> <%= link_to("Расписание", "/schedule/index") %></li>
+	<li><%= link_to("Учебный план", "/timetables") %></li>
+	<li> <%= link_to("Группы", groups_path) %></li>
+	<li class="dropdown">
+	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Результаты <span class="caret"></span></a>
+	  <ul class="dropdown-menu">
+	    <li><%= link_to("Прямой/обратный вывод", fb_results_path) %></li>
+	    <li><%= link_to 'Фреймы',  frameadmin_results_path %></li>
+	    <li><%= link_to("Семантические сети", semantictests_results_path) %></li>
+	    <li><%= link_to("Лингвистика", results_path) %></li>
+	    <li><%= link_to("Психологические тесты", results_personality_tests_path) %></li>
+	  </ul>
+	</li>
+      </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">  
+	
+        <li><a
 	<%= form_tag(logout_path, method: "POST") do %>
     	<%= hidden_field_tag(:path, request.fullpath) %>
-    	<%= content_tag(:span, @user.login) %>
+    	<%= content_tag(:span,@user.login) %>
     	<%= submit_tag("Выход") %>
   	<% end %></a></li>
 
@@ -58,7 +72,9 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-</div>
+
+
+
 <div id="wrapper">
   <!-- Sidebar -->
   <div id="sidebar-wrapper">
@@ -66,16 +82,6 @@
       <li class="sidebar-brand">
         <%= link_to 'Компоненты', methodical_materials_path %>
       </li>
-
-
-	<li class="dropdown">
-	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Общее <span class="caret"></span></a>
-	  <ul class="dropdown-menu">
-	    <li> <%= link_to("Расписание", "/schedule/index") %></li>
-	    <li><%= link_to("Учебный план", "/timetables") %></li>
-	    <li> <%= link_to("Группы", groups_path) %></li>
-	  </ul>
-	</li>
 	<li class="dropdown">
 	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Лингвистика <span class="caret"></span></a>
 	  <ul class="dropdown-menu">
@@ -83,9 +89,14 @@
 	    <li><%= link_to("Результаты", results_path) %></li>
 	  </ul>
 	</li>
-	<li>
-	  <%= link_to("Прямой/обратный вывод", adminpanel_path) %>
+	<li class="dropdown">
+	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Прямой / Обратный вывод <span class="caret"></span></a>
+	  <ul class="dropdown-menu">
+	    <li><%= link_to("Прямой/обратный вывод", adminpanel_path) %></li>
+	    <li><%= link_to('Результаты',  fb_results_path) %></li>
+	  </ul>
 	</li>
+
 	<li class="dropdown">
 	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Семантические сети <span class="caret"></span></a>
 	  <ul class="dropdown-menu">
@@ -114,8 +125,6 @@
 	  <%= link_to("Методические материалы", methodical_materials_path) %>
 	</li><li>
 	  <%= link_to("Тестирование", ka_welcome_path) %>
-	</li><li>
-	  <%= link_to('Результаты',  fb_results_path) %>
 	</li>
 
 
@@ -124,14 +133,13 @@
   <!-- /#sidebar-wrapper -->
 
   <!-- Page Content -->
+  <!-- /#page-content-wrapper -->
+</div>
   <div id="page-content-wrapper">
-    <div class="container">
+    <div id="admin-container"class="container">
       <%= yield %>
     </div>
   </div>
-  <!-- /#page-content-wrapper -->
-</div>
-
 <div id="footer">
     <p class="pull-right">Copyright <i class="glyphicon glyphicon-copyright-mark"></i> at AI lab</p>
 </div>
