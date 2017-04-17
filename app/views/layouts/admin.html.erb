@@ -61,12 +61,12 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
 	
-        <li><a
-	<%= form_tag(logout_path, method: "POST") do %>
-    	<%= hidden_field_tag(:path, request.fullpath) %>
-    	<%= content_tag(:span,@user.login) %>
-    	<%= submit_tag("Выход") %>
-  	<% end %></a></li>
+        <li><a>
+  <%= form_tag(logout_path, method: "POST") do %>
+    <%= hidden_field_tag(:path, request.fullpath) %>
+    <%= content_tag(:span, @user.login) %>
+    <%= submit_tag("Выход") %>
+  <% end %></a></li>
 
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -126,6 +126,12 @@
 	</li><li>
 	  <%= link_to("Тестирование", ka_welcome_path) %>
 	</li>
+	<li><a>Онтологии</a></li>
+	<% KaTopic.where(parent_id: nil).each do |t| %>
+		<li><a> <%= link_to( t.text, edit_ka_topic_path(t.id) )%></a></li>
+	<%end%>
+
+	<li>	  <%= link_to("Редактор", ka_topics_path) %></li>
 
 
     </ul>
