@@ -35,13 +35,13 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="#">
+	<li>
 	<% if @user.role == 'admin' && @showmenu == true %>
 		<%= link_to("Режим Design Time", root_path)  %>
 	<%else%>
 		<%= link_to("Режим Run Time", root_path)  %>
-
 	<%end%>
-     
+	</li>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
