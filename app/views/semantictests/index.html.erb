@@ -13,10 +13,10 @@
 
 
 		<%= link_to "Создать эталонный вариант семантической сети", new_semantictest_path%><br/>
-<table id="result"> 
-<caption class="top"><b>Эталонные варианты семантических сетей</b></caption>
+<table class="table table-hover" border="1"> 
+<caption ><b>Эталонные варианты семантических сетей</b></caption>
 <thead>
-<tr class ="center">
+<tr >
 	<th>Название</th>
 	<th>Редактирование</th>
     <th>Активен</th>
@@ -26,7 +26,7 @@
 </thead>
 <% @etalons.each do |test| %>
    
-   				 <tr class ="center">
+   				 <tr>
 					 <td><%= test.name %></td>
 					 <td><%= link_to  "Редактировать", semantictest_path(test, showmenu: false)%></td>
                      <td>
