@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170118091244) do
+ActiveRecord::Schema.define(version: 20170228181011) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -70,12 +70,13 @@ ActiveRecord::Schema.define(version: 20170118091244) do
 
   create_table "events", force: :cascade do |t|
     t.string   "name",         limit: 255
-    t.integer  "week"
+    t.date     "date"
     t.integer  "timetable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "action",       limit: 255
     t.string   "task",         limit: 255
+    t.datetime "only_time"
     t.index ["timetable_id"], name: "index_events_on_timetable_id"
   end
 

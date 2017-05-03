@@ -16,7 +16,7 @@ class ExtensionDatabase
       ExtensionType::Knowledge => ["extract-knowledge"],
       ExtensionType::Psycho => [],
       ExtensionType::Skill => ["extract-skill"],
-      ExtensionType::Other => []
+      ExtensionType::Other => ["execute-development-step"]
     }
 
     def get_task_description(leaf_id)

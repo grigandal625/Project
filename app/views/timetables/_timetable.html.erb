@@ -1,25 +1,32 @@
   <tr data-timetable=<%=timetable.id%>>
-    <td class="num">
-      <%=timetable.group_number %><br>
-      <%= link_to to_json_timetable_path(timetable), remote: true do %>
-          <span class="to_json">JSON</span>
-      <% end %><br>
-      <a class="from_json">Вставка</a>
-    </td>
-    <td class="events" data-week="1"></td>
-    <td class="events" data-week="2"></td>
-    <td class="events" data-week="3"></td>
-    <td class="events" data-week="4"></td>
-    <td class="events" data-week="5"></td>
-    <td class="events" data-week="6"></td>
-    <td class="events" data-week="7"></td>
-    <td class="events" data-week="8"></td>
-    <td class="events" data-week="9"></td>
-    <td class="events" data-week="10"></td>
-    <td class="events" data-week="11"></td>
-    <td class="events" data-week="12"></td>
-    <td class="events" data-week="13"></td>
-    <td class="events" data-week="14"></td>
-    <td class="events" data-week="15"></td>
-    <td class="events" data-week="16"></td>
+    <% if @user.role=='admin' %>
+        <td class="num">
+          <%=timetable.group_number %><br>
+          <%= link_to to_json_timetable_path(timetable), remote: true do %>
+              <span class="to_json">JSON</span>
+          <% end %><br>
+          <a class="from_json">Вставка</a>
+        </td>
+    <% end %>
+    <% events = timetable.events %>
+    <% (Date.new(@date.year, @date.month, 01)..Date.new(@date.year, @date.month, -1)).each do |date| %>
+        <% event = nil %>
+        <% events.each do |tmp| %>
+            <% if tmp.date == date %>
+              <% event = tmp %>
+            <% end %>
+        <% end %>
+        <td class="events
+        <% if date.today? %>
+          , today
+        <% elsif date.sunday? || date.saturday? %>
+          , weekend
+        <% end %>
+        "
+          data-date="<%= date %>">
+        <% if event != nil %>
+            <%= render event %>
+        <% end %>
+      </td>
+    <% end %>
   </tr>

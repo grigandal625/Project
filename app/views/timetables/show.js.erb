@@ -1,12 +1,18 @@
+$('table').html("<tr><th></th><% (Date.new(@date.year, @date.month, 01)..Date.new(@date.year, @date.month, -1)).each do |date| %><th><%= date.strftime('%d') %></th><% end %></tr>");
 <% @timetables.each do |timetable| %>
   $('table').append("<%= j (render timetable) %>");
   $("#show_<%=timetable.id%>").remove(); // delete checkbox from groups_form
-  <%events = timetable.events%>
-  <%events.each do |event|%>
-    $('td[data-week="<%= event.week %>"]', 'tr[data-timetable="<%= timetable.id %>"]').append("<%= j (render event) %>");
-  <%end%>
 <% end %>
 
+//to create new event
+$(document).on('click', 'td.events', function () {
+  if ($('div', this).length == 0) { //true if $(this) dont include divs
+    newEvent($(this).data('date'), $(this).parent().data('timetable'))
+    $('#addTo').removeAttr('id'); // must be only one 'addTo'
+    $(this).attr('id', 'addTo'); // save td to add div.events
+  }
+  ;
+});
 $('div.events').draggable({
   containment: 'table',
   revert: 'invalid'
@@ -19,9 +25,9 @@ $('td.events').droppable({
       $div = $(ui.draggable);
       $div.appendTo($(this));
       var event_id = $div.data('event');
-      var week = $(this).data('week');
+      var date = $(this).data('date');
       var timetable_id = $(this).parent().data('timetable');
-      moveEvent(event_id, week, timetable_id);
+      moveEvent(event_id, date, timetable_id);
       $div.css({
         'top': '0px',
         'left': '0px'

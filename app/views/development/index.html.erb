@@ -1,0 +1,33 @@
+<% if session[:planning_task_id] != nil %>
+      <%= link_to 'Завершить задачу планировщика', :action => "commit"%>
+<% end %>
+<br>
+Количество студентов: <%= @students %>
+<br>
+<table>
+  <tr><td>Компонент</td><td>Количество вариантов</td><td>Необходимое количество вариантов</td></tr>
+  <tr>
+    <td><%= link_to("Лингвистика", tasks_path) %></td>
+    <td><%= @tasks  %></td>
+    <td><%= @students/50 %></td>
+  </tr>
+  <tr>
+    <td><%= link_to("Семантические сети", semantictests_path) %></td>
+    <td><%= @etalons %></td>
+    <td><%= @students/50 %></td>
+  </tr>
+  <tr>
+    <td><%= link_to("Фреймы", frameadmin_index_path) %></td>
+    <td><%= @etalonframes %></td>
+    <td><%= @students/50 %></td>
+  </tr>
+  <tr>
+    <td><%= link_to("УТЗ", utz_path) %></td>
+  </tr>
+  <tr>
+    <td><%= link_to("Методические материалы", methodical_materials_path) %></td>
+  </tr>
+  <tr>
+    <td><%= link_to("Прямой/обратный вывод", adminpanel_path) %></td>
+  </tr>
+</table>

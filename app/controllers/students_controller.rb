@@ -1,6 +1,6 @@
 #coding: utf-8
 class StudentsController < ApplicationController
-
+  layout 'menu'
   def create
     student = Student.create(group_id: params[:group_id], fio: params[:fio])
     student.create_user(make_user_data(student))
@@ -9,7 +9,11 @@ class StudentsController < ApplicationController
   end
 
   def show
+    user = User.find_by(id: session[:user_id])
     @student = Student.find(params[:id])
+    if user.role != 'admin' && @student.id != user.id
+    	redirect_to root_url
+    end
   end
 
   def destroy

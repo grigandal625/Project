@@ -16,7 +16,7 @@ class PlanningSession < ActiveRecord::Base
     def generate_plan
         start_time = Time.now.to_f
 
-        kb_mapping = {"tutor_designtime_initial" => ["dt_domain.pddl", "dt_problem.pddl"], "tutor_runtime" => ["rt_domain.pddl", "rt_problem.pddl"]} 
+        kb_mapping = {"tutor_designtime_initial" => ["dt_domain.pddl", "dt_problem.pddl"], "tutor_runtime" => ["rt_domain.pddl", "rt_problem.pddl"]}
 
         problem_str = File.read(Rails.configuration.planning_kb + '/' + kb_mapping[self.procedure][1])
 
@@ -120,12 +120,16 @@ class PlanningSession < ActiveRecord::Base
         when "tutor_designtime_initial"
 
             facts = []
+            init_facts = []
 
-            state["finished"].each do |f|
-                facts.push("(finished #{f})")
+            state.facts.each do |atom|
+                if atom.state == 3
+                    init_facts.push("(finished #{atom.task_name})")
+                    facts.push(atom.task_name)
+                end
             end
 
-            return ["", facts.join('\n')]
+            return ["", init_facts.join(' ')]
         when "tutor_runtime"
 
             kbs = []
@@ -177,9 +181,10 @@ class PlanningSession < ActiveRecord::Base
         parts = plain_action.split(" ")
 
         step_mapping = {"onthology-development-step" => {:description => "Построение онтологии курса/дисциплины", :executor => "onthology", :action => "develop"}, 
-                        "psycho-config-step" => {:description => "Конфигурация построения психологического портрета", :executor => "psycho", :action => "config"}, 
-                        "skills-extraction-select-step" => {:description => "Выбор компонентов выявления уровня умений", :executor => "configurator", :action => "config_skills"},
-                        "testing-development-step" => {:description => "Разработка тестовых заданий", :executor => "tester", :action => "develop"},
+                        "psycho-config-step" => {:description => "Конфигурация построения психологического портрета", :executor => "psycho", :action => "config"},
+                        "group-config-step" => {:description => "Добавление групп", :executor => "groups", :action => "config"},
+                        "competences-development-step" => {:description => "Построение модели компетенций", :executor => "competences", :action => "develop"},
+                        "timetables-development-step" => {:description => "Составление расписаний", :executor => "timetables", :action => "develop"},
                         "training-impact-development-step" => {:description => "Разработка обучающих воздействий", :executor => "configurator", :action => "config_training_impacts"}
             }
 
@@ -194,7 +199,18 @@ class PlanningSession < ActiveRecord::Base
             cur_step = {:description => "Unkown action"}
             cur_step[:available] = false
         end
-
+        ext = ExtensionDatabase.get_extension_for_task(parts[0].gsub("future-", ""), parts[1])
+        if(ext == nil)
+            cur_step[:available] = false
+            #cur_step[:description] = "Необработанная задача"
+        else
+            cur_step[:available] = true
+            cur_step[:task_name] = parts[1]
+            ep = ext.get_task_exec_path(parts[0].gsub("future-", ""), parts[1])
+            cur_step[:controller] = ep["controller"]
+            cur_step[:action] = ep["action"]
+            cur_step[:params] = ep["params"]
+        end
         return cur_step
     end
 

@@ -5,8 +5,15 @@
 <% if @showmenu == true%>
   <%= link_to "Создать группу", new_group_path %>
 <% end %>
+<% if session[:planning_task_id] != nil %>
+    <li>
+      <%= link_to 'Завершить задачу планировщика', :action => "commit"%>
+    </li>
+<% end %>
+
 
 <%= display_standard_table([{name: "number", display_name: "Номер"},
                             {name: "show_ref", display_name: "Просмотр"},
                             {name: "edit_ref", display_name: "Редактировать"}],
                           @groups) %>
+

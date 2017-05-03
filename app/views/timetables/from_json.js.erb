@@ -1,8 +1,13 @@
-$('#toAddFromJSON').html('<td class="num"><%=@timetable.group.number%><br><%= link_to to_json_timetable_path(@timetable), remote: true do %><span class="to_json">Сохранить</span><% end %><br> <a class="from_json">Правка</a> </td> <td class="events" data-week="1"></td> <td class="events" data-week="2"></td> <td class="events" data-week="3"></td> <td class="events" data-week="4"></td> <td class="events" data-week="5"></td> <td class="events" data-week="6"></td> <td class="events" data-week="7"></td> <td class="events" data-week="8"></td> <td class="events" data-week="9"></td> <td class="events" data-week="10"></td> <td class="events" data-week="11"></td> <td class="events" data-week="12"></td> <td class="events" data-week="13"></td> <td class="events" data-week="14"></td> <td class="events" data-week="15"></td> <td class="events" data-week="16"></td>');
-<%events = @timetable.events%>
-<%events.each do |event|%>
-$('td[data-week="<%= event.week %>"]','#toAddFromJSON').append("<%= j (render event) %>");
-<%end%>
+$('#toAddFromJSON').replaceWith("<%= j (render @timetable) %>");
+//to create new event
+$(document).on('click', 'td.events', function () {
+  if ($('div', this).length == 0) { //true if $(this) dont include divs
+    newEvent($(this).data('date'), $(this).parent().data('timetable'))
+    $('#addTo').removeAttr('id'); // must be only one 'addTo'
+    $(this).attr('id', 'addTo'); // save td to add div.events
+  }
+  ;
+});
 $('div.events').draggable({
   containment: 'table',
   revert: 'invalid'
@@ -15,9 +20,9 @@ $('td.events').droppable({
       $div = $(ui.draggable);
       $div.appendTo($(this));
       var event_id = $div.data('event');
-      var week = $(this).data('week');
+      var date = $(this).data('date');
       var timetable_id = $(this).parent().data('timetable');
-      moveEvent(event_id, week, timetable_id);
+      moveEvent(event_id, date, timetable_id);
       $div.css({
         'top': '0px',
         'left': '0px'

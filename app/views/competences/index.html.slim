@@ -1,3 +1,5 @@
+- if !@task.nil? && @task.executor == "competences"
+  = link_to "Завершить построение модели компетенций", competences_commit_path
 h2 Новая компетенция
 form method="post" action="#{competences_path}"
   div class="row"

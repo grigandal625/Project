@@ -1,20 +1,13 @@
 <table>
 <% @student.semanticnetworks.each do |semantic| %>
-
-
-	
 	<tr>
         <td>
             <%=semantic.rating%>
         </td>
         <td>
             <%= link_to "Просмотр ", semanticanswer_path(semantic)   %>
-        </td>
-        
-        
+        </td>  
     </tr>
-	
-
 <% end %>
 </table>
 

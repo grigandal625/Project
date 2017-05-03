@@ -14,6 +14,10 @@ class PlanningState < ActiveRecord::Base
     atoms.psycho
   end
 
+  def facts
+    atoms.facts
+  end
+
   class TransitionDescriptor
     attr_accessor :from, :to
   end

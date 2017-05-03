@@ -1,10 +1,74 @@
 class TimetablesController < ApplicationController
+  include PlanningHelper
   skip_before_filter :verify_authenticity_token
+  layout 'menu'
+  def self.create_extension
+    ext = ExtensionDatabase::ATExtension.new
+    ext.ext_type = ExtensionDatabase::ExtensionType::Other
+    ext.description = "Компонент составления расписаний"
+    ext.tasks = ["timetables-development-step"]
+
+    ext.generate_state = lambda { |mode_id, week_id, schedule, state|
+      atom = StateFacts.create(
+          task_name: "timetables-development-step",
+          state: 1)
+      state.atoms.push << atom
+    }
+
+    ext.task_description = lambda { |leaf_id|
+      return "Составление расписаний"
+    }
+
+    ext.task_exec_path = lambda { |pddl_act, leaf_id|
+      if((pddl_act == "execute-development-step") && (leaf_id == "timetables-development-step"))
+        return {"controller" => "timetables", "params" => {}}
+      else
+        return {}
+      end
+    }
+
+    return ext
+  end
+
+  def execute
+    session[:planning_task_id] = params[:planning_task_id]
+    redirect_to action: "index"
+  end
+
+  def commit
+    task = PlanningTask.find(session[:planning_task_id])
+    transition = PlanningState::TransitionDescriptor.new
+    transition.from = 1
+    transition.to = 3
+    task.state_atom.transit_to transition
+    current_planning_session().commit_task(task)
+    session[:planning_task_id] = nil
+
+    redirect_to "/"
+  end
+
   def index
+    if params[:month] != nil
+      @date = Date.parse params[:month]
+    else
+      @date = Date.today
+    end
+    @user = User.find_by(id: session[:user_id])
     @event = Event.new
     @timetables = Timetable.all
+    @timetables_showed = []
+    show = session[:show]
+    if show != nil
+      @timetables_showed = Timetable.where(id: show.select{|k,v| v == '1'}.keys)
+    end
+    if @user.role == 'student'
+      @timetables_showed = Timetable.find_by(group_id: Student.find(@user.student_id).group_id)
+    end
     @template = TimetableTemplate.new
     @templates = TimetableTemplate.all
+    if (session[:planning_task_id]!=nil)
+      @task = PlanningTask.find(session[:planning_task_id])
+    end
   end
   def init #if group haven't timetable => creates timetable
     @groups = Group.all
@@ -22,7 +86,13 @@ class TimetablesController < ApplicationController
     end
   end
   def show #shows checked timetables
+    if params[:month] != nil
+      @date = Date.parse params[:month][:month]
+    else
+      @date = Date.today
+    end
     show = params[:show]
+    session[:show] = show
     @timetables = Timetable.where(id: show.select{|k,v| v == '1'}.keys)
     respond_to do |format|
       format.js
@@ -46,6 +116,11 @@ class TimetablesController < ApplicationController
     end
   end
   def from_json #destroy all events of chosen timetable and creates new from json in from_json_form textarea
+    if params[:month] != nil
+      @date = Date.parse params[:month][:month]
+    else
+      @date = Date.today
+    end
     @timetable = Timetable.find(params[:id])
     @timetable.events.each do |event|
       event.destroy
@@ -58,7 +133,10 @@ class TimetablesController < ApplicationController
         event.action = json[i]['action']
         event.task = json[i]['task']
         event.name =  json[i]['name']
-        event.week = json[i]['week']
+        event.date = json[i]['date']
+        if json[i]['only_time'] != nil
+          event.only_time = Time.parse json[i]['only_time']
+        end
         event.save
       end
     end

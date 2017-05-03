@@ -1,9 +1,40 @@
 #coding: utf-8
 class GroupsController < AdminToolsController
+  include PlanningHelper
+
+  def self.create_extension
+    ext = ExtensionDatabase::ATExtension.new
+    ext.ext_type = ExtensionDatabase::ExtensionType::Other
+    ext.description = "Компонент добавления групп"
+    ext.tasks = ["group-config-step"]
+
+    ext.generate_state = lambda { |mode_id, week_id, schedule, state|
+      atom = StateFacts.create(
+          task_name: "group-config-step",
+          state: 1)
+      state.atoms.push << atom
+    }
+
+    ext.task_description = lambda { |leaf_id|
+      return "Добавление групп"
+    }
+
+    ext.task_exec_path = lambda { |pddl_act, leaf_id|
+      if((pddl_act == "execute-development-step") && (leaf_id == "group-config-step"))
+        return {"controller" => "groups", "params" => {}}
+      else
+        return {}
+      end
+    }
+
+    return ext
+  end
 
   def index
-  	
 
+    if (session[:planning_task_id]!=nil)
+      @task = PlanningTask.find(session[:planning_task_id])
+    end
     @groups = []
     Group.find_each do |group|
       @groups << {"number" => group.number,
@@ -84,6 +115,22 @@ class GroupsController < AdminToolsController
       "delete" => ""}
   end
 
+  def execute
+    session[:planning_task_id] = params[:planning_task_id]
+    redirect_to action: "index"
+  end
+
+  def commit
+    task = PlanningTask.find(session[:planning_task_id])
+    transition = PlanningState::TransitionDescriptor.new
+    transition.from = 1
+    transition.to = 3
+    task.state_atom.transit_to transition
+    current_planning_session().commit_task(task)
+    session[:planning_task_id] = nil
+
+    redirect_to "/"
+  end
   def update
     group = Group.find(params[:id])
     group.number = params[:number]

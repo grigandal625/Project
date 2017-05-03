@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+
+  <title>Режим Design Time</title>
+
+  <!--TODO: Что это?-->
+  <meta name="generator" content="Bootply" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!--[if lt IE 9]>
+  <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <%= stylesheet_link_tag    "admin_tools", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= yield(:head) %>
+
+
+  <%= csrf_meta_tags %>
+
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid" id="navbar-head">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">
+	<% if @user.role == 'admin' && @showmenu == true %>
+		<%="Режим Disign Time"%>
+	<%else%>
+		<%="Режим Run Time"%>
+	<%end%>
+     
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-center">
+ 	<li><%= link_to("Расписание", "/schedule") %></li>
+	<li><%= link_to("Методические материалы", methodical_materials_path) %></li>
+	<li><%= link_to("Учебный план", "/timetables") %></li>
+	<li class="dropdown">
+	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Компоненты <span class="caret"></span></a>
+	  <ul class="dropdown-menu">
+      	    <li><%= link_to("Тестирование", ka_welcome_path) %></li>
+	    <li><%= link_to("Прямой/обратный Вывод", forwards2_path) %></li>
+	    <li><%= link_to 'Семантические сети',  semanticanswers_path, method: "POST" %></li>
+	    <li><%= link_to 'Фреймы',  framestudent_index_path %></li>
+	    <li><%= link_to "Лингвистика", get_task_path%></li>
+	    <li><%= link_to 'УТЗ', utz_path %></li>
+	  </ul>
+	</li>
+        <li><%= link_to "Мои Оценки", group_student_path(@user.student.group, @user.student),:target => "_blank" %></li>
+	<li class="dropdown">
+	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Психологическое тестирование <span class="caret"></span></a>
+	  <ul class="dropdown-menu">
+      	    <li><%= link_to 'Тесты', personality_tests_path %></li>
+	    <li><%= link_to("Результаты", results_personality_tests_path) %></li>
+	  </ul>
+	</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+	
+        <li><a>
+  <%= form_tag(logout_path, method: "POST") do %>
+    <%= hidden_field_tag(:path, request.fullpath) %>
+    <%= content_tag(:span, @user.login) %>
+    <%= submit_tag("Выход") %>
+  <% end %></a></li>
+
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="container" style="margin-top: 70px; width: auto;">
+  <%= yield %>
+</div>
+
+
+<div id="footer">
+    <p class="pull-right">Copyright <i class="glyphicon glyphicon-copyright-mark"></i> at AI lab</p>
+</div>
+<div id="push"></div>
+</body>
+</html>

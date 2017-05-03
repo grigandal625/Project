@@ -45,7 +45,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-center">
- 	<li> <%= link_to("Расписание", "/schedule/index") %></li>
+ 	<li><%= link_to("Расписание", "/schedule") %></li>
 	<li><%= link_to("Учебный план", "/timetables") %></li>
 	<li> <%= link_to("Группы", groups_path) %></li>
 	<li class="dropdown">
@@ -53,10 +53,24 @@
 	  <ul class="dropdown-menu">
 	    <li><%= link_to("Прямой/обратный вывод", fb_results_path) %></li>
 	    <li><%= link_to 'Фреймы',  frameadmin_results_path %></li>
-	    <li><%= link_to("Семантические сети", semantictests_results_path) %></li>
+	    <li><%= link_to("Семантические сети", semantictests_path) %></li>
 	    <li><%= link_to("Лингвистика", results_path) %></li>
 	    <li><%= link_to("Психологические тесты", results_personality_tests_path) %></li>
 	  </ul>
+	</li>
+	<li class="dropdown">
+	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Задания <span class="caret"></span></a>
+	  <ul class="dropdown-menu">
+	    <li><%= link_to("Прямой/обратный вывод", adminpanel_path) %></li>
+	    <li><%= link_to 'Фреймы',  frameadmin_index_path %></li>
+	    <li><%= link_to("Семантические сети", semantictests_results_path) %></li>
+	    <li><%= link_to("Лингвистика", tasks_path) %></li>
+	    <li><%= link_to("Психологические тесты", personality_tests_path) %></li>
+	    <li><%= link_to("УТЗ", utz_path) %></li>
+	  </ul>
+	</li>
+	<li>
+	  <%= link_to("Тестирование", ka_welcome_path) %>
 	</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -82,56 +96,19 @@
       <li class="sidebar-brand">
         <%= link_to 'Компоненты', methodical_materials_path %>
       </li>
-	<li class="dropdown">
-	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Лингвистика <span class="caret"></span></a>
-	  <ul class="dropdown-menu">
-	    <li><%= link_to("Задания", tasks_path) %></li>
-	    <li><%= link_to("Результаты", results_path) %></li>
-	  </ul>
-	</li>
-	<li class="dropdown">
-	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Прямой / Обратный вывод <span class="caret"></span></a>
-	  <ul class="dropdown-menu">
-	    <li><%= link_to("Прямой/обратный вывод", adminpanel_path) %></li>
-	    <li><%= link_to('Результаты',  fb_results_path) %></li>
-	  </ul>
-	</li>
-
-	<li class="dropdown">
-	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Семантические сети <span class="caret"></span></a>
-	  <ul class="dropdown-menu">
-	    <li><%= link_to("Задания", semantictests_path) %></li>
-	    <li><%= link_to("Результаты", semantictests_results_path) %></li>
-	  </ul>
-	</li>
 	<li>
-	<li class="dropdown">
-	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Фреймы <span class="caret"></span></a>
-	  <ul class="dropdown-menu">
-	    <li><%= link_to("Задания", frameadmin_index_path) %></li>
-	    <li><%= link_to 'Результаты',  frameadmin_results_path %></li>
-	  </ul>
-	</li>
-	<li>
-	<li class="dropdown">
-	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Психологические тесты <span class="caret"></span></a>
-	  <ul class="dropdown-menu">
-	    <li><%= link_to("Тесты", personality_tests_path) %></li>
-	    <li><%= link_to("Результаты", results_personality_tests_path) %></li>
-	  </ul>
-	</li><li>
-	  <%= link_to("УТЗ", utz_path) %>
-	</li><li>
 	  <%= link_to("Методические материалы", methodical_materials_path) %>
-	</li><li>
-	  <%= link_to("Тестирование", ka_welcome_path) %>
 	</li>
-	<li><a>Онтологии</a></li>
+	<li><a><b>Онтологии</b></a></li>
 	<% KaTopic.where(parent_id: nil).each do |t| %>
-		<li><a> <%= link_to( t.text, edit_ka_topic_path(t.id) )%></a></li>
+  	  <li>
+		<a> <b><%= link_to( t.id.to_s + ". " + t.text, edit_ka_topic_path(t.id) )%></b></a>
+	  </li>
 	<%end%>
 
-	<li>	  <%= link_to("Редактор", ka_topics_path) %></li>
+	<li>	  
+	  <%= link_to("Редактор", ka_topics_path) %>
+	</li>
 
 
     </ul>
@@ -149,8 +126,6 @@
 <div id="footer">
     <p class="pull-right">Copyright <i class="glyphicon glyphicon-copyright-mark"></i> at AI lab</p>
 </div>
-
 <div id="push"></div>
-
 </body>
 </html>

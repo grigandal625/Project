@@ -1,11 +1,40 @@
-<div class='events' data-event="<%=event.id%>">
-  <%=event.action%><br>
-  <%=KaTopic.where(id: event.task).take.text[0,22]+'...'%><br>
+<div
+<% if @user.role == 'admin' %>
+class='events'
+<% end %>
+data-event="<%=event.id%>">
+  <%=case event.action
+       when "extract-knowledge"
+          "Выявить уровень знаний"
+       when "extract-skill"
+         "Выявить уровень умений"
+       when "psycho"
+         "Психологическое тестирование"
+       else
+         "Другое"
+         end %><br>
+  <%# if event.task != nil %>
+      <%#=KaTopic.where(id: event.task).take.text[0,22]+'...'%>
+  <%# end %>
+  <%= event.task %>
+  <br>
+  <% if event.only_time != nil %>
+      <%=event.only_time.strftime('%H:%M')%>
+  <% end %><br>
   <%=event.name%>
-  <%= link_to edit_event_path(event), remote: true do %>
-      <span class="edit">e</span>
-  <% end %>
-  <%= link_to event, remote: true, method: :delete,  data: { confirm: 'Удалить?' } do %>
-      <span class="delete"><b>&times</b></span>
+  <% if @user.role=='admin' %>
+    <%= link_to edit_event_path(event), remote: true do %>
+        <span class="edit">e</span>
+    <% end %>
+    <%= link_to event, remote: true, method: :delete,  data: { confirm: 'Удалить?' } do %>
+        <span class="delete"><b>&times</b></span>
+    <% end %>
+      <%= link_to "/", method: :get,  data: { confirm: 'Перейти на стартовую страницу? (ссылка для преподавателя)' } do %> <!--todo ссылка на компонент-->
+          <span>Перейти</span>
+      <% end %>
+  <% else %>
+      <%= link_to "/", method: :get,  data: { confirm: 'Перейти на стартовую страницу? (ссылка для студента)' } do %> <!--todo ссылка на компонент-->
+          <span>Перейти</span>
+      <% end %>
   <% end %>
 </div>
