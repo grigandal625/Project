@@ -35,18 +35,18 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="#">
-	<li>
 	<% if @user.role == 'admin' && @showmenu == true %>
-		<%= link_to("Режим Design Time", root_path)  %>
+		<%="Режим Disign Time"%>
 	<%else%>
-		<%= link_to("Режим Run Time", root_path)  %>
+		<%="Режим Run Time"%>
 	<%end%>
-	</li>
+     
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-center">
+ 	<li><%= link_to("Главная", root_path) %></li>
  	<li><%= link_to("Расписание", "/schedule") %></li>
 	<li><%= link_to("Методические материалы", methodical_materials_path) %></li>
 	<li><%= link_to("Учебный план", "/timetables") %></li>
