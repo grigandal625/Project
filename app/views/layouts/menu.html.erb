@@ -36,9 +36,10 @@
       </button>
       <a class="navbar-brand" href="#">
 	<% if @user.role == 'admin' && @showmenu == true %>
-		<%="Режим Disign Time"%>
+		<%= link_to("Режим Design Time", root_path)  %>
 	<%else%>
-		<%="Режим Run Time"%>
+		<%= link_to("Режим Run Time", root_path)  %>
+
 	<%end%>
      
     </div>
