@@ -106,7 +106,19 @@
           <td>Несовпадение имен слотов с эталоном</td>
           <td><%=number_field_tag(:parametalonname6, value=etalonname[6], in: 0..100)%></td>
         </tr>
-
+<% topics = [] %>
+<% e_topic = [] %>
+<% KaTopic.where(parent_id: nil).each do |t| %>
+         		 <% e_topic[1] = t.id %>
+			 <% e_topic[0] = t.text %>
+			<%print("aaaaaaaaaaaaaaaaaaaaa")%>
+			<%print(e_topic)%>
+			 <% topics.push (e_topic) %>
+			<%print(topics)%>
+			 <% end %>
+	<div>
+		<%= select_tag(:ka_topic_id, options_for_select(topics)) %>
+	</div>
 
       </table>
 

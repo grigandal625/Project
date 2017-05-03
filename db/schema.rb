@@ -36,6 +36,10 @@ ActiveRecord::Schema.define(version: 20170228181011) do
     t.datetime "updated_at"
   end
 
+  create_table "components", force: :cascade do |t|
+    t.string "name"
+  end
+
   create_table "constructs", force: :cascade do |t|
     t.string   "name",       limit: 255, default: "", null: false
     t.datetime "created_at"
@@ -55,12 +59,13 @@ ActiveRecord::Schema.define(version: 20170228181011) do
   end
 
   create_table "etalons", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name",        limit: 255
     t.text     "etalonjson"
     t.text     "nodejson"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "check"
+    t.integer  "ka_topic_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -481,11 +486,13 @@ ActiveRecord::Schema.define(version: 20170228181011) do
     t.integer  "etalon_id"
     t.integer  "student_id"
     t.text     "json"
-    t.text     "mistakes",   default: " Вы еще не прошли тест :) "
-    t.boolean  "iscomplite", default: false
+    t.text     "mistakes",          default: " Вы еще не прошли тест :) "
+    t.boolean  "iscomplite",        default: false
     t.integer  "rating"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "ka_topic_id"
+    t.text     "recommendation_id"
     t.index ["etalon_id"], name: "index_semanticnetworks_on_etalon_id"
     t.index ["student_id"], name: "index_semanticnetworks_on_student_id"
   end
@@ -584,6 +591,11 @@ ActiveRecord::Schema.define(version: 20170228181011) do
     t.datetime "updated_at"
     t.index ["competence_id"], name: "index_topic_competences_on_competence_id"
     t.index ["ka_topic_id"], name: "index_topic_competences_on_ka_topic_id"
+  end
+
+  create_table "topic_components", force: :cascade do |t|
+    t.integer "ka_topic_id"
+    t.integer "component_id"
   end
 
   create_table "topic_constructs", id: false, force: :cascade do |t|

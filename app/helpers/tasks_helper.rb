@@ -12,7 +12,7 @@ module TasksHelper
 
   def display_standard_table(columns, collection = {})
 
-    thead = content_tag :thead, style: "background-color: wheat;" do
+    thead = content_tag :thead, style: "background-color: #A6A6A6;" do
       content_tag :tr do
         columns.collect {|column|  concat content_tag(:th,column[:display_name])}.join().html_safe
       end
@@ -31,7 +31,7 @@ module TasksHelper
       }.join().html_safe
     end
 
-    content_tag :table, thead.concat(tbody), class: "standardTable"
+    content_tag :table, thead.concat(tbody), class: "table table-hover"
 
   end
 

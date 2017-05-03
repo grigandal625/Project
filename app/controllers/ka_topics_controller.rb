@@ -64,6 +64,7 @@ class KaTopicsController < ApplicationController
     @task = PlanningTask.find(session[:planning_task_id])
     end
     @constructs = Construct.all
+    @components = Component.all
   end
 
   def edit_text
@@ -113,4 +114,5 @@ class KaTopicsController < ApplicationController
     @root = KaTopic.find(params[:root_id])
     @topics = @root.get_tree
   end
+
 end

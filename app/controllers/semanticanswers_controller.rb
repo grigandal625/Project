@@ -29,6 +29,7 @@ include PlanningHelper
     @semantic.json = ""
     @semantic.student = User.find(session[:user_id]).student
     @semantic.save()
+
     redirect_to semanticanswer_path(@semantic.id)
   end
   
@@ -137,6 +138,7 @@ include PlanningHelper
   			if (result < 0 )
   				result = 0
   			end
+
   				@semantic.rating = result
   				@semantic.iscomplite = true
   				#@semantic.mistakes = mistakes

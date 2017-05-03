@@ -1,6 +1,18 @@
 
 <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
 
+  <!--TODO: Что это?-->
+  <meta name="generator" content="Bootply" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <%= stylesheet_link_tag    "admin_tools", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= yield(:head) %>
+
+
+  <%= csrf_meta_tags %>
 <script type="text/javascript" src="/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="/stylesheets/table.css">
 <script src="/jquery.tablesorter.min.js" type="text/javascript"></script>
@@ -10,61 +22,77 @@
         });
     </script>
 </head>
+
 <span>ФИО:</span> <%= @student.fio %> <br/>
 <span>Группа:</span> <%= @student.group.number %> <br/>
-<strong>Результаты:</strong></br>
-<% @student.results.each do |result| %>
-  <br/>
-  <%= content_tag :span, "Задание: "%>
-  <%= link_to "Задание ##{result.task.id}", result_path(result) %><br/>
-  <%= content_tag :span, "Компонент V: #{result.v_result.mark}"  %>
-  <%= content_tag :span, "Компонент G: #{result.g_result.mark}"  %>
-  <%= content_tag :span, "Компонент S: #{result.s_result.mark}"  %><br/>
-  <%= content_tag :span, "Оценка: #{result.mark}" %> <br/>
-  <%= content_tag :span, "Дата: #{result.updated_at.to_date.inspect}"  %><br/>
-  <br/>
-<% end %>
 
-<table id="result"> 
-<caption class="top"><b>Результаты, Компонент выявления уровня умений обучаемого моделировать простейшие ситуации при помощи Семантических сетей</b></caption>
+
+<table class="table table-hover" style="border 1px;"> 
+<caption ><b>Результаты, Компонент выявления уровня умений обучаемого моделировать простейшие ситуации при помощи Фреймов</b></caption>
 <thead>
-<tr class ="center">
+<tr >
+    <th>Номер Варианта</th>
+    <th>Оценка</th>
+    <th>Дата</th>
+</tr>
+</thead>
+<% @student.studentframes.each do |test| %>
+ <tr >
+   <td><%=  test.etalonframe_id%></td>
+   <td><%= test.result%></td>
+   <td><%=test.updated_at.to_date.inspect%></td>
+ </tr>    
+  <% end %>
+</table>
 
+
+<table class="table table-hover"> 
+<caption ><b>Результаты, Компоненты V G S</b></caption>
+<thead>
+<tr >
+    <th>Задание</th>
+    <th>Оценка V</th>
+    <th>Оценка G</th>
+    <th>Оценка S</th>
+    <th>Оценка Общая</th>
+    <th>Дата</th>
+</tr>
+</thead>
+<% @student.results.each do |result| %>
+ <tr >
+	 <td><%= link_to "Задание ##{result.task.id}", result_path(result) %></td>
+	 <td><%=  result.v_result.mark%></td>
+	 <td><%=  result.g_result.mark%></td>
+	 <td><%=  result.s_result.mark%></td>
+	 <td><%=  result.mark%></td>
+	 <td><%=  result.updated_at.to_date.inspect%></td>
+ </tr>    
+  <% end %>
+</table>
+
+<table class="table table-hover" style="border 1px;"> 
+<caption ><b>Результаты, Компонент выявления уровня умений обучаемого моделировать простейшие ситуации при помощи Семантических сетей</b></caption>
+<thead>
+<tr >
     <th>Ситуация</th>
     <th>Оценка</th>
     <th>Дата</th>
-    
 </tr>
 </thead>
 <% @student.semanticnetworks.each do |test| %>
-   
-   				 <tr class ="center">
-
-					 <td><%=  test.etalon.name%></td>
-					 <td><%= link_to  test.rating, semanticanswer_path(test)%></td>
-					 <td><%=test.updated_at.to_date.inspect%></td>
-					 
-				 </tr>
-
-
-			   
-
-      
-    
+ <tr >
+   <td><%=  test.etalon.name%></td>
+   <td><%= link_to  test.rating, semanticanswer_path(test)%></td>
+   <td><%=test.updated_at.to_date.inspect%></td>
+ </tr>    
   <% end %>
 </table>
 
 <%= form_tag(students_passupdate_path , method: "POST") do %>
     <div id="line">
       <%= hidden_field_tag(:id, value=@student.id)%>
-
-
-
       <%= label_tag(name="Новый пароль: " )%>
       <%= text_field_tag(:newpass, "") %>
-
-
       <%= submit_tag("Обновить") %>
-
     </div>
 <% end %>

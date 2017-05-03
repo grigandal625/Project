@@ -77,9 +77,16 @@ UIR::Application.routes.draw do
   post 'constructs/attach' => 'constructs#attach'
   get 'constructs/:c_id/detach_from/:t_id' => 'constructs#detach', as: :construct_detach
 
+  resources :components
+  post 'components/attach' => 'components#attach'
+  get 'components/:c_id/detach_from/:t_id' => 'components#detach', as: :component_detach
+
+
   get 'ka_topics/:root_id/topics_with_questions' => 'ka_topics#show_topics_with_questions', as: :topics_with_questions
   get 'ka_topics/:root_id/all_competences' => 'ka_topics#show_all_competences', as: :all_competences
   get 'ka_topics/:root_id/all_constructs' => 'ka_topics#show_all_constructs', as: :all_constructs
+  get 'ka_topics/:root_id/all_components' => 'ka_topics#show_all_components', as: :all_components
+
 
   post "frameadmin/createframe"
   post "frameadmin/updateframe"

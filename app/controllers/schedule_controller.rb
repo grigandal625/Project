@@ -1,5 +1,5 @@
 class ScheduleController < ApplicationController
-
+  layout 'menu'
   def index
     user = User.find_by(id: session[:user_id])
     if @user.role == 'student'

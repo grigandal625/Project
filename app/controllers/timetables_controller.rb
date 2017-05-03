@@ -1,7 +1,7 @@
 class TimetablesController < ApplicationController
   include PlanningHelper
   skip_before_filter :verify_authenticity_token
-
+  layout 'menu'
   def self.create_extension
     ext = ExtensionDatabase::ATExtension.new
     ext.ext_type = ExtensionDatabase::ExtensionType::Other
