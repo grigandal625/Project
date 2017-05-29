@@ -82,8 +82,8 @@ include PlanningHelper
   			print ("result ac=" )
   			print (result )
   			
-  			if (@semantic.check_repetition(@semantic.json) > 0 )
-  				result -= @semantic.check_repetition(@semantic.json)
+  			if (@semantic.check_repetition(@semantic.json, @semantic.etalon.etalonjson) > 0 )
+  				result -= @semantic.check_repetition(@semantic.json, @semantic.etalon.etalonjson)
           @semantic.mistakes += "Наличие повторяющихся актантов\n"
   			end
   			

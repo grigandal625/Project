@@ -4,33 +4,70 @@ class Semanticnetwork < ActiveRecord::Base
   belongs_to :student
   #метод работает
   
+  @predicatEtalon = nil
+  @predicatEtalonAlt = nil
+  @predicatAnswer = nil
+
+
+  @nextNodes = []
+  @node1 = nil
+  @node2 = nil
+
+
   def no_predicat (answer)
+
   	s_answer = JSON.parse(answer)
   	for i in 0..s_answer.length - 1
   		if (s_answer[i]["predicat"] == true)
-  			
+			predicat = s_answer[i]["node"]		
   			return 0
   		end
   	end
-  	
+
   	return 100
   end #+
   
+  
+
   def check_predicat(answer, etalon)
   	s_answer = JSON.parse(answer) 
   	s_etalon = JSON.parse(etalon) 
-  	
-  	
-  	for i in 0..s_answer.length - 1
-  		for j in 0..s_etalon.length - 1
-  		
-  			if (s_answer[i]["node"] == s_etalon[j]["node"] && s_answer[i]["predicat"] != s_etalon[j]["predicat"])
-  			
-  				return 40
-  			end
+	@nextNodes = [] 
+
+  	for j in 0..s_etalon.length - 1
+		@nextNodes.push(s_etalon[j]["node"])
+  		for i in 0..s_answer.length - 1	
+			if s_answer[i]["predicat"] 
+				@predicatAnswer = s_answer[i]["node"]
+			end
+
+			if (s_etalon[j]["predicat"]  and s_etalon[j]["alternative"]  )
+				s_etalon[j]["predicat"] = false
+				@predicatEtalonAlt = s_etalon[j]["node"]
+			end
+
+  			if (s_etalon[j]["predicat"] and not (s_etalon[j]["alternative"] ) )
+				@predicatEtalon = s_etalon[j]["node"]
+			end
   		end
-    end
-    return 0
+    	end
+	
+
+
+	
+	@node1 = SemanticNode.new()
+	@node1.updateNode(s_answer)
+
+	@node2 = SemanticNode.new()
+	@node2.updateNode(s_etalon)
+
+    	if (@predicatEtalon and @predicatAnswer and @predicatEtalon == @predicatAnswer)
+		return 0	
+	end
+	if (@predicatEtalonAlt and @predicatAnswer and @predicatEtalonAlt == @predicatAnswer)
+		return 10	
+	end
+ 	return 100
   	
   end #+
   
@@ -39,135 +76,88 @@ class Semanticnetwork < ActiveRecord::Base
   def check_act(answer, etalon)
   	s_answer = JSON.parse(answer) 
   	s_etalon = JSON.parse(etalon) 
-  	
-  	
-  	for i in 0..s_answer.length - 1
-  		for j in 0..s_etalon.length - 1
-  		
-  			if ( s_etalon[j]["predicat"] == "true" && s_answer[i]["predicat"] == "true")
-  				return 20*(s_etalon[j]["connect"].length - s_answer[i]["connect"].length).abs
-  			end
-  		end
-    end
-       return 20
-  	
+	print("------------------- NODE -------------------")
+
+
+	diff =  ( @node1.children.size - @node2.children.size ).abs
+	
+	if diff == 0
+		return 0
+	elsif  diff == 1 
+		return 20
+	else 
+		return 20 + diff * 20
+	end
   end
   
-  def check_repetition (answer) #Работает
-  	s_answer = JSON.parse(answer) 
-  	
-  	for i in 0..s_answer.length - 1
-  			if(s_answer[i]["predicat"] == "true")
-  			    actantns = Array.new(s_answer[i]["connect"].length)
-  			    results =  Array.new()
-  				for j in 0..s_answer[i]["connect"].length - 1
-  					actantns[j] = s_answer[i]["connect"][j]["deepCase"]
-  				end
-  				results = actantns & actantns
-  				if (results.length != actantns.length)
-  					return 20
-  				end
-  				
-  			end
-  	end
-  	return 0
+  def check_repetition (answer, etalon) #Работает
+	mistake = 0
+	littleMistake = 0
+  	for i in 0..@node2.children.size - 1 
+		isFind = false
+
+		for j in 0..@node1.children.size - 1 
+			if @node1.children[j].name == @node2.children[i].name && @node1.children[j].deepCase == @node2.children[i].deepCase
+				isFind = true
+				if @node1.children[j].children.size != @node2.children[i].children.size
+					littleMistake += 5
+				end
+			end
+		end
+		if not (isFind)
+			@node1.children[j].children = []
+			@node2.children[i].children = []
+			mistake += 1
+		end
+	end 
+  	if mistake == 0
+		return 0 + littleMistake
+	elsif  mistake == 1 
+		return 20 + littleMistake
+	else 
+		return 20 + mistake * 20 + littleMistake
+	end 
   end
+  
+
   
   def check_goodNodes(answer, etalon)
-  	s_answer = JSON.parse(answer) 
-  	s_etalon = JSON.parse(etalon)
-  	
-  	for i in 0..s_answer.length - 1
-  		for j in 0..s_etalon.length - 1
-  			if (s_answer[i]["predicat"] == "true" && s_etalon[j]["predicat"] == "true")
-
-
-				for k in 0..s_answer[i]["connect"].length - 1
-  					for l in 0..s_etalon[j]["connect"].length - 1
-  						if (s_answer[i]["connect"][k]["to"] == s_etalon[j]["connect"][l]["to"] && 
-  						s_answer[i]["connect"][k]["deepCase"] != s_etalon[j]["connect"][l]["deepCase"])
-  							print ("----////-----")
-  							print(s_answer[i]["connect"][k]["to"])
-  							print(s_etalon[j]["connect"][l]["to"])
-  							print(s_answer[i]["connect"][k]["deepCase"])
-  							print(s_etalon[j]["connect"][l]["deepCase"])
-  							return 20
-  						end
-  						
-            end
-
-  				end
-  			end
-  		end
-  	end 
-  	return 0
+	mistakes = 0
+  	for  i in 0..@nextNodes.size
+		currentStNode = @node1.findNode(@node1, @nextNodes[i])
+		currentEtNode = @node2.findNode(@node2, @nextNodes[i])
+		if (currentEtNode and  currentStNode and currentEtNode.type == "Far" )
+			if (currentEtNode.deepCase != currentStNode.deepCase or currentStNode.children.size != currentEtNode.children.size )
+				print(" ---  Mistake0 --- ")
+				print (currentStNode.to_json)
+				print (currentEtNode.to_json)
+				mistakes += 5
+			end
+		end
+		
+		if (currentEtNode and currentEtNode.type == "Far") and ( currentStNode == nil )
+			print(" ---  Mistake --- ")
+			print (@nextNodes.to_json)
+			mistakes += 5
+		end
+	end
+  	return mistakes
   end
+  
   
   
   #Метод работает, метод проверяет количество исходящих связей
   def search_outlength(answer, etalon)
-  	s_answer = JSON.parse(answer) 
-  	s_etalon = JSON.parse(etalon)
-  	
-  	for i in 0..s_answer.length - 1
-  		for j in 0..s_etalon.length - 1
-  			if (s_answer[i]["predicat"] != "true" && s_answer[i]["node"] == s_etalon[j]["node"])
-  				for k in 0..s_answer[i]["connect"].length
-  					for l in 0..s_etalon[j]["connect"].length
-  						if (s_answer[i]["connect"].length != s_etalon[j]["connect"].length)
-  							return 20
-  						end
-  					end
-  				end
-  			end
-  		end
-  	end 
-  	return 0
+	return 0
   end
   
-  	def is_not_link (answer, etalon) 
-  		s_answer = JSON.parse(answer) 
-  		s_etalon = JSON.parse(etalon)
-  		taxes = 0
-  		for i in 0..s_etalon.length - 1
-  			for j in 0..s_answer.length - 1
-  				if (s_answer[j]["predicat"] != "true" && s_answer[j]["node"] == s_etalon[i]["node"])
-  					if (s_answer[j]["connect"].length != s_etalon[i]["connect"].length)
-  						taxes = taxes + 15
-  					end
-  				end				 				
-  			end
-  		end
-  		return taxes
-  		
-  	end
+  def is_not_link (answer, etalon) 
+	return 0	
+  end
   	#Метод работает, метод делает проверку корректности глубинных падежей
-   def search_deepcase(answer, etalon) 
-  	s_answer = JSON.parse(answer) 
-  	s_etalon = JSON.parse(etalon)
-  	taxes = 0
-  	for i in 0..s_answer.length - 1
-  		for j in 0..s_etalon.length - 1
-  			if (s_answer[i]["predicat"] != "true" && s_answer[i]["node"] == s_etalon[j]["node"])
-  			
-  				for k in 0..s_answer[i]["connect"].length - 1
-  					for l in 0..s_etalon[j]["connect"].length - 1
-  						if (s_answer[i]["connect"][k]["to"] == s_etalon[j]["connect"][l]["to"] && 
-  						s_answer[i]["connect"][k]["deepCase"] != s_etalon[j]["connect"][l]["deepCase"])
-  							taxes = taxes + 12
-  						end
-  						
-  					end
-  				end
-  			end
-  		end
-  	end 
-  	return taxes
+  def search_deepcase(answer, etalon) 
+	return 0
   end
   
-   
-  
-  
-	  
   
 end
