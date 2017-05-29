@@ -13,8 +13,6 @@ class SemanticNode
   end
 
   def updateNode(inputJson)
-	print("-------------------UPDATE JSON -----------")
-	print(inputJson.to_json)
 	@inputJson = inputJson
 	@nextSearchNodes = []
 	@stepNodes = []
@@ -41,10 +39,7 @@ class SemanticNode
 	
 	@stepNodes.push( @name)
 	step
-	
 	@inputJson = ""
-	print("------- SEMANTIC OBJECT -------") 
-	print(self.to_json)
   end
 
   def step
