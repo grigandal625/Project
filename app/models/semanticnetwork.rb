@@ -55,6 +55,9 @@ class Semanticnetwork < ActiveRecord::Base
 
 
 	
+	if @predicatEtalon == nil  or @predicatAnswer == nil
+		return 100
+	end
 	@node1 = SemanticNode.new()
 	@node1.updateNode(s_answer)
 
@@ -105,7 +108,10 @@ class Semanticnetwork < ActiveRecord::Base
 			end
 		end
 		if not (isFind)
-			@node1.children[j].children = []
+			findNode = @node1.findNode(@node1, @node2.children[i].name)
+			if findNode
+				findNode.children = []
+			end
 			@node2.children[i].children = []
 			mistake += 1
 		end
@@ -143,21 +149,4 @@ class Semanticnetwork < ActiveRecord::Base
 	end
   	return mistakes
   end
-  
-  
-  
-  #Метод работает, метод проверяет количество исходящих связей
-  def search_outlength(answer, etalon)
-	return 0
-  end
-  
-  def is_not_link (answer, etalon) 
-	return 0	
-  end
-  	#Метод работает, метод делает проверку корректности глубинных падежей
-  def search_deepcase(answer, etalon) 
-	return 0
-  end
-  
-  
 end
