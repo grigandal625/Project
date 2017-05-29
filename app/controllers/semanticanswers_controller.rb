@@ -65,56 +65,32 @@ include PlanningHelper
   			@semantic.json = params[:json]
   			
   			result = 100
+			mark = @semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson)
+  			if mark > 0 
+  				result -= mark
+          			@semantic.mistakes += "Ошибка в предикатной вершине\n"
+  			end
+			
+			if result > 0
+				mark = @semantic.check_act(@semantic.json, @semantic.etalon.etalonjson)
+				if mark > 0
+					result -= mark
+          				@semantic.mistakes += "Ошибки в Актантах\n"
+				end	
 
-  			if (@semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson) > 0 )
-  				result -= @semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson)
-          @semantic.mistakes += "Ошибка в предикатной вершине\n"
-  			end
-  			print ("result p=" )
-  			print (result )
+				mark = @semantic.check_repetition(@semantic.json, @semantic.etalon.etalonjson)
+				if mark > 0
+					result -= mark
+          				@semantic.mistakes += "Ошибки в Вершинах понятиях\n"
+				end
+
+				mark = @semantic.check_goodNodes(@semantic.json, @semantic.etalon.etalonjson)
+				if mark > 0
+					result -= mark
+          				@semantic.mistakes += "Ошибки в Вершинах понятиях\n"
+				end	
+			end
   			
-  			if (@semantic.check_act(@semantic.json, @semantic.etalon.etalonjson) > 0 )
-  				result -= @semantic.check_act(@semantic.json, @semantic.etalon.etalonjson)
-          @semantic.mistakes += "Ошибка в определении количества актантов ситуации\n"
-  			end
-	  			
-  			
-  			print ("result ac=" )
-  			print (result )
-  			
-  			if (@semantic.check_repetition(@semantic.json, @semantic.etalon.etalonjson) > 0 )
-  				result -= @semantic.check_repetition(@semantic.json, @semantic.etalon.etalonjson)
-          @semantic.mistakes += "Наличие повторяющихся актантов\n"
-  			end
-  			
-  			if (@semantic.is_not_link(@semantic.json,@semantic.etalon.etalonjson) > 0)
-  				result -= @semantic.is_not_link(@semantic.json,@semantic.etalon.etalonjson)
-          @semantic.mistakes += "Есть недостающие связи"
-  			end 
-  			print ("result = repetition" )
-  			print (result )
-  			
-  			if (@semantic.check_goodNodes(@semantic.json,@semantic.etalon.etalonjson) > 0 )
-  				result -= @semantic.check_goodNodes(@semantic.json, @semantic.etalon.etalonjson)
-          @semantic.mistakes += "Ошибка в определении типа актанта\n"
-  			end
-  			print ("result =" )
-  			print (result)
-  			
-  			if (@semantic.search_outlength(@semantic.json,@semantic.etalon.etalonjson) > 0 )
-  				result -= @semantic.search_outlength(@semantic.json, @semantic.etalon.etalonjson)
-          @semantic.mistakes += "Ошибка в определении вершины-понятия\n"
-  			end
-  			print ("result =" )
-  			print (result)
-  			
-  			if (@semantic.search_deepcase(@semantic.json,@semantic.etalon.etalonjson) > 0 )
-  				result -= @semantic.search_deepcase(@semantic.json, @semantic.etalon.etalonjson)
-          @semantic.mistakes += "Ошибка в определении типа дуги для очередной вершины\n"
-  			end
-  			print ("result =" )
-  			print ("///////-----////")
-  			print (result)
   			if (result > 0 && result < 20)
           @semantic.mistakes += "Очень плохой результат >:-("
   			end
