@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170228181011) do
+ActiveRecord::Schema.define(version: 20170529060320) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -480,6 +480,11 @@ ActiveRecord::Schema.define(version: 20170228181011) do
     t.integer  "vivod"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "semantic_nodes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "semanticnetworks", force: :cascade do |t|

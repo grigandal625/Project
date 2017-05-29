@@ -191,15 +191,17 @@ function cleanLinks ()
 		var rectClick = function ()
 		{
 			var mynode = this.mynode;
-			if ( mynode.predicat === "true")
+
+			if ( mynode.predicat)
 			{
-				mynode.predicat = "false";
+				mynode.predicat = false;
 				mynode.rect.hide();
 			}
 			else
 			{
-				mynode.predicat = "true";
+				mynode.predicat = true;
 				mynode.rect.show();
+				mynode.isAlternativePredicat = confirm("Нажмите Ок если это Альтернативная предикатная вершина");
 			}
 		}
 		
@@ -236,17 +238,18 @@ function cleanLinks ()
 			}
 		}
 	
-	function Node(shape, circl, text, rect,predicat)
+	function Node(shape, circl, text, rect,predicat, isAlternative  = false)
     {
 		this.shape 	= shape;
         
 		this.text 	= r.text (this.shape.attr("cx"),this.shape.attr("cy"), text );
 		this.circl 	= circl;
 		this.srect 	= rect;
+		this.isAlternativePredicat = isAlternative;
 		this.rect 	= r.rect(this.shape.attr("cx") - this.shape.attr("rx"), this.shape.attr("cy") - this.shape.attr("ry"), this.shape.attr("rx") * 2, this.shape.attr("ry") * 2, 5);
 		this.predicat = predicat;
 		
-		if (predicat === "true")
+		if (predicat)
 		{
 			this.rect.show(); 
 		}
@@ -299,7 +302,7 @@ function cleanLinks ()
 			node.x = nodes[i].shape.attr("cx");
 			node.y = nodes[i].shape.attr("cy");
 			node.predicat = nodes[i].predicat;
-			
+			node.alternative = nodes[i].isAlternativePredicat;
 			
 			node.connect = new Array();
 			for ( var j = 1; j < nodes[i].connections.length; j++)
@@ -416,7 +419,7 @@ function cleanLinks ()
                 //act = act.replace(" ", "\n");
 				var ry = 25;
 
-				nodes.push (new Node (r.ellipse(x, y, rx, ry ),r.circle(x + rx - 5, y, 5) , act, r.rect(x - rx,y - 5,10,10,1), "false" ));	
+				nodes.push (new Node (r.ellipse(x, y, rx, ry ),r.circle(x + rx - 5, y, 5) , act, r.rect(x - rx,y - 5,10,10,1), "false", false ));	
 			}
 			else
 			{
@@ -537,7 +540,12 @@ function cleanLinks ()
 			var x = parse[i].x;
 			var y = parse[i].y;
 			var predicat = parse[i].predicat;
-			nodes.push (new Node (r.ellipse(parseInt(x), parseInt(y), 50, 25 ),r.circle(parseInt(x) + 50 - 5, parseInt(y), 5) , nodeName, r.rect(parseInt(x) - 50,parseInt(y) - 5,10,10,1), predicat ));
+			var alternative = false;
+
+			if(! (typeof parse[i].alternative === 'undefined'))
+			  alternative = parse[i].alternative;
+
+			nodes.push (new Node (r.ellipse(parseInt(x), parseInt(y), 50, 25 ),r.circle(parseInt(x) + 50 - 5, parseInt(y), 5) , nodeName, r.rect(parseInt(x) - 50,parseInt(y) - 5,10,10,1), predicat, alternative ));
 			
 		}
 		for (var i = 0; i < parse.length; i++)
