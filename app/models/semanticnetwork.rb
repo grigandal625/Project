@@ -183,7 +183,8 @@ class Semanticnetwork < ActiveRecord::Base
 	@mistakes.push({"predicatHard":  @typemistakes[7]})
 	print("-------YYY--------")
 	print(@mistakes.to_json)
-	self.mistakes = @mistakes.to_s
+	self.mistakes = @mistakes.to_json
+	@mistakes.to_s
   	return mistakes
   end
 end
