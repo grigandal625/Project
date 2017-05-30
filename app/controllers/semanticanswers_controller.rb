@@ -68,49 +68,29 @@ include PlanningHelper
 			mark = @semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson)
   			if mark > 0 
   				result -= mark
-          			@semantic.mistakes += "Ошибка в предикатной вершине\n"
+
   			end
 			
 			if result > 0
 				mark = @semantic.check_act(@semantic.json, @semantic.etalon.etalonjson)
 				if mark > 0
 					result -= mark
-          				@semantic.mistakes += "Ошибки в Актантах\n"
+
 				end	
 
 				mark = @semantic.check_repetition(@semantic.json, @semantic.etalon.etalonjson)
 				if mark > 0
 					result -= mark
-          				@semantic.mistakes += "Ошибки в Вершинах понятиях\n"
+
 				end
 
 				mark = @semantic.check_goodNodes(@semantic.json, @semantic.etalon.etalonjson)
 				if mark > 0
 					result -= mark
-          				@semantic.mistakes += "Ошибки в Вершинах понятиях\n"
+
 				end	
 			end
-  			
-  			if (result > 0 && result < 20)
-          @semantic.mistakes += "Очень плохой результат >:-("
-  			end
-  			if (result >= 20 && result < 40)
-          @semantic.mistakes += "Плохой результат :("
-  			end
-  			if (result >= 40 && result <60)
-          @semantic.mistakes += "не самый плохой результат :-| "
-  			end
-  			if ( result >= 60 && result < 80)
-          @semantic.mistakes += "Хороший результат :) "
-  			end
-  			if ( result >= 80 && result < 100)
-          @semantic.mistakes += "Отличный результат :3 "
-  			end
-  			if ( result == 100)
-          @semantic.mistakes += "\m/ Отлично \m/ :3 "
-  			end
-  			
-  			  			
+   			
   			if (result < 0 )
   				result = 0
   			end

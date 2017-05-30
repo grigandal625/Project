@@ -10,12 +10,14 @@ class Semanticnetwork < ActiveRecord::Base
 
 
   @nextNodes = []
+  @mistakes = []
+  @typemistakes = []
+
   @node1 = nil
   @node2 = nil
 
 
   def no_predicat (answer)
-
   	s_answer = JSON.parse(answer)
   	for i in 0..s_answer.length - 1
   		if (s_answer[i]["predicat"] == true)
@@ -30,9 +32,19 @@ class Semanticnetwork < ActiveRecord::Base
   
 
   def check_predicat(answer, etalon)
+	
   	s_answer = JSON.parse(answer) 
   	s_etalon = JSON.parse(etalon) 
 	@nextNodes = [] 
+	  #@predicatEasy = 0
+	  #@predicatHard = 0
+	  #@actantCount = 0
+	  #@actantName = 0
+	  #@actantType = 0
+	  #@nodeCount = 0
+	  #@nodeName = 0
+	  #@nodeType = 0
+	@typemistakes = [0,0,0,0,0,0,0,0]
 
   	for j in 0..s_etalon.length - 1
 		@nextNodes.push(s_etalon[j]["node"])
@@ -53,9 +65,10 @@ class Semanticnetwork < ActiveRecord::Base
     	end
 	
 
-
+	
 	
 	if @predicatEtalon == nil  or @predicatAnswer == nil
+		@typemistakes[1] += 1
 		return 100
 	end
 	@node1 = SemanticNode.new()
@@ -65,11 +78,15 @@ class Semanticnetwork < ActiveRecord::Base
 	@node2.updateNode(s_etalon)
 
     	if (@predicatEtalon and @predicatAnswer and @predicatEtalon == @predicatAnswer)
+
 		return 0	
 	end
 	if (@predicatEtalonAlt and @predicatAnswer and @predicatEtalonAlt == @predicatAnswer)
+		@typemistakes[0]  += 1
 		return 10	
 	end
+
+	@predicatHard += 1
  	return 100
   	
   end #+
@@ -79,16 +96,16 @@ class Semanticnetwork < ActiveRecord::Base
   def check_act(answer, etalon)
   	s_answer = JSON.parse(answer) 
   	s_etalon = JSON.parse(etalon) 
-	print("------------------- NODE -------------------")
-
 
 	diff =  ( @node1.children.size - @node2.children.size ).abs
 	
 	if diff == 0
 		return 0
 	elsif  diff == 1 
+		@typemistakes[2] += 1
 		return 20
 	else 
+		@typemistakes[2] += diff
 		return 20 + diff * 20
 	end
   end
@@ -103,8 +120,14 @@ class Semanticnetwork < ActiveRecord::Base
 			if @node1.children[j].name == @node2.children[i].name && @node1.children[j].deepCase == @node2.children[i].deepCase
 				isFind = true
 				if @node1.children[j].children.size != @node2.children[i].children.size
+					@typemistakes[5]  += 1
 					littleMistake += 5
 				end
+			
+			end
+			if @node1.children[j].name == @node2.children[i].name && @node1.children[j].deepCase != @node2.children[i].deepCase
+				isFind = true
+				@typemistakes[4]  += 1
 			end
 		end
 		if not (isFind)
@@ -113,6 +136,7 @@ class Semanticnetwork < ActiveRecord::Base
 				findNode.children = []
 			end
 			@node2.children[i].children = []
+			@typemistakes[3]  += 1
 			mistake += 1
 		end
 	end 
@@ -133,20 +157,33 @@ class Semanticnetwork < ActiveRecord::Base
 		currentStNode = @node1.findNode(@node1, @nextNodes[i])
 		currentEtNode = @node2.findNode(@node2, @nextNodes[i])
 		if (currentEtNode and  currentStNode and currentEtNode.type == "Far" )
-			if (currentEtNode.deepCase != currentStNode.deepCase or currentStNode.children.size != currentEtNode.children.size )
-				print(" ---  Mistake0 --- ")
-				print (currentStNode.to_json)
-				print (currentEtNode.to_json)
+			if (currentEtNode.deepCase != currentStNode.deepCase)
+				@typemistakes[7]  += 1
 				mistakes += 5
 			end
+			if (currentStNode.children.size != currentEtNode.children.size )
+				@typemistakes[5]  += 1
+				mistakes += 5
+			end	
 		end
 		
 		if (currentEtNode and currentEtNode.type == "Far") and ( currentStNode == nil )
-			print(" ---  Mistake --- ")
-			print (@nextNodes.to_json)
+  			@typemistakes[6]  += 1
 			mistakes += 5
 		end
 	end
+	@mistakes = []
+	@mistakes.push({"actantCount":   @typemistakes[0]})
+	@mistakes.push({"actantName":    @typemistakes[1]})
+	@mistakes.push({"actantType":    @typemistakes[2]})
+	@mistakes.push({"nodeCount":     @typemistakes[3]})
+	@mistakes.push({"nodeName":      @typemistakes[4]})
+	@mistakes.push({"nodeType":      @typemistakes[5]})
+	@mistakes.push({"predicatEasy":  @typemistakes[6]})
+	@mistakes.push({"predicatHard":  @typemistakes[7]})
+	print("-------YYY--------")
+	print(@mistakes.to_json)
+	self.mistakes = @mistakes.to_s
   	return mistakes
   end
 end
