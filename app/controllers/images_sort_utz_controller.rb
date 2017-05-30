@@ -27,6 +27,12 @@ class ImagesSortUtzController < ApplicationController
     @pictures = @utz.pictures.order('RANDOM()')
   end
 
+  def detach
+    ImagesSortUtz.find(params[:q_id]).update(ka_topic_id: nil)
+
+    redirect_to :back
+  end
+
   def check_answer
     pictures = ImagesSortUtzPicture.where(images_sort_utz_id: params[:id]).order(:ordering)
 

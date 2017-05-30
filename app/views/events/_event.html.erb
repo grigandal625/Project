@@ -13,15 +13,18 @@ data-event="<%=event.id%>">
        else
          "Другое"
          end %><br>
-  <%# if event.task != nil %>
-      <%#=KaTopic.where(id: event.task).take.text[0,22]+'...'%>
-  <%# end %>
-  <%= event.task %>
-  <br>
+  <% if event.ka_topic_id != nil %>
+      <%=KaTopic.where(id: event.ka_topic_id).take.text[0,40]+'...'%>
+  <% end %>
+  <% if event.task != nil %>
+      <%= event.task %>
+  <% end %><br>
   <% if event.only_time != nil %>
       <%=event.only_time.strftime('%H:%M')%>
   <% end %><br>
+  <% if event.name != nil %>
   <%=event.name%>
+  <% end %><br>
   <% if @user.role=='admin' %>
     <%= link_to edit_event_path(event), remote: true do %>
         <span class="edit">e</span>

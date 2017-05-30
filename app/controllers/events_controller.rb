@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_action :set_events, only: [:move, :edit, :update, :destroy]
   def new
-    @actions = [["Выявить уровень знаний", "extract-knowledge"],["Выявить уровень умений", "extract-skill"],["Психологическое тестирование", "psycho"],["Другое", "other"]]
+    @actions = [["Выявить уровень знаний", "extract-knowledge"],["Выявить уровень умений", "extract-skill"],["Психологическое тестирование", "psycho"],["Тема", "tema"],["Другое", "other"]]
     @event  = Event.new
     @tasks = KaTopic.where(ontology: [1])
     @timetable_id = params[:timetable_id]
@@ -14,6 +14,9 @@ class EventsController < ApplicationController
 
   def create
     @event  = Event.new(event_params)
+    if params[:event][:ka_topic_id] != nil
+      @event.only_time = nil
+    end
     if @event.save
       respond_to do |format|
         format.js
@@ -32,7 +35,7 @@ class EventsController < ApplicationController
 
   def edit
     @event  = Event.find(params[:id])
-    @actions = [["Выявить уровень знаний", "extract-knowledge"],["Выявить уровень умений", "extract-skill"],["Психологическое тестирование", "psycho"],["Другое", "other"]]
+    @actions = [["Выявить уровень знаний", "extract-knowledge"],["Выявить уровень умений", "extract-skill"],["Психологическое тестирование", "psycho"],["Тема", "tema"],["Другое", "other"]]
     @tasks = KaTopic.where(ontology: [1])
     @timetable_id = @event.timetable_id
     @date = @event.date
@@ -65,12 +68,19 @@ class EventsController < ApplicationController
     end
   end
 
+  def tema
+    @tema=params[:tema]
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
 
     def set_events
       @event = Event.find(params[:id])
     end
     def event_params
-      params.require(:event).permit(:action, :task, :name, :date, :timetable_id, :only_time)
+      params.require(:event).permit(:action, :name, :date, :timetable_id, :ka_topic_id, :only_time)
     end
 end

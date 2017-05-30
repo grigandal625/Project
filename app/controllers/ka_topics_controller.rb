@@ -59,12 +59,20 @@ class KaTopicsController < ApplicationController
 
   def edit
     @topic = KaTopic.find(params[:id])
+    @topics_utz = [@topic]
+    topic = @topic.clone
+    until topic.parent_id.nil?
+      topic = KaTopic.find(topic.parent_id).clone
+    end
+    unless(@topic.id == topic.id)
+      @topics_utz << topic
+    end
     @competences = Competence.all
     if (session[:planning_task_id]!=nil)
     @task = PlanningTask.find(session[:planning_task_id])
     end
     @constructs = Construct.all
-    @components = Component.all
+    load_quizzes
   end
 
   def edit_text
@@ -73,6 +81,25 @@ class KaTopicsController < ApplicationController
       topic.text = params[:text]
       topic.save
     end
+    redirect_to :back
+  end
+
+  def edit_utz
+    type = params[:ka_topic_id].split(',')[0].to_i
+    ka_topic_id = params[:ka_topic_id].split(',')[1].to_i
+    case type
+      when 1
+        TestUtzQuestion.find(ka_topic_id).update(ka_topic_id: params[:id])
+      when 2
+        MatchingUtz.find(ka_topic_id).update(ka_topic_id: params[:id])
+      when 3
+        FillingUtz.find(ka_topic_id).update(ka_topic_id: params[:id])
+      when 4
+        TextCorrectionUtz.find(ka_topic_id).update(ka_topic_id: params[:id])
+      when 5
+        ImagesSortUtz.find(ka_topic_id).update(ka_topic_id: params[:id])
+    end
+
     redirect_to :back
   end
 
@@ -115,4 +142,23 @@ class KaTopicsController < ApplicationController
     @topics = @root.get_tree
   end
 
+  private
+    def load_quizzes
+      @quizzes = []
+      TestUtzQuestion.all.each do |q|
+        @quizzes.push( { type: 1, data: q,  })
+      end
+      MatchingUtz.all.each do |q|
+        @quizzes.push( { type: 2, data: q })
+      end
+      FillingUtz.all.each do |q|
+        @quizzes.push( { type: 3, data: q })
+      end
+      TextCorrectionUtz.all.each do |q|
+        @quizzes.push( { type: 4, data: q })
+      end
+      ImagesSortUtz.all.each do |q|
+        @quizzes.push( { type: 5, data: q })
+      end
+    end
 end

@@ -1,0 +1,1 @@
+$('#tema2').html('<label for="event_ka_topic_id">Выберите онтологию:</label><select name="event[ka_topic_id]" id="event_ka_topic_id" class="form-control"><option selected disabled style="display: none"></option><% KaTopic.where(parent_id: @tema).each do |t| %><option value="<%= t.id %>"><%= t.text %></option><% end %></select>');

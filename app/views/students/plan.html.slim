@@ -1,0 +1,75 @@
+= link_to 'На Главную', root_path
+br
+br
+.wrapper
+  div align='center'
+    h3
+      | План обучения
+  hr
+  div align='center'
+    = "#{@student.fio}, Группа: #{@student.group.number}"
+  hr
+  - if @topics
+    table border='1' style='border-collapse:collapse;'
+      thead
+        tr
+          th.text = "Тип воздействия"
+          th.text = "Название"
+          th.text = "Ссылка"
+          th.text = "Прошёл"
+      tbody
+        tbody
+          - @topics.each do |topic|
+            - topic.test_utz_questions.each do |u|
+              tr
+                td.type = "Выбор вариантов ответа"
+                td.text
+                  = u.name
+                td
+                  a href="#{test_utz_question_path(u.id)}"
+                    | Перейти
+                td align='center'
+                  | x
+            - topic.matching_utzs.each do |u|
+              tr
+                td.type = "Расстановка соответствий между блоками"
+                td.text
+                  = u.name
+                td
+                  a href="#{matching_utz_path(u.id)}"
+                    | Перейти
+                td align='center'
+                  | x
+            - topic.filling_utzs.each do |u|
+              tr
+                td.type = "Заполнение пропусков в тексте"
+                td.text
+                  = u.name
+                td
+                  a href="#{filling_utz_path(u.id)}"
+                    | Перейти
+                td align='center'
+                  | x
+            - topic.text_correction_utzs.each do |u|
+              tr
+                td.type = "Маркировки или корректировки текста"
+                td.text
+                  = u.name
+                td
+                  a href="#{text_correction_utz_path(u.id)}"
+                    | Перейти
+                td align='center'
+                  | x
+            - topic.images_sort_utzs.each do |u|
+              tr
+                td.type = "Упорядочивание графических изображений"
+                td.text
+                  = u.theme
+                td
+                  a href="#{images_sort_utz_path(u.id)}"
+                    | Перейти
+                td align='center'
+                  | x
+  - else
+    h2 align='center'
+      | Тема не задана...
