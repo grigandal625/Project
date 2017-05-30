@@ -20,6 +20,12 @@ class TextCorrectionUtzController < ApplicationController
     @utz = TextCorrectionUtz.find params[:id]
   end
 
+  def detach
+    TextCorrectionUtz.find(params[:q_id]).update(ka_topic_id: nil)
+
+    redirect_to :back
+  end
+
   def check_answer
     utz = TextCorrectionUtz.find params[:id]
     render text: (utz.text_without_errors == params[:answer] ? 'Верно' : 'Ошибка')

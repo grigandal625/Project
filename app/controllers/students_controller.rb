@@ -8,6 +8,14 @@ class StudentsController < ApplicationController
     redirect_to edit_group_path(id: params[:group_id])
   end
 
+  def plan
+    @student = @user.student
+    topic = KaTopic.find(@student.group.timetable.events.last.ka_topic_id)
+    if topic
+      @topics = topic.get_tree
+    end
+  end
+
   def show
     user = User.find_by(id: session[:user_id])
     @student = Student.find(params[:id])

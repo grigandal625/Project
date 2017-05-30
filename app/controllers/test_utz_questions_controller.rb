@@ -21,6 +21,12 @@ class TestUtzQuestionsController < ApplicationController
     @question = TestUtzQuestion.find params[:id]
   end
 
+  def detach
+    TestUtzQuestion.find(params[:q_id]).update(ka_topic_id: nil)
+
+    redirect_to :back
+  end
+
   def check_answer
     question = TestUtzQuestion.find params[:id]
 

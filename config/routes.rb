@@ -1,22 +1,22 @@
 UIR::Application.routes.draw do
-  
+
   get "auth/login", to: "auth#login", as: "login"
   post "auth/authentificate"
   post "auth/logout", as: "logout"
   get  "auth/logout", as: "get_logout"
 
-    # FORWARD / REVERSE
-  
+  # FORWARD / REVERSE
+
   # get "forwards/index"
   # get "forwards/execute"
   # get "viewsresult/index"
   get "reverse/index"
-  get "forwards2/results",          to: 'forwards2#results',     as: :fb_results 
+  get "forwards2/results",          to: 'forwards2#results',     as: :fb_results
   get "adminpanel/index",          to: 'adminpanel#index',     as: :adminpanel
   get "forwards2/index",           to: 'forwards2#index',      as: :forwards2
-    # root 'forwards#index'
-#     
-  post "forwards2/getfile"   
+  # root 'forwards#index'
+  #
+  post "forwards2/getfile"
   post "forwards2/saveResult"
   post "reverse/saveResult"
   post "adminpanel/getCSV"
@@ -24,8 +24,8 @@ UIR::Application.routes.draw do
   post "adminpanel/saveJSON"
   post "reverse/getfile"
 
- # END FORWARD/REVERSE
- 
+  # END FORWARD/REVERSE
+
   get '/ka_welcome',               to: 'ka_welcome#index',    as: :ka_welcome
 
   get  '/ka_topics',               to: 'ka_topics#index',     as: :ka_topics
@@ -107,8 +107,8 @@ UIR::Application.routes.draw do
 
   post "students/passupdate"
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
-  
-    post "semantictests/updateJson"
+
+  post "semantictests/updateJson"
 
   resources :results
   resources :frameadmin
@@ -119,7 +119,7 @@ UIR::Application.routes.draw do
   end
   get 'groups_execute' => 'groups#execute'
   get 'groups_commit'  => 'groups#commit', as: :groups_commit
-   get "semantictests/results"
+  get "semantictests/results"
 
   resources :menu
   resources :semantictests
@@ -155,6 +155,8 @@ UIR::Application.routes.draw do
 
   get  "menu/results"
 
+  get 'student/plan/:id', to: 'students#plan', as: :student_plan
+
   root 'menu#index'
   get "test", to: "test#get_task", as: "get_task"
   get "test/execute", to: "test#execute"
@@ -175,6 +177,7 @@ UIR::Application.routes.draw do
   get  "dummy/commit"
 
   get 'utz/index', as: 'utz'
+  post 'ka_topics/edit_utz/:id', to: 'ka_topics#edit_utz', as: 'edit_utz'
 
   get 'images_sort_utz/new'
 
@@ -182,24 +185,29 @@ UIR::Application.routes.draw do
 
   resources :test_utz_questions do
     post :check_answer, on: :member
+    patch :detach, on: :member
   end
 
   resources :matching_utz do
     post :check_answers, on: :member
+    patch :detach, on: :member
   end
 
   resources :filling_utz do
     post :check_answers, on: :member
+    patch :detach, on: :member
   end
 
   resources :text_correction_utz do
     post :check_answer, on: :member
+    patch :detach, on: :member
   end
 
   resources :images_sort_utz do
     post :check_answer, on: :member
+    patch :detach, on: :member
   end
-   
+
   get 'schedule', to: 'schedule#index', as: 'schedule'
 
   get "timetables", to: "timetables#index", as: "timetables"
@@ -219,9 +227,10 @@ UIR::Application.routes.draw do
   get 'development_commit'  => 'development#commit', as: :development_commit
   get 'development_index' => 'development#index'
   post "events/tasks"
+  post "events/tema"
   resources :works
 
-     
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
