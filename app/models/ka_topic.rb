@@ -12,6 +12,9 @@ class KaTopic < ActiveRecord::Base
   has_many :problem_areas,  dependent: :delete_all
   has_many :ka_results,     through: :problem_areas
 
+  has_many :topic_components, dependent: :delete_all
+  has_many :components, through: :topic_components
+
   has_many :test_utz_questions, dependent: :destroy
   has_many :matching_utzs, dependent: :destroy
   has_many :filling_utzs, dependent: :destroy

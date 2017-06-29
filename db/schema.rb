@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170529060320) do
+ActiveRecord::Schema.define(version: 20170628191754) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -37,7 +37,9 @@ ActiveRecord::Schema.define(version: 20170529060320) do
   end
 
   create_table "components", force: :cascade do |t|
-    t.string "name"
+    t.string   "name",       default: "", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "constructs", force: :cascade do |t|
@@ -448,6 +450,18 @@ ActiveRecord::Schema.define(version: 20170529060320) do
     t.index ["ka_topic_id"], name: "index_problem_areas_on_ka_topic_id"
   end
 
+  create_table "recomendations", force: :cascade do |t|
+    t.integer  "student_id"
+    t.integer  "rec_id"
+    t.text     "rec_type"
+    t.datetime "date"
+    t.boolean  "done"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "rec_status"
+    t.text     "type_um"
+  end
+
   create_table "results", force: :cascade do |t|
     t.integer  "student_id"
     t.integer  "task_id"
@@ -599,8 +613,12 @@ ActiveRecord::Schema.define(version: 20170529060320) do
   end
 
   create_table "topic_components", force: :cascade do |t|
-    t.integer "ka_topic_id"
-    t.integer "component_id"
+    t.integer  "ka_topic_id"
+    t.integer  "component_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["component_id"], name: "index_topic_components_on_component_id"
+    t.index ["ka_topic_id"], name: "index_topic_components_on_ka_topic_id"
   end
 
   create_table "topic_constructs", id: false, force: :cascade do |t|
@@ -611,6 +629,16 @@ ActiveRecord::Schema.define(version: 20170529060320) do
     t.datetime "updated_at"
     t.index ["construct_id"], name: "index_topic_constructs_on_construct_id"
     t.index ["ka_topic_id"], name: "index_topic_constructs_on_ka_topic_id"
+  end
+
+  create_table "topic_relations", id: false, force: :cascade do |t|
+    t.integer  "ka_topic_id"
+    t.integer  "related_topic_id"
+    t.integer  "rel_type",         default: 2, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.index ["ka_topic_id"], name: "index_topic_relations_on_ka_topic_id"
+    t.index ["related_topic_id"], name: "index_topic_relations_on_related_topic_id"
   end
 
   create_table "trees", force: :cascade do |t|

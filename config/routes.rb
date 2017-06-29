@@ -80,12 +80,13 @@ UIR::Application.routes.draw do
   resources :components
   post 'components/attach' => 'components#attach'
   get 'components/:c_id/detach_from/:t_id' => 'components#detach', as: :component_detach
-
+  get 'components/:c_id/detach_list_from/:t_id' => 'components#detach_list', as: :component_detach_list
 
   get 'ka_topics/:root_id/topics_with_questions' => 'ka_topics#show_topics_with_questions', as: :topics_with_questions
   get 'ka_topics/:root_id/all_competences' => 'ka_topics#show_all_competences', as: :all_competences
   get 'ka_topics/:root_id/all_constructs' => 'ka_topics#show_all_constructs', as: :all_constructs
   get 'ka_topics/:root_id/all_components' => 'ka_topics#show_all_components', as: :all_components
+  get 'ka_topics/calc_rel/:root_id' => 'ka_topics#execute_amrr', as: :calc_rel
 
 
   post "frameadmin/createframe"
@@ -113,7 +114,25 @@ UIR::Application.routes.draw do
   resources :results
   resources :frameadmin
   resources :framestudent
+  resources :outcomes
+  get 'outcomes/:g_id/recomendations/:s_id', to: 'outcomes#recomendations', as: :outcome_recomendations
+  get 'outcomes/:s_id/delrecomendation/:id', to: 'outcomes#delrecomendation', as: :outcomes_delrecomendation
+  #get 'test_utz_questions/:id', to: '#test_utz_questions', as :test_utz_questions
+  post 'outcomes/changedate', to: 'outcomes#changedate', as: :outcomes_changedate
+  post 'outcomes/assign', to: 'outcomes#assign', as: :outcomes_assign
+  post 'outcomes/cancel', to: 'outcomes#cancel', as: :outcomes_cancel
 
+  resources :outcomes do
+    resources :students, only: [:create, :show, :destroy]
+  end
+  resources :outrecs
+  get 'outrecs/:s_id/plan', to: 'outrecs#plan', as: :outrecs_plan
+  get 'outrecs/done/:id', to: 'outrecs#done', as: :outrecs_done
+  resources :outrecs do
+    resources :students, only: [:create, :show, :destroy]
+  end
+
+#  post 'outcomes_recomendation' => 'outcomes#recomendation'
   resources :groups do
     resources :students, only: [:create, :show, :destroy]
   end

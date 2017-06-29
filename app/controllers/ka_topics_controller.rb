@@ -72,6 +72,7 @@ class KaTopicsController < ApplicationController
     @task = PlanningTask.find(session[:planning_task_id])
     end
     @constructs = Construct.all
+    @components = Component.all
     load_quizzes
   end
 
@@ -125,6 +126,25 @@ class KaTopicsController < ApplicationController
 
     redirect_to "/"
   end
+
+	def execute_amrr
+	  root = KaTopic.find(params[:root_id])
+	  topics = root.get_tree
+	  constructs = root.constructs
+	  @output = []
+	  rel_type_mapping = ["Сильная", "Средняя", "Слабая"]
+
+	  ActiveRecord::Base.transaction do
+	    for i in 0..(topics.count - 2)
+	      for j in (i+1)..(topics.count - 1)
+		relation = TopicRelation.calculate_relation(topics[i], topics[j], constructs)
+		relation.save
+		@output.push({topic: topics[i].text, related_topic: topics[j].text, relation_type: rel_type_mapping[relation.rel_type]})
+	      end
+	    end
+	  end
+	end
+
 
   def show_topics_with_questions
     @root = KaTopic.find(params[:root_id])

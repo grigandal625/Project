@@ -1,0 +1,12 @@
+<% content_for(:head) do %>
+  <title>Группа <%= @group.number %></title>
+<% end %>
+
+<%= content_tag :span, "Номер группы:" %>
+<%= content_tag :span, @group.number %><br/>
+
+<%= display_standard_table([{name: "fio", display_name: "ФИО"},
+                            {name: "sem_res", display_name: "Семантические сети"},
+			    {name: "fr_res", display_name: "Фреймы"},
+			    {name: "test_res", display_name: "Тестирование"}], @results) %>
+

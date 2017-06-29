@@ -1,0 +1,8 @@
+<% content_for(:head) do %>
+  <title>Группы</title>
+<% end %>
+
+<%= display_standard_table([{name: "number", display_name: "Номер"},
+                            {name: "show_ref", display_name: "Просмотр"}],
+                          @groups) %>
+

@@ -1,0 +1,18 @@
+
+- if !$out.empty?
+  h3  #{$out[0][:related_component]}
+  h4 образует связь со следующими элементами курса/дисциплины
+  table
+    thead
+      th Название элемента курса/дисциплины
+    tbody
+      - $out.each do |r|
+        tr
+          td = r[:topic]
+          td
+            a href="#{component_detach_list_path(r[:c_id], r[:t_id])}" Удалить
+
+  a href="#{ka_topics_path}" Назад к редактору
+-else
+  h4 Связей создано не было
+  a href="#{ka_topics_path}" Назад к редактору

@@ -57,7 +57,7 @@ include PlanningHelper
   def new
   end
   
-  def updatesemanticjson 
+  def updatesemanticjson
   	@semantic = Semanticnetwork.find(params[:id])
     	@semantic.mistakes = ""
   	@user = User.find (session["user_id"])
@@ -99,6 +99,11 @@ include PlanningHelper
   				@semantic.iscomplite = true
   				#@semantic.mistakes = mistakes
   				@semantic.save()
+				if result < 90
+					TopicComponent.where(component_id: 4).find_each do |top|
+						Recomendation.create(student_id: @user.student.id, rec_id: top.ka_topic.id, rec_type: "know", date: nil, done: false, rec_status: "CREATED")
+					end
+				end
   		end
   		render text: @semantic.rating
   	
