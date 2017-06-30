@@ -7,21 +7,27 @@
       <!--<%#= collection_select(:event, :task, @tasks, :id, :text)%>-->
     <!--</p>-->
 
-    <p>
+    <p id="tema">
+    </p>
+
+    <p id="tema2">
+    </p>
+
+    <p class="ne_tema">
       <%= f.label :task, 'Компонент:'%>
     </p>
-    <p>
+    <p class="ne_tema">
       <%= f.text_field :task %>
     </p>
 
-    <p>
+    <p class="ne_tema">
       <%= f.label :name, 'Краткое описание:'%>
     </p>
-    <p>
+    <p class="ne_tema">
       <%= f.text_field :name %>
     </p>
 
-    <p>
+    <p class="ne_tema">
       <%= f.label :only_time, 'Время:'%>
       <%= f.time_select :only_time%>
     </p>

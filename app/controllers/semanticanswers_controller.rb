@@ -57,7 +57,7 @@ include PlanningHelper
   def new
   end
   
-  def updatesemanticjson 
+  def updatesemanticjson
   	@semantic = Semanticnetwork.find(params[:id])
     	@semantic.mistakes = ""
   	@user = User.find (session["user_id"])
@@ -68,49 +68,29 @@ include PlanningHelper
 			mark = @semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson)
   			if mark > 0 
   				result -= mark
-          			@semantic.mistakes += "Ошибка в предикатной вершине\n"
+
   			end
 			
 			if result > 0
 				mark = @semantic.check_act(@semantic.json, @semantic.etalon.etalonjson)
 				if mark > 0
 					result -= mark
-          				@semantic.mistakes += "Ошибки в Актантах\n"
+
 				end	
 
 				mark = @semantic.check_repetition(@semantic.json, @semantic.etalon.etalonjson)
 				if mark > 0
 					result -= mark
-          				@semantic.mistakes += "Ошибки в Вершинах понятиях\n"
+
 				end
 
 				mark = @semantic.check_goodNodes(@semantic.json, @semantic.etalon.etalonjson)
 				if mark > 0
 					result -= mark
-          				@semantic.mistakes += "Ошибки в Вершинах понятиях\n"
+
 				end	
 			end
-  			
-  			if (result > 0 && result < 20)
-          @semantic.mistakes += "Очень плохой результат >:-("
-  			end
-  			if (result >= 20 && result < 40)
-          @semantic.mistakes += "Плохой результат :("
-  			end
-  			if (result >= 40 && result <60)
-          @semantic.mistakes += "не самый плохой результат :-| "
-  			end
-  			if ( result >= 60 && result < 80)
-          @semantic.mistakes += "Хороший результат :) "
-  			end
-  			if ( result >= 80 && result < 100)
-          @semantic.mistakes += "Отличный результат :3 "
-  			end
-  			if ( result == 100)
-          @semantic.mistakes += "\m/ Отлично \m/ :3 "
-  			end
-  			
-  			  			
+   			
   			if (result < 0 )
   				result = 0
   			end
@@ -119,6 +99,11 @@ include PlanningHelper
   				@semantic.iscomplite = true
   				#@semantic.mistakes = mistakes
   				@semantic.save()
+				if result < 90
+					TopicComponent.where(component_id: 4).find_each do |top|
+						Recomendation.create(student_id: @user.student.id, rec_id: top.ka_topic.id, rec_type: "know", date: nil, done: false, rec_status: "CREATED")
+					end
+				end
   		end
   		render text: @semantic.rating
   	

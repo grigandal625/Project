@@ -1,0 +1,132 @@
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+
+  <!--TODO: Что это?-->
+  <meta name="generator" content="Bootply" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <%= stylesheet_link_tag    "admin_tools", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= yield(:head) %>
+
+
+  <%= csrf_meta_tags %>
+<script type="text/javascript" src="/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/table.css">
+<script src="/calendar_kdg.js" type="text/javascript"></script>
+<script src="/jquery.tablesorter.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#result").tablesorter();
+        });
+    </script>
+<style type="text/css">
+   .block1 { 
+    float: left;
+   }
+
+   .brd {
+    border: 1px solid black; /* Параметры границы */
+    padding: 10px; /* Поля вокруг текста */
+   }
+</style> 
+</head>
+
+<span>ФИО:</span> <%= @student.fio %> <br/>
+<span>Группа:</span> <%= @student.group.number %> <br/>
+
+<table class="brd">
+<caption><b>Проблемные зоны</b></caption>
+
+<% $problem.each do |rec| %>
+ <tr >
+   <td><%= rec["text"] %></td>
+   <td><%= rec["mark"] %></td>
+ </tr>    
+  <% end %>
+</table>
+<br>
+
+<table class="table table-hover" style="border: 1px;">
+<caption ><b>Главы ГТ-учебника</b></caption>
+
+<% $probrecomendate.each do |rec| %>
+ <tr >
+   <td><%= rec["text"] %></td>
+   <td><%= rec["date"] %></td>
+   <td><%= link_to "Удалить", outcomes_delrecomendation_path(rec["s_id"], rec["id"]) %></td>
+ </tr>    
+  <% end %>
+</table>
+
+<table class="table table-hover" style="border: 1px;">
+<caption ><b>Учебно-тренировочные задания</b></caption>
+
+<% $utzrecomendate.each do |rec| 
+%>
+ <tr >
+   <td><%= link_to rec["text"], test_utz_question_path(rec["rec_id"].to_i) %></td>
+   <td><%= rec["date"] %></td>
+   <td><%= link_to "Удалить", outcomes_delrecomendation_path(rec["s_id"], rec["id"]) %></td>
+ </tr>    
+  <% end %>
+</table>
+
+<table class="table table-hover" style="border: 1px;">
+<caption ><b>Главы учебника, рекомендованные к прочтению</b></caption>
+
+<% if $semrecomendate.nil? %>
+<tr >
+   <td> Рекомендаций нет </td>
+</tr> 
+<% else %>
+<% $semrecomendate.each do |rec| %>
+ <tr >
+   <td><%= rec["text"] %></td>
+   <td><%= rec["date"] %></td>
+   <td><%= link_to "Удалить", outcomes_delrecomendation_path(rec["s_id"], rec["id"]) %></td>
+ </tr>    
+  <% end %>
+<% end %>
+</table>
+
+<table class="table table-hover" style="border: 1px;">
+
+<% if $frmrecomendate.nil? %>
+<tr >
+   <td> Рекомендаций нет </td>
+</tr> 
+<% else %>
+<% $frmrecomendate.each do |rec| %>
+ <tr >
+   <td><%= rec["text"] %></td>
+   <td><%= rec["date"] %></td>
+   <td><%= link_to "Удалить", outcomes_delrecomendation_path(rec["s_id"], rec["id"]) %></td>
+ </tr>    
+  <% end %>
+<% end %>
+</table>
+
+<div class="block1">
+<div class="block1">
+<%= form_tag(outcomes_changedate_path , method: "POST") do %>
+<input type="text" name="date" value="dd-mm-yy" onfocus="this.select();_Calendar.lcs(this)"
+    onclick="event.cancelBubble=true;this.select();_Calendar.lcs(this)">
+<%= submit_tag("Отложить") %>
+<% end %>
+</div>
+<div class="block1">
+<%= form_tag(outcomes_assign_path , method: "POST") do %>
+<%= submit_tag("Назначить") %>
+<% end %>
+</div>
+<div class="block1">
+<%= form_tag(outcomes_cancel_path , method: "POST") do %>
+<%= submit_tag("Отменить") %>
+<% end %>
+</div>
+</div>
+
+

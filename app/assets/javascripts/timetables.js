@@ -115,6 +115,9 @@ $(document).ready(function () {
     $(document).on('change', '#event_action', function () {
         tasks($('#event_action').val());
     });
+    $(document).on('change', '#tema_action', function () {
+        temas($('#tema_action').val());
+    });
 });
 function newEvent(date, timetable_id) {
     $.ajax({
@@ -160,6 +163,15 @@ function tasks(action) {
             type: "POST",
             url: "/events/tasks",
             data: "s_action=" + action
+        });
+    }
+}
+function temas(tema) {
+    if (tema != null) {
+        $.ajax({
+            type: "POST",
+            url: "/events/tema",
+            data: "tema=" + tema
         });
     }
 }

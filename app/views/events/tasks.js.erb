@@ -1,7 +1,8 @@
-<% if @s_action=="extract-knowledge" %>
-  $('#task').html('<%= collection_select(:event, :task, @tasks, :id, :text)%>');
-<% elsif @s_action=="extract-skill" %>
-  $('#task').html('<%= collection_select(:event, :task, @tasks, :id, :text)%>');
+<% if @s_action=="tema" %>
+  $('.ne_tema').fadeOut(0);
+  $('#tema').html('<label for="tema_action">Выберите онтологию:</label><select id="tema_action" class="form-control"><option selected disabled style="display: none"></option><% KaTopic.where(parent_id: nil).each do |t| %><option value="<%= t.id %>"><%= t.text %></option><% end %></select>');
 <% else %>
-  $('#task').html('');
+  $('#tema').html('');
+  $('.ne_tema').fadeIn(0);
+  $('#tema').html('');
 <% end %>

@@ -41,13 +41,14 @@ form method="post" action="#{competences_attach_path}"
         input type="hidden" name="topic_id" value="#{@topic.id}"
         div class="small-8 columns"
           select name="competence_id"
-			- @competences.each do |c|
-			  option value="#{c.id}"
-			    = c.code
+            - @competences.each do |c|
+              option value="#{c.id}"
+                = c.code
         div class="small-2 columns"
           input type="number" name="weight" placeholder="Вес"
         div class="small-2 columns"
           input type="submit" class="button postfix"
+
 
 h3 Новый конструкт
 form method="post" action="#{constructs_attach_path}"
@@ -57,9 +58,9 @@ form method="post" action="#{constructs_attach_path}"
         input type="hidden" name="topic_id" value="#{@topic.id}"
         div class="small-8 columns"
           select name="construct_id"
-			- @constructs.each do |c|
-			  option value="#{c.id}"
-			    = c.name
+            - @constructs.each do |c|
+              option value="#{c.id}"
+                = c.name
         div class="small-2 columns"
           input type="number" name="mark" placeholder="Оценка"
         div class="small-2 columns"
@@ -71,11 +72,32 @@ form method="post" action="#{components_attach_path}"
     div class="large-12 columns"
       div class="row collapse"
         input type="hidden" name="topic_id" value="#{@topic.id}"
+
         div class="small-8 columns"
           select name="component_id"
 			- @components.each do |c|
 			  option value="#{c.id}"
 			    = c.name
+
+        div class="small-2 columns"
+          input type="number" name="rel" placeholder="Тип связи"
+        div class="small-2 columns"
+          input type="number" name="rad" placeholder="Область привязки"
+
+        div class="small-2 columns"
+          input type="submit" class="button postfix"
+
+
+
+h3 Новое УТЗ
+form method="post" action="#{edit_utz_path}"
+  div class="row"
+    div class="large-12 columns"
+      div class="row collapse"
+        div class="small-10 columns"
+          select name="ka_topic_id"
+            - @quizzes.each do |t|
+              = content_tag(:option, t[:data].name, value: "#{t[:type]},#{t[:data].id}")
         div class="small-2 columns"
           input type="submit" class="button postfix"
 
@@ -112,43 +134,75 @@ table
         td
           a href="#{ka_question_destroy_path(t.id)}" Удалить
 
+
 h3 УТЗ
 table
   thead
     th.text = "Наименование"
     th.type = "Тип"
+    th colspan='2'
   tbody
-    - @topic.test_utz_questions.each do |u|
-      tr
-        td.text
-          a href="#{test_utz_question_path(u.id)}"
-            = u.text
-        td.type = "Выбор вариантов ответа"
-    - @topic.matching_utzs.each do |u|
-      tr
-        td.text
-          a href="#{matching_utz_path(u.id)}"
+    - @topics_utz.each do |topic_utz|
+      - topic_utz.test_utz_questions.each do |u|
+        tr
+          td.text
             = u.name
-        td.type = "Расстановка соответствий между блоками"
-    - @topic.filling_utzs.each do |u|
-      tr
-        td.text
-          a href="#{filling_utz_path(u.id)}"
-            = u.text
-        td.type = "Заполнение пропусков в тексте"
-    - @topic.text_correction_utzs.each do |u|
-      tr
-        td.text
-          a href="#{text_correction_utz_path(u.id)}"
+          td.type = "Выбор вариантов ответа"
+          td
+            a href="#{test_utz_question_path(u.id)}"
+              | Перейти
+          td
+            = form_for u, url: {controller: 'test_utz_questions', action: 'detach'}, html: {method: 'patch'} do |f|
+              input type="hidden" name="q_id" value="#{u.id}"
+              = f.submit 'Удалить'
+      - topic_utz.matching_utzs.each do |u|
+        tr
+          td.text
             = u.name
-        td.type = "Маркировки или корректировки текста"
-    - @topic.images_sort_utzs.each do |u|
-      tr
-        td.text
-          a href="#{images_sort_utz_path(u.id)}"
+          td.type = "Расстановка соответствий между блоками"
+          td
+            a href="#{matching_utz_path(u.id)}"
+              | Перейти
+          td
+            = form_for u, url: {controller: 'matching_utz', action: 'detach'}, html: {method: 'patch'} do |f|
+              input type="hidden" name="q_id" value="#{u.id}"
+              = f.submit 'Удалить'
+      - topic_utz.filling_utzs.each do |u|
+        tr
+          td.text
+            = u.name
+          td.type = "Заполнение пропусков в тексте"
+          td
+            a href="#{filling_utz_path(u.id)}"
+              | Перейти
+          td
+            = form_for u, url: {controller: 'filling_utz', action: 'detach'}, html: {method: 'patch'} do |f|
+              input type="hidden" name="q_id" value="#{u.id}"
+              = f.submit 'Удалить'
+      - topic_utz.text_correction_utzs.each do |u|
+        tr
+          td.text
+            = u.name
+          td.type = "Маркировки или корректировки текста"
+          td
+            a href="#{text_correction_utz_path(u.id)}"
+              | Перейти
+          td
+            = form_for u, url: {controller: 'text_correction_utz', action: 'detach'}, html: {method: 'patch'} do |f|
+              input type="hidden" name="q_id" value="#{u.id}"
+              = f.submit 'Удалить'
+      - topic_utz.images_sort_utzs.each do |u|
+        tr
+          td.text
             = u.theme
-        td.type = "Упорядочивание графических изображений"
-
+          td.type = "Упорядочивание графических изображений"
+          td
+            a href="#{images_sort_utz_path(u.id)}"
+              | Перейти
+          td
+            = form_for u, url: {controller: 'images_sort_utz', action: 'detach'}, html: {method: 'patch'} do |f|
+              input type="hidden" name="q_id" value="#{u.id}"
+              = f.submit 'Удалить'
 h3 Компетенции
 table
   thead
@@ -194,19 +248,18 @@ table
     - TopicComponent.where(ka_topic_id: @topic.id).each do |c|
       tr
         td.id = c.component_id
-        td.name = Component.find(c.component_id).name
+        td.name = c.component.name
         td.link
-          - if Component.find(c.component_id).name == "Компонент выявления умений обучаемых моделировать простейшие ситуации ПрО с помощью семантических сетей" 
+          - if c.component.name == "Компонент выявления умений обучаемых моделировать простейшие ситуации ПрО с помощью семантических сетей" 
             = link_to 'Варианты', semantictests_path
           - else
-            - if Component.find(c.component_id).name == "Компонент выявления умений обучаемых моделировать простейшие ситуации ПрО с помощью фреймов"
+            - if c.component.name == "Компонент выявления умений обучаемых моделировать простейшие ситуации ПрО с помощью фреймов"
               = link_to 'Варианты', frameadmin_index_path
             - else
-              - if Component.find(c.component_id).name == "Компонент выявления умений обучаемых моделировать стратегии прямого/обратного вывода"
+              - if c.component.name == "Компонент выявления умений обучаемых моделировать стратегии прямого/обратного вывода"
                 = link_to 'Варианты', adminpanel_path
               - else
-                - if Component.find(c.component_id).name == "Компонент выявления умений обучаемых строить компоненты лингвистической модели подъязыка деловой прозы"
+                - if c.component.name == "Компонент выявления умений обучаемых строить компоненты лингвистической модели подъязыка деловой прозы"
                   = link_to 'Варианты', tasks_path
         td
           a href="#{component_detach_path(c.component_id, @topic.id)}" Удалить
-	

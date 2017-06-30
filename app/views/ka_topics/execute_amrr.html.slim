@@ -1,0 +1,13 @@
+h2 = KaTopic.find(params[:root_id]).text
+h3 Сформированные связи
+table
+  thead
+    th Название элемента
+    th Название связанного элемента
+    th Тип связи
+  tbody
+    - @output.each do |r|
+      tr
+        td = r[:topic]
+        td = r[:related_topic]
+        td = r[:relation_type]

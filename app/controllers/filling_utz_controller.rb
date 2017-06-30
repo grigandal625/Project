@@ -31,6 +31,12 @@ class FillingUtzController < ApplicationController
     @utz = FillingUtz.find params[:id]
   end
 
+  def detach
+    FillingUtz.find(params[:q_id]).update(ka_topic_id: nil)
+
+    redirect_to :back
+  end
+
   def destroy
     FillingUtz.find(params[:id]).destroy
     redirect_to utz_path

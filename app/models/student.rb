@@ -3,6 +3,7 @@ class Student < ActiveRecord::Base
   has_many :results
   has_many :semanticnetworks
   has_many :studentframes
+  has_many :recomendations
 
   has_one :user, dependent: :destroy
   has_and_belongs_to_many :passed_personality_tests, class_name: 'PersonalityTest'

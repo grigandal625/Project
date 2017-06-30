@@ -61,7 +61,9 @@ class SemanticNode
  					@nextSearchNodes.push(child.name)
 				end
 			end
-		end					
+		else
+			@stepNodes.push(@nextSearchNodes[i])
+		end				
 	end	
 
 	@nextSearchNodes -= @stepNodes

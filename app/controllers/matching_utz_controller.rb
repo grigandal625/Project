@@ -31,6 +31,12 @@ class MatchingUtzController < ApplicationController
     redirect_to utz_path
   end
 
+  def detach
+    MatchingUtz.find(params[:q_id]).update(ka_topic_id: nil)
+
+    redirect_to :back
+  end
+
   #TODO: переписать с использованием right
   def check_answers
     questions = MatchingUtzQuestion.where matching_utz_id: params[:id]

@@ -1,22 +1,22 @@
 UIR::Application.routes.draw do
-  
+
   get "auth/login", to: "auth#login", as: "login"
   post "auth/authentificate"
   post "auth/logout", as: "logout"
   get  "auth/logout", as: "get_logout"
 
-    # FORWARD / REVERSE
-  
+  # FORWARD / REVERSE
+
   # get "forwards/index"
   # get "forwards/execute"
   # get "viewsresult/index"
   get "reverse/index"
-  get "forwards2/results",          to: 'forwards2#results',     as: :fb_results 
+  get "forwards2/results",          to: 'forwards2#results',     as: :fb_results
   get "adminpanel/index",          to: 'adminpanel#index',     as: :adminpanel
   get "forwards2/index",           to: 'forwards2#index',      as: :forwards2
-    # root 'forwards#index'
-#     
-  post "forwards2/getfile"   
+  # root 'forwards#index'
+  #
+  post "forwards2/getfile"
   post "forwards2/saveResult"
   post "reverse/saveResult"
   post "adminpanel/getCSV"
@@ -24,8 +24,8 @@ UIR::Application.routes.draw do
   post "adminpanel/saveJSON"
   post "reverse/getfile"
 
- # END FORWARD/REVERSE
- 
+  # END FORWARD/REVERSE
+
   get '/ka_welcome',               to: 'ka_welcome#index',    as: :ka_welcome
 
   get  '/ka_topics',               to: 'ka_topics#index',     as: :ka_topics
@@ -80,12 +80,13 @@ UIR::Application.routes.draw do
   resources :components
   post 'components/attach' => 'components#attach'
   get 'components/:c_id/detach_from/:t_id' => 'components#detach', as: :component_detach
-
+  get 'components/:c_id/detach_list_from/:t_id' => 'components#detach_list', as: :component_detach_list
 
   get 'ka_topics/:root_id/topics_with_questions' => 'ka_topics#show_topics_with_questions', as: :topics_with_questions
   get 'ka_topics/:root_id/all_competences' => 'ka_topics#show_all_competences', as: :all_competences
   get 'ka_topics/:root_id/all_constructs' => 'ka_topics#show_all_constructs', as: :all_constructs
   get 'ka_topics/:root_id/all_components' => 'ka_topics#show_all_components', as: :all_components
+  get 'ka_topics/calc_rel/:root_id' => 'ka_topics#execute_amrr', as: :calc_rel
 
 
   post "frameadmin/createframe"
@@ -107,19 +108,37 @@ UIR::Application.routes.draw do
 
   post "students/passupdate"
   resources :tasks, only: [:index, :new, :create, :edit, :update, :destroy]
-  
-    post "semantictests/updateJson"
+
+  post "semantictests/updateJson"
 
   resources :results
   resources :frameadmin
   resources :framestudent
+  resources :outcomes
+  get 'outcomes/:g_id/recomendations/:s_id', to: 'outcomes#recomendations', as: :outcome_recomendations
+  get 'outcomes/:s_id/delrecomendation/:id', to: 'outcomes#delrecomendation', as: :outcomes_delrecomendation
+  #get 'test_utz_questions/:id', to: '#test_utz_questions', as :test_utz_questions
+  post 'outcomes/changedate', to: 'outcomes#changedate', as: :outcomes_changedate
+  post 'outcomes/assign', to: 'outcomes#assign', as: :outcomes_assign
+  post 'outcomes/cancel', to: 'outcomes#cancel', as: :outcomes_cancel
 
+  resources :outcomes do
+    resources :students, only: [:create, :show, :destroy]
+  end
+  resources :outrecs
+  get 'outrecs/:s_id/plan', to: 'outrecs#plan', as: :outrecs_plan
+  get 'outrecs/done/:id', to: 'outrecs#done', as: :outrecs_done
+  resources :outrecs do
+    resources :students, only: [:create, :show, :destroy]
+  end
+
+#  post 'outcomes_recomendation' => 'outcomes#recomendation'
   resources :groups do
     resources :students, only: [:create, :show, :destroy]
   end
   get 'groups_execute' => 'groups#execute'
   get 'groups_commit'  => 'groups#commit', as: :groups_commit
-   get "semantictests/results"
+  get "semantictests/results"
 
   resources :menu
   resources :semantictests
@@ -155,6 +174,8 @@ UIR::Application.routes.draw do
 
   get  "menu/results"
 
+  get 'student/plan/:id', to: 'students#plan', as: :student_plan
+
   root 'menu#index'
   get "test", to: "test#get_task", as: "get_task"
   get "test/execute", to: "test#execute"
@@ -175,6 +196,7 @@ UIR::Application.routes.draw do
   get  "dummy/commit"
 
   get 'utz/index', as: 'utz'
+  post 'ka_topics/edit_utz/:id', to: 'ka_topics#edit_utz', as: 'edit_utz'
 
   get 'images_sort_utz/new'
 
@@ -182,24 +204,29 @@ UIR::Application.routes.draw do
 
   resources :test_utz_questions do
     post :check_answer, on: :member
+    patch :detach, on: :member
   end
 
   resources :matching_utz do
     post :check_answers, on: :member
+    patch :detach, on: :member
   end
 
   resources :filling_utz do
     post :check_answers, on: :member
+    patch :detach, on: :member
   end
 
   resources :text_correction_utz do
     post :check_answer, on: :member
+    patch :detach, on: :member
   end
 
   resources :images_sort_utz do
     post :check_answer, on: :member
+    patch :detach, on: :member
   end
-   
+
   get 'schedule', to: 'schedule#index', as: 'schedule'
 
   get "timetables", to: "timetables#index", as: "timetables"
@@ -219,9 +246,10 @@ UIR::Application.routes.draw do
   get 'development_commit'  => 'development#commit', as: :development_commit
   get 'development_index' => 'development#index'
   post "events/tasks"
+  post "events/tema"
   resources :works
 
-     
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
