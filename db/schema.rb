@@ -37,9 +37,7 @@ ActiveRecord::Schema.define(version: 20170628191754) do
   end
 
   create_table "components", force: :cascade do |t|
-    t.string   "name",       default: "", null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string "name"
   end
 
   create_table "constructs", force: :cascade do |t|
@@ -460,6 +458,7 @@ ActiveRecord::Schema.define(version: 20170628191754) do
     t.datetime "updated_at", null: false
     t.string   "rec_status"
     t.text     "type_um"
+    t.index ["student_id"], name: "index_recomendations_on_student_id"
   end
 
   create_table "results", force: :cascade do |t|
@@ -613,12 +612,8 @@ ActiveRecord::Schema.define(version: 20170628191754) do
   end
 
   create_table "topic_components", force: :cascade do |t|
-    t.integer  "ka_topic_id"
-    t.integer  "component_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["component_id"], name: "index_topic_components_on_component_id"
-    t.index ["ka_topic_id"], name: "index_topic_components_on_ka_topic_id"
+    t.integer "ka_topic_id"
+    t.integer "component_id"
   end
 
   create_table "topic_constructs", id: false, force: :cascade do |t|
