@@ -68,26 +68,22 @@ include PlanningHelper
 			mark = @semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson)
   			if mark > 0 
   				result -= mark
-
   			end
 			
 			if result > 0
 				mark = @semantic.check_act(@semantic.json, @semantic.etalon.etalonjson)
 				if mark > 0
 					result -= mark
-
 				end	
 
 				mark = @semantic.check_repetition(@semantic.json, @semantic.etalon.etalonjson)
 				if mark > 0
 					result -= mark
-
 				end
 
-				mark = @semantic.check_goodNodes(@semantic.json, @semantic.etalon.etalonjson)
+				mark = @semantic.check_goodNodes(@semantic.json, @semantic.etalon.etalonjson, @user)
 				if mark > 0
 					result -= mark
-
 				end	
 			end
    			
@@ -99,11 +95,11 @@ include PlanningHelper
   				@semantic.iscomplite = true
   				#@semantic.mistakes = mistakes
   				@semantic.save()
-				if result < 90
-					TopicComponent.where(component_id: 4).find_each do |top|
-						Recomendation.create(student_id: @user.student.id, rec_id: top.ka_topic.id, rec_type: "know", date: nil, done: false, rec_status: "CREATED")
-					end
-				end
+				#if result < 90
+				#	TopicComponent.where(component_id: 4).find_each do |top|
+				#		Recomendation.create(student_id: @user.student.id, rec_id: top.ka_topic.id, rec_type: "know", date: nil, done: false, rec_status: "CREATED")
+				#	end
+				#end
   		end
   		render text: @semantic.rating
   	

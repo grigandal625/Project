@@ -11,7 +11,8 @@ class Semanticnetwork < ActiveRecord::Base
 
   @nextNodes = []
   @mistakes = []
-  @typemistakes = []
+  @typemistakes = [0,0,0,0,0,0,0,0]
+  @typemistakesComment = []
 
   @node1 = nil
   @node2 = nil
@@ -45,7 +46,7 @@ class Semanticnetwork < ActiveRecord::Base
 	  #@nodeName = 0
 	  #@nodeType = 0
 	@typemistakes = [0,0,0,0,0,0,0,0]
-
+	@typemistakesComment = [""]
   	for j in 0..s_etalon.length - 1
 		@nextNodes.push(s_etalon[j]["node"])
   		for i in 0..s_answer.length - 1	
@@ -86,7 +87,7 @@ class Semanticnetwork < ActiveRecord::Base
 		return 10	
 	end
 
-	@predicatHard += 1
+	@typemistakes[1] += 1
  	return 100
   	
   end #+
@@ -151,38 +152,62 @@ class Semanticnetwork < ActiveRecord::Base
   
 
   
-  def check_goodNodes(answer, etalon)
-	mistakes = 0
+  def check_goodNodes(answer, etalon, currentuser)
+		mistakes = 0
   	for  i in 0..@nextNodes.size
-		currentStNode = @node1.findNode(@node1, @nextNodes[i])
-		currentEtNode = @node2.findNode(@node2, @nextNodes[i])
-		if (currentEtNode and  currentStNode and currentEtNode.type == "Far" )
-			if (currentEtNode.deepCase != currentStNode.deepCase)
-				@typemistakes[7]  += 1
+			currentStNode = @node1.findNode(@node1, @nextNodes[i])
+			currentEtNode = @node2.findNode(@node2, @nextNodes[i])
+			if (currentEtNode and  currentStNode and currentEtNode.type == "Far" )
+				if (currentEtNode.deepCase != currentStNode.deepCase)
+					@typemistakes[7]  += 1
+					mistakes += 5
+				end
+				if (currentStNode.children.size != currentEtNode.children.size )
+					@typemistakes[5]  += 1
+					mistakes += 5
+				end	
+			end
+		
+			if (currentEtNode and currentEtNode.type == "Far") and ( currentStNode == nil )
+  			@typemistakes[6]  += 1
 				mistakes += 5
 			end
-			if (currentStNode.children.size != currentEtNode.children.size )
-				@typemistakes[5]  += 1
-				mistakes += 5
-			end	
 		end
-		
-		if (currentEtNode and currentEtNode.type == "Far") and ( currentStNode == nil )
-  			@typemistakes[6]  += 1
-			mistakes += 5
-		end
-	end
-	@mistakes = []
-	@mistakes.push({"actantCount":   @typemistakes[0]})
-	@mistakes.push({"actantName":    @typemistakes[1]})
-	@mistakes.push({"actantType":    @typemistakes[2]})
-	@mistakes.push({"nodeCount":     @typemistakes[3]})
-	@mistakes.push({"nodeName":      @typemistakes[4]})
-	@mistakes.push({"nodeType":      @typemistakes[5]})
-	@mistakes.push({"predicatEasy":  @typemistakes[6]})
-	@mistakes.push({"predicatHard":  @typemistakes[7]})
-	print("-------YYY--------")
-	print(@mistakes.to_json)
+		@mistakes = []
+		@user = currentuser
+  
+  	#@predicatEasy = 0
+	  #@predicatHard = 0
+	  #@actantCount = 0
+	  #@actantName = 0
+	  #@actantType = 0
+	  #@nodeCount = 0
+	  #@nodeName = 0
+	  #@nodeType = 0
+
+		@mistakes.push({"Выбран дополнительный предикат ":   @typemistakes[0] })
+	#if ( @typemistakes[1]　> 0 )	
+		@mistakes.push({"Не правильно выбранный предикат ":   @typemistakes[1]})
+	#end
+	#if ( @typemistakes[2] > 0 )	
+		@mistakes.push({"Ошибка в числе Актантов ":    @typemistakes[2]})
+	#end
+	#if ( @typemistakes[3]　> 0 )	
+		@mistakes.push({"Количество ошибок в именах Актантов ":    @typemistakes[3]})
+	#end
+	#if ( @typemistakes[4]　> 0 )	
+		@mistakes.push({"Количество ошибок в глубинных падежах Актантов ":    @typemistakes[4]})
+	#end
+	#if ( @typemistakes[5]　> 0 )	
+		@mistakes.push({"Количество ошибок в числе вершин":    @typemistakes[5]})
+	#end	
+	#if ( @typemistakes[6]　> 0 )	
+		@mistakes.push({"Количество ошибок в названии вершин":    @typemistakes[6]})
+	#end	
+	#if ( @typemistakes[7]　> 0 )	
+		@mistakes.push({"Количество ошибок в глубинных падежах вершин":    @typemistakes[7]})
+	#end	
+
 	self.mistakes = @mistakes.to_json
 	@mistakes.to_s
   	return mistakes
