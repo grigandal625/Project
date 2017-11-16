@@ -4,6 +4,7 @@ class MenuController < ApplicationController
 
   def index
     redirect_to groups_path if @user.role == "admin"
+    redirect_to schedule_path if @user.role != "admin"
   end
 
 
