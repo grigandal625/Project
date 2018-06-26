@@ -460,6 +460,7 @@ ActiveRecord::Schema.define(version: 20170628191754) do
     t.datetime "updated_at", null: false
     t.string   "rec_status"
     t.text     "type_um"
+    t.index ["student_id"], name: "index_recomendations_on_student_id"
   end
 
   create_table "results", force: :cascade do |t|

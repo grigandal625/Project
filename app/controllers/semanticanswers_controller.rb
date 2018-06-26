@@ -23,8 +23,6 @@ include PlanningHelper
     @semantic = Semanticnetwork.new()
     @semantic.rating = 0;
     @semantic.etalon = Etalon.where(:check => true).order("RANDOM()").first
-    print ("-------------------")
-    print (@semantic.etalon.to_json)
 
     @semantic.json = ""
     @semantic.student = User.find(session[:user_id]).student
@@ -58,50 +56,24 @@ include PlanningHelper
   end
   
   def updatesemanticjson
-  	@semantic = Semanticnetwork.find(params[:id])
-    	@semantic.mistakes = ""
-  	@user = User.find (session["user_id"])
-  		if (@user.role == 'admin' || (@user.role == 'student' && !@semantic.iscomplite))
-  			@semantic.json = params[:json]
+    @semantic = Semanticnetwork.find(params[:id])
+  	@semantic.mistakes = ""
+    @user = User.find (session["user_id"])
+  	if (@user.role == 'admin' || (@user.role == 'student' && !@semantic.iscomplite))
+  		@semantic.json = params[:json]
   			
-  			result = 100
-			mark = @semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson)
-  			if mark > 0 
-  				result -= mark
-  			end
-			
-			if result > 0
-				mark = @semantic.check_act(@semantic.json, @semantic.etalon.etalonjson)
-				if mark > 0
-					result -= mark
-				end	
-
-				mark = @semantic.check_repetition(@semantic.json, @semantic.etalon.etalonjson)
-				if mark > 0
-					result -= mark
-				end
-
-				mark = @semantic.check_goodNodes(@semantic.json, @semantic.etalon.etalonjson, @user)
-				if mark > 0
-					result -= mark
-				end	
-			end
+      obj = @semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson)
+		  result = obj[0]
+      @semantic.mistakes = obj[1]
+		end
    			
-  			if (result < 0 )
-  				result = 0
-  			end
+		
+		@semantic.rating = result
+		@semantic.iscomplite = true
 
-  				@semantic.rating = result
-  				@semantic.iscomplite = true
-  				#@semantic.mistakes = mistakes
-  				@semantic.save()
-				#if result < 90
-				#	TopicComponent.where(component_id: 4).find_each do |top|
-				#		Recomendation.create(student_id: @user.student.id, rec_id: top.ka_topic.id, rec_type: "know", date: nil, done: false, rec_status: "CREATED")
-				#	end
-				#end
-  		end
-  		render text: @semantic.rating
+	  @semantic.save()
+
+  	render text: @semantic.rating
   	
   end
   

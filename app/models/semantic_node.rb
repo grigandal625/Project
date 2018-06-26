@@ -8,46 +8,52 @@ class SemanticNode
   attr_accessor :inputJson
   attr_accessor :nextSearchNodes
   attr_accessor :stepNodes
+  attr_accessor :multiple
   def initialize
-
+	  @multiple = 1.0
   end
 
   def updateNode(inputJson)
-	@inputJson = inputJson
-	@nextSearchNodes = []
-	@stepNodes = []
+	  @inputJson = inputJson
+	  @nextSearchNodes = []
+	  @stepNodes = []
 
-	for i in 0..inputJson.length - 1
-		if inputJson[i]["predicat"]
-			@name = inputJson[i]["node"]
-			@type = "predicat"
-			@deepCase = "None"
-			@parent = nil
-			@children = []
-			for l in 0..inputJson[i]["connect"].length - 1
-				child = SemanticNode.new
-				child.name = inputJson[i]["connect"][l]["to"]
-				child.deepCase = inputJson[i]["connect"][l]["deepCase"]
-				child.type = "Actant"
-				child.parent = @name
-				child.children = []
-				@children.push(child)
-				@nextSearchNodes.push(child.name)
-  			end
-		end
-	end
+	  for i in 0..inputJson.length - 1
+		  if inputJson[i]["predicat"].to_s == "true"
+			  @name = inputJson[i]["node"]
+			  @type = "predicat"
+			  @deepCase = "None"
+			  @parent = nil
+
+
+			  @children = []
+			  for l in 0..inputJson[i]["connect"].length - 1
+				  child = SemanticNode.new
+				  child.name = inputJson[i]["connect"][l]["to"]
+				  child.deepCase = inputJson[i]["connect"][l]["deepCase"]
+				  child.type = "Actant"
+				  child.parent = @name
+				  child.children = []
+				  @children.push(child)
+				  @nextSearchNodes.push(child.name)
+    			end
+		  end
+	  end
 	
-	@stepNodes.push( @name)
-	step
-	@inputJson = ""
+    #print("Here!!!")
+    #print(@name)
+
+	  @stepNodes.push( @name)
+    step
+	  @inputJson = ""
   end
 
   def step
-	for i in 0..@nextSearchNodes.length - 1
-		node = findNode(self ,@nextSearchNodes[i])
-		if(node)
-			stepNodes.push(node.name)
-			newobject = findJsonNode(node.name)
+	  for i in 0..@nextSearchNodes.length - 1
+		  node = findNode(self ,@nextSearchNodes[i])
+		  if(node)
+			  stepNodes.push(node.name)
+			  newobject = findJsonNode(node.name)
 
 			for j in 0..newobject["connect"].length - 1
 				child = SemanticNode.new
@@ -83,6 +89,9 @@ class SemanticNode
   end
 
   def findNode(node, namae)
+  if not node
+    return nil
+  end
 	if (namae == node.name)
 		return node
 	end 
