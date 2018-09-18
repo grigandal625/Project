@@ -33,6 +33,10 @@ class Frame
 #----------16 - FASSERT AKO Фрейм ненайден ----------------------------------------------#
 #----------17 - FGET  Фрейм ненайден ----------------------------------------------------#
 #----------30 - FDELETE  неверное число параметров --------------------------------------#
+#----------40 - FQUERY  Меньше 3 параметров ---------------------------------------------#
+#----------41 - FQUERY  Нет выражения (4 параметр)---------------------------------------#
+#----------42 - FQUERY  Неверный тип-----------------------------------------------------#
+#-----42.5 - FQUERY  4 параметр задан как массив, это не ошибка, но пока нет обработки---#
 #----------100 - FASSERT Создание существующего фрейма ----------------------------------#
 #----------101 - FPUT Ошибка типа -------------------------------------------------------#
 #----------300 - Ошибка скобок 000 ------------------------------------------------------#
@@ -105,7 +109,7 @@ class Frame
   def isuseframe?(name)
     frames.each do |frame|
       if frame.name == name
-        mistakes << 5
+        makemistake(5)
         return true
       end
     end
@@ -160,19 +164,20 @@ class Frame
     fr = Framedb.new
     fr.code = ""
     while etalontree.find(i) != nil
-      if etalontree.find(i).struct[0] == "fassert"
+      funcname = etalontree.find(i).struct[0]
+      if funcname == "fassert"
         if etalontree.find(i).struct.length == 2
           if not isuseframe?(etalontree.find(i).struct[1])
             fassert(etalontree.find(i).struct[1], etalontree.find(i).children)
           else
-            mistakes << 100
+            makemistake(100)
           end
         else
-          mistakes << 1
+          makemistake(1)
         end
 
       end
-      if etalontree.find(i).struct[0] == "fget"
+      if funcname == "fget"
 
         if etalontree.find(i).struct.length >= 2
           #fget(i)
@@ -180,80 +185,120 @@ class Frame
           if (gotframe != nil)
             forUser.push(gotframe)
           else
-            mistakes << 17
+            makemistake(17)
           end
 
 
         else
-          mistakes << 2
+          makemistake(2)
         end
 
       end
-      if etalontree.find(i).struct[0] == "fput"
+      if funcname == "fput"
         fputMod(etalontree.find(i).struct[1..-1], etalontree.find(i).children)
-        #mistakes << etalontree.find(i).struct[1..-1]
-=begin        if etalontree.find(i).struct.length >= 2
-
-          foundframe = findFrameByName(etalontree.find(i).struct[1])
-          if (foundframe != nil )
-            if  etalontree.find(i).struct.length == 2
-
-
-            end
-          else
-            mistakes << 19
-          end
-          if etalontree.find(i).struct.length > 2
-
-            #findpath(foundframe, etalontree.find(i).struct[2..-1])
-
-            foundframe = findpath(foundframe, etalontree.find(i).struct[2..-1])
-            #mistakes.push(etalontree.find(i).struct[2])
-
-          end
-          if foundframe != nil
-
-            put_in_frame = etalontree.find(i).children
-            put_in_frame.each do |frameobject|
-            roottree = foundframe
-              while frameobject.struct.size > 1
-                #forUser.push("put_in_frame" + frameobject.struct.to_s)
-                new_object_name = frameobject.struct[0]
-                new_object_type = frameobject.struct[1]
-                new_object = Frameobject.new(new_object_name,new_object_type, [])
-
-                roottree.children.push(new_object)
-                roottree = new_object
-                frameobject.struct = frameobject.struct[2..-1]
-              end
-            end
-
-
-          else
-
-          end
-        else
-          mistakes << 3
-        end
-=end
       end
-      if etalontree.find(i).struct[0] == "fdelete"
+      if funcname == "fdelete"
         if etalontree.find(i).struct.size > 2
           delete(etalontree.find(i).struct[1..-1])
         else
-          mistakes << 30
+          makemistake(30)
         end
-
-
       end
+      if funcname == "fquery"
+      #Func type ( FrameName or Nil , Slot or nil , aspect, Predicat 
+        fqeury(etalontree.find(i))
+      end
+      	
       i = i + 1
     end
-
-    getnamesuseframes()
     return fr
 
 
   end
+
+  def getChildrenNamesForFrame(frame)
+    childrennames = []
+    for fr in frame.children
+      if fr.name == "ako"
+         for akofr in fr.children
+ 	   childrennames.push(akofr.name)
+         end
+      end
+    end
+    return childrennames
+  end
+
+  def getUsedFrames
+    framenames = []
+    for fr in frames
+      framenames.push(fr.name)
+    end
+    return framenames
+  end
+
+  def getUsedFrameSize
+    return frames.size
+  end
+
+  def fqeury(value)
+    typesforrequest = ["value", "default"]
+    #fqeurysize = value.size - 1
+    #if value.size < 3
+    #	mistakes << 40
+    #end
+    print("-----FQEURY START-----")
+    mainValue = value.struct
+    childrenValue = value.children
+    if mainValue.size > 3
+      framename = mainValue[1]
+      slotname =  mainValue[2]
+      type = 	  mainValue[3]
+      child = nil
+      print ( childrenValue.size)
+      if mainValue.size == 5 
+	child = mainValue[4]
+      elsif mainValue.size == 4 and not (childrenValue.empty?)
+	child = childrenValue
+      elsif mainValue.size == 4 and childrenValue.empty?
+	makemistake(41)
+	return
+      end
+      if not typesforrequest.include?(type)
+        makemistake(42)
+        return
+      end
+      if not child.class == Array
+	print("Not Array")
+      else
+        makemistake(42.5)
+      end 
+      if framename == "nil" and slotname == "nil" and child == "nil" 
+	return "nil"
+      end
+      if framename == "nil" and not(slotname == "nil")
+	framesFind = []
+	print("Ko ko ")
+      	#check all created frames 
+	for fr in frames
+	  for slot in fr.children
+ 	    if slot.name == slotname
+	      for ch in slot.children
+	        if ch.name == child and ch.type == type
+		  framesFind.push(fr.name)
+		end
+	      end
+	    end
+	  end
+	end
+	print(framesFind.to_json)
+      end
+     
+    else
+      makemistake(40)
+      return
+    end
+    print("-----FQEURY FINISH----")
+  end 
 
   def saveframe(fr)
     fr.code  = forUser.to_json
@@ -263,7 +308,9 @@ class Frame
 
   private
 
-
+  def makemistake( num )
+    mistakes << num
+  end
 
 
 
@@ -272,7 +319,7 @@ class Frame
 
     if ffindpath(startpoint, struct) == nil
       if ffindpathwithtype(startpoint, struct) == nil
-        mistakes << 17.0
+        makemistake(17)
       else
         return ffindpathwithtype(startpoint, struct)
       end
@@ -298,6 +345,16 @@ class Frame
         find(ako, names)
       end
     end
+  end
+
+  def getAkoSlotForFrame(frame)
+    for fr in frame.children
+      if fr.name == "ako"
+	return fr
+      end
+    end
+    frame.children.push(Frameobject.new("ako", "fslot", []))
+    return getAkoSlotForFrame(frame)
   end
 
 
@@ -354,7 +411,7 @@ class Frame
       if inherit.include?(slot.struct[0])
         print("Наследование") #Реализована
 
-        fassert_ako(slot, frame)
+        fassert_akoMod(slot, frame)
 
       elsif "classification" == slot.struct[0]
         print("Классификация") #Реализована
@@ -396,21 +453,14 @@ class Frame
           print("SlOT") #Реализована
           fassert_slot(slot, frame)
         end
-
-
-
     end
-
-
-
-
     else
       children.each do |child|
         if child.struct.length == 2
           if values.include?(child.struct[0])
             frame.children.push ( Frameobject.new(child.struct[1], child.struct[0], []))
           else
-            mistakes << 101
+            makemistake(101)
           end
 
         else
@@ -418,14 +468,7 @@ class Frame
         end
       end
     end
-
-
   end
-
-  def getnamesuseframes()
-
-  end
-
 
   def find_object(path)
     if path.size > 0
@@ -441,7 +484,7 @@ class Frame
         findframe = findFrameByName(nameframe)
 
         if findframe = nil
-          mistakes << 17
+          makemistake(17)
           return
         end
       end
@@ -450,7 +493,7 @@ class Frame
         findframe = get_child(findframe, path[0])
         path = path[1..-1]
         if findframe == nil
-          mistakes << 17
+          makemistake(17)
           return
         end
       end
@@ -459,12 +502,33 @@ class Frame
 
         return findframe
       else
-        mistakes << 17
+        makemistake(17)
         return nil
       end
     end
   end
 
+  def fassert_akoMod(slot, frame)
+    # take newframes in one function 
+    # example (ako (value f1 ... fn ) ... (value fk+1 ... fm) )
+    slotname = slot.struct[0]
+    framename = frame.name
+    countofChildren = slot.children.size
+    addframenames = []
+    for fr in slot.children
+      print(fr.to_json)
+      for frname in fr.struct[1..-1]
+        addframenames.push(frname)
+      end
+    end
+    
+    frameC = getChildrenNamesForFrame(frame)
+    addframenames = addframenames - frameC - [framename]
+    akoslot = getAkoSlotForFrame(frame)
+    for framename in addframenames
+    	akoslot.children.push(findFrameByName(framename))
+    end    
+  end
 
   def fassert_ako(slot, frame)
     if not islink?(frame, slot.struct[0])
@@ -481,23 +545,21 @@ class Frame
 
 
               else
-                mistakes << 16 #Фрейм ненайден
+                makemistake(16) #Фрейм ненайден
               end
             else
-              mistakes << 15 # Повтор
+              makemistake(15) # Повтор
             end
           else
-            mistakes << 14 # непонятный тип
+            makemistake(14) # непонятный тип
           end
         else
-          mistakes << 13
+          makemistake(13)
         end
       end
     else
-      mistakes << 12
+      makemistake(12)
     end
-
-
   end
 
 
@@ -513,15 +575,15 @@ class Frame
             if not islink?(lastslot, value.struct[0])
               lastslot.children.push(Frameobject.new(value.struct[0], faspect.struct[0], []))
             else
-              mistakes << 8
+              makemistake(8)
             end
           end
         else
-          mistakes << 7
+          makemistake(7)
         end
       end
     else
-      mistakes << 6
+      makemistake(6)
     end
   end
 
@@ -532,12 +594,13 @@ class Frame
           lastslot = Frameobject.new(slot.children[0].struct[0], "classification", [])
           frame.children.push(lastslot)
         else
-          mistakes << 10
+          makemistake(10)
         end
       else
-        mistakes << 9
+        makemistake(9)
       end
-    else mistakes << 11
+    else 
+      makemistake(11)
     end
 
   end

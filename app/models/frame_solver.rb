@@ -4,9 +4,7 @@ class FrameSolver
   attr_accessor :etalonframe
   attr_accessor :mistakes
   attr_accessor :result
-
   attr_accessor :omistake
-
 
   def inic(studentframe, etalonframe)
     self.studentframe = studentframe
@@ -35,25 +33,53 @@ class FrameSolver
 
   def differentnames
     mistake = 0
+    printf("--------------------------------------------------------------")   
+    printf(etalonframe.to_json)
+    printf("--------------------------------------------------------------")
     etalonframe.frames.each do |eframe|
       find = false
+
       studentframe.frames.each do |sframe|
         if eframe.name == sframe.name
           find = true
+	  checkActants(eframe, sframe, etalonframe.frames.size)
           # Колво слотов
-          slotssize(eframe, sframe) #
+          #slotssize(eframe, sframe) #
           # название слотов
-          slotsname(eframe, sframe)
+          #slotsname(eframe, sframe)
         end
       end
       if ! find
-        self.result = self.result - 100
+        self.result = 0
         self.mistakes << "Ненайден фрейм " + eframe.name
         self.omistake.framenamemistakes += 1
       end
     end
     self.omistake.saveobject
   end
+
+def checkActants(eframe, sframe, eframesSize)
+  # For Empty Frame Not Use
+  if eframe.children.size  == 0
+    return
+  end
+  mark = 45 / (eframesSize * eframe.children.size)
+  
+  eframe.children.each do | eactant |
+    isFind = false
+    isCorrect = false
+    sframe.children.each do | sactant |
+      if eactant.name == sactant.name
+	isFind = true
+        mark += mark / 2
+      end
+    end
+    if not isFind
+      self.mistakes << " Значение не найдено " + eactant.name
+      self.omistake.nameSlotsMistakes += 1
+    end
+  end
+end
 
 # Проверка количества слотов в эталоне и в фрейме построенным студентом 20
 def slotssize(eframe, sframe)
@@ -125,7 +151,4 @@ end
       self.result = 0
     end
   end
-
-
-
 end
