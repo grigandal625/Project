@@ -21,10 +21,6 @@ class Frameobject
         }
   end
 
-
-
-
-
   def findobject (name)
     if self.name == name
       return self
@@ -50,11 +46,7 @@ class Frameobject
     return nil
   end
 
-
-
   def add( object)
     self.children.push(object)
   end
-
-
 end

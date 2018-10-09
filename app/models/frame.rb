@@ -83,6 +83,26 @@ class Frame
     return nil
   end
 
+  # Поиск Слота по имени в Фрейме
+  def getSlotByName(frame, name)
+    for slot in frame.children
+      if slot.type == "fslot" and slot.name == name
+        return slot
+      end
+    end
+    return nil
+  end
+  
+  # Поиск Аспекта по имени в слоте
+  def getAspectByName(slot, name)
+    for aspect in slot.children
+      if aspect.name == name
+        return aspect
+      end
+    end
+    return nil
+  end
+
   def inic(message) # Инициализация фрейма
     self.mistakes = []
     staticarray = ["root", "fslot", "frame?", "frame+", "fput", "fassert"]
@@ -277,7 +297,6 @@ class Frame
       end
       if framename == "nil" and not(slotname == "nil")
 	framesFind = []
-	print("Ko ko ")
       	#check all created frames 
 	for fr in frames
 	  for slot in fr.children
@@ -297,7 +316,7 @@ class Frame
       makemistake(40)
       return
     end
-    print("-----FQEURY FINISH----")
+
   end 
 
   def saveframe(fr)
@@ -513,7 +532,7 @@ class Frame
     # example (ako (value f1 ... fn ) ... (value fk+1 ... fm) )
     slotname = slot.struct[0]
     framename = frame.name
-    countofChildren = slot.children.size
+
     addframenames = []
     for fr in slot.children
       print(fr.to_json)
@@ -522,12 +541,42 @@ class Frame
       end
     end
     
-    frameC = getChildrenNamesForFrame(frame)
-    addframenames = addframenames - frameC - [framename]
+    frameChildren = getChildrenNamesForFrame(frame)
+    addframenames = addframenames - frameChildren - [framename]
     akoslot = getAkoSlotForFrame(frame)
-    for framename in addframenames
-    	akoslot.children.push(findFrameByName(framename))
+    for addframename in addframenames
+    	akoslot.children.push(findFrameByName(addframename))
+	addfr = getframe(addframename)
+	for addframeslot in addfr.children
+	  if addframeslot.type == "classification" and addframeslot.name == "generic"
+	    addFrameSlotsFromGenericFrame(frame, addfr)
+	  end
+	end
     end    
+  end
+
+  def addFrameSlotsFromGenericFrame(toFrame, fromFrame)
+    for slot in fromFrame.children 
+      if slot.type == "fslot" and not (isHaveSlot?(toFrame, slot.name))
+	newSlotChildren = []
+        for child in slot.children 
+	  if child.type == "default"
+	    newSlotChildren.push(Frameobject.new(child.name, "value", []))
+	  end
+	end
+        newSlot = Frameobject.new(slot.name, slot.type, newSlotChildren)
+	toFrame.children.push(newSlot)
+      end
+    end
+  end
+
+  def isHaveSlot?(frame, slotname)
+    for slot in frame.children
+      if slot.name == slotname
+        return true
+      end
+    end
+    return false
   end
 
   def fassert_ako(slot, frame)
@@ -568,23 +617,34 @@ class Frame
       lastslot = Frameobject.new(slot.struct[0], "fslot", [])
       frame.children.push(lastslot)
       aspect = slot.children
+      fassert_value(aspect, lastslot)
+    else
+      lastslot = getSlotByName(frame, slot.struct[0])
+      lastslot.children = []
+      aspect = slot.children
+      fassert_value(aspect, lastslot)
+    end
+
+
+      ##rewrite to Slot
+      ##makemistake(6)
+  end
+
+  def fassert_value(aspect, slot)
       aspect.each do |faspect|
         if values.include?(faspect.struct[0])
           value = faspect.children
           value.each do |value|
-            if not islink?(lastslot, value.struct[0])
-              lastslot.children.push(Frameobject.new(value.struct[0], faspect.struct[0], []))
+            if not islink?(slot, value.struct[0])
+              slot.children.push(Frameobject.new(value.struct[0], faspect.struct[0], []))
             else
               makemistake(8)
             end
-          end
+	  end
         else
           makemistake(7)
         end
       end
-    else
-      makemistake(6)
-    end
   end
 
   def fassert_classification(slot, frame)
