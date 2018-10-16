@@ -44,7 +44,7 @@ end
 
 
   def updateframe
-    if (params[:studentcode].size < 2500) #Ограничение для невозможноси передачи флуда
+    if (params[:studentcode].size < 4000) #Ограничение для невозможноси передачи флуда
 
 
       frame = Studentframe.find(params[:id])
@@ -60,20 +60,12 @@ end
 
       if params[:commit]  == "Завершить"
         @solver = FrameSolver.new
-        @solver.inic(framestudentcode,ecode )
-        @solver.differentnames
+        @solver.inic(framestudentcode, ecode)
 
         frame.studentmistakes = @solver.mistakes.to_s
-        frame.kbstudentmistakes = @solver.getstring
-        frame.result =  (100 + @solver.result)
-
+        frame.result = @solver.result
 
         frame.isfinish = true
-        #task = PlanningTask.find(session[:planning_task_id])
-        #task.result = {:delete => {"pending-skills" => "frame-skill"}}
-        #current_planning_session().commit_task(task)
-
-
 
       end
     if frame.result.to_i < 0
