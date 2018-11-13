@@ -98,7 +98,7 @@
 			</tr>
       <tr>
       
-      	 	<td><%= text_area_tag(:studentcode, "", autofocus: true,rows: 25,  cols: 105, onkeydown: "insertTab(this, event)" , maxlength: 2500) %> </td>
+      	 	<td><%= text_area_tag(:studentcode, @studentframe.studencode, autofocus: true,rows: 25,  cols: 105, onkeydown: "insertTab(this, event)" , maxlength: 2500) %> </td>
       
 					<td><%= text_area_tag(:dictionary, @studentframe.etalonframe.dictionary, autofocus: true,  rows: 25,  cols: 25, onkeydown: "insertTab(this, event)" ) %></td>
       		<td><%= text_area_tag(:console, @studentframe.mistakes.to_s + "\n" , autofocus: true,  rows: 25,  cols: 40, onkeydown: "insertTab(this, event)", :id => "666" ) %></td>
