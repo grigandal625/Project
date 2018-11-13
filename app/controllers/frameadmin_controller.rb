@@ -33,6 +33,13 @@ class FrameadminController < AdminToolsController
     redirect_to :back
   end
 
+	def updateuse
+    fr = Etalonframe.find(params[:id])
+		fr.isuse = not(fr.isuse)
+		fr.save
+    redirect_to :back
+  end
+
   def new
 
   end

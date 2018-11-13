@@ -1,13 +1,30 @@
 <table border="2px" align="center">
-
+   <caption><b>Таблица Фреймов эталонов</b></caption>
+	<tr>
+		<th>id</th>
+		<th>Название ситуации</th>
+		<th>Просмотр</th>
+		<th>Удаление</th>
+		<th>Использовать фрейм в контрольной?</th>
+  <style>
+   table {
+    border: 3px solid green; /* Рамка вокруг таблицы */
+    margin: auto; /* Выравниваем таблицу по центру окна  */
+   }
+   td {
+    text-align: center; /* Выравниваем текст по центру ячейки */
+   }
+  </style>
+	</tr>
   <% @etalons.each do |frame| %>
-
       <tr>
-        <td><%=frame.id.to_s %></td><td> <%= frame.name %></td><td><%= link_to "Просмотр", frameadmin_path(frame.id)%><br/>
+        <td><%=frame.id.to_s %></td>
+				<td> <%= frame.name %></td>
+				<td><%= link_to "Просмотр", frameadmin_path(frame.id)%><br/></td>
         <td><%= link_to  "Удалить", frameadmin_path(frame), method: :delete , data: { confirm: 'Are you sure?' }%></td>
 
-        </td>
+				<td><%= check_box("tag", frame.id, {checked: frame.isuse, disabled: true}) %>
+        <%= link_to  "Обновить", updateuse_path(frame.id), method: :post, data: { confirm:  (frame.isuse ? "Выключить " : " Включить " ) + " вариант " + frame.name + "?"   }%></td>
       </tr>
   <% end %>
-
 </table>

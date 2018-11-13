@@ -22,19 +22,26 @@ end
   end
 
   def createstudentframe
-    @studentframe = Studentframe.new
-    @studentframe.result = 0
-    @studentframe.student = @user.student
-    @studentframe.etalonframe = Etalonframe.offset(rand(Etalonframe.count)).first
-    @studentframe.mistakes = ""
-    @studentframe.isfinish = false
-    @studentframe.studentcode = @studentframe.etalonframe.studentcode
-    @studentframe.created_at= Time.now
-    @studentframe.save
 
+		setOfFrames = Etalonframe.where(isuse:  true)
+		frsize = setOfFrames.size
+		if frsize > 0
+		  @studentframe = Studentframe.new
+		  @studentframe.result = 0
+		  @studentframe.student = @user.student
+			randFr = setOfFrames[rand(frsize)]
+		  @studentframe.etalonframe = randFr
+		  @studentframe.mistakes = ""
+		  @studentframe.isfinish = false
 
+		  @studentframe.studentcode = @studentframe.etalonframe.studentcode
+		  @studentframe.created_at= Time.now
+		  @studentframe.save
 
-    redirect_to framestudent_path(@studentframe.id)
+		  redirect_to framestudent_path(@studentframe.id)
+		else
+			redirect_to :back
+		end
   end
 
   def destroy

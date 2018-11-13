@@ -93,6 +93,9 @@ UIR::Application.routes.draw do
   post "frameadmin/updateframe"
   get "frameadmin/results"
   get "frameadmin/mistakes"
+
+  post 'frameadmin/updateuse/:id', to: 'frameadmin#updateuse', as: 'updateuse'
+
   get "semanticanswers/execute"
 
   get "framestudent/execute"
