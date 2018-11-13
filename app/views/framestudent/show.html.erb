@@ -89,28 +89,41 @@
       <%= hidden_field_tag(:id, value=params[:id])%>
 
 
+<table border="2px" align="center">
+   <caption><b> <%= label_tag(name="Название: " + @studentframe.etalonframe.name)%></b></caption>
+			<tr>
+				<td>Интерпретатор</td>			
+				<td>Словарь</td>			
+				<td>Вывод</td>			
+			</tr>
+      <tr>
+      
+      	 	<td><%= text_area_tag(:studentcode, "", autofocus: true,rows: 25,  cols: 105, onkeydown: "insertTab(this, event)" , maxlength: 2500) %> </td>
+      
+					<td><%= text_area_tag(:dictionary, @studentframe.etalonframe.dictionary, autofocus: true,  rows: 25,  cols: 25, onkeydown: "insertTab(this, event)" ) %></td>
+      		<td><%= text_area_tag(:console, @studentframe.mistakes.to_s + "\n" , autofocus: true,  rows: 25,  cols: 40, onkeydown: "insertTab(this, event)", :id => "666" ) %></td>
+      </tr>
+			<tr>
+				<td>      <%= submit_tag("Транслировать") %>
+      						<%= submit_tag("Завершить") %></td>
+			</tr>
+			<tr>
+				<td><%= text_area_tag(:task, @studentframe.etalonframe.studentcode, autofocus: false,rows: 25,  cols: 105 , maxlength: 2500) %> </td>
+			</tr>
 
-      <%= label_tag(name="Название: " + @studentframe.etalonframe.name)%>
+</table>
+
+
+
+
+
+
       <br>
-      <%= text_area_tag(:studentcode, @studentframe.studentcode, autofocus: true,rows: 20,  cols: 80, onkeydown: "insertTab(this, event)" , maxlength: 2500) %>
-      <%= text_area_tag(:dictionary, @studentframe.etalonframe.dictionary, autofocus: true,  rows: 20,  cols: 25, onkeydown: "insertTab(this, event)" ) %>
-      <%= text_area_tag(:console, @studentframe.mistakes.to_s + "\n" , autofocus: true,  rows: 20,  cols: 40, onkeydown: "insertTab(this, event)", :id => "666" ) %>
 
-      <br>
-
-
-      <br>
-      <%= submit_tag("Транслировать") %>
-      <%= submit_tag("Завершить") %>
 
 
 
     </div>
 <% end %>
-<%= label_tag(name="Словарь")%>
 
-
-
-<%= label_tag(name="Вывод")%>
-<br>
 <%= render partial: "frametable"%>

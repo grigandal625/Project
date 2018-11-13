@@ -7,11 +7,11 @@ include PlanningHelper
 
   end
 
-def execute
-  session["planning_task_id"] = params[:planning_task_id]
-  createstudentframe
+	def execute
+		session["planning_task_id"] = params[:planning_task_id]
+		createstudentframe
 
-end
+	end
 
   def show
     @studentframe = Studentframe.find(params[:id])
@@ -52,8 +52,6 @@ end
 
   def updateframe
     if (params[:studentcode].size < 4000) #Ограничение для невозможноси передачи флуда
-
-
       frame = Studentframe.find(params[:id])
       frame.studentcode = params[:studentcode]
       framestudentcode = Frame.new
@@ -71,13 +69,12 @@ end
 
         frame.studentmistakes = @solver.mistakes.to_s
         frame.result = @solver.result
-
         frame.isfinish = true
 
       end
-    if frame.result.to_i < 0
-      frame.result = "0"
-    end
+		  if frame.result.to_i < 0
+		    frame.result = "0"
+		  end
       frame.save
     end
     redirect_to :back
