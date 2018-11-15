@@ -556,12 +556,20 @@ class Frame
   end
 
   def addFrameSlotsFromGenericFrame(toFrame, fromFrame)
+    isGeneric = false
+    for slot in toFrame.children
+      if slot.type == "classification" and slot.name == "generic"
+        isGeneric = true
+      end
+    end
     for slot in fromFrame.children 
       if slot.type == "fslot" and not (isHaveSlot?(toFrame, slot.name))
 	newSlotChildren = []
         for child in slot.children 
-	  if child.type == "default"
+	  if child.type == "default" and not(isGeneric) 
 	    newSlotChildren.push(Frameobject.new(child.name, "value", []))
+	  elsif child.type == "default" and isGeneric
+	    newSlotChildren.push(Frameobject.new(child.name, "default", []))
 	  end
 	end
         newSlot = Frameobject.new(slot.name, slot.type, newSlotChildren)
