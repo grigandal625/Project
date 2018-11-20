@@ -109,6 +109,7 @@
 			</tr>
 			<tr>
 				<td><%= text_area_tag(:task, @studentframe.etalonframe.studentcode, autofocus: false,rows: 25,  cols: 105 , maxlength: 2500) %> </td>
+				<td><%= render partial: "frametable"%></td>
 			</tr>
 
 </table>
@@ -126,4 +127,3 @@
     </div>
 <% end %>
 
-<%= render partial: "frametable"%>
