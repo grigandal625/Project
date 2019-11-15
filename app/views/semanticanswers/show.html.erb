@@ -612,7 +612,7 @@
 
 			function iButton(rect, text) {
 				this.text = r.text(rect.attr("x") + rect.attr("width") / 2, rect.attr("y") + rect.attr("height") / 2, text);
-
+				this.text.toBack();
 				this.rect = rect;
 				rect.button = this;
 				this.rect.attr({
@@ -679,6 +679,7 @@
 			});
 
 			var exitbutton = new iButton(r.rect(425, 0, 75, 25, 1), "Выход");
+
 			exitbutton.rect.click(
 
 				function () {
