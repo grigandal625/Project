@@ -633,7 +633,7 @@ Array.prototype.remove = function (index, stay) {
                     }
 
                     function getJson() {
-                        var parse = JSON.parse('<%=@etalon.etalonjson%>'.replaceAll('&quote;','"'));
+                        var parse = JSON.parse('<%=@etalon.etalonjson%>'.replaceAll('&quot;','"'));
                         for (var i = 0; i < parse.length; i++) {
                             var connections = [];
                             var nodeName = parse[i].node;
