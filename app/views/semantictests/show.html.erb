@@ -15,6 +15,10 @@ tspan {
 }
 </style>
 <script>
+String.prototype.replaceAll = function (search, replace) {
+    return this.split(search).join(replace);
+}
+
 Array.prototype.remove = function (index, stay) {
                     var a = [];
                     for (var i = 0; i < this.length; i++) {
@@ -629,7 +633,7 @@ Array.prototype.remove = function (index, stay) {
                     }
 
                     function getJson() {
-                        var parse = <%=@etalon.etalonjson%>;
+                        var parse = JSON.parse('<%=@etalon.etalonjson%>'.replaceAll('&quote;','"'));
                         for (var i = 0; i < parse.length; i++) {
                             var connections = [];
                             var nodeName = parse[i].node;
