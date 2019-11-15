@@ -13,7 +13,7 @@
 
 
 <script>
-	var mytime = < %= 900 - ((Time.now.to_i).floor - (@semantic.created_at.to_i).floor) % >
+	var mytime = <%=900 - ((Time.now.to_i).floor - (@semantic.created_at.to_i).floor)%>
 		var minutes = (mytime / 60).toFixed(0);
 	var seconds = (mytime % 60);
 
@@ -645,7 +645,7 @@
 					type: "POST",
 					url: "updatesemanticjson",
 					data: {
-						"id": < %= @semantic.id % > ,
+						"id": <%=@semantic.id%> ,
 						"json": tojson()
 					},
 					success: function (msg) {
@@ -666,7 +666,7 @@
 				$.ajax({
 					type: "POST",
 					url: "getmistakes",
-					data: "id=" + < %= @semantic.id % > ,
+					data: "id=" + <%=@semantic.id%> ,
 					success: function (msg) {
 						alert(msg)
 					}
