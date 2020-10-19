@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170628191754) do
+ActiveRecord::Schema.define(version: 20181113122346) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20170628191754) do
   end
 
   create_table "etalonframes", force: :cascade do |t|
-    t.string   "name",        limit: 255
+    t.string   "name",         limit: 255
     t.text     "dictionary"
     t.text     "studentcode"
     t.text     "framecode"
@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(version: 20170628191754) do
     t.datetime "updated_at"
     t.text     "mistakes"
     t.text     "kbmistakes"
+    t.text     "stdecription"
+    t.boolean  "isuse"
   end
 
   create_table "etalons", force: :cascade do |t|
