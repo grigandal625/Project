@@ -4,10 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '5.0.1'
 
 # Use sqlite3 as the database for Active Record
-group :development, :test do
-  gem 'sqlite3'
-end
-
+gem 'sqlite3', '~> 1.3.0'
 # Use SCSS for stylesheets
 gem 'sass-rails'
 
@@ -66,8 +63,7 @@ gem 'ckeditor'
 gem 'slim'
 
 # Generator of test tasks
-gem 'tasks_generator', '= 1.4'
-
+gem "tasks_generator", :git => "https://github.com/iAppleJack/task_generator_mephi.git"
 # Translit
 gem 'translit'
 
