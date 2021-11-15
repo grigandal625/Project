@@ -31,3 +31,4 @@ models.png
 .idea/
 *.ipr
 *.iws
+./nohup.out
