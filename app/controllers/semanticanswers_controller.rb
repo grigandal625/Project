@@ -65,16 +65,13 @@ include PlanningHelper
       obj = @semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson)
 		  result = obj[0]
       @semantic.mistakes = obj[1]
+      @semantic.rating = result
+      @semantic.iscomplite = true
+	    @semantic.save()
+      render text: @semantic.rating
+    else
+      render text: 'Вы уже выполнили моделирование данной ситуации'
 		end
-   			
-		
-		@semantic.rating = result
-		@semantic.iscomplite = true
-
-	  @semantic.save()
-
-  	render text: @semantic.rating
-  	
   end
   
   def getmistakes

@@ -68,3 +68,9 @@ gem "tasks_generator", :git => "https://github.com/iAppleJack/task_generator_mep
 gem 'translit'
 
 gem 'watu_table_builder', :require => 'table_builder'
+
+gem "ruby-debug-ide", "~> 0.7.3"
+
+gem "debase", "~> 0.2.4"
+
+gem "solargraph", "~> 0.44.0"

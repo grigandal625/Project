@@ -32,3 +32,4 @@ models.png
 *.ipr
 *.iws
 ./nohup.out
+.vscode
