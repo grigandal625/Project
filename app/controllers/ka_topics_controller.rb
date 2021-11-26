@@ -128,19 +128,27 @@ class KaTopicsController < ApplicationController
   end
 
 	def execute_amrr
-	  root = KaTopic.find(params[:root_id])
-	  topics = root.get_tree
+    root = KaTopic.find(params[:root_id])
+    
+    TopicRelation.delete_all(:ka_topic_id => params[:root_id])
+    TopicRelation.delete_all(:related_topic_id => params[:root_id])
+
+    global_root = root
+    while !global_root.parent.nil?
+      global_root = global_root.parent
+    end
+	  topics = global_root.get_tree
 	  constructs = root.constructs
 	  @output = []
-	  rel_type_mapping = ["Сильная", "Средняя", "Слабая"]
+	  rel_type_mapping = ["Сильная", "Средняя", "Слабая" ]
 
 	  ActiveRecord::Base.transaction do
-	    for i in 0..(topics.count - 2)
-	      for j in (i+1)..(topics.count - 1)
-		relation = TopicRelation.calculate_relation(topics[i], topics[j], constructs)
-		relation.save
-		@output.push({topic: topics[i].text, related_topic: topics[j].text, relation_type: rel_type_mapping[relation.rel_type]})
-	      end
+	    for i in 0..(topics.count - 1)
+        relation = TopicRelation.calculate_relation(root, topics[i], constructs)
+        if !relation.nil?
+          relation.save
+          @output.push({topic: root.text, related_topic: topics[i].text, relation_type: rel_type_mapping[relation.rel_type]})
+        end
 	    end
 	  end
 	end
@@ -160,6 +168,10 @@ class KaTopicsController < ApplicationController
   def show_all_constructs
     @root = KaTopic.find(params[:root_id])
     @topics = @root.get_tree
+  end
+
+  def show_general_constructs
+    print "hello world"
   end
 
   private

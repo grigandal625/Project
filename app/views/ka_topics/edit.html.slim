@@ -222,6 +222,7 @@ table
           a href="#{competence_detach_path(c.competence_id, @topic.id)}" Удалить
 
 h3 Конструкты
+a href="#{calc_rel_path(@topic.id)}" Рассчитать связи
 table
   thead
     tr
@@ -236,6 +237,35 @@ table
         td.mark = c.mark
         td
           a href="#{construct_detach_path(c.construct_id, @topic.id)}" Удалить
+
+h3 Построенные связи
+table
+  thead
+    tr
+      th.name = "Связанная тема"
+      th.rel_type = "Тип связи"
+  tbody 
+    - TopicRelation.where(ka_topic_id: @topic.id).each do |r|
+      tr 
+        td 
+          a href="#{edit_ka_topic_path(r.related_topic.id)}" = r.related_topic.text
+        - if r.rel_type == 0
+          td = "Сильная"
+        - if r.rel_type == 1
+          td = "Средняя"
+        - if r.rel_type == 2
+          td = "Слабая"
+
+    - TopicRelation.where(related_topic_id: @topic.id).each do |r|
+      tr 
+        td
+          a href="#{edit_ka_topic_path(r.ka_topic.id)}" = r.ka_topic.text
+        - if r.rel_type == 0
+          td = "Сильная"
+        - if r.rel_type == 1
+          td = "Средняя"
+        - if r.rel_type == 2
+          td = "Слабая"
 
 h3 Компоненты выявления умений
 table

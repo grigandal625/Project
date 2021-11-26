@@ -30,6 +30,7 @@ UIR::Application.routes.draw do
 
   get  '/ka_topics',               to: 'ka_topics#index',     as: :ka_topics
   get  '/ka_topics/all',           to: 'ka_topics#all',       as: :all_ka_topics
+  get  '/ka_topics/general_constructs', to: 'ka_topics#show_general_constructs', as: :general_constructs
   get  '/ka_topics/:id',           to: 'ka_topics#show',      as: :ka_topic
   get  '/ka_topics/destroy/:id',   to: 'ka_topics#destroy',   as: :ka_topic_destroy
   post '/ka_topics/new',           to: 'ka_topics#new',       as: :new_ka_topic
@@ -87,7 +88,6 @@ UIR::Application.routes.draw do
   get 'ka_topics/:root_id/all_constructs' => 'ka_topics#show_all_constructs', as: :all_constructs
   get 'ka_topics/:root_id/all_components' => 'ka_topics#show_all_components', as: :all_components
   get 'ka_topics/calc_rel/:root_id' => 'ka_topics#execute_amrr', as: :calc_rel
-
 
   post "frameadmin/createframe"
   post "frameadmin/updateframe"
