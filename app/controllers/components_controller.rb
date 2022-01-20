@@ -12,14 +12,16 @@ class ComponentsController < ApplicationController
     redirect_to :back
   end
 
-  def edit
-    @component = Component.find(params[:id])
-  end
+  def show
 
-  def update
-    component = Component.find(params[:id])
-    component.update(name: params[:name])
-    redirect_to components_path
+  # def edit
+  #   @component = Component.find(params[:id])
+  # end
+
+  # def update
+  #   component = Component.find(params[:id])
+  #   component.update(name: params[:name])
+  #   redirect_to components_path
   end
 
   def destroy
@@ -96,6 +98,26 @@ class ComponentsController < ApplicationController
   def detach
     #Внимание: используется delete_all (т.к. у модели нет первичных ключей)
     TopicComponent.delete_all(ka_topic_id: params[:t_id], component_id: params[:c_id])
+    redirect_to :back
+  end
+
+  def edit_component_view
+    $component = Component.find(params[:c_id])
+    $services = ComponentService.where(component_id: params[:c_id])
+    print($services.count)
+    render :component_edit_view
+  end
+
+  def rename_component
+    print(params)
+    component = Component.find(params[:c_id])
+    component.name = params[:name]
+    component.save()
+    redirect_to :back
+  end
+
+  def create_service
+    ComponentService.create(name: params[:name], component_id: params[:c_id], actor: params[:actor], path: params[:path], need_to_graduate: params[:need_to_graduate], priority: params[:priority])
     redirect_to :back
   end
 end

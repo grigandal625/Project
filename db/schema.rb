@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181113122346) do
+ActiveRecord::Schema.define(version: 20220119092315) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -34,6 +34,18 @@ ActiveRecord::Schema.define(version: 20181113122346) do
     t.string   "description", limit: 255, default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "component_services", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "actor"
+    t.string   "path"
+    t.integer  "component_id"
+    t.boolean  "need_to_graduate"
+    t.integer  "priority"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["component_id"], name: "index_component_services_on_component_id"
   end
 
   create_table "components", force: :cascade do |t|

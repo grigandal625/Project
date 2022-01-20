@@ -78,10 +78,19 @@ UIR::Application.routes.draw do
   post 'constructs/attach' => 'constructs#attach'
   get 'constructs/:c_id/detach_from/:t_id' => 'constructs#detach', as: :construct_detach
 
+  resources :component_services
   resources :components
   post 'components/attach' => 'components#attach'
   get 'components/:c_id/detach_from/:t_id' => 'components#detach', as: :component_detach
   get 'components/:c_id/detach_list_from/:t_id' => 'components#detach_list', as: :component_detach_list
+  get 'components/:c_id/edit_view' => 'components#edit_component_view', as: :component_edit_view
+  post 'components/:c_id/rename' => 'components#rename_component', as: :rename_component
+  post 'components/:c_id/create_service' => 'components#create_service', as: :create_component_service
+
+
+  # delete 'component_service/:id' => 'component_services#destroy'
+  # get 'component_service/:service_id'
+
 
   get 'ka_topics/:root_id/topics_with_questions' => 'ka_topics#show_topics_with_questions', as: :topics_with_questions
   get 'ka_topics/:root_id/all_competences' => 'ka_topics#show_all_competences', as: :all_competences

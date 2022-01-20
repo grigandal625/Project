@@ -5,13 +5,14 @@ include PlanningHelper
 
 
   def index
-  		@user = User.find (session["user_id"])
-  		if (@user.role == "admin")
-  			@tests = Semanticnetwork.all
+  		# @user = User.find (session["user_id"])
+  		# if (@user.role == "admin")
+  		# 	@tests = Semanticnetwork.all
 	
-  		else
-  			redirect_to :root
-  		end
+  		# else
+  		# 	redirect_to :root
+  		# end
+    render :start_page
   end
 
   def execute
