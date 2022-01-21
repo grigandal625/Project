@@ -80,7 +80,10 @@ form method="post" action="#{components_attach_path}"
 			    = c.name
 
         div class="small-2 columns"
-          input type="number" name="rel" placeholder="Тип связи"
+          select name="rel" placeholder="Тип связи" value="null"
+                option value=0 Сильная
+                option value=1 Средняя
+                option value=2 Слабая
         div class="small-2 columns"
           input type="number" name="rad" placeholder="Область привязки"
 
@@ -238,6 +241,22 @@ table
         td
           a href="#{construct_detach_path(c.construct_id, @topic.id)}" Удалить
 
+h3 Компоненты выявления умений
+- if TopicComponent.where(ka_topic_id: @topic.id).count != 0
+  table
+    thead
+      tr
+        th.name = "Название"
+    tbody
+      - TopicComponent.where(ka_topic_id: @topic.id).each do |c|
+        tr
+          td.name = link_to c.component.name, component_edit_view_path(c.component)
+          td
+            a href="#{component_detach_path(c.component_id, @topic.id)}" Удалить
+- else
+  p Пока ни один компонент не привязан
+
+
 h3 Построенные связи
 table
   thead
@@ -267,29 +286,3 @@ table
         - if r.rel_type == 2
           td = "Слабая"
 
-h3 Компоненты выявления умений
-table
-  thead
-    tr
-      th.id = "Идентификатор"
-      th.name = "Название"
-      th.link = "Ссылка"
-  tbody
-    - TopicComponent.where(ka_topic_id: @topic.id).each do |c|
-      tr
-        td.id = c.component_id
-        td.name = c.component.name
-        td.link
-          - if c.component.name == "Компонент выявления умений обучаемых моделировать простейшие ситуации ПрО с помощью семантических сетей" 
-            = link_to 'Варианты', semantictests_path
-          - else
-            - if c.component.name == "Компонент выявления умений обучаемых моделировать простейшие ситуации ПрО с помощью фреймов"
-              = link_to 'Варианты', frameadmin_index_path
-            - else
-              - if c.component.name == "Компонент выявления умений обучаемых моделировать стратегии прямого/обратного вывода"
-                = link_to 'Варианты', adminpanel_path
-              - else
-                - if c.component.name == "Компонент выявления умений обучаемых строить компоненты лингвистической модели подъязыка деловой прозы"
-                  = link_to 'Варианты', tasks_path
-        td
-          a href="#{component_detach_path(c.component_id, @topic.id)}" Удалить

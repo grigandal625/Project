@@ -47,23 +47,23 @@ class ComponentsController < ApplicationController
     f = params[:flag].to_i
     count = 0
     while count < limit
-	for i in 0..mas.length - 1
-		KaTopic.where("id = ? OR parent_id = ?", mas[i], mas[i]).find_each do |top|
-	   		if !TopicRelation.where(ka_topic_id: top.id, related_topic_id: top.parent_id, rel_type: params[:rel]).empty? || !TopicRelation.where(ka_topic_id: top.parent_id, related_topic_id: top.id, rel_type: params[:rel]).empty?
-				mas.push(top.id)
-				mas.push(top.parent_id)
-				mas.uniq
-			end
+      for i in 0..mas.length - 1
+        KaTopic.where("id = ? OR parent_id = ?", mas[i], mas[i]).find_each do |top|
+          if !TopicRelation.where(ka_topic_id: top.id, related_topic_id: top.parent_id, rel_type: params[:rel]).empty? || !TopicRelation.where(ka_topic_id: top.parent_id, related_topic_id: top.id, rel_type: params[:rel]).empty?
+            mas.push(top.id)
+            mas.push(top.parent_id)
+            mas.uniq
+          end
 	    	end
-	end
-	count = count + 1
+	    end
+	    count = count + 1
     end
     mas = mas.uniq
-	for i in 0..mas.length
-		if TopicComponent.where(ka_topic_id: mas[i], component_id: params[:component_id]).empty? && !params[:component_id].nil?
-		        TopicComponent.create(ka_topic_id: mas[i], component_id: params[:component_id])
-		end
-	end
+    for i in 0..mas.length
+      if TopicComponent.where(ka_topic_id: mas[i], component_id: params[:component_id]).empty? && !params[:component_id].nil?
+              TopicComponent.create(ka_topic_id: mas[i], component_id: params[:component_id])
+      end
+    end
 #    if TopicComponent.where(ka_topic_id: params[:topic_id], component_id: params[:component_id]).empty? && !params[:component_id].nil?
 #      TopicComponent.create(ka_topic_id: params[:topic_id], component_id: params[:component_id])
 #    end
@@ -72,13 +72,13 @@ class ComponentsController < ApplicationController
 #  end
 
     for i in 0..mas.length - 1
-	topic = KaTopic.find(mas[i])
-	component = Component.find(params[:component_id])
-	$out.push({topic: topic.text, related_component: component.name, t_id: topic.id, c_id: component.id})
+	    topic = KaTopic.find(mas[i])
+	    component = Component.find(params[:component_id])
+	    $out.push({topic: topic.text, related_component: component.name, t_id: topic.id, c_id: component.id})
     end
-	@r_id = params[:topic_id].to_i
-    render :show_all_relations
- #   redirect_to :back
+	  @r_id = params[:topic_id].to_i
+#     render :show_all_relations
+    redirect_to :back
   end
 
   def  show_all_relations
