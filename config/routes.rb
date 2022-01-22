@@ -114,6 +114,7 @@ UIR::Application.routes.draw do
 
   get "groups/:id/generate_pass", to: "groups#generate_pass", as: "pass_gen"
   get "groups/:id/generate_report", to: "groups#generate_report", as: "report_gen"
+  get "groups/:id/statements", to: "groups#statements", as: "group_statements"
   get  "semanticanswers/result"
 
 
