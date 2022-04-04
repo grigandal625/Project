@@ -79,7 +79,9 @@ UIR::Application.routes.draw do
   get 'constructs/:c_id/detach_from/:t_id' => 'constructs#detach', as: :construct_detach
 
   resources :component_services
-  resources :components
+  resources :components do
+    resources :component_elements, only: [:new, :create]
+  end
   post 'components/attach' => 'components#attach'
   get 'components/:c_id/detach_from/:t_id' => 'components#detach', as: :component_detach
   get 'components/:c_id/detach_list_from/:t_id' => 'components#detach_list', as: :component_detach_list

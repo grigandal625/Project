@@ -7,74 +7,16 @@ form action="#{rename_component_path($component)}" method="post"
 		  input type="text" name="name" placeholder="Название" value="#{$component.name}"
         div class="small-3 columns"
           input type="submit" class="button postfix"
-h4 Сервисы
-- if $services.count != 0
-  table 
-    thead
-      th Название
-      th Режим
-      th Путь
-      th Требует оценки
-      th Приоритет
-      th Действия
-    tbody 
-      
-        - $services.each do |service|
-          tr
-            td
-              a href="#" #{service.name}
-            td #{["Design Time", "Run Time"][service.actor]}
-            td 
-              a target="_blank" href="#{service.path}" #{service.path} 
-            td
-              - if service.need_to_graduate
-                span Да
-              - else 
-                span Нет
-            td #{service.priority}
-            td
-              form action="#{component_service_path(service)}" method="POST"
-                input type="hidden" name="_method" value="DELETE"
-                button type="submit" class="alert button postfix" Удалить 
-- else 
-  p У компонента пока нет сервисов
 
-hr
-h4 Добавить сервис
-form action="#{create_component_service_path($component)}" method="post"
-  div 
-    div class="row"
-      div class="small-1 columns" 
-        label for="name" Название
-      div class="small-10 columns"
-        input type="text" name="name" placeholder="Название"
-    div class="row"
-      div class="small-1 columns"
-        label for="actor" Режим
-      div class="small-10 columns"
-        select name="actor" placeholder="Режим"
-              option value="0" Design Time
-              option value="1" Run Time
-      
-    div class="row"
-      div class="small-1 columns"
-        label for="path" Путь
-      div class="small-10 columns"
-        input type="text" name="path" placeholder="Путь"
-    
-    div class="row"
-      div class="small-1 columns"
-        label for="need_to_graduate" Необходимо получить оценку
-      div class="small-10 columns"
-        input type="checkbox" name="need_to_graduate"
-    br
-    div class="row"
-      div class="small-1 columns"
-        label for="priority" Приоритет
-      div class="small-10 columns"
-        input type="number" min="0" step="1" name="priority"
+h4 Описание компонента
 
-    input type="submit" class="button"
+div#description
 
-          
+script 
+  |
+    const tree = JSON.parse("#{JSON.generate($component.get_elements_tree)}".replace(/&quot;/g, '"'))
 
+script src="/js/component.js"
+
+div
+  a href="#{new_component_component_element_path($component)}" Добавить элемент описания

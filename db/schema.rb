@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220119092315) do
+ActiveRecord::Schema.define(version: 20220404102535) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -36,6 +36,29 @@ ActiveRecord::Schema.define(version: 20220119092315) do
     t.datetime "updated_at"
   end
 
+  create_table "component_element_topics", force: :cascade do |t|
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.integer  "component_elements_id"
+    t.integer  "ka_topics_id"
+    t.index ["component_elements_id"], name: "index_component_element_topics_on_component_elements_id"
+    t.index ["ka_topics_id"], name: "index_component_element_topics_on_ka_topics_id"
+  end
+
+  create_table "component_elements", force: :cascade do |t|
+    t.string   "tag"
+    t.text     "desc"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "components_id"
+    t.integer  "component_elements_id"
+    t.boolean  "is_multiple",           default: false
+    t.integer  "size"
+    t.string   "name",                  default: ""
+    t.index ["component_elements_id"], name: "index_component_elements_on_component_elements_id"
+    t.index ["components_id"], name: "index_component_elements_on_components_id"
+  end
+
   create_table "component_services", force: :cascade do |t|
     t.string   "name"
     t.integer  "actor"
@@ -50,6 +73,7 @@ ActiveRecord::Schema.define(version: 20220119092315) do
 
   create_table "components", force: :cascade do |t|
     t.string "name"
+    t.text   "additional", default: "{}"
   end
 
   create_table "constructs", force: :cascade do |t|

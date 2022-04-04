@@ -150,29 +150,32 @@ class GroupsController < AdminToolsController
         "group" => group.number,
         "id" => student.id
       }
-      test_results = KaResult.where(user_id: student.user.id)
+      test_results = KaResult.where(user_id: student.user.id).order(created_at: :desc)
       problem_areas = []
       tests = []
+      areas_done = false
       test_results.each do |res|
-        tests << {
+        tests.prepend({
           "test_id" => res.ka_test.id,
           "text" => res.ka_test.text,
           "mark" => res.assessment
-        }
+        })
         if $all_tests.find {|t| t["test_id"] == res.ka_test.id} == nil
-          $all_tests << {
+          $all_tests.prepend({
             "test_id" => res.ka_test.id,
             "text" => res.ka_test.text,
-          }
+          })
         end  
         res.problem_areas.each do |p|
           area = problem_areas.find {|pa| pa["topic_id"] == p.ka_topic.id}
           if area == nil
-            problem_areas << {
-              "topic_id" => p.ka_topic.id,
-              "text" => p.ka_topic.text,
-              "mark" => p.mark.round(2)
-            }
+            if areas_done == false
+              problem_areas << {
+                "topic_id" => p.ka_topic.id,
+                "text" => p.ka_topic.text,
+                "mark" => p.mark.round(2)
+              }
+            end
           else
             if area["mark"] < p.mark
               index = problem_areas.find_index(area)
@@ -180,6 +183,7 @@ class GroupsController < AdminToolsController
             end
           end
         end
+        areas_done = true
       end
       s["tests"] = tests
       s["problem_areas"] = problem_areas
