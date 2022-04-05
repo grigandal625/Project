@@ -82,11 +82,18 @@ UIR::Application.routes.draw do
   resources :components do
     resources :component_elements, only: [:new, :create]
   end
+  resources :component_elements, only: [:edit, :destroy, :show, :new_child, :create_child] do
+    post :edit
+    post :create_child
+    get :new_child
+    get :destroy
+  end
   post 'components/attach' => 'components#attach'
   get 'components/:c_id/detach_from/:t_id' => 'components#detach', as: :component_detach
   get 'components/:c_id/detach_list_from/:t_id' => 'components#detach_list', as: :component_detach_list
   get 'components/:c_id/edit_view' => 'components#edit_component_view', as: :component_edit_view
   post 'components/:c_id/rename' => 'components#rename_component', as: :rename_component
+  post 'components/:c_id/update' => 'components#update_component', as: :update_component
   post 'components/:c_id/create_service' => 'components#create_service', as: :create_component_service
 
 
@@ -131,7 +138,8 @@ UIR::Application.routes.draw do
   resources :framestudent
   resources :outcomes
   get 'outcomes/:g_id/recomendations/:s_id', to: 'outcomes#recomendations', as: :outcome_recomendations
-  get 'outcomes/:s_id/delrecomendation/:id', to: 'outcomes#delrecomendation', as: :outcomes_delrecomendation
+  get 'outcomes/recomendations/:id/delete', to: 'outcomes#delrecomendation', as: :outcomes_delrecomendation
+  post 'outcomes/:s_id/create_rec', to: 'outcomes#create_rec', as: :outcomes_create_rec
   #get 'test_utz_questions/:id', to: '#test_utz_questions', as :test_utz_questions
   post 'outcomes/changedate', to: 'outcomes#changedate', as: :outcomes_changedate
   post 'outcomes/assign', to: 'outcomes#assign', as: :outcomes_assign

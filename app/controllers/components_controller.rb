@@ -116,6 +116,13 @@ class ComponentsController < ApplicationController
     redirect_to :back
   end
 
+  def update_component
+    component = Component.find(params[:c_id])
+    component.additional = params[:additional]
+    component.save()
+    redirect_to :back
+  end
+
   def create_service
     ComponentService.create(name: params[:name], component_id: params[:c_id], actor: params[:actor], path: params[:path], need_to_graduate: params[:need_to_graduate], priority: params[:priority])
     redirect_to :back

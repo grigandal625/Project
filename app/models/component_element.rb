@@ -5,7 +5,7 @@ class ComponentElement < ApplicationRecord
     has_many :ka_topics, through: :component_element_topic
 
     def get_json_tree
-        root = {:id => self.id, :name => self.name, :tag => self.tag, :desc => self.desc, :children => []}
+        root = {:id => self.id, :is_multiple => self.is_multiple, :size => self.size, :name => self.name, :tag => self.tag, :desc => self.desc, :children => []}
         self.component_elements.each do |c|
             root[:children].append(c.get_json_tree)
         end

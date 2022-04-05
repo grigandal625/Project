@@ -18,5 +18,20 @@ script
 
 script src="/js/component.js"
 
+script 
+  |
+    tree.forEach((n) => document.getElementById("description").appendChild(buildNode(n)));
+
+br
 div
-  a href="#{new_component_component_element_path($component)}" Добавить элемент описания
+  a class="button" href="#{new_component_component_element_path($component)}" Добавить элемент описания
+
+
+h3 Дополнительное описание
+
+form action="#{update_component_path($component)}" method="post"
+  div class="row"
+		div class="small-9 columns"
+		  textarea cols="30" rows="10"  type="text" name="additional" placeholder="Дополнительное описание" #{$component.additional}
+        div class="small-3 columns"
+          input type="submit" class="button postfix"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220404102535) do
+ActiveRecord::Schema.define(version: 20220404222716) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -492,10 +492,11 @@ ActiveRecord::Schema.define(version: 20220404102535) do
     t.text     "rec_type"
     t.datetime "date"
     t.boolean  "done"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "rec_status"
     t.text     "type_um"
+    t.text     "data",       default: "{}"
     t.index ["student_id"], name: "index_recomendations_on_student_id"
   end
 
