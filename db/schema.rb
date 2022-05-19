@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220404222716) do
+ActiveRecord::Schema.define(version: 20220506134739) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -653,6 +653,7 @@ ActiveRecord::Schema.define(version: 20220404222716) do
   create_table "topic_components", force: :cascade do |t|
     t.integer "ka_topic_id"
     t.integer "component_id"
+    t.float   "weight",       default: 0.0, null: false
   end
 
   create_table "topic_constructs", id: false, force: :cascade do |t|
