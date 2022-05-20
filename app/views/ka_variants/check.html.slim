@@ -7,10 +7,10 @@
     tr
       th Обучающее воздействие/компонент
       th Прохождение
-    - @components.each do |cmp|
+    - @tutor_actions.each do |cmp|
       tr
         td #{cmp[:name]}
         td 
-          a href="#{cmp[:additional]["link"]}" target="_blank" Пройти
+          a href="#{cmp[:link]}" target="_blank" Пройти
 - else
   h1 align="center" Вы пытаетесь пройти тест второй раз!

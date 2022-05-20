@@ -98,33 +98,72 @@ class KaVariantsController < ApplicationController
         CompetenceCoverage.create(ka_result_id: result.id, competence_id: id, mark: c[:score])
       end
 
-      component_priorities = {}
+      tutor_actions_priorities = {}
 
       topic_marks.each do |id, t|
         topic_components = TopicComponent.where(ka_topic_id: id)
         topic_components.each do |tc|
-          n = tc.component_id
-          m = tc.ka_topic_id
-          print n
-          print m
-          if not component_priorities.has_key?(tc.component_id)
-            component_priorities[tc.component_id] = { sum_score: 0.0, sum_weight: 0.0, score: 0.0 }
+          action_id = "component@%d" % tc.component_id
+          if not tutor_actions_priorities.has_key?(action_id)
+            tutor_actions_priorities[action_id] = { sum_score: 0.0, sum_weight: 0.0, score: 0.0 }
           end
-          component_priorities[tc.component_id][:sum_score] += t[:score] * tc.weight
-          component_priorities[tc.component_id][:sum_weight] += tc.weight
+          tutor_actions_priorities[action_id][:sum_score] += t[:score] * tc.weight
+          tutor_actions_priorities[action_id][:sum_weight] += tc.weight
+        end
+
+        test_utz = TestUtzTopic.where(ka_topic_id: id)
+        test_utz.each do |topic_utz|
+          action_id = "test_utz@%d" % topic_utz.test_utz_question_id
+          if not tutor_actions_priorities.has_key?(action_id)
+            tutor_actions_priorities[action_id] = { sum_score: 0.0, sum_weight: 0.0, score: 0 }
+          end
+          tutor_actions_priorities[action_id][:sum_score] += topic_utz.weight * t[:score]
+          tutor_actions_priorities[action_id][:sum_weight] += topic_utz.weight
         end
       end
-      @components = []
-      component_priorities.each do |id, p|
-        p[:score] = p[:sum_score] / p[:sum_weight]
-        cmp = Component.find(id)
-        @components.push({
-          :cmp => id,
-          :name => cmp.name,
-          :additional => JSON.parse(cmp.additional),
-          :score => p[:score],
-        })
+
+      @tutor_actions = []
+      tutor_actions_priorities.each do |action_id, p|
+        id = action_id.split("@")[1].to_i
+        type = action_id.split("@")[0]
+
+        link = get_link(type, id)
+        name = get_name(type, id)
+
+        p[:score] = p[:sum_score] / p[:sum_weight] * 100
+
+        if 100 - p[:score] > 30
+          @tutor_actions.push({
+            :cmp => id,
+            :type => type,
+            :name => name,
+            :link => link,
+            :priority => 100 - p[:score],
+          })
+        end
       end
+    end
+  end
+
+  def get_link(type, id)
+    case type
+    when "component"
+      cmp = Component.find(id)
+      return JSON.parse(cmp.additional)["link"]
+    when "test_utz"
+      return test_utz_question_path(id)
+      # when "match_utz" для других утз аналогично
+    end
+  end
+
+  def get_name(type, id)
+    case type
+    when "component"
+      cmp = Component.find(id)
+      return cmp.name
+    when "test_utz"
+      return TestUtzQuestion.find(id).text
+      # when "match_utz" для других утз аналогично
     end
   end
 end
