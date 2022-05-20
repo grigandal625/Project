@@ -36,6 +36,7 @@ UIR::Application.routes.draw do
   post '/ka_topics/new',           to: 'ka_topics#new',       as: :new_ka_topic
   get  '/ka_topics/edit/:id',      to: 'ka_topics#edit',      as: :edit_ka_topic
   post '/ka_topics/edit_text/:id', to: 'ka_topics#edit_text', as: :edit_ka_topic_text
+  post '/ka_topics/delete_utz_connection',      to: 'ka_topics#delete_utz_connection', as: :delete_utz_topic_connection
 
   get  '/ka_questions',             to: 'ka_questions#index',   as: :ka_questions
   get  '/ka_questions/:id',         to: 'ka_questions#show',    as: :ka_question

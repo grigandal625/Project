@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220506134739) do
+ActiveRecord::Schema.define(version: 20220520134219) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -606,6 +606,16 @@ ActiveRecord::Schema.define(version: 20220506134739) do
     t.datetime "updated_at",  null: false
     t.integer  "ka_topic_id"
     t.index ["ka_topic_id"], name: "index_test_utz_questions_on_ka_topic_id"
+  end
+
+  create_table "test_utz_topics", force: :cascade do |t|
+    t.integer  "weight"
+    t.integer  "test_utz_question_id"
+    t.integer  "ka_topic_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.index ["ka_topic_id"], name: "index_test_utz_topics_on_ka_topic_id"
+    t.index ["test_utz_question_id"], name: "index_test_utz_topics_on_test_utz_question_id"
   end
 
   create_table "text_correction_utzs", force: :cascade do |t|

@@ -7,13 +7,10 @@
     tr
       th Обучающее воздействие/компонент
       th Прохождение
-      th Приоритет 
-
     - @components.each do |cmp|
       tr
         td #{cmp[:name]}
         td 
           a href="#{cmp[:additional]["link"]}" target="_blank" Пройти
-        td #{cmp[:score]}
 - else
   h1 align="center" Вы пытаетесь пройти тест второй раз!
