@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'execjs'
+gem 'rice', '3.0.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.0.1'
 
@@ -63,8 +65,14 @@ gem 'ckeditor'
 gem 'slim'
 
 # Generator of test tasks
-gem "tasks_generator", :git => "https://github.com/iAppleJack/task_generator_mephi.git"
+gem "tasks_generator", :git => "https://github.com/grigandal625/task_generator_mephi.git"
 # Translit
 gem 'translit'
 
 gem 'watu_table_builder', :require => 'table_builder'
+
+gem "ruby-debug-ide", "~> 0.7.3"
+
+gem "debase", "~> 0.2.4"
+
+gem "solargraph", "~> 0.44.0"
