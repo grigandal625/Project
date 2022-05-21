@@ -139,10 +139,16 @@ class KaVariantsController < ApplicationController
             :name => name,
             :link => link,
             :priority => 100 - p[:score],
+            :sum_weight => p[:sum_weight],
           })
         end
       end
+      @tutor_actions.sort { compare_actions(:puts) }
     end
+  end
+
+  def compare_actions(action_1, action_2)
+    return action_1[:priority] <=> action_2[:priority]
   end
 
   def get_link(type, id)
