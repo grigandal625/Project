@@ -34,3 +34,4 @@ models.png
 ./nohup.out
 .vscode
 nohup.out
+/db/*.sqlite3
