@@ -149,6 +149,7 @@ class KaVariantsController < ApplicationController
   end
 
   def compare_actions(action_1, action_2)
+    
     return action_1[:priority] <=> action_2[:priority]
   end
 
