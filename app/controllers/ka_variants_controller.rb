@@ -143,11 +143,13 @@ class KaVariantsController < ApplicationController
           })
         end
       end
-      @tutor_actions.sort { compare_actions(:puts) }
+
+      @tutor_actions.sort { |a, b| compare_actions(a, b) }
     end
   end
 
   def compare_actions(action_1, action_2)
+    
     return action_1[:priority] <=> action_2[:priority]
   end
 
