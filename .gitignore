@@ -35,3 +35,5 @@ models.png
 .vscode
 nohup.out
 /db/*.sqlite3
+HELLO.py
+tmp.py
