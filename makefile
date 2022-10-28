@@ -9,3 +9,4 @@ start:
 	bundle exec rails server -b ${HOST} -p ${PORT} -d
 stop:
 	kill -9 $$(cat tmp/pids/server.pid)
+	make stop

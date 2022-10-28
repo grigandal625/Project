@@ -251,6 +251,10 @@ UIR::Application.routes.draw do
     patch :detach, on: :member
   end
 
+  
+  get "klasters/personality/:group_id", to: "klasters#personality_klaster_by_group"
+  get "klasters/personality", to: "klasters#personality_klaster"
+
   get 'schedule', to: 'schedule#index', as: 'schedule'
 
   get "timetables", to: "timetables#index", as: "timetables"

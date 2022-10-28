@@ -1,7 +1,7 @@
 class KaResultsController < ApplicationController
   skip_before_filter :verify_authenticity_token
   layout "ka_application"
-  
+
   def index
   end
 
@@ -13,28 +13,30 @@ class KaResultsController < ApplicationController
   def recalc
     test_id = params[:id]
     test = KaTest.find(test_id)
+    @results = KaResult.where(:ka_test_id => test_id)
+    @min = params[:min].to_i
 
-    test.ka_results.each do |r|
-      answers = []
-      r.ka_answer_logs.each do |al|
-        answers.push(al.ka_answer_id)
-      end
-      variant = r.ka_variant
-      detail_result = KaDetailResult.new(variant, answers)
-      r.assessment = detail_result.assessment
-      r.save
+    # test.ka_results.each do |r|
+    #   answers = []
+    #   r.ka_answer_logs.each do |al|
+    #     answers.push(al.ka_answer_id)
+    #   end
+    #   variant = r.ka_variant
+    #   detail_result = KaDetailResult.new(variant, answers)
+    #   r.assessment = detail_result.assessment
+    #   r.save
 
-      #Юзаются такие костыли, т.к. у ProblemArea и CompetenceCoverage нет ключей
-      detail_result.problem_areas.each do |id, mark|
-        ProblemArea.update_all("mark = #{mark} WHERE ka_result_id = #{r.id} AND ka_topic_id = #{id}")
-      end
+    #   #Юзаются такие костыли, т.к. у ProblemArea и CompetenceCoverage нет ключей
+    #   detail_result.problem_areas.each do |id, mark|
+    #     ProblemArea.update_all("mark = #{mark} WHERE ka_result_id = #{r.id} AND ka_topic_id = #{id}")
+    #   end
 
-      detail_result.competence_coverages.each do |id, mark|
-        CompetenceCoverage.update_all("mark = #{mark} WHERE ka_result_id = #{r.id} AND competence_id = #{id}")
-      end
-    end
+    #   detail_result.competence_coverages.each do |id, mark|
+    #     CompetenceCoverage.update_all("mark = #{mark} WHERE ka_result_id = #{r.id} AND competence_id = #{id}")
+    #   end
+    # end
 
-    redirect_to :back
+    # redirect_to :back
   end
 
   def detail
@@ -58,5 +60,4 @@ class KaResultsController < ApplicationController
     groups_ids = Student.where(:id => students_ids).distinct.pluck(:group_id)
     @groups = Group.find(groups_ids)
   end
-  
 end

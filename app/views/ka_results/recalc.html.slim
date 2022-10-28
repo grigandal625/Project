@@ -1,0 +1,22 @@
+h3 Пересчитанные результаты в баллы
+form
+    div class="row"
+table id="table"
+  thead
+    tr
+      th.name = "ФИО"
+      th.group = "Группа"
+      th.assessment = "Оценка"
+      th.recalc = "Пересчет в баллы"
+  tbody
+    - @results.each do |r|
+      - if r.user.student
+        tr
+          td.name = r.user.student.fio
+          td.group = r.user.student.group.number
+          td.assessment = r.assessment
+          - if r.assessment < @min
+            td.recalc = r.assessment * 15 / @min
+          - else 
+            td.recalc = 15 + (r.assessment - @min)*10/(100-@min)
+          
