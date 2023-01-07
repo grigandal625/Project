@@ -250,10 +250,12 @@ UIR::Application.routes.draw do
     post :check_answer, on: :member
     patch :detach, on: :member
   end
-
   
-  get "klasters/personality/:group_id", to: "klasters#personality_klaster_by_group"
-  get "klasters/personality", to: "klasters#personality_klaster"
+  get "statistics/personality/:group_id", to: "statistics#personality_klaster_by_group"
+  get "statistics/operations/:operation", to: "statistics#operation"
+  get "statistics/personality", to: "statistics#personality_klaster"
+
+  resources :statistics, only: [:index]
 
   get 'schedule', to: 'schedule#index', as: 'schedule'
 

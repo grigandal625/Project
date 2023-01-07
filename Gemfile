@@ -77,3 +77,7 @@ gem "debase", "~> 0.2.4"
 
 gem "solargraph", "~> 0.44.0"
 gem 'rails-erd', group: :development
+gem 'axlsx'
+gem 'caxlsx'
+gem 'caxlsx_rails'
+gem 'k_means', '~> 0.0.7'

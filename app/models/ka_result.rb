@@ -189,7 +189,7 @@ class KaDetailResult
 end
 
 class KaResult < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :user, class_name: 'User', foreign_key: 'user_id'
   belongs_to :ka_variant
   belongs_to :ka_test
   has_many   :ka_answer_logs

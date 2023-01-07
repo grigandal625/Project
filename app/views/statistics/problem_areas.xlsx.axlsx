@@ -1,0 +1,37 @@
+# frozen_string_literal: true
+
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: @result_data.keys.first) do |sheet|
+  header = sheet.styles.add_style(b: true, border: { style: :thin, color: '000000' })
+  body = sheet.styles.add_style(border: { style: :thin, color: '000000' })
+
+  sheet.add_row @result_data[@result_data.keys.first].keys + [' '] + [@result_data[@result_data.keys.first].values[0].count, @result_data[@result_data.keys.first].values[1].count, @result_data[@result_data.keys.first].values[2].count], style: header
+  @klaster_rows.values.each do |row|
+    sheet.add_row row, style: body
+  end
+  sheet.add_chart(Axlsx::Pie3DChart, :start_at => [3,3], :end_at => [10, 15], :title=> @result_data.keys.first) do |chart|
+    chart.add_series :data => sheet["E1:G1"], :labels => sheet["A1:C1"]
+    chart.d_lbls.show_val = true
+    chart.d_lbls.show_percent = true
+    chart.d_lbls.d_lbl_pos = :outEnd
+    chart.d_lbls.show_leader_lines = true
+  end
+end
+
+wb.add_worksheet(name: @result_data.keys.last) do |sheet|
+  header = sheet.styles.add_style(b: true, border: { style: :thin, color: '000000' })
+  body = sheet.styles.add_style(border: { style: :thin, color: '000000' })
+
+  sheet.add_row @result_data[@result_data.keys.last].keys + [' '] + [@result_data[@result_data.keys.last].values[0].count, @result_data[@result_data.keys.last].values[1].count], style: header
+  @dynamic_rows.values.each do |row|
+    sheet.add_row row, style: body
+  end
+  sheet.add_chart(Axlsx::Pie3DChart, :start_at => [3,3], :end_at => [10, 15], :title=> @result_data.keys.last) do |chart|
+    chart.add_series :data => sheet["D1:E1"], :labels => sheet["A1:B1"]
+    chart.d_lbls.show_val = true
+    chart.d_lbls.show_percent = true
+    chart.d_lbls.d_lbl_pos = :outEnd
+    chart.d_lbls.show_leader_lines = true
+  end
+end

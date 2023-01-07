@@ -6,7 +6,8 @@ table id="statement" style="border-collapse: collapse"
     tr
       th style="border: 1px solid black" ФИО
       th style="border: 1px solid black" Группа
-      th style="border: 1px solid black" colspan="2" Проблемные зоны
+      - if $no_pa.nil?
+        th style="border: 1px solid black" colspan="2" Проблемные зоны
       - $all_tests.each do |t|
         th style="border: 1px solid black" #{t["text"]}
       th style="border: 1px solid black" Прямой вывод
@@ -39,8 +40,9 @@ table id="statement" style="border-collapse: collapse"
         tr
           td style="border: 1px solid black" #{student["fio"]}
           td style="border: 1px solid black" #{student["group"]}
-          td style="border: 1px solid black" -
-          td style="border: 1px solid black" -
+          - if $no_pa.nil?
+            td style="border: 1px solid black" -
+            td style="border: 1px solid black" -
           - $all_tests.each do |t|
             - if student["tests"].find {|st| st["test_id"] == t["test_id"]} != nil
               td style="border: 1px solid black" #{student["tests"].find {|st| st["test_id"] == t["test_id"]} ["mark"]}

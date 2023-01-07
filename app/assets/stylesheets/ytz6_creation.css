@@ -55,3 +55,7 @@
 	display: inline-block;
 	vertical-align: center;
 }
+
+.drag:hover{
+  background-color: aquamarine;
+}

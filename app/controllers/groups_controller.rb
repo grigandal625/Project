@@ -78,6 +78,8 @@ class GroupsController < AdminToolsController
                     "S" => cur_res.s_result.mark,
                     "avr" => cur_res.mark}
       end
+
+      test_results = KaResult.where(user_id: student.user.id).order(created_at: :desc)
     end
   end
 
@@ -142,6 +144,7 @@ class GroupsController < AdminToolsController
   def statements
     group = Group.find(params[:id])
     $g = group
+    $no_pa = params[:no_pa]
     $students = []
     $all_tests = []
     Student.where(group: group).each do |student|
@@ -186,7 +189,11 @@ class GroupsController < AdminToolsController
         areas_done = true
       end
       s["tests"] = tests
-      s["problem_areas"] = problem_areas
+      if $no_pa.nil?
+        s["problem_areas"] = problem_areas
+      else 
+        s["problem_areas"] = []
+      end
 
       # Поиск оценок по П/О выводу
 

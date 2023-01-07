@@ -6,6 +6,8 @@
 development:
   adapter: sqlite3
   database: db/development.sqlite3
+  # database: db/development_sqlite3.sqlite3
+  # database: db/maindb.sqlite3
   pool: 5
   timeout: 5000
 
@@ -23,3 +25,25 @@ production:
   database: db/production.sqlite3
   pool: 5
   timeout: 5000
+
+
+# res = {}
+# KaResult.all.select{|e|e.user.student != nil}.each{|e| res[e.user.student.group.number] = e.user.student.group.students.count }
+# res.keys.each{|e| puts e}
+# res.values.each{|e| puts e}
+# res = {}
+# KaResult.all.select{|e|e.user.student != nil}.each{|e| res[e.user.student.group.number] ||=0 and res[e.user.student.group.number] +=1 }
+# res.values.each{|e| puts e}
+
+# res = {}
+# KaResult.all.select{|e|e.user.student != nil}.each{|e| res[e.user.student.group.number] ||=0 and res[e.user.student.group.number] +=e.problem_areas.count }
+# res.values.each{|e| puts e}
+
+# res = {}
+# KaResult.all.select{|e|e.user.student != nil}.each{|e| res[e.user.student.group.number] ||=0 and res[e.user.student.group.number] +=e.competences.count }
+# res.values.each{|e| puts e}
+
+# res = {}
+# Personality.all.each{|e| res[e.name] = e.students.count }
+# res.keys.each{|e| puts e}
+# res.values.each{|e| puts e}

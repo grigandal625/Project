@@ -4,6 +4,7 @@ $(document).ready(function() {
     var sortable = Sortable.create(el, {
         draggable: ".drag"
     });
+    debugger;
 
     $(document).on('click', '#task_done', function() {
         var rows = $("#usage_rows tr");

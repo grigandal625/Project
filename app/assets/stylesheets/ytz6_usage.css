@@ -15,3 +15,8 @@
 .settings_button {
   width: 80%
 }
+
+tr.drag:hover{
+  background-color: aquamarine !important;
+  border: 2px solid black;
+}
