@@ -12,3 +12,6 @@
 
 <%= render partial: 'utz', locals: {:controller => :images_sort_utz, :collection => ImagesSortUtz.all,
                                     :utz_header => 'Упорядочивание графических изображений'} %>
+
+<%= render partial: 'utz', locals: {:controller => :likert_utz, :collection => LikertUtz.all,
+                                    :utz_header => 'Шкала Ликерта'} %>

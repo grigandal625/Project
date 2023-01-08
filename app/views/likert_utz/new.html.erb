@@ -1,0 +1,59 @@
+
+
+<div class="panel-heading">
+    <h4>Шкала Ликерта</h4>
+</div>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#A" data-toggle="tab">Создание</a>
+</ul>
+<div class="row well">
+    <textarea id="title" placeholder="Описание задания"></textarea>
+    <br/>
+    <hr/>
+    <div class="right-align">
+        <button class="btn btn-default settings_button" id="add-col" title="Добавить столбец">Добавить вариант</button>
+    </div>
+    <br/>
+    <table id="likert">
+        <tbody>
+            <tr>
+                <td></td>
+                <td>
+                    <input placeholder="Опишите вариант"/>
+                    <span class="remove glyphicon glyphicon-remove"></span>
+                </td>
+                <td>
+                    <input placeholder="Опишите вариант"/>
+                    <span class="remove glyphicon glyphicon-remove"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input placeholder="Опишите вариант"/>
+                    <span class="remove glyphicon glyphicon-remove"></span>
+                </td>
+                <td><input type="checkbox"/></td>
+                <td><input type="checkbox"/></td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <button class="btn btn-default settings_button" id="add-row" title="Добавить строку">Добавить вариант</button>
+    <br>
+    <br>
+    <%= render "utz/select_topic" %>
+    <br>
+    <button class="btn btn-default settings_button" id="done">Создать</button>
+    <br/>
+</div>
+
+<br/>
+
+<%= link_to 'Назад', utz_path %>
+
+<% content_for :head do %>
+    <%= stylesheet_link_tag "likert_utz", media: "all", "data-turbolinks-track" => true %>
+<% end %>
+
+<%= javascript_include_tag "likert_utz", "data-turbolinks-track" => true %>

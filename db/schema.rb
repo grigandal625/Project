@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230107100510) do
+ActiveRecord::Schema.define(version: 20230108180635) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -309,6 +309,40 @@ ActiveRecord::Schema.define(version: 20230107100510) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["ka_test_id", "number"], name: "index_ka_variants_on_ka_test_id_and_number"
+  end
+
+  create_table "likert_utz_matches", force: :cascade do |t|
+    t.integer  "likert_utz_task_id"
+    t.integer  "likert_utz_variant_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["likert_utz_task_id"], name: "index_likert_utz_matches_on_likert_utz_task_id"
+    t.index ["likert_utz_variant_id"], name: "index_likert_utz_matches_on_likert_utz_variant_id"
+  end
+
+  create_table "likert_utz_tasks", force: :cascade do |t|
+    t.string   "text"
+    t.integer  "likert_utz_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["likert_utz_id"], name: "index_likert_utz_tasks_on_likert_utz_id"
+  end
+
+  create_table "likert_utz_variants", force: :cascade do |t|
+    t.string   "text"
+    t.integer  "likert_utz_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["likert_utz_id"], name: "index_likert_utz_variants_on_likert_utz_id"
+  end
+
+  create_table "likert_utzs", force: :cascade do |t|
+    t.string   "text"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "name",        default: ""
+    t.integer  "ka_topic_id"
+    t.index ["ka_topic_id"], name: "index_likert_utzs_on_ka_topic_id"
   end
 
   create_table "logs", force: :cascade do |t|

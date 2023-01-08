@@ -1,5 +1,11 @@
 UIR::Application.routes.draw do
 
+  get 'likert_utz/new'
+  post 'likert_utz', to: "likert_utz#create", as: "likert_utz_create"
+
+  get 'likert_utz/show/:id', to: "likert_utz#show", as: 'likert_utz' 
+  delete 'likert_utz', to: "likert_utz#destroy", as: "likert_utz_destroy"
+
   get "auth/login", to: "auth#login", as: "login"
   post "auth/authentificate"
   post "auth/logout", as: "logout"

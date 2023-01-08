@@ -1,0 +1,49 @@
+// Place all the styles related to the LikertUTZ controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+#likert {
+    border-top: 1px solid silver;
+}
+
+#likert tr:hover {
+    background-color: aliceblue;
+}
+
+#likert tr {
+    transition: 0.2s;
+    border-bottom: 1px solid silver;
+    border-left: 1px solid silver;
+}
+
+#likert td {
+    text-align: center;
+    padding: 5px;
+    border-right: 1px solid silver;
+}
+
+.remove {
+    margin: 3px;
+    cursor: pointer;
+    transition: 0.3;
+}
+
+.remove:hover {
+    color: gray;
+}
+
+.container {
+    padding: 5px !important;
+    left: 50%;
+    width: 85%;
+}
+
+.right-align {
+    text-align: right;
+}
+
+#title {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 85px;
+}
