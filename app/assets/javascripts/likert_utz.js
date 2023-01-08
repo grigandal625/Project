@@ -1,5 +1,5 @@
-const rowCount = () => $("#likert tr").length - 1;
-const colCount = () => $("#likert tr")[0].getElementsByTagName("td").length - 1;
+let rowCount = () => $("#likert tr").length - 1;
+let colCount = () => $("#likert tr")[0].getElementsByTagName("td").length - 1;
 
 let getRow = (index) => $($("#likert tr")[Number(index) + 1]);
 let activateRow = (row) => {
