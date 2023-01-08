@@ -15,7 +15,19 @@
         <div class="tab-content">
           <div class="tab-pane active" id="B">
             <div class="well well-sm">
-              <%= text_with_editable_links(@utz.text, @utz.intervals) %>
+              <h3>Заполните пропуски</h3>
+              <div class="filling-content">
+                <% @utz.elements.each do |element| %>
+                  <% if element.is_hidden %>
+                    <input class="hidden-filling" data-check="<%= element.text %>" placeholder="Введите пропущенное"/>
+                  <% else %>
+                    <span><%= element.text %></span>
+                  <% end %>
+                <% end %>
+              </div>
+              <br/>
+              <button class="btn btn-default settings_button" id="done">Проверить</button>
+              <button data-text="<%= @utz.hint %>" class="btn btn-default settings_button" id="hint">Подсказка</button>
             </div>
           </div>
         </div>
@@ -27,5 +39,6 @@
 <%= link_to 'Назад', utz_path %>
 
 <% content_for :head do %>
-    <%= javascript_include_tag "ytz5_usage", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag    "ytz5_usage", media: "all", "data-turbolinks-track" => true %>
 <% end %>
+<%= javascript_include_tag "ytz5_usage", "data-turbolinks-track" => true %>

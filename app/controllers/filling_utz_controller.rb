@@ -14,14 +14,25 @@ class FillingUtzController < ApplicationController
                             text: params['text'],
                             ka_topic_id: params['topic_id']
 
-    selections = params['selections']
+    # selections = params['selections']
 
-    selections.each_value do |selection|
-      interval = FillingUtzInterval.create start: selection['start'] , end: selection['end'],
-                                           answer: selection['answer'], filling_utz_id: utz.id
-      variants = selection['variants']
+    # selections.each_value do |selection|
+    #   interval = FillingUtzInterval.create start: selection['start'] , end: selection['end'],
+    #                                        answer: selection['answer'], filling_utz_id: utz.id
+    #   variants = selection['variants']
 
-      variants.each { |variant| FillingUtzAnswer.create text: variant, filling_utz_interval_id: interval.id}
+    #   variants.each { |variant| FillingUtzAnswer.create text: variant, filling_utz_interval_id: interval.id}
+    # end
+
+    elements = params['elements']
+
+    elements.each_value do |element|
+      e = FillingUtzElement.create(
+        number: element['number'],
+        text: element['text'],
+        is_hidden: element['is_hidden'],
+        filling_utz: utz
+      )
     end
 
     render nothing: true

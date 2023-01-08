@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220520134219) do
+ActiveRecord::Schema.define(version: 20230107100510) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -138,6 +138,16 @@ ActiveRecord::Schema.define(version: 20220520134219) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.index ["filling_utz_interval_id"], name: "index_filling_utz_answers_on_filling_utz_interval_id"
+  end
+
+  create_table "filling_utz_elements", force: :cascade do |t|
+    t.integer  "number"
+    t.string   "text"
+    t.boolean  "is_hidden"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "filling_utz_id"
+    t.index ["filling_utz_id"], name: "index_filling_utz_elements_on_filling_utz_id"
   end
 
   create_table "filling_utz_intervals", force: :cascade do |t|

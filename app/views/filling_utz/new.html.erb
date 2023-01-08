@@ -21,8 +21,16 @@
               </div>
               <div class="row">
                 <div class="col-md-12">
-                  <div class="editable form-control" id="task" contenteditable="true">
-
+                  <div id="task-elements">
+                    <div class="dropdown">
+                      <button id="add-element" class="btn btn-default">
+                        Добавить элемент текста
+                      </button>
+                      <div id="myDropdown" class="dropdown-content">
+                        <div id="add-simple" class="dropdown-item">Видимый текст</div>
+                        <div id="add-hidden" class="dropdown-item">Пропуск в тексте</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -38,9 +46,7 @@
                 </div>
                 <div class="col-md-6 nav_buttons" id="step1">
                   <center>
-                    <button class="btn btn-default settings_button" id="next_step">
-                      Следующий шаг
-                    </button>
+                    <button class="btn btn-default settings_button" id="done">Создать</button>
                   </center>
                 </div>
               </div>
