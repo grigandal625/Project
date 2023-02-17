@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230108180635) do
+ActiveRecord::Schema.define(version: 20230217111627) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -733,6 +733,21 @@ ActiveRecord::Schema.define(version: 20230108180635) do
   create_table "trees", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "triades", force: :cascade do |t|
+    t.integer  "first_topic_id"
+    t.integer  "second_topic_id"
+    t.integer  "third_topic_id"
+    t.integer  "constructs_id"
+    t.boolean  "accepted"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "root_topic"
+    t.index ["constructs_id"], name: "index_triades_on_constructs_id"
+    t.index ["first_topic_id"], name: "index_triades_on_first_topic_id"
+    t.index ["second_topic_id"], name: "index_triades_on_second_topic_id"
+    t.index ["third_topic_id"], name: "index_triades_on_third_topic_id"
   end
 
   create_table "users", force: :cascade do |t|

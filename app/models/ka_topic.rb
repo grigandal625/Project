@@ -22,6 +22,8 @@ class KaTopic < ActiveRecord::Base
   has_many :images_sort_utzs, dependent: :destroy
   has_many :component_elements, through: :component_element_topic
 
+  has_many :triades, through: :root_topic
+
   def get_tree
     topics = []
     topics.push(self)
@@ -42,6 +44,49 @@ class KaTopic < ActiveRecord::Base
 	end
 	return topics
     end
+
+
+  def get_root
+    root = self
+    while !self.parent.nil? do
+      root = self.parent
+    end
+    return root
+  end
+
+  def get_groups_from_root
+    return KaTopic.get_groups(self.get_root().id)
+  end
+
+  def self.get_groups(root_id)
+    groups = []
+    root = KaTopic.find(root_id)
+    root.children.each do |child|
+      groups = groups.concat(KaTopic.get_groups(child.id))
+    end
+    if root.children.count > 2
+      groups.push(root.children.to_a)
+    end
+    return groups
+  end
+  
+  def self.formate_triads(groups)
+    triades = []
+    groups.each do |group|
+      i = 0
+      for first_topic in group[0, group.count - 2]
+        i = i + 1
+        j = i
+        for second_topic in group[i, group.count - 1]
+          j = j + 1
+          for third_topic in group[j, group.count]
+            triades.push([first_topic, second_topic, third_topic])
+          end
+        end
+      end
+    end
+    return triades
+  end
 
   def get_active_questions
     questions = []

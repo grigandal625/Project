@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  first_topic: one
+  second_topic: one
+  third_topic: one
+
+two:
+  first_topic: two
+  second_topic: two
+  third_topic: two
