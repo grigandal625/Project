@@ -55,7 +55,7 @@ class StatisticsController < AdminToolsController
   private
 
   def problem_areas
-    @result_data = ::Tools::MonitoringTools::KlasterTools.new().problem_areas([54])
+    @result_data = ::Tools::MonitoringTools::KlasterTools.new().problem_areas([58,59,60])
     klasters = @result_data['Кластеризация'].values
     @klaster_rows = {}
     klasters.each_with_index do |klaster, klaster_index|
@@ -76,13 +76,13 @@ class StatisticsController < AdminToolsController
   end
 
   def marks_prognosis
-    @result = ::Tools::MonitoringTools::KlasterTools.new().marks_prognosis([54, 53])
+    @result = ::Tools::MonitoringTools::KlasterTools.new().marks_prognosis([58, 59,50])
     @rows = []
     @result.each { |k,v| @rows.push([k, v]) }
   end
 
   def competence_study
-    @result = ::Tools::MonitoringTools::KlasterTools.new().competence_study([54, 53])
+    @result = ::Tools::MonitoringTools::KlasterTools.new().competence_study([58, 59,50])
     @rows1 = {}
     @result[0].each_with_index do |el, index|
       @rows1[index] ||= [nil, nil]
@@ -96,7 +96,7 @@ class StatisticsController < AdminToolsController
   end
 
   def study_skill
-    @result = ::Tools::MonitoringTools::KlasterTools.new().study_skill([54, 53], 3)
+    @result = ::Tools::MonitoringTools::KlasterTools.new().study_skill([58, 59,50], 3)
     @rows1 = {}
     @rows2 = {}
     @result[0].each_with_index do |el, index|
