@@ -70,7 +70,7 @@ class KaTopic < ActiveRecord::Base
     return groups
   end
   
-  def self.formate_triads(groups)
+  def self.formate_triades(groups)
     triades = []
     groups.each do |group|
       i = 0
