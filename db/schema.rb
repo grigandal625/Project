@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230217111627) do
+ActiveRecord::Schema.define(version: 20230219180648) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -726,8 +726,10 @@ ActiveRecord::Schema.define(version: 20230217111627) do
     t.integer  "rel_type",         default: 2, null: false
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.integer  "root_topic_id"
     t.index ["ka_topic_id"], name: "index_topic_relations_on_ka_topic_id"
     t.index ["related_topic_id"], name: "index_topic_relations_on_related_topic_id"
+    t.index ["root_topic_id"], name: "index_topic_relations_on_root_topic_id"
   end
 
   create_table "trees", force: :cascade do |t|
@@ -743,9 +745,11 @@ ActiveRecord::Schema.define(version: 20230217111627) do
     t.boolean  "accepted"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.integer  "root_topic"
+    t.integer  "root_topic_id"
+    t.integer  "selected_theme"
     t.index ["constructs_id"], name: "index_triades_on_constructs_id"
     t.index ["first_topic_id"], name: "index_triades_on_first_topic_id"
+    t.index ["root_topic_id"], name: "index_triades_on_root_topic_id"
     t.index ["second_topic_id"], name: "index_triades_on_second_topic_id"
     t.index ["third_topic_id"], name: "index_triades_on_third_topic_id"
   end

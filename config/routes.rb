@@ -1,5 +1,19 @@
 UIR::Application.routes.draw do
 
+  get 'triade/formate'
+
+  get 'triade/:id/list', to: "triade#list", as: "triade_list"
+  post 'triade/:id/list', to: "triade#list", as: "triade_list_gen"
+  post 'triade/:id/constructs', to: "triade#constructs_triade", as: "constructs_triade"
+  get 'triade/:id/lock', to: "triade#lock_triade", as: "lock_triade"
+
+  get 'triade/:id/show', to: "triade#show", as: "triade_show"
+
+  get 'triade/:id/start', to: "triade#start", as: "triade_start"
+
+  get 'triade/:id/show_grid', to: "triade#show_grid", as: "triade_show_grid"
+  post 'triade/update_grid', to: "triade#update_grid", as: "update_grid"
+
   get 'likert_utz/new'
   post 'likert_utz', to: "likert_utz#create", as: "likert_utz_create"
 
@@ -38,6 +52,7 @@ UIR::Application.routes.draw do
   get  '/ka_topics/all',           to: 'ka_topics#all',       as: :all_ka_topics
   get  '/ka_topics/general_constructs', to: 'ka_topics#show_general_constructs', as: :general_constructs
   get  '/ka_topics/:id',           to: 'ka_topics#show',      as: :ka_topic
+  get  '/ka_topics/show_all_relations/:id', to: 'ka_topics#show_all_relations', as: :show_all_relations
   get  '/ka_topics/destroy/:id',   to: 'ka_topics#destroy',   as: :ka_topic_destroy
   post '/ka_topics/new',           to: 'ka_topics#new',       as: :new_ka_topic
   get  '/ka_topics/edit/:id',      to: 'ka_topics#edit',      as: :edit_ka_topic

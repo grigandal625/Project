@@ -154,27 +154,47 @@ class KaTopicsController < ApplicationController
     redirect_to "/"
   end
 
-  def execute_amrr
-    root = KaTopic.find(params[:root_id])
-
-    TopicRelation.delete_all(:ka_topic_id => params[:root_id])
-    TopicRelation.delete_all(:related_topic_id => params[:root_id])
-
-    global_root = root
-    while !global_root.parent.nil?
-      global_root = global_root.parent
-    end
-    topics = global_root.get_tree
-    constructs = root.constructs
-    @output = []
+  def show_all_relations
+    topic = KaTopic.find(params[:id])
+    root = topic.get_root
+    @rt = root
     rel_type_mapping = ["Сильная", "Средняя", "Слабая"]
 
+    @output = []
+
+    TopicRelation.where(root_topic_id: root.id).each do |r|
+      @output.push({
+        topic: r.ka_topic.text,
+        related_topic: r.related_topic.text,
+        relation_type: rel_type_mapping[r.rel_type]
+      })
+    end
+    render "execute_amrr"
+  end
+
+  def execute_amrr
+    TopicRelation.delete_all(:root_topic_id => params[:root_id])
+    rel_type_mapping = ["Сильная", "Средняя", "Слабая"]
+
+    topic = KaTopic.find(params[:root_id])
+    root = topic.get_root #можно удалить, когда будет исправлено поле "params[:root_id]"
+    topics = root.get_tree
+    count = topics.count
+    @rt = root
+
+    @output = []
     ActiveRecord::Base.transaction do
-      for i in 0..(topics.count - 1)
-        relation = TopicRelation.calculate_relation(root, topics[i], constructs)
-        if !relation.nil?
-          relation.save
-          @output.push({ topic: root.text, related_topic: topics[i].text, relation_type: rel_type_mapping[relation.rel_type] })
+      for i in 0..(count - 2)
+        for j in (i+1)..(count - 1)
+          relation = TopicRelation.calculate_relation(topics[i], topics[j])
+          if !relation.nil?
+            relation.save
+            @output.push({
+              topic: topics[i].text,
+              related_topic: topics[j].text,
+              relation_type: rel_type_mapping[relation.rel_type]
+            })
+          end
         end
       end
     end

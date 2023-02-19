@@ -1,0 +1,22 @@
+h1 Адаптивный метод репертуарных решёток
+p Выберите корневую тему для применения АМРР
+h2 Корневые темы
+
+table
+    thead
+        tr
+            th.name = "Название"
+            th.options colspan="4" = "Опции"
+    tbody
+        - @roots.each do |r|
+            tr 
+                td
+                    a href="#{edit_ka_topic_path(r.id)}" #{r.text}
+                td 
+                    a href="#{triade_list_path(r.id)}" Отобразить триады
+                td 
+                    a href="#{triade_start_path(r.id)}" Выявить конструкты
+                td 
+                    a href="#{triade_show_grid_path(r.id)}" Заполнить репертуарную решетку
+                td 
+                    a href="#{calc_rel_path(r.id)}" target="_blank" Сгенерировать связи

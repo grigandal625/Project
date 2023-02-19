@@ -1,0 +1,80 @@
+div class="row"
+    div class="large-12 columns"
+        h1 Выявление конструкта
+
+
+div class="large-2 columns"
+    ul class="vertical menu" style="height: calc(100vh - 140px); overflow-y: scroll"
+        / style="position:fixed; left: 0px; top: 50px; height: calc(100% - 50px); overflow-y: scroll"
+        - Triade.where(root_topic_id: @triade.root_topic.id).each_with_index do |t, i|
+            li
+                - if t.id == @triade.id
+                    span > 
+                
+                - if !t.constructs_id.nil?
+                    b
+                        a href="#{triade_show_path(t.id)}" Триада #{i + 1}
+                    span ✓
+                - else 
+                    a href="#{triade_show_path(t.id)}" Триада #{i + 1}
+                    - if t.accepted
+                        span 🚫
+
+div class="large-8 columns"
+    a href="#{triade_list_path(@triade.root_topic.id)}" Назад к списку триад
+    br
+    br
+
+    p Выберите тему, которая отличается от двух других и укажите признак различия (дифференцирующий признак)
+
+    h3 Темы
+    form action="#{constructs_triade_path(@triade.id)}" method="post"
+        table 
+            thead 
+                tr 
+                    td 
+                    td Название
+            tbody 
+                tr 
+                    td
+                        - if @triade.selected_theme == 1
+                            input type="radio" margin="0" name="selected_theme" value="1" checked="true"
+                        - else 
+                            input type="radio" margin="0" name="selected_theme" value="1"
+                    td  
+                        a href="#{edit_ka_topic_path(@triade.first_topic.id)}" #{@triade.first_topic.text}
+                tr 
+                    td 
+                        - if @triade.selected_theme == 2
+                            input type="radio" margin="0" name="selected_theme" value="2" checked="true"
+                        - else 
+                            input type="radio" margin="0" name="selected_theme" value="2"
+                    td  
+                        a href="#{edit_ka_topic_path(@triade.second_topic.id)}" #{@triade.second_topic.text}
+                tr 
+                    td 
+                        - if @triade.selected_theme == 3
+                            input type="radio" margin="0" name="selected_theme" value="3" checked="true"
+                        - else 
+                            input type="radio" margin="0" name="selected_theme" value="3"
+                    td  
+                        a href="#{edit_ka_topic_path(@triade.third_topic.id)}" #{@triade.third_topic.text}
+
+        h3 Дифференцирующий признак
+        div class="row"
+            div class="large-12 columns"
+                div class="row collapse"
+                    div class="small-6 columns"
+                        input id="constructName" name="name" placeholder="Название" type="text" value="#{@construct_name}"
+                    div class="small-2 columns"
+                        input class="button postfix" type="submit" value="Добавить"
+                    div class="small-4 columns"
+                        a class="alert button postfix" href="#{lock_triade_path(@triade.id)}" Невозможно построить признак
+div class="large-2 columns" style="height: calc(100vh - 140px); overflow-y: scroll"
+    ul class="vertical menu" 
+        / style="position:fixed; left: 100%; transform: translate(-100%, 0); top: 50px; height: calc(100% - 50px); overflow-y: scroll"
+        h3 style="padding: 5px" Конструкты:
+        - Construct.all.each do |c|
+            li style="cursor: pointer; border: 1px solid silver" onclick="document.querySelector('#constructName').value='#{c.name}'" #{c.name}
+
+

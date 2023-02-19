@@ -45,7 +45,6 @@ class KaTopic < ActiveRecord::Base
 	return topics
     end
 
-
   def get_root
     root = self
     while !self.parent.nil? do
@@ -73,14 +72,10 @@ class KaTopic < ActiveRecord::Base
   def self.formate_triades(groups)
     triades = []
     groups.each do |group|
-      i = 0
-      for first_topic in group[0, group.count - 2]
-        i = i + 1
-        j = i
-        for second_topic in group[i, group.count - 1]
-          j = j + 1
-          for third_topic in group[j, group.count]
-            triades.push([first_topic, second_topic, third_topic])
+      for i in 0..(group.count-2)
+        for j in (i+1)..(group.count-1)
+          for k in (j+1)..group.count
+            triades.push([group[i], group[j], group[k]])
           end
         end
       end

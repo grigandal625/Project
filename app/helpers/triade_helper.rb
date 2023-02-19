@@ -1,0 +1,2 @@
+module TriadeHelper
+end

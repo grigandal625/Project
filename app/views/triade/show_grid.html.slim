@@ -1,0 +1,30 @@
+div class="row"
+    div class="large-12 columns"
+        h1 Репертуарная решетка 
+        h3 #{@root.text}
+
+table 
+    thead 
+        tr 
+            th Элемент курса / Конструкт
+            - @constructs.each do |c|
+                th #{c.name}
+    tbody 
+        - @all_topics.each do |t|
+            tr 
+                td 
+                    a href="#{triade_show_grid_path(t.id)}" #{t.text}
+                - @constructs.each do |c|
+                    td style="white-space: nowrap;"
+                        form style="white-space: nowrap;" action="#{update_grid_path}" method="post"
+                            input type="hidden" name="ka_topic_id" value="#{t.id}"
+                            input type="hidden" name="construct_id" value="#{c.id}"
+                            div class="row collapse"
+                                div class="small-10 columns"
+                                    - if TopicConstruct.where(ka_topic_id: t.id, construct_id: c.id)[0].nil?
+                                        input class="tiny" type="number" min="0" max="100" name="mark"
+                                    - else 
+                                        input class="tiny" type="number" min="0" max="100" name="mark" value="#{TopicConstruct.where(ka_topic_id: t.id, construct_id: c.id)[0].mark}"
+                                div class="small-2 columns"
+                                    input class="button postfix" style="width:25px;" type="submit" value="✓"
+

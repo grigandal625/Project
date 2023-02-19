@@ -1,0 +1,43 @@
+h1 Список триад для корневой темы «#{@root.text}»
+
+a href="#{triade_formate_path}" Назад
+br
+br
+
+form action="#{triade_list_gen_path(@root.id)}" method="POST"
+              button type="submit" class="button postfix" Перестроить триады
+
+- @triades.each_with_index do |t, i|
+    h3 
+        span Триада #{i + 1} - 
+        - if t.constructs_id.nil? 
+            - if t.accepted 
+                span 
+                    i Отмечена невозможность выявления конструкта 
+                    a href="#{triade_show_path(t.id)}" перевыявить
+            - else 
+                a href="#{triade_show_path(t.id)}" Выявить конструкт
+        - else
+            span 
+                b Конструкт выявлен 
+                a href="#{triade_show_path(t.id)}" перевыявить
+            
+    table 
+        thead 
+            tr 
+                th №
+                th Тема
+        
+        tr 
+            td 1
+            td 
+                a href="#{edit_ka_topic_path(t.first_topic.id)}" #{t.first_topic.text}
+        tr 
+            td 2
+            td 
+                a href="#{edit_ka_topic_path(t.second_topic.id)}" #{t.second_topic.text}
+        tr 
+            td 3
+            td 
+                a href="#{edit_ka_topic_path(t.third_topic.id)}" #{t.third_topic.text}
+    br
