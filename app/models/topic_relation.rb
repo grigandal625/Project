@@ -14,7 +14,9 @@ class TopicRelation < ActiveRecord::Base
       sum = Math.sqrt(sum / values_a.count) / 100
 
       #rel = TopicRelation.new(ka_topic_id: top_a.id, related_topic_id: top_b.id)
-      rel = TopicRelation.new(ka_topic_id: top_a.id, related_topic_id: top_b.id, root_topic_id: top_a.get_root.id)
+      a = top_a.parent_id.nil?
+      root = top_a.get_root
+      rel = TopicRelation.new(ka_topic_id: top_a.id, related_topic_id: top_b.id, root_topic_id: root.id)
       if sum < 0.3
         rel[:rel_type] = 0
       elsif sum < 0.7

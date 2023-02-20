@@ -183,21 +183,22 @@ class KaTopicsController < ApplicationController
     @rt = root
 
     @output = []
-    ActiveRecord::Base.transaction do
-      for i in 0..(count - 2)
-        for j in (i+1)..(count - 1)
-          relation = TopicRelation.calculate_relation(topics[i], topics[j])
-          if !relation.nil?
-            relation.save
-            @output.push({
-              topic: topics[i].text,
-              related_topic: topics[j].text,
-              relation_type: rel_type_mapping[relation.rel_type]
-            })
-          end
+    
+    for i in 0..(count - 2)
+      for j in (i+1)..(count - 1)
+        relation = TopicRelation.calculate_relation(topics[i], topics[j])
+        puts(relation)
+        if !relation.nil?
+          relation.save
+          @output.push({
+            topic: topics[i].text,
+            related_topic: topics[j].text,
+            relation_type: rel_type_mapping[relation.rel_type]
+          })
         end
       end
     end
+    
   end
 
   def show_topics_with_questions
