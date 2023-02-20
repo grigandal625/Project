@@ -80,7 +80,9 @@ class KaTopic < ActiveRecord::Base
       for i in 0..(group.count-2)
         for j in (i+1)..(group.count-1)
           for k in (j+1)..group.count
-            triades.push([group[i], group[j], group[k]])
+            if !group[i].nil? && !group[j].nil? && !group[k].nil?
+              triades.push([group[i], group[j], group[k]])
+            end
           end
         end
       end
