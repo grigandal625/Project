@@ -23,12 +23,14 @@ class TriadeController < ApplicationController
     topic = KaTopic.find(params[:id])
     @root = topic.get_root()
     if request.request_method() == 'POST' || Triade.where(root_topic: @root).count == 0
-      Triade.where(root_topic: @root).destroy_all()
+      Triade.delete_all(:root_topic_id => @root.id)
       groups = @root.get_groups_from_root()
       triade_list = KaTopic.formate_triades(groups)
       triade_list.each do |t|
-        triade = Triade.new(first_topic: t[0], second_topic: t[1], third_topic: t[2], constructs: nil, root_topic: @root, accepted: false)
-        triade.save
+        if !t[0].nil? && !t[1].nil? && !t[2].nil?
+          triade = Triade.new(first_topic: t[0], second_topic: t[1], third_topic: t[2], constructs: nil, root_topic: @root, accepted: false)
+          triade.save
+        end
       end
     end
     @triades = Triade.where(root_topic: @root)

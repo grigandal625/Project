@@ -47,8 +47,13 @@ class KaTopic < ActiveRecord::Base
 
   def get_root
     root = self
-    while !self.parent_id.nil? do
-      root = KaTopic.find(self.parent_id)
+    id_stack=[]
+    while !root.parent.nil? do
+      if id_stack.include?(root.parent_id)
+        return root
+      end
+      id_stack.push(root.parent_id)
+      root = root.parent
     end
     return root
   end
