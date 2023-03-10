@@ -99,6 +99,7 @@ UIR::Application.routes.draw do
   resources :constructs
   post 'constructs/attach' => 'constructs#attach'
   get 'constructs/:c_id/detach_from/:t_id' => 'constructs#detach', as: :construct_detach
+  get '/constructs/:id/destroy', to: 'constructs#destroy', as: 'destroy_construct'
 
   resources :component_services
   resources :components do
@@ -272,9 +273,17 @@ UIR::Application.routes.draw do
     patch :detach, on: :member
   end
   
-  get "statistics/personality/:group_id", to: "statistics#personality_klaster_by_group"
-  get "statistics/operations/:operation", to: "statistics#operation"
-  get "statistics/personality", to: "statistics#personality_klaster"
+  resources :statistics do
+    post :problem_areas, on: :collection
+    post :marks_prognosis, on: :collection
+    post :competence_study, on: :collection
+    post :study_skill, on: :collection
+    # post :problem_areas, on: :collection
+    # post :problem_areas, on: :collection
+  end
+  # get "statistics/personality/:group_id", to: "statistics#personality_klaster_by_group"
+  # get "statistics/operations/:operation", to: "statistics#operation"
+  # get "statistics/personality", to: "statistics#personality_klaster"
 
   resources :statistics, only: [:index]
 

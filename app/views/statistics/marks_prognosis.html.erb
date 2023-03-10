@@ -1,0 +1,42 @@
+<% content_for(:head) do %>
+  <title>Мониторинг</title>
+<% end %>
+Прогноз оценок за экзамен
+<%= form_tag('/statistics/marks_prognosis', class: "form-control", style: 'height: fit-content;') do -%>
+  <div class="form-group">
+    <%= label_tag 'group', 'Группа:' %>
+    <%= select_tag "group", options_from_collection_for_select(@groups, "id", "number") %>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'abs_mark', 'Минимальный балл для почти усваиваемых тем:' %>
+    <%= number_field_tag 'abs_mark', '0.69', min: 0, max: 1, step: 0.01 %>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'max_mark', 'Минимальный балл для почти усваиваемых тем:' %>
+    <%= number_field_tag 'max_mark', '0.55', min: 0, max: 1, step: 0.01 %>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'min_mark', 'Максимальный балл для сложных тем:' %>
+    <%= number_field_tag 'min_mark', '0.1', min: 0, max: 1, step: 0.01 %>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'file_g', 'Сгенерировать файл' %>
+    <%= check_box_tag 'file_g', '1', false %>
+  </div>
+  <div class="form-group">
+    <%= submit_tag 'Сгенерировать отчет' %>
+  </div>
+<% end %>
+<% if @klaster_rows %>
+<br/><%= content_tag :span, 'Кластеризация проблемных зон' %><br/>
+<%= display_standard_table([{name: 0, display_name: "Очень сложные темы"},
+                            {name: 1, display_name: "Сложные темы"},
+                            {name: 2, display_name: "Почти усваемые темы"}
+], @klaster_rows.map { |el| el[1] }) %>
+<% end %>
+<% if @dynamic_rows %>
+<br/><%= content_tag :span, 'Динамика проблемных зон' %><br/>
+<%= display_standard_table([{name: 0, display_name: "Динамика положительная"},
+                            {name: 1, display_name: "Динамика отрицательная"},
+], @dynamic_rows.map { |el| el[1] }) %>
+<% end %>

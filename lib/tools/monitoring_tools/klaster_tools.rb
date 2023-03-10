@@ -5,7 +5,7 @@ module Tools
         group = Group.find(group_id)
         group.students.map { |student| student.user.ka_results}
       end
-      def problem_areas(group_id)
+      def problem_areas(group_id, abs_mark, max_mark, min_mark)
         ka_results = []
         group_id.each{ |id| ka_results += group_ka_results(id).to_a }
         x_arr = []
@@ -18,14 +18,14 @@ module Tools
         x_arr = x_arr.reduce(:+)
         y_arr = y_arr.reduce(:+)
         result = {}
-        result['Кластеризация'] = klaster_problem_areas(x_arr, y_arr)
+        result['Кластеризация'] = klaster_problem_areas(x_arr, y_arr, abs_mark, max_mark, min_mark)
         result['Динамика'] = dynamic_problem_areas(x_arr, y_arr)
         result
       end
 
-      def klaster_problem_areas(x_arr, y_arr)
-        x_arr = x_arr.select{ |area| area.mark <= 0.67}
-        y_arr = y_arr.select{ |area| area.mark <= 0.67}
+      def klaster_problem_areas(x_arr, y_arr, abs_mark, max_mark, min_mark)
+        x_arr = x_arr.select{ |area| area.mark <= abs_mark.to_f}
+        y_arr = y_arr.select{ |area| area.mark <= abs_mark.to_f}
         x_with_theme = {}
         y_with_theme = {}
         x_arr.each do |x|
@@ -46,9 +46,9 @@ module Tools
 
         klaster = {'Очень сложные темы' => [], 'Сложные темы' => [], 'Почти усваемые темы' => []}
         w_arr.each do |k,v|
-          if v <= 0.1
+          if v <= min_mark.to_f
             klaster['Очень сложные темы'].push(k)
-          elsif v > 0.55
+          elsif v >= max_mark.to_f
             klaster['Почти усваемые темы'].push(k)
           else
             klaster['Сложные темы'].push(k)
@@ -181,6 +181,36 @@ module Tools
         f_pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(x_arr.map{|el| (el*100).round}, forward_arr.map{|el| (el*100).round})
         b_pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(x_arr.map{|el| (el*100).round}, backward_arr.map{|el| (el*100).round})
         [x_arr, [forward_arr, f_pirson], [backward_arr, b_pirson]]
+      end
+
+      def klaster_psyho(group_id, file)
+        opened_file = File.open(file)
+        options = { :row_sep => :auto, :col_sep => ';' }
+        marks = {}
+        students = Student.where(group_id: group_id)
+        CSV.foreach(opened_file, **options) do |row|
+          while row.first != "1"
+            next
+          end
+          student_personalities = students.where("fio LIKE '%#{row[1].split.first}%'").first.personalities
+          student_personalities.each do |pers|
+            marks[pers.name] ||= []
+            marks[pers.name].append([row[-7].to_i]) unless row[-7].nil?
+          end
+        end
+        result = {}
+        marks.each { |k, v| result[k] = v.reduce(:+) / v.size }
+        kluster = {'Психотипы с высокой успеваемостью' => [], 'Психотипы со средней успеваемостью' => [], 'Психотипы с низкой успеваемостью' => []}
+        result.each do |k, v|
+          if v <= result.values.min + (result.values.max - result.values.min)/3
+            kluster['Психотипы с низкой успеваемостью'].push(k)
+          elsif v >= result.values.max - (result.values.max - result.values.min)/3
+            kluster['Психотипы с высокой успеваемостью'].push(k)
+          else
+            kluster['Психотипы со средней успеваемостью'].push(k)
+          end
+        end
+        return kluster
       end
     end
   end

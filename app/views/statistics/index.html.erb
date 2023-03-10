@@ -1,10 +1,6 @@
 <% content_for(:head) do %>
-  <title>Статистика</title>
+  <title>Мониторинг</title>
 <% end %>
 
-<%= form_tag url: "/statistics/operations", method: :post do |form| %>
-  <%= form.select :operation, @operation_pairs %>
-  <%= form.label :operation, "Выберите статистический параметр" %>
-  <%= form.button "Скачать" %>
-<% end %>
+<%=params[:operation]%>
 

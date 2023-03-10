@@ -25,6 +25,9 @@ br
           td
             a href="#{edit_construct_path(c.id)}" Редактировать
           td
-           = link_to "Удалить", construct_path(c), method: :delete
+           = link_to "Удалить", destroy_construct_path(c), method: :post
 - else
   p Пока не добавлено ни одного конструкта
+
+div 
+  = javascript_pack_tag 'hello_react', 'data-turbolinks-track': 'reload'

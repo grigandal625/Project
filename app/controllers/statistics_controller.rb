@@ -1,6 +1,11 @@
 class StatisticsController < AdminToolsController
-
+  before_filter :find_groups
   def index
+    render params[:operation]
+  end
+
+  def find_groups
+    @groups = Group.all
   end
 
   def operation
@@ -52,10 +57,8 @@ class StatisticsController < AdminToolsController
   end
 
 
-  private
-
   def problem_areas
-    @result_data = ::Tools::MonitoringTools::KlasterTools.new().problem_areas([58,59,60])
+    @result_data = ::Tools::MonitoringTools::KlasterTools.new().problem_areas([params[:group].to_i], params[:abs_mark], params[:max_mark], params[:min_mark])
     klasters = @result_data['Кластеризация'].values
     @klaster_rows = {}
     klasters.each_with_index do |klaster, klaster_index|
@@ -73,6 +76,7 @@ class StatisticsController < AdminToolsController
         @dynamic_rows[index][dynamic_index] = el
       end
     end
+    render xlsx: 'problem_areas', formats: :xlsx if params[:file_g]
   end
 
   def marks_prognosis

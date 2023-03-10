@@ -82,7 +82,7 @@ class TriadeController < ApplicationController
   def constructs_triade
     triade = Triade.find(params[:id])
     cs = Construct.where(name: params[:name])
-    if cs.count
+    if !cs[0].nil?
       triade.constructs_id = cs[0].id
     else
       c = Construct.new(name: params[:name])

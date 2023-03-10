@@ -76,6 +76,17 @@
 	<li>
 	  <%= link_to("Рекомендации", outcomes_path) %>
 	</li>
+  <li class="dropdown">
+	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Мониторинг <span class="caret"></span></a>
+	  <ul class="dropdown-menu">
+      <li><%= link_to("Кластеризация проблемных зон", "/statistics?operation=problem_areas") %></li>
+	    <li><%= link_to("Прогноз оценок", "/statistics?operation=marks_prognosis") %></li>
+	    <li><%= link_to("Анализ степени достижения целевых компетенций по конкретным курсам/дисциплинам", "/statistics?operation=competence_study") %></li>
+	    <li><%= link_to("Анализ степени корреляции умений и знаний по соответствующим темам/подтемам", "/statistics?operation=study_skill") %></li>
+	    <!--<li><%= link_to("Расписание", "/statistics?operation=") %></li>
+	    <li><%= link_to("Расписание", "/statistics?operation=") %></li>-->
+	  </ul>
+	</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
 	
