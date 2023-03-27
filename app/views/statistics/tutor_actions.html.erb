@@ -1,0 +1,51 @@
+<% content_for(:head) do %>
+  <title>Мониторинг</title>
+<% end %>
+Индивидуальные планы
+<%= form_tag('/statistics/tutor_actions', class: "form-control", style: 'height: fit-content;') do -%>
+  <div class="form-group">
+    <%= label_tag 'group', 'Группа:' %>
+    <%= select_tag "group", options_from_collection_for_select(@groups, "id", "number") %>
+  </div>
+
+  <div class="form-group">
+    <%= submit_tag 'Сгенерировать отчет' %>
+  </div>
+
+<% end %>
+<% if @result_data.present? %>
+<br/><%= content_tag :span, "Индивидуальные планы группы: #{@result_data.first[:group]}" %><br/>
+<table class="iksweb">
+	<tbody>
+		<tr>
+			<td rowspan="2">ФИО</td>
+			<td rowspan="2">Группа</td>
+      <td colspan="2">УТЗ</td>
+		</tr>
+    <tr>
+			<td>Ссылка</td>
+			<td>Приоритет</td>
+		</tr>
+
+    <% @result_data.each do |student| %>
+      <tr>
+        <%
+          pa_count = student[:tutor_actions]&.count
+          pa_count += 1 if pa_count == 0
+        %>
+        <td rowspan=<%= pa_count %>><%= student[:fio] %></td>
+        <td rowspan=<%= pa_count %>><%= student[:group] %></td>
+        <% first_pa = student[:tutor_actions]&.delete_at(0) %>
+        <td><%= link_to(first_pa[:name], first_pa[:link]) rescue '-' %></td>
+        <td><%= first_pa[:priority] rescue '-' %></td>
+      </tr>
+      <% student[:tutor_actions]&.each do |pa| %>
+        <tr>
+          <td><%= link_to(pa[:name], pa[:link]) rescue '-' %></td>
+          <td><%= pa[:priority] rescue '-' %></td>
+        </tr>
+      <% end %>
+    <% end %>
+	</tbody>
+</table>
+<% end %>

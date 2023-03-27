@@ -1,0 +1,159 @@
+<% content_for(:head) do %>
+  <title>Мониторинг</title>
+<% end %>
+Ведомость
+<%= form_tag('/statistics/statements', class: "form-control", style: 'height: fit-content;') do -%>
+  <div class="form-group">
+    <%= label_tag 'group_ved', 'Группа:' %>
+    <%= select_tag "group_ved", options_from_collection_for_select(@groups, "id", "number") %>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'problem_areas', 'Вывести проблемные зоны' %>
+    <%= check_box_tag 'problem_areas', '1', false, onchange: "$('#competence_coverages').prop('disabled', (i, v) => !v);" %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag 'competence_coverages', 'Вывести покрытие компетенций' %>
+    <%= check_box_tag 'competence_coverages', '1', false, onchange: "$('#problem_areas').prop('disabled', (i, v) => !v);" %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag 'ka_tests', 'Вывести результаты тестирования' %>
+    <%= check_box_tag 'ka_tests', '1', false %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag '', 'Компоненты' %>
+    <div class="form-group">
+      <%= label_tag 'f_b_result', 'Вывести результаты прямого/обратного вывода' %>
+      <%= check_box_tag 'f_b_result', '1', false %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag 'semantic_result', 'Вывести результаты семантических сетей' %>
+      <%= check_box_tag 'semantic_result', '1', false %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag 'frame_result', 'Вывести результаты фреймов' %>
+      <%= check_box_tag 'frame_result', '1', false %>
+    </div>
+
+    <div class="form-group">
+      <%= submit_tag 'Сгенерировать отчет' %>
+    </div>
+  </div>
+<% end %>
+<% if @students.present? %>
+<% has_problem_areas = @students.first.key?("problem_areas") %>
+<% has_tests = @students.first.key?("tests") %>
+<% has_f_b = @students.first.key?("forward") %>
+<% has_semantics = @students.first.key?("semantics") %>
+<% has_frames = @students.first.key?("frames") %>
+<% has_comp = @students.first.key?("competence_coverages") %>
+<br/><%= content_tag :span, "Ведомость группы: #{@students.first["group"]}" %><br/>
+<table class="iksweb">
+	<tbody>
+		<tr>
+			<td rowspan="2">ФИО</td>
+			<td rowspan="2">Группа</td>
+      <% if has_problem_areas %>
+			  <td colspan="2" rowspan="2">Проблемные зоны</td>
+      <% end %>
+      <% if has_comp %>
+			  <td colspan="2" rowspan="2">Покрытие компетенций</td>
+      <% end %>
+      <% if has_tests %>
+        <% test_texts = @students.map{|s| s['tests'].map{|t| t['text']}}.flatten.uniq %>
+			  <td colspan=<%= test_texts.count %>>Результаты тестирования</td>
+      <% end %>
+      <% comp_count = 0 %>
+      <% comp_count += 2 if has_f_b %>
+      <% comp_count += 1 if has_semantics %>
+      <% comp_count += 1 if has_frames %>
+      <% if comp_count > 0 %>
+			  <td colspan=<%= comp_count %>>Компоненты</td>
+      <% end %>
+		</tr>
+    <tr>
+      <% if has_tests %>
+        <% test_texts.each do |ka_test| %>
+          <td><%= ka_test %></td>
+        <% end %>
+      <% end %>
+      <% if has_f_b %>
+        <td>Прямой вывод</td>
+        <td>Обратный вывод</td>
+      <% end %>
+      <% if has_semantics %>
+        <td>Семантические сети</td>
+      <% end %>
+      <% if has_frames %>
+        <td>Фреймы</td>
+      <% end %>
+    </tr>
+    <% @students.each do |student| %>
+      <tr>
+        <%
+          pa_count = if has_comp
+                       student['competence_coverages']&.count
+                     else
+                       student['problem_areas']&.count
+                     end
+          pa_count += 1 if pa_count == 0
+        %>
+        <td rowspan=<%= pa_count %>><%= student['fio'] %></td>
+        <td rowspan=<%= pa_count %>><%= student['group'] %></td>
+        <% if has_problem_areas %>
+          <% first_pa = student['problem_areas'].delete_at(0) %>
+          <td><%= first_pa['text'] rescue '-' %></td>
+          <td><%= first_pa['mark'] rescue '-' %></td>
+        <% end %>
+
+        <% if has_comp %>
+          <% first_cov = student['competence_coverages'].delete_at(0) %>
+          <td><%= first_cov['text'] rescue '-' %></td>
+          <td><%= first_cov['mark'] rescue '-' %></td>
+        <% end %>
+
+        <% if has_tests %>
+          <% test_texts.each do |ka_test| %>
+            <% cur_test = student['tests'].find{|test| test['text'] == ka_test} %>
+            <td rowspan=<%= pa_count %>><%= cur_test['mark'] rescue '-' %></td>
+          <% end %>
+        <% end %>
+
+        <% if has_f_b %>
+          <td rowspan=<%= pa_count %>><%= student['forward'] %></td>
+          <td rowspan=<%= pa_count %>><%= student['backward'] %></td>
+        <% end %>
+
+        <% if has_semantics %>
+          <td rowspan=<%= pa_count %>><%= student['semantics'] %></td>
+        <% end %>
+
+        <% if has_frames %>
+          <td rowspan=<%= pa_count %>><%= student['frames'] %></td>
+        <% end %>
+      </tr>
+      <% if has_problem_areas %>
+        <% student['problem_areas'].each do |pa| %>
+          <tr>
+            <td><%= pa['text'] rescue '-' %></td>
+            <td><%= pa['mark'] rescue '-' %></td>
+          </tr>
+        <% end %>
+      <% end %>
+
+      <% if has_comp %>
+        <% student['competence_coverages'].each do |cov| %>
+          <tr>
+            <td><%= cov['text'] rescue '-' %></td>
+            <td><%= cov['mark'] rescue '-' %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    <% end %>
+	</tbody>
+</table>
+<% end %>

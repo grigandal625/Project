@@ -17,6 +17,7 @@
 
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "statistic.css" %>
 
   <%= csrf_meta_tags %>
   <%= yield :head %>
@@ -83,8 +84,9 @@
 	    <li><%= link_to("Прогноз оценок", "/statistics?operation=marks_prognosis") %></li>
 	    <li><%= link_to("Анализ степени достижения целевых компетенций по конкретным курсам/дисциплинам", "/statistics?operation=competence_study") %></li>
 	    <li><%= link_to("Анализ степени корреляции умений и знаний по соответствующим темам/подтемам", "/statistics?operation=study_skill") %></li>
-	    <!--<li><%= link_to("Расписание", "/statistics?operation=") %></li>
-	    <li><%= link_to("Расписание", "/statistics?operation=") %></li>-->
+      <li><%= link_to("Кластеризация психотипов", "/statistics?operation=klaster_psyho") %></li>
+	    <li><%= link_to("Ведомости", "/statistics?operation=statements") %></li>
+	    <li><%= link_to("Индивидуальные планы", "/statistics?operation=tutor_actions") %></li>
 	  </ul>
 	</li>
       </ul>

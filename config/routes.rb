@@ -278,8 +278,9 @@ UIR::Application.routes.draw do
     post :marks_prognosis, on: :collection
     post :competence_study, on: :collection
     post :study_skill, on: :collection
-    # post :problem_areas, on: :collection
-    # post :problem_areas, on: :collection
+    post :klaster_psyho, on: :collection
+    post :statements, on: :collection
+    post :tutor_actions, on: :collection
   end
   # get "statistics/personality/:group_id", to: "statistics#personality_klaster_by_group"
   # get "statistics/operations/:operation", to: "statistics#operation"

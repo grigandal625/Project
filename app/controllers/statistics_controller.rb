@@ -1,6 +1,9 @@
 class StatisticsController < AdminToolsController
   before_filter :find_groups
   def index
+    @result_data = ::Tools::MonitoringTools::KlasterTools.new().tutor_actions(params[:group].to_i)
+    render json: @result_data and return
+    @components = Component.all
     render params[:operation]
   end
 
@@ -80,13 +83,14 @@ class StatisticsController < AdminToolsController
   end
 
   def marks_prognosis
-    @result = ::Tools::MonitoringTools::KlasterTools.new().marks_prognosis([58, 59,50])
+    @result = ::Tools::MonitoringTools::KlasterTools.new().marks_prognosis([params[:group].to_i])
     @rows = []
     @result.each { |k,v| @rows.push([k, v]) }
+    render xlsx: 'marks_prognosis', formats: :xlsx if params[:file_g]
   end
 
   def competence_study
-    @result = ::Tools::MonitoringTools::KlasterTools.new().competence_study([58, 59,50])
+    @result = ::Tools::MonitoringTools::KlasterTools.new().competence_study([params[:group].to_i])
     @rows1 = {}
     @result[0].each_with_index do |el, index|
       @rows1[index] ||= [nil, nil]
@@ -96,28 +100,164 @@ class StatisticsController < AdminToolsController
       @rows1[index] ||= [nil, nil]
       @rows1[index][1] = el
     end
+    @rows1[0] ||= [nil, nil]
     @rows1[0].push(@result[1][1])
+    render xlsx: 'competence_study', formats: :xlsx if params[:file_g]
   end
 
   def study_skill
-    @result = ::Tools::MonitoringTools::KlasterTools.new().study_skill([58, 59,50], 3)
+    @result = ::Tools::MonitoringTools::KlasterTools.new().study_skill([params[:group].to_i], params[:skill_component_id].to_i)
     @rows1 = {}
-    @rows2 = {}
-    @result[0].each_with_index do |el, index|
-      @rows1[index] ||= [nil, nil]
-      @rows1[index][0] = el
-      @rows2[index] ||= [nil, nil]
-      @rows2[index][0] = el
+    @rows2 = @result[2].present? ? {} : nil
+    @components = Component.all
+    @component_name = Component.find(params[:skill_component_id].to_i).name
+    if @result[0].present?
+      @result[0].each_with_index do |el, index|
+        @rows1[index] ||= [nil, nil]
+        @rows1[index][0] = el
+        if @result[2].present?
+          @rows2[index] ||= [nil, nil]
+          @rows2[index][0] = el
+        end
+      end
+      @result[1][0].each_with_index do |el, index|
+        @rows1[index] ||= [nil, nil]
+        @rows1[index][1] = el
+      end
+      @rows1[0] ||= [nil, nil]
+      @rows1[0].push(@result[1][1])
+      if @result[2].present?
+        @rows2 = {}
+        @result[2][0].each_with_index do |el, index|
+          @rows2[index] ||= [nil, nil]
+          @rows2[index][1] = el
+        end
+        @rows2[0] ||= [nil, nil]
+        @rows2[0].push(@result[2][1])
+      end
     end
-    @result[1][0].each_with_index do |el, index|
-      @rows1[index] ||= [nil, nil]
-      @rows1[index][1] = el
+    render xlsx: 'study_skill', formats: :xlsx if params[:file_g]
+  end
+
+  def klaster_psyho
+    @result_data = ::Tools::MonitoringTools::KlasterTools.new().klaster_psyho(params[:group].to_i, params[:file].path, params[:max_mark], params[:min_mark])
+
+    @klaster_rows = []
+    @result_data.values.each_with_index do |klaster, klaster_index|
+      klaster.each_with_index do |el, index|
+        @klaster_rows[index] ||= [nil, nil, nil]
+        @klaster_rows[index][klaster_index] = el
+      end
     end
-    @rows1[0].push(@result[1][1])
-    @result[2][0].each_with_index do |el, index|
-      @rows2[index] ||= [nil, nil]
-      @rows2[index][1] = el
+    render xlsx: 'klaster_psyho', formats: :xlsx if params[:file_g]
+  end
+
+  def statements
+    group = Group.find(params[:group_ved])
+    @students = []
+    Student.where(group: group).each do |student|
+      s = {
+        "fio" => student.fio,
+        "group" => group.number,
+        "id" => student.id
+      }
+
+      if params[:ka_tests] || params[:problem_areas] || params[:competence_coverages]
+        test_results = KaResult.where(user_id: student.user.id).order(created_at: :desc)
+        problem_areas = []
+        tests = []
+        competence_coverages = []
+        areas_done = false
+        test_results.each do |res|
+          tests.prepend({
+            "test_id" => res.ka_test.id,
+            "text" => res.ka_test.text,
+            "mark" => res.assessment
+          })
+          res.problem_areas.each do |p|
+            area = problem_areas.find {|pa| pa["topic_id"] == p.ka_topic.id}
+            if area == nil
+              if areas_done == false
+                problem_areas << {
+                  "topic_id" => p.ka_topic.id,
+                  "text" => p.ka_topic.text,
+                  "mark" => p.mark.round(2)
+                }
+              end
+            else
+              if area["mark"] < p.mark
+                index = problem_areas.find_index(area)
+                problem_areas[index]["mark"] = p.mark
+              end
+            end
+          end
+
+          res.competence_coverages.each do |p|
+            area = competence_coverages.find {|pa| pa["competence_id"] == p.competence.id}
+            if area == nil
+              if areas_done == false
+                competence_coverages << {
+                  "competence_id" => p.competence.id,
+                  "text" => p.competence.description,
+                  "mark" => p.mark.round(2)
+                }
+              end
+            else
+              if area["mark"] < p.mark
+                index = competence_coverages.find_index(area)
+                competence_coverages[index]["mark"] = p.mark
+              end
+            end
+          end
+          areas_done = true
+        end
+      end
+
+      s["tests"] = tests if params[:ka_tests]
+      s["problem_areas"] = problem_areas if params[:problem_areas]
+      s["competence_coverages"] = competence_coverages if params[:competence_coverages]
+
+      if params[:f_b_result]
+        f_results = Fbresult.where(fio: student.fio, group: student.group.number, fb: "Прямой").order(result: :desc)
+        if f_results.count != 0
+          s["forward"] = f_results[0].result
+        else
+          s["forward"] = "-"
+        end
+
+        b_results = Fbresult.where(fio: student.fio, group: student.group.number, fb: "Обратный").order(result: :desc)
+        if b_results.count != 0
+          s["backward"] = b_results[0].result
+        else
+          s["backward"] = "-"
+        end
+      end
+
+      if params[:semantic_result]
+        semantic_results = Semanticnetwork.where(student_id: student.id).order(rating: :desc)
+        if semantic_results.count != 0
+          s["semantics"] = semantic_results[0].rating
+        else
+          s["semantics"] = "-"
+        end
+      end
+
+      if params[:frame_result]
+        frame_results = Studentframe.where(student_id: student.id).order(result: :desc)
+        if frame_results.count != 0
+          s["frames"] = frame_results[0].result.to_i
+        else
+          s["frames"] = "-"
+        end
+      end
+
+      @students << s
     end
-    @rows2[0].push(@result[2][1])
+    render :statements
+  end
+
+  def tutor_actions
+    @result_data = ::Tools::MonitoringTools::KlasterTools.new().tutor_actions(params[:group].to_i)
+    render :tutor_actions
   end
 end

@@ -2,9 +2,10 @@ module Tools
   module MathTools
     class CommonTools
       def average(arr)
+        return 0 unless arr
         s = 0
-        arr.each { |e| s = s.round + e }
-        s / arr.size.to_f
+        arr&.each { |e| s = s.round + e }
+        s / arr&.size&.to_f
       end
 
       def sum_square(arr)
@@ -20,6 +21,7 @@ module Tools
       end
 
       def pearson_coefficient(arr_x, arr_y)
+        return nil if arr_x.blank? && arr_y.blank?
         x_avg = average(arr_x)
         y_avg = average(arr_y)
         x_intermediate = arr_x.map { |x| x - x_avg}

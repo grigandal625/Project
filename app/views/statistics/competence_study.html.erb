@@ -1,0 +1,24 @@
+<% content_for(:head) do %>
+  <title>Мониторинг</title>
+<% end %>
+Анализ степени достижения целевых компетенций по конкретным курсам/дисциплинам
+<%= form_tag('/statistics/competence_study', class: "form-control", style: 'height: fit-content;') do -%>
+  <div class="form-group">
+    <%= label_tag 'group', 'Группа:' %>
+    <%= select_tag "group", options_from_collection_for_select(@groups, "id", "number") %>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'file_g', 'Сгенерировать файл' %>
+    <%= check_box_tag 'file_g', '1', false %>
+  </div>
+  <div class="form-group">
+    <%= submit_tag 'Сгенерировать отчет' %>
+  </div>
+<% end %>
+<% if @rows1 %>
+<br/><%= content_tag :span, 'Анализ степени достижения целевых компетенций по конкретным курсам/дисциплинам' %><br/>
+<%= display_standard_table([{name: 0, display_name: "Результаты 1-го тестирования"},
+                            {name: 1, display_name: "Результаты 2-го тестирования"},
+                            {name: 2, display_name: "Коэффициент корреляции Пирсона"}
+], @rows1.map { |el| el[1] }) %>
+<% end %>

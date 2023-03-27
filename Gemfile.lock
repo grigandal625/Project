@@ -59,6 +59,7 @@ GEM
     backport (1.2.0)
     benchmark (0.2.1)
     builder (3.2.4)
+    byebug (11.1.3)
     caxlsx (3.3.0)
       htmlentities (~> 4.3, >= 4.3.4)
       marcel (~> 1.0)
@@ -282,6 +283,7 @@ PLATFORMS
 
 DEPENDENCIES
   axlsx
+  byebug
   caxlsx
   caxlsx_rails
   ckeditor

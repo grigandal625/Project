@@ -1,0 +1,36 @@
+<% content_for(:head) do %>
+  <title>Мониторинг</title>
+<% end %>
+Кластеризация психотипов
+<%= form_tag('/statistics/klaster_psyho', class: "form-control", style: 'height: fit-content;', multipart: true) do -%>
+  <div class="form-group">
+    <%= label_tag 'group', 'Группа:' %>
+    <%= select_tag "group", options_from_collection_for_select(@groups, "id", "number") %>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'max_mark', 'Минимальный балл для психотипов с высокой успеваемостью:' %>
+    <%= number_field_tag 'max_mark', '75', min: 0, max: 100, step: 1 %>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'min_mark', 'Максимальный балл для психотипы с низкой успеваемостью:' %>
+    <%= number_field_tag 'min_mark', '60', min: 0, max: 100, step: 1 %>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'file', 'Экзаменационная ведомость' %>
+    <%= file_field_tag 'file' %>
+  </div>
+  <div class="form-group">
+    <%= label_tag 'file_g', 'Сгенерировать файл' %>
+    <%= check_box_tag 'file_g', '1', false %>
+  </div>
+  <div class="form-group">
+    <%= submit_tag 'Сгенерировать отчет' %>
+  </div>
+<% end %>
+<% if @klaster_rows %>
+<br/><%= content_tag :span, 'Кластеризация психотипов' %><br/>
+<%= display_standard_table([{name: 0, display_name: "Психотипы с высокой успеваемостью"},
+                            {name: 1, display_name: "Психотипы со средней успеваемостью"},
+                            {name: 2, display_name: "Психотипы с низкой успеваемостью"}
+], @klaster_rows) %>
+<% end %>
