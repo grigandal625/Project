@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230219180648) do
+ActiveRecord::Schema.define(version: 20230406143310) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -220,6 +220,17 @@ ActiveRecord::Schema.define(version: 20230219180648) do
     t.text "number"
   end
 
+  create_table "hierarchy_utzs", force: :cascade do |t|
+    t.string   "text"
+    t.integer  "weight"
+    t.string   "data"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "ka_topics_id"
+    t.string   "description"
+    t.index ["ka_topics_id"], name: "index_hierarchy_utzs_on_ka_topics_id"
+  end
+
   create_table "images_sort_utz_pictures", force: :cascade do |t|
     t.text     "src"
     t.integer  "ordering"
@@ -300,6 +311,8 @@ ActiveRecord::Schema.define(version: 20230219180648) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "ontology"
+    t.string   "ancestry"
+    t.index ["ancestry"], name: "index_ka_topics_on_ancestry"
     t.index ["parent_id"], name: "index_ka_topics_on_parent_id"
   end
 
@@ -626,6 +639,8 @@ ActiveRecord::Schema.define(version: 20230219180648) do
   create_table "students", force: :cascade do |t|
     t.text    "fio"
     t.integer "group_id"
+    t.float   "extra_introversion_score"
+    t.float   "emotional_excitability_score"
     t.index ["group_id"], name: "index_students_on_group_id"
   end
 
@@ -761,6 +776,8 @@ ActiveRecord::Schema.define(version: 20230219180648) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "student_id"
+    t.string   "auth_token"
+    t.index ["auth_token"], name: "index_users_on_auth_token"
     t.index ["student_id"], name: "index_users_on_student_id"
   end
 

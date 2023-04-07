@@ -3,11 +3,15 @@
     "@babel/preset-react": "^7.18.6",
     "@rails/webpacker": "4.3.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "bootstrap": "^5.2.3",
     "foundation-sites": "^6.7.5",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
-    "react-foundation": "^0.9.7"
+    "react-dropdown-tree-select": "^2.8.0",
+    "react-foundation": "^0.9.7",
+    "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
     "webpack-dev-server": "^4.11.1"

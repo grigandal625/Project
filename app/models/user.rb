@@ -3,4 +3,5 @@ class User < ActiveRecord::Base
   has_many :planning_sessions
   has_many :planner_events
   has_many :ka_results, inverse_of: 'user'
+  has_secure_token :auth_token
 end

@@ -30,7 +30,8 @@
     <% @result_data.each do |student| %>
       <tr>
         <%
-          pa_count = student[:tutor_actions]&.count
+          pa_count = student[:tutor_actions].count rescue 0
+          # pa_count = pa_count - 1
           pa_count += 1 if pa_count == 0
         %>
         <td rowspan=<%= pa_count %>><%= student[:fio] %></td>
@@ -42,7 +43,7 @@
       <% student[:tutor_actions]&.each do |pa| %>
         <tr>
           <td><%= link_to(pa[:name], pa[:link]) rescue '-' %></td>
-          <td><%= pa[:priority] rescue '-' %></td>
+          <td><%= (pa[:priority] rescue '-') || '-' %></td>
         </tr>
       <% end %>
     <% end %>

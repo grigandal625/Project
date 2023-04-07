@@ -153,6 +153,8 @@ class PersonalityTestsController < ApplicationController
 
         personality.intervals.each do |int|
           value = score[int.trait.id]
+          extra_introversion_score = score[int.trait.id] if int.trait.id == 1
+          emotional_excitability_score = score[int.trait.id] if int.trait.id == 3
 
           break unless isAtIntervals
 
@@ -165,6 +167,9 @@ class PersonalityTestsController < ApplicationController
 
         if isAtIntervals
           @personalities.push personality
+          student.extra_introversion_score = extra_introversion_score if extra_introversion_score
+          student.emotional_excitability_score = emotional_excitability_score if emotional_excitability_score
+          student.save 
           student.personalities << personality if student
         end
       end

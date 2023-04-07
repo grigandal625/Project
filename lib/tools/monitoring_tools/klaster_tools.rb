@@ -214,6 +214,20 @@ module Tools
         opened_file = File.open(file)
         options = { :row_sep => :auto, :col_sep => ';' }
         marks = {}
+        marks_psyhotype = {
+          'Холерик-Аудиал' => [],
+          'Холерик-Визуал' => [],
+          'Холерик-Кинестетик' => [],
+          'Меланхолик-Аудиал' => [],
+          'Меланхолик-Визуал' => [],
+          'Меланхолик-Кинестетик' => [], 
+          'Флегматик-Аудиал' => [],
+          'Флегматик-Визуал' => [],
+          'Флегматик-Кинестетик' => [],
+          'Сангвиник-Аудиал' => [],
+          'Сангвиник-Визуал' => [],
+          'Сангвиник-Кинестетик' => [],
+        }
         students = Student.where(group_id: group_id)
         ::CSV.foreach(opened_file, **options) do |row|
           
@@ -222,6 +236,10 @@ module Tools
           student = students.where("fio LIKE '%#{row[1].split.first}%'").first
           next unless student
           student_personalities = student.personalities
+          personality_modality = student.personalities.uniq.map(&:personality_traits).flatten.uniq.map(&:name).select {|pt| pt.in? ['Аудиал', 'Визуал', 'Кинестетик']}.first
+          personality_type = student.personalities.uniq.map(&:name).select {|pt| pt.in? ['Холерик', 'Меланхолик', 'Флегматик', 'Сангвиник']}.first
+          psyhotype = personality_type + '-' + personality_modality rescue ''
+          marks_psyhotype[psyhotype].push(row[-7].to_i) unless row[-7].nil? || marks_psyhotype.keys.exclude?(psyhotype)
           student_personalities.each do |pers|
             marks[pers.name] ||= []
             marks[pers.name].append(row[-7].to_i) unless row[-7].nil?
@@ -229,7 +247,9 @@ module Tools
         end
         
         result = {}
-        marks.each { |k, v| result[k] = v.reduce(:+) / v.size }
+        marks.each { |k, v| result[k] = v.reduce(:+) / v.size rescue result[k] = 0 }
+        result_psyho = {}
+        marks_psyhotype.each { |k, v| result_psyho[k] = v.reduce(:+) / v.size rescue result_psyho[k] = 0 }
         kluster = {'Психотипы с высокой успеваемостью' => [], 'Психотипы со средней успеваемостью' => [], 'Психотипы с низкой успеваемостью' => []}
         result.each do |k, v|
           if v <= min_mark.to_f
@@ -240,8 +260,7 @@ module Tools
             kluster['Психотипы со средней успеваемостью'].push(k)
           end
         end
-        byebug
-        return kluster
+        return [kluster, result_psyho]
       end
 
       def kluster_plan(group_id)
@@ -321,6 +340,17 @@ module Tools
             @tutor_actions.sort { |a, b| compare_actions(a, b) }
           end
           tutor_actions_students.push({fio: student.fio, group: group_number, tutor_actions: @tutor_actions})
+        end
+        tutor_actions_students
+      end
+
+      def tutor_actions1(group_id)
+        tutor_actions_students = []
+        students = Group.find(group_id).students
+        group_number = Group.find(group_id).number
+        students.each do |student|
+          tutor_actions = ::Tools::MonitoringTools::PsyhoTools.make_individual_plan_with_psyho(student)
+          tutor_actions_students.push({fio: student.fio, group: group_number, tutor_actions: tutor_actions})
         end
         tutor_actions_students
       end

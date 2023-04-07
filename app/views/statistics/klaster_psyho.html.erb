@@ -34,3 +34,9 @@
                             {name: 2, display_name: "Психотипы с низкой успеваемостью"}
 ], @klaster_rows) %>
 <% end %>
+<% if @psyho_data %>
+<br/><%= content_tag :span, 'Успеваемость психотипов' %><br/>
+<%= display_standard_table([{name: 0, display_name: "Психотипы"},
+                            {name: 1, display_name: "Баллы за экзамен"}
+], @psyho_data) %>
+<% end %>

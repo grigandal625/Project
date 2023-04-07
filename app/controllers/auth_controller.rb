@@ -8,7 +8,9 @@ class AuthController < ApplicationController
     if(user == nil)
       render text: 'Login failed!!!' #tmp shit
     else
+      user.regenerate_auth_token
       session[:user_id] = user.id
+      cookies[:auth_token] = user.auth_token
       redirect_to params[:path]
     end
   end

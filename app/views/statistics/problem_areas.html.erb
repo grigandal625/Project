@@ -8,7 +8,7 @@
     <%= select_tag "group", options_from_collection_for_select(@groups, "id", "number") %>
   </div>
   <div class="form-group">
-    <%= label_tag 'abs_mark', 'Минимальный балл для почти усваиваемых тем:' %>
+    <%= label_tag 'abs_mark', 'Максимальный балл для почти усваиваемых тем:' %>
     <%= number_field_tag 'abs_mark', '0.69', min: 0, max: 1, step: 0.01 %>
   </div>
   <div class="form-group">

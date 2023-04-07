@@ -1,6 +1,8 @@
+require 'ancestry'
+
 class KaTopic < ActiveRecord::Base
   belongs_to :parent, class_name: "KaTopic"
-  has_many :children, class_name: "KaTopic", foreign_key: "parent_id", dependent: :destroy
+  has_many :_children, class_name: "KaTopic", foreign_key: "parent_id", dependent: :destroy
   has_many :ka_question, dependent: :destroy
 
   has_many :topic_competences, dependent: :delete_all
@@ -23,6 +25,18 @@ class KaTopic < ActiveRecord::Base
   has_many :component_elements, through: :component_element_topic
 
   has_many :triades, through: :root_topic
+  has_ancestry # :ancestry_column => :parent_id
+
+  def serializable_hash(options={})
+    if options.nil? 
+      options = {}
+    end
+    super(options.merge(include: :children))
+  end
+
+  # def parse_ancestry_column obj
+  #   return [obj]
+  # end
 
   def get_tree
     topics = []

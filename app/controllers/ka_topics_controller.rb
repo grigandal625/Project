@@ -1,3 +1,5 @@
+require 'ancestry'
+
 class KaTopicsController < ApplicationController
   include PlanningHelper
 
@@ -35,6 +37,11 @@ class KaTopicsController < ApplicationController
     return ext
   end
 
+  def full_tree
+    @roots = KaTopic.where(parent_id: nil)
+    render json: @roots.to_json
+  end
+
   def show
     respond_to do |format|
       format.html
@@ -46,9 +53,10 @@ class KaTopicsController < ApplicationController
     topic = KaTopic.new
     topic.text = params[:text]
     if params[:parent_id]
-      topic.parent_id = params[:parent_id]
+      parent = KaTopic.find(params[:parent_id])
+      topic.parent = parent
     end
-    topic.save
+    topic.save!
     redirect_to :back
   end
 

@@ -51,6 +51,7 @@ UIR::Application.routes.draw do
   get  '/ka_topics',               to: 'ka_topics#index',     as: :ka_topics
   get  '/ka_topics/all',           to: 'ka_topics#all',       as: :all_ka_topics
   get  '/ka_topics/general_constructs', to: 'ka_topics#show_general_constructs', as: :general_constructs
+  get  '/ka_topics/full_tree',      to: 'ka_topics#full_tree',      as: :ka_topics_full_tree
   get  '/ka_topics/:id',           to: 'ka_topics#show',      as: :ka_topic
   get  '/ka_topics/show_all_relations/:id', to: 'ka_topics#show_all_relations', as: :show_all_relations
   get  '/ka_topics/destroy/:id',   to: 'ka_topics#destroy',   as: :ka_topic_destroy
@@ -251,6 +252,9 @@ UIR::Application.routes.draw do
   resources :test_utz_questions do
     post :check_answer, on: :member
     patch :detach, on: :member
+  end
+
+  resources :hierarchy_utz do
   end
 
   resources :matching_utz do

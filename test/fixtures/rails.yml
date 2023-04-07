@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  generate: MyString
+  model: MyString
+  HierarchyUTZ: MyString
+  text: MyString
+  weight: 1
+  data: 
+
+two:
+  generate: MyString
+  model: MyString
+  HierarchyUTZ: MyString
+  text: MyString
+  weight: 1
+  data: 

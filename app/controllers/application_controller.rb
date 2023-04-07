@@ -40,6 +40,7 @@ class ApplicationController < ActionController::Base
       redirect_to login_url(path: request.fullpath)
     else
       @user = User.find(session[:user_id])
+      cookies[:auth_token] = @user.auth_token
     end
   end
 
