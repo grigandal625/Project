@@ -8,6 +8,10 @@
     <%= select_tag "group_ved", options_from_collection_for_select(@groups, "id", "number") %>
   </div>
   <div class="form-group">
+    <%= label_tag 'kurs_id', 'Курс:' %>
+    <%= select_tag "kurs_id", options_from_collection_for_select(@kurss, "id", "text") %>
+  </div>
+  <div class="form-group">
     <%= submit_tag 'Сгенерировать отчет' %>
   </div>
 <% end %>
@@ -20,7 +24,7 @@
   <table class="iksweb">
     <tbody>
       <tr>
-        <th colspan=<%= 15 + comp_codes %>> Итоговые ведомости семестровой успеваемости группы <%= @students.first["group"] %>, полученные с помощью обучающих веб-ИЭС</th>
+        <th colspan=<%= 15 + comp_codes %>> Итоговые ведомости семестровой успеваемости группы <%= @students.first["group"] %>, полученные с помощью обучающих веб-ИЭС по курсу "<%= @kurs.text %>"</th>
       </tr>
       <tr>
         <th rowspan="4">№</th>
@@ -33,13 +37,13 @@
         <th rowspan="4">Экзамен</th>
       </tr>
       <tr>
-        <th colspan="4">Модель знаний обучаемого</th>
-        <th colspan="4">Модель умений обучаемого</th>
-        <th colspan=<%= comp_codes %>>Модель текущего уровня компетенций обучаемого обучаемого</th>
+        <th colspan="4">Модель знаний обучаемого (M1<sup>зн</sup><sub><%= @max_year %></sub>)</th>
+        <th colspan="4">Модель умений обучаемого (M1<sup>ум</sup><sub><%= @max_year %></sub>)</th>
+        <th colspan=<%= comp_codes %>>Модель текущего уровня компетенций обучаемого</th>
       </tr>
       <tr>
         <th colspan="2">Результаты веб-тестирования</th>
-        <th colspan="2">М1зн</th>
+        <th colspan="2">M1<sup>зн</sup><sub><%= @max_year %></sub></th>
         <th colspan="4">Контрольные работы</th>
         <% first_code = @competences_codes.delete_at(0) %>
         <th rowspan="2"><%= first_code.nil? ? '-' : first_code %></th>
@@ -67,13 +71,8 @@
           %>
           <td rowspan=<%= pa_count %>><%= index+1 %></td>
           <td rowspan=<%= pa_count %>><%= student['fio'] %></td>
-          <% if (student['tests'][-2]['year'] rescue 0) == (student['tests'][-1]['year'] rescue 1) %>
-            <td rowspan=<%= pa_count %>><%= student['tests'][-2]['mark'] %></td>
-            <td rowspan=<%= pa_count %>><%= student['tests'][-1]['mark'] %></td>
-          <% else %>
-            <td rowspan=<%= pa_count %>><%= @max_year == student['tests'][-1]&.dig('year') ? student['tests'][-1]['mark'] : '-' %></td>
-            <td rowspan=<%= pa_count %>>-</td>
-          <% end %>
+            <td rowspan=<%= pa_count %>><%= student['tests'][-2]['mark'] rescue student['tests'][-1]['mark'] rescue '-' %></td>
+            <td rowspan=<%= pa_count %>><%= student['tests'].count > 1 ?  student['tests'][-1]['mark'] : '-' rescue '-' %></td>
           <% fpa = pa.delete_at(0) %>
           <% if fpa %>
             <td><%= fpa['text'] %></td>
@@ -94,7 +93,7 @@
           <td rowspan=<%= pa_count %>></td>
           <td rowspan=<%= pa_count %>></td>
           <td rowspan=<%= pa_count %>></td>
-          <td rowspan=<%= pa_count %>></td>
+          <td rowspan=<%= pa_count %>><%=student['mark_prognosis']%></td>
           <td rowspan=<%= pa_count %>></td>
         </tr>
         <% pa.each do |_pa| %>

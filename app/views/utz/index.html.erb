@@ -15,3 +15,6 @@
 
 <%= render partial: 'utz', locals: {:controller => :likert_utz, :collection => LikertUtz.all,
                                     :utz_header => 'Шкала Ликерта'} %>
+
+<%= render partial: 'utz', locals: {:controller => :hierarchy_utz, :collection => HierarchyUtz.all,
+                                    :utz_header => 'Построение иерархической структуры'} %>

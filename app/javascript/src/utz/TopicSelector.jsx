@@ -40,7 +40,6 @@ export default class TopicSelector extends React.Component {
     };
 
     onChange = (currentNode, selectedNodes) => {
-        debugger;
         this.setState((state) => {
             state.selectedValues = [currentNode.value];
             return state;

@@ -11,7 +11,7 @@ class StatisticsController < AdminToolsController
   end
 
   def find_kurs
-    @kurs = KaTopic.where(parent_id: nil)
+    @kurss = KaTopic.where(parent_id: nil)
   end
 
   def operation
@@ -157,15 +157,22 @@ class StatisticsController < AdminToolsController
   end
 
   def statements
-    group = Group.find(params[:group_ved])
+    group = Group.find(params[:group_ved].to_i)
     @students = []
+    @kurs = KaTopic.find(params[:kurs_id].to_i)
+    ka_topic_ids = @kurs.get_tree.map(&:id) << params[:kurs_id].to_i
+    marks_prognosis = ::Tools::MonitoringTools::KlasterTools.new().marks_prognosis([params[:group_ved].to_i])
     Student.where(group: group).each do |student|
       s = {
         "fio" => student.fio,
         "group" => group.number,
-        "id" => student.id
+        "id" => student.id,
+        "mark_prognosis" => marks_prognosis[student.fio]
       }
-      test_results = KaResult.where(user_id: student.user.id).order(created_at: :desc)
+      test_results = KaResult.where(user_id: student.user.id).order(created_at: :desc).select do |result| 
+          topic_ids = result.ka_topics.map(&:id)
+          topic_ids.count == (topic_ids & ka_topic_ids).count
+        end
       problem_areas = []
       tests = []
       competence_coverages = []
