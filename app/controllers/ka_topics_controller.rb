@@ -1,4 +1,4 @@
-require 'ancestry'
+require "ancestry"
 
 class KaTopicsController < ApplicationController
   include PlanningHelper
@@ -42,6 +42,110 @@ class KaTopicsController < ApplicationController
     render json: @roots.to_json
   end
 
+  def formate_to_node(topic)
+    return {
+             id: topic.id.to_s,
+             type: "topic",
+             data: self.get_topic_node_data(topic),
+           }
+  end
+
+  def collect_nodes_and_edges(topic)
+    nodes = []
+    edges = []
+    nodes.push(self.formate_to_node(topic))
+    # TopicRelation.where(ka_topic: topic).each do |rel|
+    #   target_topic = rel.related_topic
+    #   if target_topic.get_root.id == topic.get_root.id
+    #     edge_id = ["rg", "rs", "rw"][rel.rel_type] + "-" + topic.id.to_s + "-" + target_topic.id.to_s
+    #     edge_ids = edges.map do |e|
+    #       e = e[:id]
+    #     end
+    #     if not edge_ids.include?(edge_id)
+    #       edges.push({
+    #         id: edge_id,
+    #         source: topic.id.to_s,
+    #         target: target_topic.id.to_s,
+    #         type: ["aggregation", "association", "weak"][rel.rel_type],
+    #       })
+    #     end
+    #   end
+    # end
+
+    utz_class_list = [TestUtzQuestion, MatchingUtz, FillingUtz, TextCorrectionUtz, ImagesSortUtz, LikertUtz, HierarchyUtz]
+
+    utz_class_list.each do |utzClass|
+      utz_list = []
+      if utzClass.column_names.include?("ka_topics_id")
+        utz_list = utzClass.where(ka_topics_id: topic.id)
+      else
+        utz_list = utzClass.where(ka_topic_id: topic.id)
+      end
+      utz_list.each do |utz|
+        nodes.push({
+          id: "ett" + utz.id.to_s,
+          type: "ett",
+          data: self.get_utz_node_data(utz, utzClass),
+        })
+        edges.push({
+          id: "re" + topic.id.to_s + "-" + "ett" + utz.id.to_s,
+          source: topic.id.to_s,
+          target: "ett" + utz.id.to_s,
+          type: "re",
+        })
+      end
+    end
+
+    topic.children.each do |child|
+      edges.push({
+        id: "rh" + topic.id.to_s + "-" + child.id.to_s,
+        source: topic.id.to_s,
+        target: child.id.to_s,
+        type: "hierarchy",
+      })
+      res = self.collect_nodes_and_edges(child)
+      nodes.concat(res[:nodes])
+      edges.concat(res[:edges])
+    end
+    return { nodes: nodes, edges: edges }
+  end
+
+  def nodes_and_edges
+    @root = KaTopic.find(params[:id])
+    data = self.collect_nodes_and_edges(@root)
+    render json: data
+  end
+
+  def get_utz_node_data(utz, utzClass)
+    result = utz.attributes
+    result[:ett_type] = utzClass.name.underscore
+    if result[:ett_type] == "hierarchy_utz"
+      result.delete("data")
+      result.delete(:data)
+    end
+
+    return result
+  end
+
+  def get_topic_node_data(topic)
+    data = {
+      name: topic.text,
+      id: topic.id,
+      parent_id: topic.parent_id,
+      questions: [],
+    }
+
+    KaQuestion.where(ka_topic: topic).each do |q|
+      data[:questions].push({
+        id: q.id,
+        text: q.text,
+        difficulty: q.difficulty,
+      })
+    end
+
+    return data
+  end
+
   def show
     respond_to do |format|
       format.html
@@ -74,20 +178,19 @@ class KaTopicsController < ApplicationController
     case type
     when 1
       TestUtzTopic.find(test_utz_topic_id).delete()
-    # when 2 для других типов утз доделать
+      # when 2 для других типов утз доделать
     end
 
     redirect_to :back
   end
 
-
   def edit
     @topic = KaTopic.find(params[:id])
-    
+
     @topic_utz_set = []
 
     TestUtzTopic.where(ka_topic: @topic).each do |topic_utz|
-      @topic_utz_set.push({type: 1, data: topic_utz})
+      @topic_utz_set.push({ type: 1, data: topic_utz })
     end
 
     # такие же циклы нужны для остальных типов утз
@@ -174,7 +277,7 @@ class KaTopicsController < ApplicationController
       @output.push({
         topic: r.ka_topic.text,
         related_topic: r.related_topic.text,
-        relation_type: rel_type_mapping[r.rel_type]
+        relation_type: rel_type_mapping[r.rel_type],
       })
     end
     render "execute_amrr"
@@ -191,9 +294,9 @@ class KaTopicsController < ApplicationController
     @rt = root
 
     @output = []
-    ActiveRecord::Base.transaction do    
+    ActiveRecord::Base.transaction do
       for i in 0..(count - 2)
-        for j in (i+1)..(count - 1)
+        for j in (i + 1)..(count - 1)
           relation = TopicRelation.calculate_relation(topics[i], topics[j])
           puts(relation)
           if !relation.nil?
@@ -201,13 +304,12 @@ class KaTopicsController < ApplicationController
             @output.push({
               topic: topics[i].text,
               related_topic: topics[j].text,
-              relation_type: rel_type_mapping[relation.rel_type]
+              relation_type: rel_type_mapping[relation.rel_type],
             })
           end
         end
       end
     end
-    
   end
 
   def show_topics_with_questions
