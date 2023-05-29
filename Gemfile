@@ -45,6 +45,8 @@ gem 'remotipart', '~> 1.2'
 
 gem 'ckeditor'
 
+gem 'fuzzyrb', '~> 1.2', '>= 1.2.3'
+
 
 #for transliteration
 #gem "the_string_to_slug", "~> 0.0.5"

@@ -2,6 +2,15 @@
 <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
     <% if @user.role == 'admin' %>
         <ul class="nav" id="pt_tests">
+          <li>
+            <%= link_to '«Свободная сортировка слов» В.А. Колги', free_sort_objects_personality_tests_path, id: 'pt_test_free_sort_objects' %>
+          </li>
+          <li>
+            <%= link_to '«Сравнение похожих рисунков» Дж. Кагана', compare_similar_drawings_personality_tests_path, id: 'pt_test_compare_similar_drawings' %>
+          </li>
+          <li>
+            <%= link_to '«Включенные фигуры» Дж. Уиткина', included_figures_personality_tests_path, id: 'pt_test_included_figures' %>
+          </li>
           <%= render partial: 'personality_tests/list_test', collection: PersonalityTest.all, as: 'test', locals: {admin: true} %>
           <!--TODO: удалить и поменять в js на append-->
           <li id="pt_add_test"></li>
@@ -37,7 +46,16 @@
         </ul>
     <% else %>
         <ul class="nav" id="pt_tests">
-            <%= render partial: 'personality_tests/list_test', collection: PersonalityTest.where.not(id: @user.student.try(:passed_personality_tests).ids) , as: 'test', locals: {admin: false} %>
+          <li>
+            <%= link_to '«Свободная сортировка слов» В.А. Колги', free_sort_objects_personality_tests_path, id: 'pt_test_free_sort_objects' %>
+          </li>
+          <li>
+            <%= link_to '«Сравнение похожих рисунков» Дж. Кагана', compare_similar_drawings_personality_tests_path, id: 'pt_test_compare_similar_drawings' %>
+          </li>
+          <li>
+            <%= link_to '«Включенные фигуры» Дж. Уиткина', included_figures_personality_tests_path, id: 'pt_test_included_figures' %>
+          </li>
+          <%= render partial: 'personality_tests/list_test', collection: PersonalityTest.where.not(id: @user.student.try(:passed_personality_tests).ids) , as: 'test', locals: {admin: false} %>
         </ul>
 
         <ul class="nav">

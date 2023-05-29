@@ -9,6 +9,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
+    "react-draggable": "^4.4.5",
     "react-dropdown-tree-select": "^2.8.0",
     "react-foundation": "^0.9.7",
     "universal-cookie": "^4.0.4"

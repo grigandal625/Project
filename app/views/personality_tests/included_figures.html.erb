@@ -1,0 +1,99 @@
+<div class="col-sm-10">
+  <%= form_tag({controller: 'personality_tests', action: 'included_figures' }, method: "post", id: "pt_show_questions" ) do %>
+    <section>
+      <% required = true %>
+      <% inc_blank = '-' %>
+      <%= hidden_field_tag :time, @current_time %>
+      <div id="pt_show_question_1" class="panel">
+        <div class="panel-heading">
+          Вам будут предъявлены сложные фигуры (изображения), в каждой из которых имеется один из простых эталонов, закодированных буквами А, Б, В, Г, Д. Вы должны найти в каждом случае, какой из этих элементов содержится в рисунке и указать его (набрать код элемента)
+        </div>
+      </div><!--/panel-->
+      <div id="pt_show_question_1" class="panel">
+        <div class="panel-heading">
+          <img src="/assets/included_figures/1-6.png", class='img-thumbnail'>
+        </div>
+        <div class="panel-body">
+          <div class="list-group">
+            <div class="list-group-item">
+              <% 6.times do |i| %>
+                <%= label_tag "answers[#{(1+i)}]", (1+i).to_s %>
+                <%= select_tag "answers[#{(1+i)}]", options_for_select([ "А", "Б", "В", "Г", "Д"]), include_blank: inc_blank, required: required, style: "width: 40px; height: 30px;" %>
+                &emsp;
+              <%end%>
+            </div>
+          </div>
+        </div><!--/panel-body-->
+      </div><!--/panel-->
+
+      <div id="pt_show_question_2" class="panel">
+        <div class="panel-heading">
+          <img src="/assets/included_figures/7-12.png", class='img-thumbnail'>
+        </div>
+        <div class="panel-body">
+          <div class="list-group">
+            <div class="list-group-item">
+              <% 6.times do |i| %>
+                <%= label_tag "answers[#{(7+i)}]", (7+i).to_s %>
+                <%= select_tag "answers[#{(7+i)}]", options_for_select([ "А", "Б", "В", "Г", "Д"]), include_blank: inc_blank, required: required, style: "width: 40px; height: 30px;" %>
+                &emsp;
+              <%end%>
+            </div>
+          </div>
+        </div><!--/panel-body-->
+      </div><!--/panel-->
+
+      <div id="pt_show_question_1" class="panel">
+        <div class="panel-heading">
+          <img src="/assets/included_figures/13-18.png", class='img-thumbnail'>
+        </div>
+        <div class="panel-body">
+          <div class="list-group">
+            <div class="list-group-item">
+              <% 6.times do |i| %>
+                <%= label_tag "answers[#{(13+i)}]", (13+i).to_s %>
+                <%= select_tag "answers[#{(13+i)}]".to_s, options_for_select([ "А", "Б", "В", "Г", "Д"]), include_blank: inc_blank, required: required, style: "width: 40px; height: 30px;" %>
+                &emsp;
+              <%end%>
+            </div>
+          </div>
+        </div><!--/panel-body-->
+      </div><!--/panel-->
+
+      <div id="pt_show_question_1" class="panel">
+        <div class="panel-heading">
+          <img src="/assets/included_figures/19-24.png", class='img-thumbnail'>
+        </div>
+        <div class="panel-body">
+          <div class="list-group">
+            <div class="list-group-item">
+              <% 6.times do |i| %>
+                <%= label_tag "answers[#{(19+i)}]", (19+i).to_s %>
+                <%= select_tag "answers[#{(19+i)}]", options_for_select([ "А", "Б", "В", "Г", "Д"]), include_blank: inc_blank, required: required, style: "width: 40px; height: 30px;" %>
+                &emsp;
+              <%end%>
+            </div>
+          </div>
+        </div><!--/panel-body-->
+      </div><!--/panel-->
+
+      <div id="pt_show_question_1" class="panel">
+        <div class="panel-heading">
+          <img src="/assets/included_figures/25-30.png", class='img-thumbnail'>
+        </div>
+        <div class="panel-body">
+          <div class="list-group">
+            <div class="list-group-item">
+              <% 6.times do |i| %>
+                <%= label_tag "answers[#{(25+i)}]", (25+i).to_s %>
+                <%= select_tag "answers[#{(25+i)}]", options_for_select([ "А", "Б", "В", "Г", "Д"]), include_blank: inc_blank, required: required, style: "width: 40px; height: 30px;" %>
+                &emsp;
+              <%end%>
+            </div>
+          </div>
+        </div><!--/panel-body-->
+      </div>
+      <a id="pt_test_submit" class="btn btn-success">Завершить тест</a>
+    </section>
+  <% end %>
+</div><!--/col-->

@@ -197,6 +197,12 @@ UIR::Application.routes.draw do
     get :results, on: :collection
     post :save_results, on: :collection
     post :remove_from_student, on: :collection, as: :remove_test_from_student
+    get :included_figures, on: :collection
+    post :included_figures, on: :collection
+    get :compare_similar_drawings, on: :collection
+    post :compare_similar_drawings, on: :collection
+    get :free_sort_objects, on: :collection
+    post :free_sort_objects, on: :collection
   end
   resources :personality_test_questions, except: [:create, :index] do
     post :batch_update, on: :collection

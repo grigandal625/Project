@@ -89,8 +89,12 @@ GEM
     erubis (2.7.0)
     execjs (2.8.1)
     ffi (1.15.5)
+    fuzzyrb (1.2.3)
+      hoe (>= 1.4.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    hoe (4.0.2)
+      rake (>= 0.8, < 15.0)
     htmlentities (4.3.4)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
@@ -293,6 +297,7 @@ DEPENDENCIES
   debase (~> 0.2.4)
   dragonfly (~> 1.0.7)
   execjs
+  fuzzyrb (~> 1.2, >= 1.2.3)
   jbuilder (~> 1.2)
   jquery-rails
   jquery-ui-rails

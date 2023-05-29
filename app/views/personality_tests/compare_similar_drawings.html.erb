@@ -1,0 +1,36 @@
+<div class="col-sm-10">
+  <%= form_tag({controller: 'personality_tests', action: 'compare_similar_drawings' }, method: "post", id: "pt_show_questions" ) do %>
+    <section>
+      <% required = true %>
+      <% inc_blank = '-' %>
+      <%= hidden_field_tag :time, @current_time %>
+      <div id="pt_show_question_1" class="panel">
+        <div class="panel-heading">
+          Сейчас Вы увидите одну картинку и несколько похожих на нее. Вам необходимо найти на этом рисунке точно такую же картинку, как та, что вверху, и показать её. Для первоначальной тренировки Вам будут показаны две демонстрационные карточки. Далее задачи будут совсем не такие простые. Найдите как можно быстрее картинку, максимально похожую на эту вверху, и покажите ее сразу же
+        </div>
+      </div><!--/panel-->
+      <% 12.times do |ans| %>
+        <div id="pt_show_question_1" class="panel">
+          <div class="panel-heading">
+            <img src="/assets/compare_similar_drawings/<%= ans+1 %>.png", class='img-thumbnail'>
+          </div>
+          <div class="panel-body">
+            <div class="list-group">
+              <div class="list-group-item">
+                <% 8.times do |i| %>
+                  &emsp;
+                  &emsp;
+                  <%= label_tag "answers[#{(1+ans)}]", (1+i).to_s %>
+                  <%= radio_button_tag "answers[#{(1+ans)}]", i+1 %>
+                  &emsp;
+                  &emsp;
+                <%end%>
+              </div>
+            </div>
+          </div><!--/panel-body-->
+        </div><!--/panel-->
+      <%end%>
+      <a id="pt_test_submit" class="btn btn-success">Завершить тест</a>
+    </section>
+  <% end %>
+</div><!--/col-->

@@ -6,113 +6,125 @@
 */
 
 .pt-test-info {
-  a {
-    margin-left: 20px;
-  }
+    a {
+        margin-left: 20px;
+    }
 }
 #pt_main a {
-  text-align: justify;
+    text-align: justify;
 }
 
 .q-textarea {
-  width: 80%;
+    width: 80%;
 }
 .editable-textarea span.editable-container.editable-inline,
 .editable-textarea .control-group,
 .editable-textarea .editable-input,
 .form-control.input-large {
-  width: 100%;
+    width: 100%;
 }
 
 #pt_question_info a {
-  color: #555555;
+    color: #555555;
 }
 
 input.editable-image-input {
-  display: none;
+    display: none;
 }
 
 .nav {
-  margin-bottom: 50px;
+    margin-bottom: 50px;
 }
 
 .panel-body table {
-  width: 100%;
+    width: 100%;
 }
 
 .answer {
-  margin-left: 10px
+    margin-left: 10px;
 }
 
 .pt-wrapper.list-group-item {
-  position:relative;
-  line-height:20px;
+    position: relative;
+    line-height: 20px;
 }
 
 .pt-show-question {
-  display: none;
-  position: absolute;
+    display: none;
+    position: absolute;
 }
 
 .editable-image {
-  width: 100px;
-  height: 100px;
+    width: 100px;
+    height: 100px;
 }
 
 .tps-section {
-  height: 400px;
-  position: relative;
-  -webkit-perspective: 10em;
-  -moz-perspective: 10em;
-  -ms-perspective: 10em;
-  -o-perspective: 10em;
-  perspective: 10em;
-  -webkit-perspective-origin: center bottom;
-  -moz-perspective-origin: center bottom;
-  -ms-perspective-origin: center bottom;
-  -o-perspective-origin: center bottom;
-  perspective-origin: center bottom;
-  -webkit-perspective-origin: 50% 50%;
-  -moz-perspective-origin: 50% 50%;
-  -ms-perspective-origin: 50% 50%;
-  -o-perspective-origin: 50% 50%;
-  perspective-origin: 50% 50%;
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  -ms-transform-style: preserve-3d;
-  -o-transform-style: preserve-3d;
-  transform-style: preserve-3d;
+    height: 400px;
+    position: relative;
+    -webkit-perspective: 10em;
+    -moz-perspective: 10em;
+    -ms-perspective: 10em;
+    -o-perspective: 10em;
+    perspective: 10em;
+    -webkit-perspective-origin: center bottom;
+    -moz-perspective-origin: center bottom;
+    -ms-perspective-origin: center bottom;
+    -o-perspective-origin: center bottom;
+    perspective-origin: center bottom;
+    -webkit-perspective-origin: 50% 50%;
+    -moz-perspective-origin: 50% 50%;
+    -ms-perspective-origin: 50% 50%;
+    -o-perspective-origin: 50% 50%;
+    perspective-origin: 50% 50%;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
 }
 .tps-wrapper {
-  position: absolute;
-  top:0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 .pt-table {
-  table {
-    height: 100%;
-  }
-  .text {
-    text-align: justify;
-    a {
-      text-align: justify;
+    table {
+        height: 100%;
     }
-  }
+    .text {
+        text-align: justify;
+        a {
+            text-align: justify;
+        }
+    }
 
-  td, th {
-    padding: 10px;
-    border: 1px solid #777;
-  }
+    td,
+    th {
+        padding: 10px;
+        border: 1px solid #777;
+    }
 
-  .trait {
-    width: 100px;
-  }
+    .trait {
+        width: 100px;
+    }
 
-  td.no-padding {
-    padding: 0;
-  }
+    td.no-padding {
+        padding: 0;
+    }
+}
+
+.dragging-element {
+    border: 1px solid white;
+    padding: 5px;
+    display: inline-block;
+    cursor: move;
+}
+
+.delete-group-btn {
+    float: right;
 }

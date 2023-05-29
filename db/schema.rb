@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230406143310) do
+ActiveRecord::Schema.define(version: 20230528195843) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -641,6 +641,15 @@ ActiveRecord::Schema.define(version: 20230406143310) do
     t.integer "group_id"
     t.float   "extra_introversion_score"
     t.float   "emotional_excitability_score"
+    t.float   "included_figures_score"
+    t.integer "compare_similar_drawings_score"
+    t.float   "compare_similar_drawings_time"
+    t.float   "free_sort_objects_dedicated_groups_count"
+    t.integer "free_sort_objects_largest_group_objects_count"
+    t.float   "free_sort_objects_single_object_group_count"
+    t.integer "equivalence_range_score"
+    t.integer "field_independence_dependency_score"
+    t.integer "impulsivity_reflexivity_score"
     t.index ["group_id"], name: "index_students_on_group_id"
   end
 

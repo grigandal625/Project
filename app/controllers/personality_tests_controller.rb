@@ -36,6 +36,62 @@ class PersonalityTestsController < ApplicationController
     @tests = PersonalityTest.all
   end
 
+  def compare_similar_drawings
+    @current_time = Time.now
+    if params[:answers].present?
+      time_duration = (Time.now - Time.parse(params[:time])) / 60
+      answers = [4, 7, 1, 8, 4, 1, 8, 4, 5, 1, 5, 5]
+      result = 0
+      params[:answers].values.each_with_index do |ans, index|
+        result += 1 if ans != answers[index]
+      end
+      student = @user.student
+      student.compare_similar_drawings_score = result
+      student.compare_similar_drawings_time = time_duration
+      student.save
+      student.check_impulsivity_reflexivity
+      redirect_to action: "index" and return
+    end
+  end
+
+  def included_figures
+    @current_time = Time.now
+    if params[:answers].present?
+      time_duration = (Time.now - Time.parse(params[:time])) / 60
+      answers = [
+        'А', 'Б', 'В', 'Г', 'В', 'В', 'А', 'В', 'Д', 'Д',
+        'Б', 'А', 'А', 'В', 'Б', 'Д', 'А', 'Д', 'Б', 'В',
+        'Г', 'Б', 'Г', 'А', 'Д', 'Б', 'А', 'Д', 'В', 'Б'
+      ]
+      result = 0.0
+      params[:answers].values.each_with_index do |ans, index|
+        result += 1.0 if ans == answers[index]
+      end
+      result /= time_duration
+      student = @user.student
+      student.included_figures_score = result
+      student.save
+      student.check_field_independence_dependency
+      redirect_to action: "index" and return
+    end
+  end
+
+  def free_sort_objects
+    if params[:data].present?
+      groups = params[:data].reject { |k, v| v.blank? }
+      dedicated_groups_count = groups.select { |group, elements| elements.present? }.count
+      largest_group_objects_count = groups.sort_by { |k, v| -(v.count) }.first.last.count
+      single_object_group_count = groups.select { |group, elements| elements.count == 1 }.count
+      student = @user.student
+      student.free_sort_objects_dedicated_groups_count = dedicated_groups_count
+      student.free_sort_objects_largest_group_objects_count = largest_group_objects_count
+      student.free_sort_objects_single_object_group_count = single_object_group_count
+      student.save
+      student.check_narrowness_breadth_equivalence_range
+      redirect_to action: "index" and return
+    end
+  end
+
   def new
     respond_to do |format|
       format.js {
@@ -167,8 +223,6 @@ class PersonalityTestsController < ApplicationController
 
         if isAtIntervals
           @personalities.push personality
-          student.extra_introversion_score = extra_introversion_score if extra_introversion_score
-          student.emotional_excitability_score = emotional_excitability_score if emotional_excitability_score
           student.save 
           student.personalities << personality if student
         end
