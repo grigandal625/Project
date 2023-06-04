@@ -70,7 +70,7 @@ class StatisticsController < AdminToolsController
     klasters.each_with_index do |klaster, klaster_index|
       klaster.each_with_index do |el, index|
         @klaster_rows[index] ||= [nil, nil, nil]
-        @klaster_rows[index][klaster_index] = el
+        @klaster_rows[index][klaster_index] = el.text
       end
     end
 
@@ -79,7 +79,7 @@ class StatisticsController < AdminToolsController
     dynamics.each_with_index do |dynamic, dynamic_index|
       dynamic.each_with_index do |el, index|
         @dynamic_rows[index] ||= [nil, nil]
-        @dynamic_rows[index][dynamic_index] = el
+        @dynamic_rows[index][dynamic_index] = el.text
       end
     end
     render xlsx: 'problem_areas', formats: :xlsx if params[:file_g]

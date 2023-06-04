@@ -1,0 +1,2 @@
+class OntologyRule < ApplicationRecord
+end

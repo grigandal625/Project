@@ -30,6 +30,10 @@ class GroupsController < AdminToolsController
     return ext
   end
 
+  def list
+    render json: Group.all
+  end
+
   def index
 
     if (session[:planning_task_id]!=nil)

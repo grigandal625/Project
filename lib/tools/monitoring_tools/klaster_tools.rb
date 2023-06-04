@@ -1,15 +1,16 @@
-require 'csv'
+require "csv"
 
 module Tools
   module MonitoringTools
     class KlasterTools
       def group_ka_results(group_id)
         group = Group.find(group_id)
-        group.students.map { |student| student.user.ka_results}
+        group.students.map { |student| student.user.ka_results }
       end
-      def problem_areas(group_id, abs_mark, max_mark, min_mark)
+
+      def problem_areas(group_id, abs_mark, max_mark, min_mark, root_topic_id = nil)
         ka_results = []
-        group_id.each{ |id| ka_results += group_ka_results(id).to_a }
+        group_id.each { |id| ka_results += group_ka_results(id).to_a }
         x_arr = []
         y_arr = []
         ka_results.each do |results|
@@ -20,71 +21,75 @@ module Tools
         x_arr = x_arr.reduce(:+)
         y_arr = y_arr.reduce(:+)
         result = {}
-        result['Кластеризация'] = klaster_problem_areas(x_arr, y_arr, abs_mark, max_mark, min_mark)
-        result['Динамика'] = dynamic_problem_areas(x_arr, y_arr)
+        result["Кластеризация"] = klaster_problem_areas(x_arr, y_arr, abs_mark, max_mark, min_mark, root_topic_id)
+        result["Динамика"] = dynamic_problem_areas(x_arr, y_arr)
         result
       end
 
-      def klaster_problem_areas(x_arr, y_arr, abs_mark, max_mark, min_mark)
-        x_arr = x_arr.select{ |area| area.mark <= abs_mark.to_f}
-        y_arr = y_arr.select{ |area| area.mark <= abs_mark.to_f}
+      def klaster_problem_areas(x_arr, y_arr, abs_mark, max_mark, min_mark, root_topic_id)
+        x_arr = x_arr.select { |area| area.mark <= abs_mark.to_f }
+        y_arr = y_arr.select { |area| area.mark <= abs_mark.to_f }
         x_with_theme = {}
         y_with_theme = {}
         x_arr.each do |x|
-          theme = KaTopic.find(x.ka_topic_id).text
+          theme = KaTopic.find(x.ka_topic_id)
           x_with_theme[theme] ||= []
           x_with_theme[theme].push(x.mark)
         end
 
         y_arr.each do |y|
-          theme = KaTopic.find(y.ka_topic_id).text
+          theme = KaTopic.find(y.ka_topic_id)
           y_with_theme[theme] ||= []
           y_with_theme[theme].push(y.mark)
         end
-        
+
         w_arr = x_with_theme.merge(y_with_theme) { |key, old_value, new_value| old_value + new_value }
 
-        w_arr = w_arr.each { |k,v| w_arr[k] = v.reduce(:+) / v.size.to_f }
+        w_arr = w_arr.each { |k, v| w_arr[k] = v.reduce(:+) / v.size.to_f }
 
-        klaster = {'Очень сложные темы' => [], 'Сложные темы' => [], 'Почти усваемые темы' => []}
-        w_arr.each do |k,v|
-          if v <= min_mark.to_f
-            klaster['Очень сложные темы'].push(k)
-          elsif v >= max_mark.to_f
-            klaster['Почти усваемые темы'].push(k)
-          else
-            klaster['Сложные темы'].push(k)
+        klaster = { "Очень сложные темы" => [], "Сложные темы" => [], "Почти усваемые темы" => [] }
+        w_arr.each do |k, v|
+          if (!root_topic_id.nil? && k.root.id == root_topic_id || root_topic_id.nil?)
+            if v <= min_mark.to_f
+              klaster["Очень сложные темы"].push(k)
+            elsif v >= max_mark.to_f
+              klaster["Почти усваемые темы"].push(k)
+            else
+              klaster["Сложные темы"].push(k)
+            end
           end
         end
         klaster
       end
 
-      def dynamic_problem_areas(x_arr, y_arr)
+      def dynamic_problem_areas(x_arr, y_arr, root_topic_id = nil)
         x_with_theme = {}
         y_with_theme = {}
         x_arr.each do |x|
-          theme = KaTopic.find(x.ka_topic_id).text
+          theme = KaTopic.find(x.ka_topic_id)
           x_with_theme[theme] ||= []
           x_with_theme[theme].push(x.mark)
         end
 
         y_arr.each do |y|
-          theme = KaTopic.find(y.ka_topic_id).text
+          theme = KaTopic.find(y.ka_topic_id)
           y_with_theme[theme] ||= []
           y_with_theme[theme].push(y.mark)
         end
 
-        y_with_theme = y_with_theme.each { |k,v| y_with_theme[k] = v.reduce(:+) / v.size.to_f }
-        x_with_theme = x_with_theme.each { |k,v| x_with_theme[k] = v.reduce(:+) / v.size.to_f }
-        
+        y_with_theme = y_with_theme.each { |k, v| y_with_theme[k] = v.reduce(:+) / v.size.to_f }
+        x_with_theme = x_with_theme.each { |k, v| x_with_theme[k] = v.reduce(:+) / v.size.to_f }
+
         w_arr = x_with_theme.merge(y_with_theme) { |key, old_value, new_value| new_value - old_value }
 
-        klaster = {'Динамика положительная' => [], 'Динамика отрицательная' => []}
-        w_arr.each do |k,v|
-          if v <= 0
-            klaster['Динамика отрицательная'].push(k)
-          else
-            klaster['Динамика положительная'].push(k)
+        klaster = { "Динамика положительная" => [], "Динамика отрицательная" => [] }
+        w_arr.each do |k, v|
+          if (!root_topic_id.nil? && k.root.id == root_topic_id || root_topic_id.nil?)
+            if v <= 0
+              klaster["Динамика отрицательная"].push(k)
+            else
+              klaster["Динамика положительная"].push(k)
+            end
           end
         end
         klaster
@@ -159,7 +164,7 @@ module Tools
         Fbresult.where(group: group.number, fb: "Обратный").group(:fio).each { |e| backward_arr[e.fio] = e.result }
         fb_arr = forward_arr.merge(backward_arr) { |key, old_value, new_value| (new_value + old_value) / 2 }
 
-        pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(avg_arr.values&.compact&.map{|el| (el*100).round}, fb_arr.values&.compact&.map{|el| (el*100).round})
+        pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(avg_arr.values&.compact&.map { |el| (el * 100).round }, fb_arr.values&.compact&.map { |el| (el * 100).round })
         [avg_arr.values, [fb_arr.values, pirson]]
       end
 
@@ -184,80 +189,79 @@ module Tools
           frame_result = group.students.map do |st|
             st.studentframes.pluck(:result)&.map(&:to_i)&.max
           end
-          f_pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(x_arr&.compact&.map{|el| (el*100).round}, frame_result&.compact&.map{|el| (el*100).round})
+          f_pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(x_arr&.compact&.map { |el| (el * 100).round }, frame_result&.compact&.map { |el| (el * 100).round })
           return [x_arr, [frame_result, f_pirson]]
         when 2
           semantic_result = group.students.map do |st|
             Semanticnetwork.where(student_id: st.id).order(rating: :desc).first&.rating
           end
-          f_pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(x_arr&.compact&.map{|el| (el*100).round}, semantic_result&.compact&.map{|el| (el*100).round})
+          f_pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(x_arr&.compact&.map { |el| (el * 100).round }, semantic_result&.compact&.map { |el| (el * 100).round })
           return [x_arr, [semantic_result, f_pirson]]
         when 3
           forward_arr = []
-        backward_arr = []
-        Fbresult.where(group: group.number, fb: "Прямой").group(:fio).each { |e| forward_arr.push(e.result) }
-        Fbresult.where(group: group.number, fb: "Обратный").group(:fio).each { |e| backward_arr.push(e.result) }
+          backward_arr = []
+          Fbresult.where(group: group.number, fb: "Прямой").group(:fio).each { |e| forward_arr.push(e.result) }
+          Fbresult.where(group: group.number, fb: "Обратный").group(:fio).each { |e| backward_arr.push(e.result) }
 
-        f_pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(x_arr&.compact&.map{|el| (el*100).round}, forward_arr&.compact&.map{|el| (el*100).round})
-        b_pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(x_arr&.compact&.map{|el| (el*100).round}, backward_arr&.compact&.map{|el| (el*100).round})
-        return [x_arr, [forward_arr, f_pirson], [backward_arr, b_pirson]]
+          f_pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(x_arr&.compact&.map { |el| (el * 100).round }, forward_arr&.compact&.map { |el| (el * 100).round })
+          b_pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(x_arr&.compact&.map { |el| (el * 100).round }, backward_arr&.compact&.map { |el| (el * 100).round })
+          return [x_arr, [forward_arr, f_pirson], [backward_arr, b_pirson]]
         when 5
           result = group.students.map do |st|
             st.results.order(results_mask: :desc).first&.results_mask
           end
-          f_pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(x_arr&.compact&.map{|el| (el*100).round}, result&.compact&.map{|el| (el*100).round})
+          f_pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(x_arr&.compact&.map { |el| (el * 100).round }, result&.compact&.map { |el| (el * 100).round })
           return [x_arr, [result, f_pirson]]
         end
       end
 
       def klaster_psyho(group_id, file, max_mark, min_mark)
         opened_file = File.open(file)
-        options = { :row_sep => :auto, :col_sep => ';' }
+        options = { :row_sep => :auto, :col_sep => ";" }
         marks = {}
         marks_psyhotype = {
-          'Холерик-Аудиал' => [],
-          'Холерик-Визуал' => [],
-          'Холерик-Кинестетик' => [],
-          'Меланхолик-Аудиал' => [],
-          'Меланхолик-Визуал' => [],
-          'Меланхолик-Кинестетик' => [], 
-          'Флегматик-Аудиал' => [],
-          'Флегматик-Визуал' => [],
-          'Флегматик-Кинестетик' => [],
-          'Сангвиник-Аудиал' => [],
-          'Сангвиник-Визуал' => [],
-          'Сангвиник-Кинестетик' => [],
+          "Холерик-Аудиал" => [],
+          "Холерик-Визуал" => [],
+          "Холерик-Кинестетик" => [],
+          "Меланхолик-Аудиал" => [],
+          "Меланхолик-Визуал" => [],
+          "Меланхолик-Кинестетик" => [],
+          "Флегматик-Аудиал" => [],
+          "Флегматик-Визуал" => [],
+          "Флегматик-Кинестетик" => [],
+          "Сангвиник-Аудиал" => [],
+          "Сангвиник-Визуал" => [],
+          "Сангвиник-Кинестетик" => [],
         }
         students = Student.where(group_id: group_id)
         ::CSV.foreach(opened_file, **options) do |row|
-          
           next unless row.first.to_i.in? (1..100)
-          
+
           student = students.where("fio LIKE '%#{row[1].split.first}%'").first
           next unless student
           student_personalities = student.personalities
-          personality_modality = student.personalities.uniq.map(&:personality_traits).flatten.uniq.map(&:name).select {|pt| pt.in? ['Аудиал', 'Визуал', 'Кинестетик']}.first
-          personality_type = student.personalities.uniq.map(&:name).select {|pt| pt.in? ['Холерик', 'Меланхолик', 'Флегматик', 'Сангвиник']}.first
-          psyhotype = personality_type + '-' + personality_modality rescue ''
+          personality_modality = student.personalities.uniq.map(&:personality_traits).flatten.uniq.map(&:name).select { |pt| pt.in? ["Аудиал", "Визуал", "Кинестетик"] }.first
+          personality_type = student.personalities.uniq.map(&:name).select { |pt| pt.in? ["Холерик", "Меланхолик", "Флегматик", "Сангвиник"] }.first
+          psyhotype = personality_type + "-" + personality_modality rescue ""
           marks_psyhotype[psyhotype].push(row[-7].to_i) unless row[-7].nil? || marks_psyhotype.keys.exclude?(psyhotype)
           student_personalities.each do |pers|
             marks[pers.name] ||= []
             marks[pers.name].append(row[-7].to_i) unless row[-7].nil?
           end
         end
-        
+
         result = {}
         marks.each { |k, v| result[k] = v.reduce(:+) / v.size rescue result[k] = 0 }
         result_psyho = {}
         marks_psyhotype.each { |k, v| result_psyho[k] = v.reduce(:+) / v.size rescue result_psyho[k] = 0 }
-        kluster = {'Психотипы с высокой успеваемостью' => [], 'Психотипы со средней успеваемостью' => [], 'Психотипы с низкой успеваемостью' => []}
+        kluster = { "Психотипы с высокой успеваемостью" => [], "Психотипы со средней успеваемостью" => [], "Психотипы с низкой успеваемостью" => [] }
         result.each do |k, v|
           if v <= min_mark.to_f
-            kluster['Психотипы с низкой успеваемостью'].push(k)
+            kluster["Психотипы с низкой успеваемостью"].push(k)
           elsif v >= max_mark.to_f
-            kluster['Психотипы с высокой успеваемостью'].push(k)
+            kluster["Психотипы с высокой успеваемостью"].push(k)
           else
-            kluster['Психотипы со средней успеваемостью'].push(k)
+            kluster["Психотипы со средней успеваемостью"].push(k)
           end
         end
         return [kluster, result_psyho]
@@ -268,7 +272,6 @@ module Tools
         ka_results = group_ka_results(group_id).to_a
 
         plan_array = []
-
       end
 
       def tutor_actions(group_id)
@@ -339,7 +342,7 @@ module Tools
 
             @tutor_actions.sort { |a, b| compare_actions(a, b) }
           end
-          tutor_actions_students.push({fio: student.fio, group: group_number, tutor_actions: @tutor_actions})
+          tutor_actions_students.push({ fio: student.fio, group: group_number, tutor_actions: @tutor_actions })
         end
         tutor_actions_students
       end
@@ -350,16 +353,15 @@ module Tools
         group_number = Group.find(group_id).number
         students.each do |student|
           tutor_actions = ::Tools::MonitoringTools::PsyhoTools.make_individual_plan_with_psyho(student)
-          tutor_actions_students.push({fio: student.fio, group: group_number, tutor_actions: tutor_actions})
+          tutor_actions_students.push({ fio: student.fio, group: group_number, tutor_actions: tutor_actions })
         end
         tutor_actions_students
       end
 
       def compare_actions(action_1, action_2)
-    
         return action_1[:priority] <=> action_2[:priority]
       end
-    
+
       def get_link(type, id)
         case type
         when "component"
@@ -377,7 +379,7 @@ module Tools
           return "/images_sort_utz/#{id}"
         end
       end
-    
+
       def get_name(type, id)
         case type
         when "component"
@@ -395,7 +397,6 @@ module Tools
           return ImagesSortUtz.find(id).theme
         end
       end
-
     end
   end
 end

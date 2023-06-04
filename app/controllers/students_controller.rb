@@ -16,6 +16,10 @@ class StudentsController < ApplicationController
     end
   end
 
+  def list
+    render json: Student.all
+  end
+
   def show
     user = User.find_by(id: session[:user_id])
     @student = Student.find(params[:id])

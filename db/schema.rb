@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230528195843) do
+ActiveRecord::Schema.define(version: 20230602120026) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -306,12 +306,13 @@ ActiveRecord::Schema.define(version: 20230528195843) do
   end
 
   create_table "ka_topics", force: :cascade do |t|
-    t.string   "text",       limit: 255, default: "", null: false
+    t.string   "text",           limit: 255, default: "", null: false
     t.integer  "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "ontology"
     t.string   "ancestry"
+    t.boolean  "is_bush_vertex"
     t.index ["ancestry"], name: "index_ka_topics_on_ancestry"
     t.index ["parent_id"], name: "index_ka_topics_on_parent_id"
   end
@@ -398,6 +399,13 @@ ActiveRecord::Schema.define(version: 20230528195843) do
     t.text     "practical_part"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "ontology_rules", force: :cascade do |t|
+    t.text     "condition"
+    t.text     "action"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "personalities", force: :cascade do |t|

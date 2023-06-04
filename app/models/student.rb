@@ -30,6 +30,12 @@ class Student < ActiveRecord::Base
     save
   end
 
+  def as_json(options={})
+    super(options).merge({
+      group: self.group.as_json
+    })
+  end
+
   def find_cognitive_styles
     return {} if self.impulsivity_reflexivity_score.blank? || self.field_independence_dependency_score.blank? || self.equivalence_range_score.blank?
 
