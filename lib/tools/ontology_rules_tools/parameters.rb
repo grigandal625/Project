@@ -3,7 +3,7 @@ module Tools
     module Parameters
       class Parameter
         attr_reader :name, :label, :required, :meta, :has_default, :default
-  
+
         def initialize(name, label, required, meta = nil, has_default = false, default = nil)
           @name = name
           @label = label
@@ -12,15 +12,15 @@ module Tools
           @has_default = has_default
           @default = default
         end
-  
+
         def get_value(data = nil)
           return data.nil? ? self.has_default ? [self.default] : nil : data.is_a?(Array) ? data : [data]
         end
-  
+
         def type
           return "parameter"
         end
-  
+
         def as_hash
           res = {
             name: self.name,
@@ -33,42 +33,43 @@ module Tools
           end
           return res
         end
-  
+
         def formate(instance)
           instance
         end
       end
-  
+
       class NumberParameter < Parameter
         def type
           return "number"
         end
       end
-  
+
       class StringParameter < Parameter
         def type
           return "string"
         end
       end
-  
+
       class ThresholdParameter < NumberParameter
         def initialize
           super("threshold", "Порог", false, nil, true, 0.67)
         end
       end
-  
+
       class EnumParameter < Parameter
         attr_reader :name, :label, :required, :meta, :has_default, :default, :multiple
+
         def initialize(name, label, required, meta, has_default = false, default = nil)
           super(name, label, required, meta, has_default, default)
           @_values = meta[:values]
           @multiple = meta[:multiple].nil? ? false : meta[:multiple]
         end
-  
+
         def type
           "enum"
         end
-  
+
         def get_value(data)
           if @_values.include?(data)
             return [data]
@@ -82,54 +83,54 @@ module Tools
             return res.count ? res : nil
           end
         end
-  
+
         def values
           @_values.map do |v|
-            {id: self.values.index(v + 1), value: v}
+            { id: @_values.index(v) + 1, value: v }
           end
         end
-  
+
         def as_hash
           super.merge({
-            values: self.values, 
-            multiple: self.multiple
+            values: self.values,
+            multiple: self.multiple,
           })
         end
       end
-  
+
       class ETTTypeParameter < EnumParameter
         def initialize
           ett_types_mapping = {
-            "выбор вариантов ответа"=> TestUtzQuestion,
-            "расстановка соответствий между блоками"=>MatchingUtz, 
-            "заполнение пропусков в тексте"=>FillingUtz, 
-            "маркировка или корректировка текста"=>TextCorrectionUtz, 
-            "упорядочивание графических изображений"=>ImagesSortUtz, 
-            "шкала Ликерта"=>LikertUtz, 
-            "построение иерархической структуры"=>HierarchyUtz
+            "выбор вариантов ответа" => TestUtzQuestion,
+            "расстановка соответствий между блоками" => MatchingUtz,
+            "заполнение пропусков в тексте" => FillingUtz,
+            "маркировка или корректировка текста" => TextCorrectionUtz,
+            "упорядочивание графических изображений" => ImagesSortUtz,
+            "шкала Ликерта" => LikertUtz,
+            "построение иерархической структуры" => HierarchyUtz,
           }
-          super("ett_type", "Тип УТЗ", false, {values:ett_types_mapping.keys, multiple: true, ett_types_mapping: ett_types_mapping})
+          super("ett_type", "Тип УТЗ", false, { values: ett_types_mapping.keys, multiple: true, ett_types_mapping: ett_types_mapping })
         end
       end
 
       class ETTDifficultyParameter < EnumParameter
         def initialize
-          super("ett_difficulty", "Сложность УТЗ", false, {values: ["1", "2", "3"], multiple: true})
+          super("ett_difficulty", "Сложность УТЗ", false, { values: ["1", "2", "3"], multiple: true })
         end
       end
 
       class ModelParameter < Parameter
         attr_reader :name, :label, :meta, :model
-  
+
         def initialize(name, label, required, meta)
           super(name, label, required, meta)
           @model = meta[:model]
         end
-  
+
         def type
           return "model"
         end
-  
+
         def get_value(data)
           if data.is_a?(Hash)
             if self.model.primary_key.nil? || !data.has_key?(self.model.primary_key.to_sym)
@@ -145,28 +146,28 @@ module Tools
             return res.respond_to?(:count) ? res : [res]
           end
         end
-  
+
         def formate(instance)
           return instance.attributes
         end
       end
-  
+
       class VertexParameter < ModelParameter
         def initialize(required = true)
           super("vertex", "Вершина - элемент курса/дисциплины", required, { model: KaTopic })
         end
       end
-  
+
       class StudentParameter < ModelParameter
         def initialize(required = true)
           super("student", "Обучаемый", required, { model: Student })
         end
-  
+
         def formate(instance)
           return super(instance).merge({ group: instance.group.attributes })
         end
       end
-  
+
       class GroupParameter < ModelParameter
         def initialize(required = true)
           super("group", "Учебная группа", required, { model: Group })

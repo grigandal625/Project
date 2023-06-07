@@ -270,7 +270,7 @@ module Tools
 
     class Criterias
       def self.all
-        return [IsBushVertex, IsStudied, IsProblemArea, ProblemAreaCluster, ProblemAreaDynamics]
+        return [IsBushVertex, IsStudied, IsProblemArea, ProblemAreaCluster, ProblemAreaDynamics, ETTRelationsCriteria]
       end
     end
   end
