@@ -9,4 +9,8 @@ class TestUtzQuestion < ActiveRecord::Base
   def name
     text
   end
+
+  def self.label
+    return "выбор вариантов ответа"
+  end
 end

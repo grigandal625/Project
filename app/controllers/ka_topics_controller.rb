@@ -214,31 +214,21 @@ class KaTopicsController < ApplicationController
   end
 
   def edit_utz
-    type = params[:utz_data].split(",")[0].to_i
+    type = params[:utz_data].split(",")[0]
     ka_topic_id = params[:id]
     topic = KaTopic.find(ka_topic_id)
     utz_id = params[:utz_data].split(",")[1].to_i
     weight = params[:weight]
-    case type
-    when 1
-      utz = TestUtzQuestion.find(utz_id)
-      if TestUtzTopic.where(ka_topic: topic, test_utz_question: utz).empty?
-        TestUtzTopic.create(ka_topic: topic, test_utz_question: utz, weight: weight)
-      else
-        c = TestUtzTopic.find_by(ka_topic: topic, test_utz_question: utz)
-        c.weight = weight
-        c.save()
-      end
-      # when 2
-      #   MatchingUtz.find(utz_id).update(ka_topic_id: params[:id])
-      # when 3
-      #   FillingUtz.find(utz_id).update(ka_topic_id: params[:id])
-      # when 4
-      #   TextCorrectionUtz.find(utz_id).update(ka_topic_id: params[:id])
-      # when 5
-      #   ImagesSortUtz.find(utz_id).update(ka_topic_id: params[:id])
+    ett_class = TestUtzTopic.ett_types_mapping[type.to_sym][:model]
+    ett = ett_class.find(utz_id)
+    ett_arg = {type.to_sym => ett}
+    if TestUtzTopic.where(ka_topic: topic, **ett_arg).empty?
+      TestUtzTopic.create(ka_topic: topic, weight: weight, **ett_arg)
+    else
+      c = TestUtzTopic.find_by(ka_topic: topic, **ett_arg)
+      c.weight = weight
+      c.save!
     end
-
     redirect_to :back
   end
 
@@ -336,20 +326,10 @@ class KaTopicsController < ApplicationController
 
   def load_quizzes
     @quizzes = []
-    TestUtzQuestion.all.each do |q|
-      @quizzes.push({ type: 1, data: q })
-    end
-    MatchingUtz.all.each do |q|
-      @quizzes.push({ type: 2, data: q })
-    end
-    FillingUtz.all.each do |q|
-      @quizzes.push({ type: 3, data: q })
-    end
-    TextCorrectionUtz.all.each do |q|
-      @quizzes.push({ type: 4, data: q })
-    end
-    ImagesSortUtz.all.each do |q|
-      @quizzes.push({ type: 5, data: q })
+    TestUtzTopic.ett_list.each do |ett_class|
+      @quizzes += ett_class.all.map do |ett|
+        { data: ett, type: ett_class.name.underscore, label: ett_class.label }
+      end
     end
   end
 end

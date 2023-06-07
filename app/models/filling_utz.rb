@@ -10,4 +10,8 @@ class FillingUtz < ActiveRecord::Base
   def elements
     filling_utz_elements
   end
+
+  def self.label
+    return "заполнение пропусков в тексте"
+  end
 end

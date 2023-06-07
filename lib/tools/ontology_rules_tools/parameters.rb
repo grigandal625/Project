@@ -100,16 +100,13 @@ module Tools
 
       class ETTTypeParameter < EnumParameter
         def initialize
-          ett_types_mapping = {
-            "выбор вариантов ответа" => TestUtzQuestion,
-            "расстановка соответствий между блоками" => MatchingUtz,
-            "заполнение пропусков в тексте" => FillingUtz,
-            "маркировка или корректировка текста" => TextCorrectionUtz,
-            "упорядочивание графических изображений" => ImagesSortUtz,
-            "шкала Ликерта" => LikertUtz,
-            "построение иерархической структуры" => HierarchyUtz,
-          }
-          super("ett_type", "Тип УТЗ", false, { values: ett_types_mapping.keys, multiple: true, ett_types_mapping: ett_types_mapping })
+          super("ett_type", "Тип УТЗ", false, { values: TestUtzTopic.ett_types_mapping.keys.map do |v| v.to_s end, multiple: true })
+        end
+
+        def values
+          return TestUtzTopic.ett_types_mapping.keys.map do |key|
+                   { value: key, label: TestUtzTopic.ett_types_mapping[key][:label] }
+                 end
         end
       end
 

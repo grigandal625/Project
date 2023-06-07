@@ -9,4 +9,8 @@ class MatchingUtz < ActiveRecord::Base
   def answers
     MatchingUtzAnswer.where matching_utz_question_id: matching_utz_questions.ids
   end
+
+  def self.label
+    return "расстановка соответствий между блоками"
+  end
 end

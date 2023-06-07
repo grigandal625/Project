@@ -184,11 +184,17 @@ module Tools
 
     class ProblemAreaCluster < Criteria
       def initialize
-        super("problem_area_cluster", "Кластер проблемной зоны", [Parameters::VertexParameter.new, Parameters::GroupParameter.new])
+        super("problem_area_cluster", "Кластер проблемной зоны", [
+          Parameters::VertexParameter.new,
+          Parameters::GroupParameter.new,
+          Parameters::NumberParameter.new("max_good", "Максимальный балл для почти усваиваемых тем", false, nil, true, 0.67),
+          Parameters::NumberParameter.new("min_good", "Минимальный балл для почти усваиваемых тем", false, nil, true, 0.55),
+          Parameters::NumberParameter.new("min_hard", "Максимальный балл для сложных тем", false, nil, true, 0.1),
+        ])
       end
 
-      def _get_active_value(vertex:, group:)
-        problem_areas = ::Tools::MonitoringTools::KlasterTools.new().problem_areas([group.id], 0.69, 0.55, 0.1, vertex.root.id)["Кластеризация"]
+      def _get_active_value(vertex:, group:, max_good:, min_good:, min_hard:)
+        problem_areas = ::Tools::MonitoringTools::KlasterTools.new().problem_areas([group.id], max_good, min_good, min_hard, vertex.root.id)["Кластеризация"]
 
         if !problem_areas["Очень сложные темы"].include?(vertex) && !problem_areas["Почти усваемые темы"].include?(vertex) && !problem_areas["Сложные темы"].include?(vertex)
           return self.values()[0]
@@ -254,10 +260,10 @@ module Tools
       end
 
       def _get_active_value(vertex:, ett_type:, ett_difficulty:)
-        ett_classes = self.get_parameter("ett_type").meta[:ett_types_mapping]
-        ett_class = ett_classes[ett_type]
-        all_etts = self._get_ett_list(ett_class, vertex)
-        return self.values()[1]
+        etts_by_difficulty = TestUtzTopic.ett_types_mapping[ett_type.to_sym][:model].all # .all заменить на .where(difficulty: ett_difficulty)
+        attrs = { ka_topic: vertex, ett_type.to_sym => etts_by_difficulty }
+        ett_relations = TestUtzTopic.where(**attrs)
+        return ett_relations.count == 0 ? self.values[1] : self.values[0]
       end
 
       def _values

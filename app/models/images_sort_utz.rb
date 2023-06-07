@@ -9,4 +9,8 @@ class ImagesSortUtz < ActiveRecord::Base
   def name
     theme
   end
+
+  def self.label
+    return "упорядочивание графических изображений"
+  end
 end

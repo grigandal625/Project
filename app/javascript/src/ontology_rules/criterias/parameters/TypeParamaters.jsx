@@ -1,6 +1,7 @@
 import React from "react";
 import TreeSelect from "rc-tree-select";
 import "rc-tree-select/assets/index.css";
+import { Form } from "react-bootstrap";
 
 const NumberParameter = ({ value, setter }) => (
     <Form.Control
@@ -16,7 +17,10 @@ const StringParameter = ({ value, setter }) => (
 
 const EnumParameter = ({ value, setter, parameter }) => {
     const treeData = parameter.values.map((v) =>
-        Object({ value: v.id, label: v.value })
+        Object({
+            value: v.value ? v.value : v.id,
+            label: v.label ? v.label : v.value,
+        })
     );
     const multiple = parameter.multiple;
     return (

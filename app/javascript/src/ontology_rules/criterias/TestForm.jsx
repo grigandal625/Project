@@ -32,6 +32,16 @@ const Results = ({ data, loading, parameters }) => {
         vertex: (v) => v.text,
         student: (s) => `${s.fio} - ${s.group.number}`,
         group: (g) => g.number,
+        ett_type: (t) =>
+            Object({
+                test_utz_question: "выбор вариантов ответа",
+                matching_utz: "расстановка соответствий между блоками",
+                filling_utz: "заполнение пропусков в тексте",
+                text_correction_utz: "маркировка или корректировка текста",
+                images_sort_utz: "упорядочивание графических изображений",
+                likert_utz: "шкала Ликерта",
+                hierarchy_utz: "построение иерархической структуры",
+            })[t],
     };
 
     data = !data ? data : data.hasOwnProperty("length") ? data : [data];

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230602120026) do
+ActiveRecord::Schema.define(version: 20230607141002) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -688,10 +688,22 @@ ActiveRecord::Schema.define(version: 20230602120026) do
     t.integer  "weight"
     t.integer  "test_utz_question_id"
     t.integer  "ka_topic_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "matching_utz_id"
+    t.integer  "filling_utz_id"
+    t.integer  "text_correction_utz_id"
+    t.integer  "images_sort_utz_id"
+    t.integer  "likert_utz_id"
+    t.integer  "hierarchy_utz_id"
+    t.index ["filling_utz_id"], name: "index_test_utz_topics_on_filling_utz_id"
+    t.index ["hierarchy_utz_id"], name: "index_test_utz_topics_on_hierarchy_utz_id"
+    t.index ["images_sort_utz_id"], name: "index_test_utz_topics_on_images_sort_utz_id"
     t.index ["ka_topic_id"], name: "index_test_utz_topics_on_ka_topic_id"
+    t.index ["likert_utz_id"], name: "index_test_utz_topics_on_likert_utz_id"
+    t.index ["matching_utz_id"], name: "index_test_utz_topics_on_matching_utz_id"
     t.index ["test_utz_question_id"], name: "index_test_utz_topics_on_test_utz_question_id"
+    t.index ["text_correction_utz_id"], name: "index_test_utz_topics_on_text_correction_utz_id"
   end
 
   create_table "text_correction_utzs", force: :cascade do |t|
