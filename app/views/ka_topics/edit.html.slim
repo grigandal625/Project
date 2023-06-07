@@ -103,7 +103,7 @@ form method="post" action="#{edit_utz_path}"
         div class="small-8 columns"
           select name="utz_data"
             - @quizzes.each do |t|
-              = content_tag(:option, t[:data].name, value: "#{t[:type]},#{t[:data].id}")
+              = content_tag(:option, t[:label] + ': ' + t[:data].name, value: "#{t[:type]},#{t[:data].id}")
         div class="small-2 columns"
           input type="number" name="weight" min="0" max="100" placeholder="Вес УТЗ"
         div class="small-2 columns"
@@ -143,7 +143,7 @@ table
           a href="#{ka_question_destroy_path(t.id)}" Удалить
 
 
-h3 УТЗ
+h3 Связи с УТЗ
 table
   thead
     th.text = "Наименование"
@@ -153,11 +153,11 @@ table
   tbody
     - @topic_utz_set.each do |topic_utz|
       tr
-        td.text = topic_utz[:data].test_utz_question.text
-        td.type = "Выбор вариантов ответа"
+        td.text = topic_utz[:data].utz.name
+        td.type = topic_utz[:data].utz_type_label
         td.weight = topic_utz[:data].weight
         td
-          a href="#{test_utz_question_path(topic_utz[:data].test_utz_question_id)}"
+          a href="#{send(topic_utz[:data].utz_type + "_path", topic_utz[:data].utz)}"
             | Перейти
         td
           form action="#{delete_utz_topic_connection_path}" method="post"
