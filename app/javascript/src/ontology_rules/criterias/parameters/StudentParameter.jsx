@@ -40,7 +40,6 @@ const StudentSelect = ({ value, setter }) => {
                     allowClear
                     treeData={students.map((s) => Object({ value: s.id, label: `${s.fio} - ${s.group.number}` }))}
                     onChange={(e) => setter({ id: e })}
-                    selectionMode="multiple"
                     style={{ width: "100%" }}
                     transitionName="rc-tree-select-dropdown-slide-up"
                     choiceTransitionName="rc-tree-select-selection__choice-zoom"

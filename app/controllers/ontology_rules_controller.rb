@@ -12,7 +12,7 @@ class OntologyRulesController < ApplicationController
     respond_to do |format|
       format.html
       format.json {
-        all_criterias = ::Tools::OntologyRulesTools::Criterias.all
+        all_criterias = ::Tools::OntologyRulesTools::Criterias.all # see lib/tools/ontology_rules_tools/criterias.rb
         cs = all_criterias.map do |c|
           c = c.new.as_hash(all_criterias.index(c) + 1)
         end
@@ -22,7 +22,7 @@ class OntologyRulesController < ApplicationController
   end
 
   def evaluate_criteria
-    all_criterias = ::Tools::OntologyRulesTools::Criterias.all
+    all_criterias = ::Tools::OntologyRulesTools::Criterias.all # see lib/tools/ontology_rules_tools/criterias.rb
     criteria = all_criterias[params[:id].to_i - 1].new
     ps = symbolize_keys(params)
     render json: criteria.get_active_value(**ps)

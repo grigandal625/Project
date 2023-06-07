@@ -1,7 +1,7 @@
-require_relative "parameters"
-
 module Tools
   module OntologyRulesTools
+    include Parameters
+
     class Criteria
       attr_reader :name, :label, :parameters
 
@@ -126,7 +126,7 @@ module Tools
 
     class IsBushVertex < Criteria
       def initialize
-        super("is_bush_vertex", "Является ли вершина кустовой", [VertexParameter.new])
+        super("is_bush_vertex", "Является ли вершина кустовой", [Parameters::VertexParameter.new])
       end
 
       def _get_active_value(vertex:)
@@ -143,7 +143,7 @@ module Tools
 
     class IsStudied < Criteria
       def initialize
-        super("is_studied", "Затрагивалась ли тема вершины обучаемым в тестировании", [VertexParameter.new, StudentParameter.new])
+        super("is_studied", "Затрагивалась ли тема вершины обучаемым в тестировании", [Parameters::VertexParameter.new, Parameters::StudentParameter.new])
       end
 
       def _get_active_value(vertex:, student:)
@@ -162,7 +162,7 @@ module Tools
 
     class IsProblemArea < Criteria
       def initialize
-        super("is_problem_area", "Является ли вершина проблемной зоной для обучаемого", [VertexParameter.new, StudentParameter.new, ThresholdParameter.new])
+        super("is_problem_area", "Является ли вершина проблемной зоной для обучаемого", [Parameters::VertexParameter.new, Parameters::StudentParameter.new, Parameters::ThresholdParameter.new])
       end
 
       def _get_active_value(vertex:, student:, threshold:)
@@ -184,7 +184,7 @@ module Tools
 
     class ProblemAreaCluster < Criteria
       def initialize
-        super("problem_area_cluster", "Кластер проблемной зоны", [VertexParameter.new, GroupParameter.new])
+        super("problem_area_cluster", "Кластер проблемной зоны", [Parameters::VertexParameter.new, Parameters::GroupParameter.new])
       end
 
       def _get_active_value(vertex:, group:)
@@ -214,7 +214,7 @@ module Tools
 
     class ProblemAreaDynamics < Criteria
       def initialize
-        super("problem_area_dynamics", "Динамика проблемной зоны", [VertexParameter.new, GroupParameter.new])
+        super("problem_area_dynamics", "Динамика проблемной зоны", [Parameters::VertexParameter.new, Parameters::GroupParameter.new])
       end
 
       def _get_active_value(vertex:, group:)
@@ -234,6 +234,36 @@ module Tools
                  "Тема не отнесена ни к одному варианту динамики",
                  "Тема вершины имеет положительную динамику",
                  "Тема вершины имеет отрицательную динамику",
+               ]
+      end
+    end
+
+    class ETTRelationsCriteria < Criteria
+      def initialize
+        super("ett_relations", "Наличие связей между вершиной и УТЗ", [Parameters::VertexParameter.new, Parameters::ETTTypeParameter.new, Parameters::ETTDifficultyParameter.new])
+      end
+
+      def _get_ett_list(ett_class, topic)
+        ett_list = []
+        if ett_class.column_names.include?("ka_topics_id")
+          ett_list = ett_class.where(ka_topics_id: topic.id)
+        else
+          ett_list = ett_class.where(ka_topic_id: topic.id)
+        end
+        return ett_list
+      end
+
+      def _get_active_value(vertex:, ett_type:, ett_difficulty:)
+        ett_classes = self.get_parameter("ett_type").meta[:ett_types_mapping]
+        ett_class = ett_classes[ett_type]
+        all_etts = self._get_ett_list(ett_class, vertex)
+        return self.values()[1]
+      end
+
+      def _values
+        return [
+                 "Связь присутствует",
+                 "Связь отсутствует",
                ]
       end
     end

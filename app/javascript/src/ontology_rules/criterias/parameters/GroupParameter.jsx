@@ -39,7 +39,6 @@ export default ({ value, setter }) => {
                     allowClear
                     treeData={groups.map((g) => Object({ value: g.id, label: g.number }))}
                     onChange={setter}
-                    selectionMode="multiple"
                     style={{ width: "100%" }}
                     transitionName="rc-tree-select-dropdown-slide-up"
                     choiceTransitionName="rc-tree-select-selection__choice-zoom"

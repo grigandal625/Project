@@ -5,6 +5,7 @@ import VertexParameter from "./parameters/VertexParameter";
 import Cookies from "universal-cookie";
 import StudentParameter from "./parameters/StudentParameter";
 import GroupParameter from "./parameters/GroupParameter";
+import { Types } from "./parameters/TypeParamaters";
 
 const evaluateCriteria = async (id, data, setData, setLoading) => {
     setLoading(true);
@@ -70,11 +71,6 @@ const Results = ({ data, loading, parameters }) => {
 
 export default ({ criteria }) => {
     const parameterClasses = { vertex: VertexParameter, student: StudentParameter, group: GroupParameter };
-    const typeClasses = {
-        number: ({ value, setter }) => (
-            <Form.Control type="number" value={value} onChange={(e) => setter(e.target.value)} />
-        ),
-    };
     const parameters = criteria.parameters.reduce((accumulator, parameter) => {
         let [value, setter] = useState("default" in parameter ? parameter.default : null);
         accumulator[parameter.name] = { value, setter, label: parameter.label };
@@ -94,7 +90,7 @@ export default ({ criteria }) => {
             <Form>
                 <h3>Параметры</h3>
                 {criteria.parameters.map((p) => {
-                    let ReactClass = parameterClasses[p.name] ? parameterClasses[p.name] : typeClasses[p.type];
+                    let ReactClass = parameterClasses[p.name] ? parameterClasses[p.name] : Types[p.type];
                     let variables = parameters[p.name];
                     return ReactClass ? (
                         <Form.Group>
