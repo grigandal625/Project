@@ -3,7 +3,7 @@ import { Nav, Navbar, Container } from "react-bootstrap";
 export default ({ active }) => (
     <Navbar bg="dark" variant="dark" expand="lg">
         <Container>
-            <Navbar.Brand>Критерии</Navbar.Brand>
+            <Navbar.Brand>Интерпретация вершин и связей</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse>
                 <Nav>

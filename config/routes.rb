@@ -3,6 +3,10 @@ UIR::Application.routes.draw do
 
   post "ontology_rules/create"
 
+  get "ontology_rules/expressions"
+
+  get "ontology_rules/actions"
+
   get "ontology_rules/criterias"
 
   post "ontology_rules/criterias/evaluate/:id", to: "ontology_rules#evaluate_criteria", as: "evaluate_criteria"

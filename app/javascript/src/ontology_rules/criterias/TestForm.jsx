@@ -15,9 +15,7 @@ const evaluateCriteria = async (id, data, setData, setLoading) => {
         headers: {
             Authorization: `Token ${cookies.get("auth_token")}`,
             "Content-Type": "application/json",
-            "X-CSRF-Token": window.document
-                .querySelector('meta[name="csrf-token"]')
-                .getAttribute("content"),
+            "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
         },
         body: JSON.stringify(data),
         credentials: "include",
@@ -44,7 +42,7 @@ const Results = ({ data, loading, parameters }) => {
             })[t],
     };
 
-    data = !data ? data : data.hasOwnProperty("length") ? data : [data];
+    data = !data ? data : data.many ? data.data : [data.data];
     return loading ? (
         <Spinner />
     ) : data ? (
@@ -53,12 +51,8 @@ const Results = ({ data, loading, parameters }) => {
             <Table bordered>
                 <thead>
                     <tr>
-                        <th colSpan={Object.keys(parameters).length}>
-                            Параметры
-                        </th>
-                        <th style={{ borderBottom: "0px" }}>
-                            Значение критерия
-                        </th>
+                        <th colSpan={Object.keys(parameters).length}>Параметры</th>
+                        <th style={{ borderBottom: "0px" }}>Значение критерия</th>
                     </tr>
                     <tr>
                         {Object.keys(parameters).map((p) => (
@@ -95,9 +89,7 @@ export default ({ criteria }) => {
         group: GroupParameter,
     };
     const parameters = criteria.parameters.reduce((accumulator, parameter) => {
-        let [value, setter] = useState(
-            "default" in parameter ? parameter.default : null
-        );
+        let [value, setter] = useState("default" in parameter ? parameter.default : null);
         accumulator[parameter.name] = { value, setter, label: parameter.label };
         return accumulator;
     }, {});
@@ -112,17 +104,12 @@ export default ({ criteria }) => {
             <Form>
                 <h3>Параметры</h3>
                 {criteria.parameters.map((p) => {
-                    let ReactClass = parameterClasses[p.name]
-                        ? parameterClasses[p.name]
-                        : Types[p.type];
+                    let ReactClass = parameterClasses[p.name] ? parameterClasses[p.name] : Types[p.type];
                     let variables = parameters[p.name];
                     return ReactClass ? (
                         <Form.Group>
                             <Form.Label>{p.label}</Form.Label>
-                            <ReactClass
-                                {...variables}
-                                parameter={p}
-                            ></ReactClass>
+                            <ReactClass {...variables} parameter={p}></ReactClass>
                         </Form.Group>
                     ) : (
                         <></>
@@ -133,21 +120,13 @@ export default ({ criteria }) => {
                     <Button
                         disabled={loading}
                         onClick={() => {
-                            let d = Object.entries(parameters).reduce(
-                                (accumulator, [name, value]) => {
-                                    accumulator[name] = parameterHandlers[name]
-                                        ? parameterHandlers[name](value)
-                                        : value.value;
-                                    return accumulator;
-                                },
-                                {}
-                            );
-                            evaluateCriteria(
-                                criteria.id,
-                                d,
-                                setData,
-                                setLoading
-                            );
+                            let d = Object.entries(parameters).reduce((accumulator, [name, value]) => {
+                                accumulator[name] = parameterHandlers[name]
+                                    ? parameterHandlers[name](value)
+                                    : value.value;
+                                return accumulator;
+                            }, {});
+                            evaluateCriteria(criteria.id, d, setData, setLoading);
                         }}
                     >
                         Протестировать

@@ -1,10 +1,15 @@
+include ::Tools::OntologyRulesTools::Criterias # see lib/tools/ontology_rules_tools/criterias.rb
+include ::Tools::OntologyRulesTools::Expressions
+include ::Tools::OntologyRulesTools::Actions
+include ::Tools::OntologyRulesTools::Rules
+
 class OntologyRulesController < ApplicationController
   layout false
 
   def index
     respond_to do |format|
       format.html
-      format.json { render json: OntologyRule.all.as_json }
+      format.json { render json: OntologyRule.all }
     end
   end
 
@@ -26,6 +31,28 @@ class OntologyRulesController < ApplicationController
     criteria = all_criterias[params[:id].to_i - 1].new
     ps = symbolize_keys(params)
     render json: criteria.get_active_value(**ps)
+  end
+
+  def expressions
+    all_expressions = ::Tools::OntologyRulesTools::Expressions.all
+    es = all_expressions.map do |expr|
+      {
+        type: expr.type,
+        label: expr.label,
+      }
+    end
+    render json: es
+  end
+
+  def actions
+    all_actions = ::Tools::OntologyRulesTools::Actions::all
+    as = all_actions.map do |action|
+      {
+        type: action.type,
+        label: action.label,
+      }
+    end
+    render json: as
   end
 
   def create

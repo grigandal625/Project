@@ -19,7 +19,7 @@ class TestUtzTopic < ApplicationRecord
   def self.ett_types_mapping
     res = {}
     TestUtzTopic.ett_list.each do |ett_class|
-      res[ett_class.name.underscore.to_sym] = {
+      res[ett_class.name.demodulize.underscore.to_sym] = {
         model: ett_class,
         label: ett_class.label,
       }
