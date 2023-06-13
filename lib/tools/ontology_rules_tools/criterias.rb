@@ -27,9 +27,9 @@ module Tools
           self._check_parameters(data)
           combs = self.parameter_values(data, method(:get_value_with_params))
           return {
-            many: combs.count > 1,
-            data: combs.count == 1 ? combs[0] : combs
-          }
+                   many: combs.count > 1,
+                   data: combs.count == 1 ? combs[0] : combs,
+                 }
         end
 
         def get_value_with_params(**data)
@@ -243,7 +243,11 @@ module Tools
 
       class ETTRelationsCriteria < Criteria
         def initialize
-          super("ett_relations", "Наличие связей между вершиной и УТЗ", [Parameters::VertexParameter.new, Parameters::ETTTypeParameter.new, Parameters::ETTDifficultyParameter.new])
+          super("ett_relations", "Наличие связей между вершиной и УТЗ", [
+            Parameters::VertexParameter.new,
+            Parameters::ETTTypeParameter.new,
+            Parameters::ETTDifficultyParameter.new,
+          ])
         end
 
         def _get_ett_list(ett_class, topic)

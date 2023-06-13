@@ -104,7 +104,7 @@ const CriteriaValues = ({ condition, current, setCondition }) => {
                     }}
                     disabled={selected ? false : true}
                     size="sm"
-                    value={current.value.id}
+                    value={current.value? current.value.id : undefined}
                 >
                     <option>--- выберите значение критерия ---</option>
                     {selected ? selected.values.map((v) => <option value={v.id}>{v.label}</option>) : <></>}
