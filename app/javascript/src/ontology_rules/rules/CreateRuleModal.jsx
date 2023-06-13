@@ -60,12 +60,27 @@ const createRule = async (data, close) => {
     close(result);
 };
 
+const findCriteriaByValue = (criterias, current) =>
+    criterias.filter(
+        (c) => c.values.filter((v) => v.id == current.value.id && v.label == current.value.label).length
+    )[0];
+
 const CriteriaValues = ({ condition, current, setCondition }) => {
     const [criterias, setCriterias] = useState(null);
     const [selected, setSelected] = useState(null);
     useEffect(() => {
         loadCriterias(setCriterias);
     }, []);
+
+    useEffect(() => {
+        if (criterias) {
+            const selectedCriteria =
+                criterias && current.value && current.value.id && current.value.label
+                    ? findCriteriaByValue(criterias, current)
+                    : null;
+            setSelected(selectedCriteria);
+        }
+    }, [criterias]);
 
     return criterias ? (
         <Row>
@@ -89,6 +104,7 @@ const CriteriaValues = ({ condition, current, setCondition }) => {
                     }}
                     disabled={selected ? false : true}
                     size="sm"
+                    value={current.value.id}
                 >
                     <option>--- выберите значение критерия ---</option>
                     {selected ? selected.values.map((v) => <option value={v.id}>{v.label}</option>) : <></>}
@@ -101,7 +117,19 @@ const CriteriaValues = ({ condition, current, setCondition }) => {
 };
 
 const ValueExpression = ({ condition, current, setCondition }) => {
-    const [type, setType] = useState(1);
+    const [type, setType] = useState(
+        current.value
+            ? typeof current.value == typeof String("")
+                ? 1
+                : typeof current.value == typeof Number(0)
+                ? 2
+                : typeof current.value == typeof Boolean()
+                ? 3
+                : typeof current.value == typeof Object({})
+                ? 4
+                : 1
+            : 1
+    );
     return (
         <Row xs="auto" className="ml-2 mt-2 p-1 border">
             <Col>
@@ -140,11 +168,13 @@ const ValueExpression = ({ condition, current, setCondition }) => {
                                         current.value = e.target.value;
                                         setCondition({ ...condition });
                                     }}
+                                    value={current.value}
                                 ></Form.Control>
                             ) : type == 2 ? (
                                 <Form.Control
                                     size="sm"
                                     type="number"
+                                    value={current.value}
                                     onChange={(e) => {
                                         current.value = Number(e.target.value);
                                         setCondition({ ...condition });
@@ -158,6 +188,7 @@ const ValueExpression = ({ condition, current, setCondition }) => {
                                                 current.value = e.target.checked;
                                                 setCondition({ ...condition });
                                             }}
+                                            checked={current.value}
                                         ></Form.Check>
                                     </Col>
                                     <Col>{current.value ? "True" : "False"}</Col>
@@ -217,6 +248,7 @@ const SignedExpression = ({ condition, current, setCondition }) => {
                                 setCondition({ ...condition });
                             }}
                             size="sm"
+                            value={current.sign}
                         >
                             <option>--- выберите знак ---</option>
                             {["+", "-", "*", "/", ">", "<", "==", "!=", ">=", "<=", "&&", "||"].map((s) => (
