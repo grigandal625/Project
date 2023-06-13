@@ -3,7 +3,7 @@ import { Container, Table, Dropdown, Spinner, Modal } from "react-bootstrap";
 import Menu from "../Menu";
 import Cookies from "universal-cookie";
 import TestForm from "./TestForm";
-import "./Criterias.css";
+import "./Criterias.css"
 
 const navigate = (url) => {
     let a = window.document.createElement("a");
@@ -30,6 +30,7 @@ const CriteriasTable = ({ criterias }) => {
     const className = testingCriteria ? "" : "no-dis";
     return criterias ? (
         <>
+            <h3>Критерии</h3>
             <Table bordered>
                 <thead>
                     <tr>
@@ -43,7 +44,7 @@ const CriteriasTable = ({ criterias }) => {
                             <td>{criteria.label}</td>
                             <td>
                                 <Dropdown>
-                                    <Dropdown.Toggle>...</Dropdown.Toggle>
+                                    <Dropdown.Toggle></Dropdown.Toggle>
                                     <Dropdown.Menu>
                                         <Dropdown.Item onClick={() => setTestingCriteria(criteria)}>
                                             Протестировать
@@ -79,7 +80,7 @@ const CriteriasTable = ({ criterias }) => {
 
 export default () => {
     const [criterias, setCriterias] = useState(null);
-    useEffect(() => {loadCriterias(setCriterias)}, []);
+    useEffect(() => { loadCriterias(setCriterias) }, []);
 
     return (
         <>

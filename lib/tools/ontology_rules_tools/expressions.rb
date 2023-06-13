@@ -36,7 +36,7 @@ module Tools
         end
 
         def self.all
-          [ValueExpression, CriteriaExpression, SignedExpresstion]
+          [ValueExpression, CriteriaExpression, SignedExpression]
         end
   
         def self.mapping
@@ -114,7 +114,7 @@ module Tools
         end
       end
 
-      class SignedExpresstion < Expression
+      class SignedExpression < Expression
         attr_reader :sign, :left, :right
 
         def initialize(sign, left, right)
@@ -141,7 +141,7 @@ module Tools
         end
 
         def self.from_hash(data)
-          return SignedExpresstion.new(
+          return SignedExpression.new(
                    data[:sign],
                    Expression.from_hash(data[:left]),
                    Expression.from_hash(data[:right]),
@@ -149,11 +149,11 @@ module Tools
         end
       end
 
-      def all
-        [ValueExpression, CriteriaExpression, SignedExpresstion]
+      def self.all
+        [ValueExpression, CriteriaExpression, SignedExpression]
       end
 
-      def mapping
+      def self.mapping
         res = {}
         all().each do |expr|
           res[expr.type.to_sym] = {

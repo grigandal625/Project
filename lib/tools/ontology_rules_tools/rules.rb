@@ -32,8 +32,8 @@ module Tools
         def self.from_hash(data)
           Rule.new(
             Expressions::Expression.from_hash(data[:condition]),
-            data[:actions].map do |id|
-              Actions::get_action_class_by_id(id).new
+            data[:actions].map do |type|
+              Actions::mapping[type.to_sym][:class].new
             end
           )
         end

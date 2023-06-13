@@ -9,3 +9,7 @@
 .no-dis {
     display: none !important;
 }
+
+.rc-tree-select-selection--multiple {
+    min-height: 35px
+}

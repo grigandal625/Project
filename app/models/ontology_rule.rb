@@ -21,8 +21,8 @@ class OntologyRule < ApplicationRecord
     end
   end
 
-  def serializable_hash(options={})
-    if options.nil? 
+  def serializable_hash(options = {})
+    if options.nil?
       options = {}
     end
     res = super(options)
@@ -31,6 +31,4 @@ class OntologyRule < ApplicationRecord
     res["condition"] = JSON.parse(res["condition"])
     return res
   end
-
-  
 end

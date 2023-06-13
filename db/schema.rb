@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230609162317) do
+ActiveRecord::Schema.define(version: 20230612165217) do
 
   create_table "bnfs", force: :cascade do |t|
     t.integer "component_id"
@@ -407,6 +407,7 @@ ActiveRecord::Schema.define(version: 20230609162317) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "description"
+    t.float    "cf"
   end
 
   create_table "personalities", force: :cascade do |t|

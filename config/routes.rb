@@ -13,7 +13,7 @@ UIR::Application.routes.draw do
 
   post "ontology_rules/update"
 
-  get "ontology_rules/delete"
+  get "ontology_rules/delete/:id", to: "ontology_rules#delete", as: "delete_ontology_rule"
 
   post "ontology_rules/execute"
 

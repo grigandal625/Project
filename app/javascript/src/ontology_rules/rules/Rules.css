@@ -1,0 +1,16 @@
+.fade.modal-backdrop.show {
+    display: block !important;
+    z-index: 0 !important;
+}
+
+.rc-tree-select-tree-title {
+    cursor: pointer;
+}
+
+.no-dis {
+    display: none !important;
+}
+
+.action-badge {
+    background-color: rgb(230, 235, 255);
+}

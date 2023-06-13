@@ -271,11 +271,11 @@ module Tools
         end
       end
 
-      def all
+      def self.all
         [IsBushVertex, IsStudied, IsProblemArea, ProblemAreaCluster, ProblemAreaDynamics, ETTRelationsCriteria]
       end
 
-      def get_criteria_instance_id(instance)
+      def self.get_criteria_instance_id(instance)
         all().each do |criteria|
           if instance.is_a?(criteria)
             return all().index(criteria) + 1

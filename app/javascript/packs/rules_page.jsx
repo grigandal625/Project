@@ -5,8 +5,5 @@ import React from "react";
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("READY");
-    ReactDOM.render(
-        <Rules />,
-        document.body.appendChild(document.createElement("div"))
-    );
+    ReactDOM.render(<Rules />, document.body.appendChild(document.createElement("div")));
 });
