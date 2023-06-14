@@ -116,6 +116,12 @@ module Tools
         end
       end
 
+      class HTBContainsParameter < EnumParameter
+        def initialize
+          super("htb_contains", "Содержимое главы ГТ-учебника включает", false, { values: ["текст", "изображение", "звук", "видео", "HTML-страница", "исполняемый файл"], multiple: true })
+        end
+      end
+
       class ModelParameter < Parameter
         attr_reader :name, :label, :meta, :model
 

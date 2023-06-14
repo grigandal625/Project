@@ -250,16 +250,6 @@ module Tools
           ])
         end
 
-        def _get_ett_list(ett_class, topic)
-          ett_list = []
-          if ett_class.column_names.include?("ka_topics_id")
-            ett_list = ett_class.where(ka_topics_id: topic.id)
-          else
-            ett_list = ett_class.where(ka_topic_id: topic.id)
-          end
-          return ett_list
-        end
-
         def _get_active_value(vertex:, ett_type:, ett_difficulty:, **args)
           etts_by_difficulty = TestUtzTopic.ett_types_mapping[ett_type.to_sym][:model].all # .all заменить на .where(difficulty: ett_difficulty)
           attrs = { ka_topic: vertex, ett_type.to_sym => etts_by_difficulty }
@@ -275,8 +265,27 @@ module Tools
         end
       end
 
+      class HTBRelationsCriteria < Criteria
+        def initialize
+          super("htb_relations", "Наличие связей между вершиной и главами ГТ-учебника", [
+            Parameters::VertexParameter.new,
+            Parameters::HTBContainsParameter.new,
+          ])
+        end
+
+        def _get_active_value(vertex:, htb_contains:)
+        end
+
+        def _values
+          return [
+                   "Связь присутствует",
+                   "Связь отсутствует",
+                 ]
+        end
+      end
+
       def self.all
-        [IsBushVertex, IsStudied, IsProblemArea, ProblemAreaCluster, ProblemAreaDynamics, ETTRelationsCriteria]
+        [IsBushVertex, IsStudied, IsProblemArea, ProblemAreaCluster, ProblemAreaDynamics, ETTRelationsCriteria, HTBRelationsCriteria]
       end
 
       def self.get_criteria_instance_id(instance)

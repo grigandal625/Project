@@ -51,13 +51,13 @@ module Tools
 
       class AddETTToStrategy < Action
         def self.label
-          "Добавить УТЗ в стратегию обучения для текущего обучаемого"
+          "Запустить УТЗ"
         end
       end
 
       class AddHTBToStrategy < Action
         def self.label
-          "Добавить главу ГТ-учебника в стратегию обучения для текущего обучаемого"
+          "Открыть главу ГТ-учебника"
         end
       end
 

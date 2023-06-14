@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Menu from "../Menu";
-import { Spinner, Table, Container, Button, Dropdown, Modal, Badge } from "react-bootstrap";
+import {
+    Spinner,
+    Table,
+    Container,
+    Button,
+    Dropdown,
+    Modal,
+    Badge,
+} from "react-bootstrap";
 import Cookies from "universal-cookie";
 import "./Rules.css";
 import CreateRuleModal from "./CreateRuleModal";
@@ -11,7 +19,9 @@ const loadRules = async (setRules) => {
         headers: {
             Authorization: `Token ${cookies.get("auth_token")}`,
             "Content-Type": "application/json",
-            "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+            "X-CSRF-Token": window.document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute("content"),
         },
         credentials: "include",
     });
@@ -25,7 +35,9 @@ const loadActions = async (setActions) => {
         headers: {
             Authorization: `Token ${cookies.get("auth_token")}`,
             "Content-Type": "application/json",
-            "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+            "X-CSRF-Token": window.document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute("content"),
         },
         credentials: "include",
     });
@@ -39,7 +51,9 @@ const removeRule = async (ruleID) => {
         headers: {
             Authorization: `Token ${cookies.get("auth_token")}`,
             "Content-Type": "application/json",
-            "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+            "X-CSRF-Token": window.document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute("content"),
         },
         credentials: "include",
     });
@@ -68,7 +82,11 @@ const RemoveRuleModal = ({ rule, close }) => {
                 <Button disabled={loading} onClick={performRemove}>
                     Удалить
                 </Button>
-                <Button disabled={loading} onClick={() => close(false)} variant="danger">
+                <Button
+                    disabled={loading}
+                    onClick={() => close(false)}
+                    variant="danger"
+                >
                     Отмена
                 </Button>
             </Modal.Footer>
@@ -80,7 +98,11 @@ const ConditionPreview = ({ condition }) =>
     condition.type ? (
         condition.type == "value_expression" ? (
             condition.value !== undefined ? (
-                <>{condition.value.label ? condition.value.label : JSON.stringify(condition.value)}</>
+                <>
+                    {condition.value.label
+                        ? condition.value.label
+                        : JSON.stringify(condition.value)}
+                </>
             ) : (
                 " - "
             )
@@ -109,20 +131,25 @@ const RulesTable = () => {
     const [actions, setActions] = useState(null);
 
     useEffect(() => {
-        loadRules(setRules);
-        loadActions(setActions);
+        const load = async () => {
+            await loadRules(setRules);
+            await loadActions(setActions);
+        };
+        load();
     }, []);
 
     return rules ? (
         <>
             <h3 className="d-flex justify-content-between">
                 <span>Правила</span>
-                <Button onClick={() => setCreateRule(true)}>Создать правило</Button>
+                <Button onClick={() => setCreateRule(true)}>
+                    Создать правило
+                </Button>
             </h3>
             <Table bordered>
                 <thead>
                     <tr>
-                        <th>Идентификатор</th>
+                        <th>№</th>
                         <th>Описание</th>
                         <th>Условие</th>
                         <th>Действия</th>
@@ -136,13 +163,18 @@ const RulesTable = () => {
                             <td>{rule.id}</td>
                             <td>{rule.description}</td>
                             <td>
-                                Если <ConditionPreview condition={rule.condition} />
+                                Если{" "}
+                                <ConditionPreview condition={rule.condition} />
                             </td>
                             <td>
                                 {actions ? (
                                     rule.actions.map((action) => (
                                         <div className="m-1 p-2 border action-badge">
-                                            {actions.filter((a) => a.type == action)[0].label}
+                                            {
+                                                actions.filter(
+                                                    (a) => a.type == action
+                                                )[0].label
+                                            }
                                         </div>
                                     ))
                                 ) : (
@@ -154,13 +186,25 @@ const RulesTable = () => {
                                 <Dropdown>
                                     <Dropdown.Toggle></Dropdown.Toggle>
                                     <Dropdown.Menu>
-                                        <Dropdown.Item onClick={() => setTestingRule(rule)}>
+                                        <Dropdown.Item
+                                            onClick={() => setTestingRule(rule)}
+                                        >
                                             Протестировать
                                         </Dropdown.Item>
-                                        <Dropdown.Item onClick={() => setCreateRule({ ...rule })}>
+                                        <Dropdown.Item
+                                            onClick={() =>
+                                                setCreateRule({ ...rule })
+                                            }
+                                        >
                                             Дублировать
                                         </Dropdown.Item>
-                                        <Dropdown.Item onClick={() => setDeletingRule(rule)}>Удалить</Dropdown.Item>
+                                        <Dropdown.Item
+                                            onClick={() =>
+                                                setDeletingRule(rule)
+                                            }
+                                        >
+                                            Удалить
+                                        </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </td>
@@ -185,7 +229,9 @@ const RulesTable = () => {
                     }
                     setCreateRule(false);
                 }}
-                initial={typeof createRule == typeof Boolean() ? {} : createRule}
+                initial={
+                    typeof createRule == typeof Boolean() ? {} : createRule
+                }
             />
         </>
     ) : (
