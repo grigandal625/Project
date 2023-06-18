@@ -1,3 +1,4 @@
+= csrf_meta_tags
 h3 Генерация теста
 form method="post" action="#{save_ka_test_path}"
   div class="row"
@@ -12,14 +13,17 @@ form method="post" action="#{save_ka_test_path}"
       input type="number" placeholder="Минут на тест" name="minutes_count" required=""
     div class="large-3 columns"
       input type="submit" class="button small"
-  - @topics.each do |offset, topic|
-    div class="row"
-      - if offset > 0
-        - for i in 0..offset - 2
-          div class="large-1 column"
-            p &#x2193;
-        div class="large-1 column"
-          p &#x21b3;
-      div class="large-#{12 - offset} column"
-        input type="checkbox" id="box#{topic.id}" name="topic_id:#{topic.id}"
-        label for="box#{topic.id}" #{topic.text}
+  h3 Выберите темы
+  div id="topic-tree"
+  / - @topics.each do |offset, topic|
+  /   div class="row"
+  /     - if offset > 0
+  /       - for i in 0..offset - 2
+  /         div class="large-1 column"
+  /           p &#x2193;
+  /       div class="large-1 column"
+  /         p &#x21b3;
+  /     div class="large-#{12 - offset} column"
+  /       input type="checkbox" id="box#{topic.id}" name="topic_id:#{topic.id}"
+  /       label for="box#{topic.id}" #{topic.text}
+= javascript_pack_tag 'topic_tree_select', 'data-turbolinks-track': 'reload'

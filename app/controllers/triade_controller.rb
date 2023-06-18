@@ -40,8 +40,12 @@ class TriadeController < ApplicationController
     @triade = Triade.find(params[:id])
     @triade_list = Triade.where(root_topic: @triade.root_topic)
     @construct_name = ''
-    if !@triade.constructs_id.nil?
+    if !@triade.constructs_id.nil? and Construct.find_by(id: @triade.constructs_id)
       @construct_name = Construct.find(@triade.constructs_id).name
+    end
+    if not Construct.find_by(id: @triade.constructs_id)
+      @triade.constructs = nil
+      @triade.save!
     end
     render :layout => "layout_for_show_only"
   end
