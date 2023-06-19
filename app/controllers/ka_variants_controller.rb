@@ -117,8 +117,8 @@ class KaVariantsController < ApplicationController
           if not tutor_actions_priorities.has_key?(action_id)
             tutor_actions_priorities[action_id] = { sum_score: 0.0, sum_weight: 0.0, score: 0 }
           end
-          tutor_actions_priorities[action_id][:sum_score] += topic_utz.weight * t[:score]
-          tutor_actions_priorities[action_id][:sum_weight] += topic_utz.weight
+          tutor_actions_priorities[action_id][:sum_score] += (topic_utz.weight.nil? ? 0 : topic_utz.weight) * t[:score]
+          tutor_actions_priorities[action_id][:sum_weight] += (topic_utz.weight.nil? ? 0 : topic_utz.weight)
         end
       end
 
@@ -149,7 +149,6 @@ class KaVariantsController < ApplicationController
   end
 
   def compare_actions(action_1, action_2)
-    
     return action_1[:priority] <=> action_2[:priority]
   end
 
