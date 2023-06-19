@@ -28,30 +28,39 @@
 
 # print combinations(a, method(:s))
 
-module ModuleA
-  def self.methodA
-    puts "Method A from Module A"
-  end
-end
+# module ModuleA
+#   def self.methodA
+#     puts "Method A from Module A"
+#   end
+# end
 
-module ModuleB
-  def self.methodA
-    puts "Method A from Module B"
-  end
-end
+# module ModuleB
+#   def self.methodA
+#     puts "Method A from Module B"
+#   end
+# end
 
-class MyClass
-  include ModuleA
-  include ModuleB
+# class MyClass
+#   include ModuleA
+#   include ModuleB
   
-  def my_method
-    # вызываем метод methodA из ModuleA
-    ModuleA::methodA
+#   def my_method
+#     # вызываем метод methodA из ModuleA
+#     ModuleA::methodA
     
-    # вызываем метод methodA из ModuleB
-    ModuleB::methodA
-  end
-end
+#     # вызываем метод methodA из ModuleB
+#     ModuleB::methodA
+#   end
+# end
 
-my_object = MyClass.new
-my_object.my_method
+# my_object = MyClass.new
+# my_object.my_method
+
+File.open("filename.txt", "w") do |file|
+  # write data to file
+  file.write("Line 1\n")
+  file.write("Line 2
+")
+  file.write("Line 3
+")
+end

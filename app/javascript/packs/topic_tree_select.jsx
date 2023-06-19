@@ -58,6 +58,10 @@ const TopicSelect = ({ topic, changeSelected }) => {
 
 const TopicTree = () => {
     const [tree, setTree] = useState(null);
+    const [duplicateChildren, setDuplicateChildren] = useState(true);
+    const [duplicateChildrenFalse, setDuplicateChildrenFalse] = useState(false);
+    const [duplicateParent, setDuplicateParent] = useState(false);
+    const [show, setShow] = useState(false);
     useEffect(() => {
         getTopicsTree(setTree);
     }, []);
@@ -110,18 +114,20 @@ const TopicTree = () => {
 
     const updateChecked = (topic, checked, updateParent = false) => {
         topic.checked = checked;
-        if (topic.children && topic.children.length) {
+        if (
+            topic.children &&
+            topic.children.length &&
+            ((checked && duplicateChildren) || (!checked && duplicateChildrenFalse))
+        ) {
             for (let i in topic.children) {
                 updateChecked(topic.children[i], checked);
             }
         }
-        if (!checked) {
-            if (updateParent) {
-                let t = findParent(topic.id);
-                while (t) {
-                    t.checked = false;
-                    t = findParent(t.id);
-                }
+        if (!checked && updateParent && duplicateParent) {
+            let t = findParent(topic.id);
+            while (t) {
+                t.checked = false;
+                t = findParent(t.id);
             }
         }
     };
@@ -134,6 +140,45 @@ const TopicTree = () => {
 
     return tree ? (
         <div style={{ padding: 25, paddingTop: 0 }}>
+            <div>
+                <a onClick={() => setShow(!show)}>Настройки. ({show ? "скрыть" : "показать"})</a>
+                {show ? (
+                    <div className="row">
+                        <div className="large-4 column">
+                            <input
+                                checked={duplicateChildren}
+                                onChange={(e) => setDuplicateChildren(e.target.checked)}
+                                type="checkbox"
+                            />
+                            <label>
+                                Дублировать <b>выделение</b> для дочерних тем
+                            </label>
+                        </div>
+                        <div className="large-4 column">
+                            <input
+                                checked={duplicateChildrenFalse}
+                                onChange={(e) => setDuplicateChildrenFalse(e.target.checked)}
+                                type="checkbox"
+                            />
+                            <label>
+                                Дублировать <b>снятие</b> для дочерних тем
+                            </label>
+                        </div>
+                        <div className="large-4 column">
+                            <input
+                                checked={duplicateParent}
+                                onChange={(e) => setDuplicateParent(e.target.checked)}
+                                type="checkbox"
+                            />
+                            <label>
+                                Дублировать <b>снятие</b> для дочерних тем
+                            </label>
+                        </div>
+                    </div>
+                ) : (
+                    <></>
+                )}
+            </div>
             {tree.map((topic) => (
                 <TopicSelect topic={topic} changeSelected={changeSelected} />
             ))}

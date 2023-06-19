@@ -75,7 +75,9 @@ class KaTestsController < ApplicationController
     params.each do |key, value|
       if key.include? "topic_id:"
         s = key["topic_id:".length...key.length]
-        tops.push(s.to_i)
+        if KaTopic.find(s.to_i).ka_question.count > 0
+          tops.push(s.to_i)
+        end
       end
     end
 
@@ -84,12 +86,34 @@ class KaTestsController < ApplicationController
     config.questions_count = params[:questions_count].to_i
     config.topics = tops
 
+    # if params[:write_gen_test_config] == "true"
+    File.open("tmp/output/config.txt", "w") do |file|
+      # write data to file
+      file.write(config.variants_count)
+      file.write("\n")
+      file.write(config.questions_count)
+      file.write("\n")
+      config.topics.each do |t|
+        file.write(t)
+        file.write("\n")
+      end
+    end
+    # end
+
     topics = []
-    KaTopic.find_each do |t|
-      topic_id = t.id
-      parent_id = t.parent_id ? t.parent_id : 0
-      text = t.text
-      topics.push(TasksGenerator::Topic.new(topic_id, parent_id, text))
+    File.open("tmp/output/topics.txt", "w") do |file|
+      KaTopic.find_each do |t|
+        topic_id = t.id
+        parent_id = t.parent_id ? t.parent_id : 0
+        text = t.text
+        file.write(topic_id)
+        file.write("\n")
+        file.write(parent_id)
+        file.write("\n")
+        file.write(text)
+        file.write("\n")
+        topics.push(TasksGenerator::Topic.new(topic_id, parent_id, text))
+      end
     end
 
     if not topics
@@ -98,13 +122,23 @@ class KaTestsController < ApplicationController
     end
 
     questions = []
-    KaQuestion.find_each do |q|
-      if q.disable == 0
-        question_id = q.id
-        topic_id = q.ka_topic_id
-        difficulty = q.difficulty
-        text = q.text
-        questions.push(TasksGenerator::Question.new(question_id, topic_id, difficulty, text))
+    File.open("tmp/output/questions.txt", "w") do |file|
+      KaQuestion.find_each do |q|
+        if q.disable == 0
+          question_id = q.id
+          topic_id = q.ka_topic_id
+          difficulty = q.difficulty
+          text = q.text
+          file.write(question_id)
+          file.write("\n")
+          file.write(topic_id)
+          file.write("\n")
+          file.write(difficulty)
+          file.write("\n")
+          file.write(text)
+          file.write("\n")
+          questions.push(TasksGenerator::Question.new(question_id, topic_id, difficulty, text))
+        end
       end
     end
 
