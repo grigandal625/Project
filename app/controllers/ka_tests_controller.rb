@@ -75,7 +75,7 @@ class KaTestsController < ApplicationController
     params.each do |key, value|
       if key.include? "topic_id:"
         s = key["topic_id:".length...key.length]
-        if KaTopic.find(s.to_i).ka_question.count > 0
+        if KaTopic.find(s.to_i).ka_question.where(disable: 0).count > 0
           tops.push(s.to_i)
         end
       end
