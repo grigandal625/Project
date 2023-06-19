@@ -85,9 +85,8 @@ class KaTestsController < ApplicationController
     config.variants_count = params[:variants_count].to_i
     config.questions_count = params[:questions_count].to_i
     config.topics = tops
-
     # if params[:write_gen_test_config] == "true"
-    File.open("tmp/output/config.txt", "w") do |file|
+    File.open(Rails.root.to_s + "/tmp/output/config.txt", "w") do |file|
       # write data to file
       file.write(config.variants_count)
       file.write("\n")
@@ -101,7 +100,7 @@ class KaTestsController < ApplicationController
     # end
 
     topics = []
-    File.open("tmp/output/topics.txt", "w") do |file|
+    File.open(Rails.root.to_s + "/tmp/output/topics.txt", "w") do |file|
       KaTopic.find_each do |t|
         topic_id = t.id
         parent_id = t.parent_id ? t.parent_id : 0
@@ -122,7 +121,7 @@ class KaTestsController < ApplicationController
     end
 
     questions = []
-    File.open("tmp/output/questions.txt", "w") do |file|
+    File.open(Rails.root.to_s + "/tmp/output/questions.txt", "w") do |file|
       KaQuestion.find_each do |q|
         if q.disable == 0
           question_id = q.id
