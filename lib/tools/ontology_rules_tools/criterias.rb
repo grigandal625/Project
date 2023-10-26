@@ -119,7 +119,9 @@ module Tools
         end
 
         def _get_active_value(vertex:, **args)
-          return self.values[vertex.is_bush_vertex ? 0 : 1]
+          return self.values[ 
+            KaQuestion.where(ka_topic: vertex, difficulty: 3).empty? ? 1 : 0
+          ]
         end
 
         def _values
@@ -274,6 +276,7 @@ module Tools
         end
 
         def _get_active_value(vertex:, htb_contains:)
+          return { id: nil, label: "Не реализовано" }
         end
 
         def _values
@@ -284,8 +287,52 @@ module Tools
         end
       end
 
+      class VertexRelationsCriteria < Criteria
+        def initialize
+          super("vertex_relations", "Наличие связей между вершинами - элементами курса/дисциплины", [
+            Parameters::VertexParameter.new,
+            Parameters::ChildVertexParameter.new,
+            Parameters::RelationTypeParameter.new,
+          ])
+        end
+
+        def _get_active_value(vertex:, child_vertex:, relation_type:)
+          if relation_type == 3
+            return child_vertex.parent_id == vertex.id ? self.values[1] : self.values[0]
+          end
+          return TopicRelation.where(ka_topic: vertex, related_topic: child_vertex, rel_type: relation_type).empty? ? self.values[0] : self.values[1]
+        end
+
+        def _values
+          return [
+                   "Связь отсутствует",
+                   "Связь присутствует",
+                 ]
+        end
+      end
+
+      class CompetenceRelationsCriteria < Criteria
+        def initialize
+          super("competence_relations", "Наличие связей между вершиной и компетенциями", [
+            Parameters::VertexParameter.new,
+            Parameters::CompetenceParameter.new,
+          ])
+        end
+
+        def _get_active_value(vertex:, competence:)
+          return TopicCompetence.where(ka_topic: vertex, competence: competence).empty? ? self.values[0] : self.values[1]
+        end
+
+        def _values
+          return [
+                   "Связь отсутствует",
+                   "Связь присутствует",
+                 ]
+        end
+      end
+
       def self.all
-        [IsBushVertex, IsStudied, IsProblemArea, ProblemAreaCluster, ProblemAreaDynamics, ETTRelationsCriteria, HTBRelationsCriteria]
+        [IsBushVertex, IsStudied, IsProblemArea, ProblemAreaCluster, ProblemAreaDynamics, ETTRelationsCriteria, HTBRelationsCriteria, VertexRelationsCriteria, CompetenceRelationsCriteria]
       end
 
       def self.get_criteria_instance_id(instance)

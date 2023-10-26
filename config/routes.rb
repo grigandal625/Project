@@ -9,6 +9,8 @@ UIR::Application.routes.draw do
 
   get "ontology_rules/criterias"
 
+  get "ontology_rules/criterias/print", to: "ontology_rules#print_criterias", as: "print_criterias"
+
   post "ontology_rules/criterias/evaluate/:id", to: "ontology_rules#evaluate_criteria", as: "evaluate_criteria"
 
   post "ontology_rules/update"

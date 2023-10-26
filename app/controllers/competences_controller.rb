@@ -9,6 +9,10 @@ class CompetencesController < ApplicationController
     if (session[:planning_task_id] != nil)
       @task = PlanningTask.find(session[:planning_task_id])
     end
+    respond_to do |format|
+      format.html
+      format.json {render json: Competence.all}
+    end
   end
 
   def self.create_extension

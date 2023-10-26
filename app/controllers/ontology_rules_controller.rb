@@ -26,6 +26,9 @@ class OntologyRulesController < ApplicationController
     end
   end
 
+  def print_criterias
+  end
+
   def evaluate_criteria
     all_criterias = ::Tools::OntologyRulesTools::Criterias::all # see lib/tools/ontology_rules_tools/criterias.rb
     criteria = all_criterias[params[:id].to_i - 1].new

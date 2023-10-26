@@ -154,7 +154,7 @@ const RulesTable = () => {
                         <th>Условие</th>
                         <th>Действия</th>
                         <th>Коэффициент уверенности</th>
-                        <th>Действия</th>
+                        <th>Опции</th>
                     </tr>
                 </thead>
                 <tbody>

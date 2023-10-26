@@ -13,3 +13,7 @@
 .rc-tree-select-selection--multiple {
     min-height: 35px
 }
+
+.criteria-badge {
+    background-color: rgb(230, 235, 255);
+}

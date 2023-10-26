@@ -18,8 +18,8 @@ const StringParameter = ({ value, setter }) => (
 const EnumParameter = ({ value, setter, parameter }) => {
     const treeData = parameter.values.map((v) =>
         Object({
-            value: v.value ? v.value : v.id,
-            label: v.label ? v.label : v.value,
+            value: v.hasOwnProperty("value") ? v.value : v.id,
+            label: v.hasOwnProperty("label") ? v.label : v.value,
         })
     );
     const multiple = parameter.multiple;

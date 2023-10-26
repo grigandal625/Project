@@ -6,6 +6,7 @@ import Cookies from "universal-cookie";
 import StudentParameter from "./parameters/StudentParameter";
 import GroupParameter from "./parameters/GroupParameter";
 import { Types } from "./parameters/TypeParamaters";
+import CompetenceParameter from "./parameters/CompetenceParameter";
 
 const evaluateCriteria = async (id, data, setData, setLoading) => {
     setLoading(true);
@@ -15,7 +16,9 @@ const evaluateCriteria = async (id, data, setData, setLoading) => {
         headers: {
             Authorization: `Token ${cookies.get("auth_token")}`,
             "Content-Type": "application/json",
-            "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+            "X-CSRF-Token": window.document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute("content"),
         },
         body: JSON.stringify(data),
         credentials: "include",
@@ -28,18 +31,16 @@ const evaluateCriteria = async (id, data, setData, setLoading) => {
 const Results = ({ data, loading, parameters }) => {
     const valueHandlers = {
         vertex: (v) => v.text,
+        parent_vertex: (v) => v.text,
+        child_vertex: (v) => v.text,
         student: (s) => `${s.fio} - ${s.group.number}`,
         group: (g) => g.number,
-        ett_type: (t) =>
-            Object({
-                test_utz_question: "выбор вариантов ответа",
-                matching_utz: "расстановка соответствий между блоками",
-                filling_utz: "заполнение пропусков в тексте",
-                text_correction_utz: "маркировка или корректировка текста",
-                images_sort_utz: "упорядочивание графических изображений",
-                likert_utz: "шкала Ликерта",
-                hierarchy_utz: "построение иерархической структуры",
-            })[t],
+        competence: (c) => c.code,
+    };
+
+    const typeHandlers = {
+        enum: (v, parameter) =>
+            parameter.values.filter((value) => value.value == v)[0].label,
     };
 
     data = !data ? data : data.many ? data.data : [data.data];
@@ -51,8 +52,12 @@ const Results = ({ data, loading, parameters }) => {
             <Table bordered>
                 <thead>
                     <tr>
-                        <th colSpan={Object.keys(parameters).length}>Параметры</th>
-                        <th style={{ borderBottom: "0px" }}>Значение критерия</th>
+                        <th colSpan={Object.keys(parameters).length}>
+                            Параметры
+                        </th>
+                        <th style={{ borderBottom: "0px" }}>
+                            Значение критерия
+                        </th>
                     </tr>
                     <tr>
                         {Object.keys(parameters).map((p) => (
@@ -68,6 +73,15 @@ const Results = ({ data, loading, parameters }) => {
                                 <td>
                                     {valueHandlers[p]
                                         ? valueHandlers[p](row.parameters[p])
+                                        : typeHandlers[
+                                              parameters[p].parameter.type
+                                          ]
+                                        ? typeHandlers[
+                                              parameters[p].parameter.type
+                                          ](
+                                              row.parameters[p],
+                                              parameters[p].parameter
+                                          )
                                         : row.parameters[p].toString()}
                                 </td>
                             ))}
@@ -85,12 +99,22 @@ const Results = ({ data, loading, parameters }) => {
 export default ({ criteria }) => {
     const parameterClasses = {
         vertex: VertexParameter,
+        parent_vertex: VertexParameter,
+        child_vertex: VertexParameter,
         student: StudentParameter,
         group: GroupParameter,
+        competence: CompetenceParameter,
     };
     const parameters = criteria.parameters.reduce((accumulator, parameter) => {
-        let [value, setter] = useState("default" in parameter ? parameter.default : null);
-        accumulator[parameter.name] = { value, setter, label: parameter.label };
+        let [value, setter] = useState(
+            "default" in parameter ? parameter.default : null
+        );
+        accumulator[parameter.name] = {
+            value,
+            setter,
+            label: parameter.label,
+            parameter,
+        };
         return accumulator;
     }, {});
 
@@ -98,18 +122,25 @@ export default ({ criteria }) => {
     const [loading, setLoading] = useState(false);
     const parameterHandlers = {
         vertex: (v) => Object({ id: v.value }),
+        parent_vertex: (v) => Object({ id: v.value }),
+        child_vertex: (v) => Object({ id: v.value }),
     };
     return (
         <>
             <Form>
                 <h3>Параметры</h3>
                 {criteria.parameters.map((p) => {
-                    let ReactClass = parameterClasses[p.name] ? parameterClasses[p.name] : Types[p.type];
+                    let ReactClass = parameterClasses[p.name]
+                        ? parameterClasses[p.name]
+                        : Types[p.type];
                     let variables = parameters[p.name];
                     return ReactClass ? (
                         <Form.Group>
                             <Form.Label>{p.label}</Form.Label>
-                            <ReactClass {...variables} parameter={p}></ReactClass>
+                            <ReactClass
+                                {...variables}
+                                parameter={p}
+                            ></ReactClass>
                         </Form.Group>
                     ) : (
                         <></>
@@ -120,13 +151,21 @@ export default ({ criteria }) => {
                     <Button
                         disabled={loading}
                         onClick={() => {
-                            let d = Object.entries(parameters).reduce((accumulator, [name, value]) => {
-                                accumulator[name] = parameterHandlers[name]
-                                    ? parameterHandlers[name](value)
-                                    : value.value;
-                                return accumulator;
-                            }, {});
-                            evaluateCriteria(criteria.id, d, setData, setLoading);
+                            let d = Object.entries(parameters).reduce(
+                                (accumulator, [name, value]) => {
+                                    accumulator[name] = parameterHandlers[name]
+                                        ? parameterHandlers[name](value)
+                                        : value.value;
+                                    return accumulator;
+                                },
+                                {}
+                            );
+                            evaluateCriteria(
+                                criteria.id,
+                                d,
+                                setData,
+                                setLoading
+                            );
                         }}
                     >
                         Протестировать

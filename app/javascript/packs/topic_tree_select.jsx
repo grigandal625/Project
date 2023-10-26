@@ -21,13 +21,13 @@ const TopicSelect = ({ topic, changeSelected }) => {
     const switchExpanded = () => setExpanded(!expanded);
     return (
         <div>
-            <div>
+            <div style={{ whiteSpace: "nowrap" }}>
                 <a
                     title={expanded ? "Свернуть" : "Развернуть"}
-                    onClick={switchExpanded}
-                    style={{ marginRight: 5, cursor: "pointer", fontSize: 28 }}
+                    onClick={topic.children && topic.children.length ? switchExpanded : () => {}}
+                    style={{ marginRight: expanded ? 0 : 15, cursor: "pointer", fontSize: 28 }}
                 >
-                    {topic.children && topic.children.length ? <b>{expanded ? "⌄" : "›"}</b> : <></>}
+                    {topic.children && topic.children.length ? <b>{expanded ? "⌄" : "›"}</b> : <b>-</b>}
                 </a>
                 <input
                     checked={Boolean(topic.checked)}

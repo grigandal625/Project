@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import "rc-tree-select/assets/index.css";
 import TreeSelect from "rc-tree-select";
-import { useState, useEffect } from "react";
-import { Spinner, Form } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 
 const prepareData = (node) => {
     node.label = node.text;
@@ -17,7 +16,9 @@ const loadGroups = async (setGroups) => {
         headers: {
             Authorization: `Token ${cookies.get("auth_token")}`,
             "Content-Type": "application/json",
-            "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+            "X-CSRF-Token": window.document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute("content"),
         },
     });
 
@@ -37,12 +38,18 @@ export default ({ value, setter }) => {
                 <TreeSelect
                     multiple
                     allowClear
-                    treeData={groups.map((g) => Object({ value: g.id, label: g.number }))}
+                    treeData={groups.map((g) =>
+                        Object({ value: g.id, label: g.number })
+                    )}
                     onChange={setter}
                     style={{ width: "100%" }}
                     transitionName="rc-tree-select-dropdown-slide-up"
                     choiceTransitionName="rc-tree-select-selection__choice-zoom"
-                    dropdownStyle={{ maxHeight: 200, overflow: "auto", zIndex: 500 }}
+                    dropdownStyle={{
+                        maxHeight: 200,
+                        overflow: "auto",
+                        zIndex: 500,
+                    }}
                     treeNodeFilterProp="label"
                 />
             ) : (

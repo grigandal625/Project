@@ -328,7 +328,7 @@ class KaTopicsController < ApplicationController
     @quizzes = []
     TestUtzTopic.ett_list.each do |ett_class|
       @quizzes += ett_class.all.map do |ett|
-        { data: ett, type: ett_class.name.underscore, label: ett_class.label }
+        { data: ett, type: ett_class.name.demodulize.underscore, label: ett_class.label }
       end
     end
   end

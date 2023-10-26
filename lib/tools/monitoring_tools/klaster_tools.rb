@@ -163,7 +163,7 @@ module Tools
         Fbresult.where(group: group.number, fb: "Прямой").group(:fio).each { |e| forward_arr[e.fio] = e.result }
         Fbresult.where(group: group.number, fb: "Обратный").group(:fio).each { |e| backward_arr[e.fio] = e.result }
         fb_arr = forward_arr.merge(backward_arr) { |key, old_value, new_value| (new_value + old_value) / 2 }
-
+        fb_arr =nil
         pirson = Tools::MathTools::CommonTools.new.pearson_coefficient(avg_arr.values&.compact&.map { |el| (el * 100).round }, fb_arr.values&.compact&.map { |el| (el * 100).round })
         [avg_arr.values, [fb_arr.values, pirson]]
       end
