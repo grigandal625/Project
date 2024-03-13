@@ -79,6 +79,9 @@ GEM
     debase (0.2.4.1)
       debase-ruby_core_source (>= 0.10.2)
     debase-ruby_core_source (3.2.1)
+    debug (1.8.0)
+      irb (>= 1.5.0)
+      reline (>= 0.3.1)
     diff-lcs (1.5.0)
     distance_measures (0.0.6)
     dragonfly (1.0.12)
@@ -98,6 +101,10 @@ GEM
     htmlentities (4.3.4)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
+    io-console (0.6.0)
+    irb (1.9.1)
+      rdoc
+      reline (>= 0.3.8)
     jaro_winkler (1.5.6)
     jbuilder (1.5.3)
       activesupport (>= 3.0.0)
@@ -115,6 +122,7 @@ GEM
       rexml
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
+    language_server-protocol (3.17.0.3)
     libv8 (3.16.14.19)
     loofah (2.21.3)
       crass (~> 1.0.2)
@@ -148,6 +156,7 @@ GEM
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
+    prettier_print (1.2.1)
     psych (3.3.4)
     public_suffix (5.0.1)
     racc (1.7.1)
@@ -190,9 +199,16 @@ GEM
     rake (13.0.6)
     rake-compiler (1.2.3)
       rake
+    rdbg (0.1.0)
+      debug (>= 1.2.2)
     rdoc (6.3.3)
+    readapt (1.4.4)
+      backport (~> 1.2)
+      thor (~> 1.0)
     ref (2.0.0)
     regexp_parser (2.8.1)
+    reline (0.4.0)
+      io-console (~> 0.5)
     remotipart (1.4.4)
     reverse_markdown (2.1.1)
       nokogiri
@@ -214,6 +230,11 @@ GEM
       rake (>= 0.8.1)
     ruby-graphviz (1.2.5)
       rexml
+    ruby-lsp (0.1.0)
+      language_server-protocol
+      rubocop (>= 1.0)
+      sorbet-runtime
+      syntax_tree (>= 2.4)
     ruby-ole (1.2.12.2)
     ruby-progressbar (1.13.0)
     rubyzip (2.3.2)
@@ -247,6 +268,7 @@ GEM
       thor (~> 1.0)
       tilt (~> 2.0)
       yard (~> 0.9, >= 0.9.24)
+    sorbet-runtime (0.5.11142)
     spreadsheet (1.3.0)
       ruby-ole
     sprockets (4.2.0)
@@ -257,6 +279,8 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.3.13)
+    syntax_tree (6.2.0)
+      prettier_print (>= 1.2.0)
     temple (0.10.2)
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
@@ -306,9 +330,12 @@ DEPENDENCIES
   railroady
   rails (= 5.0.1)
   rails-erd
+  rdbg
+  readapt
   remotipart (~> 1.2)
   rice (= 3.0.0)
   ruby-debug-ide (~> 0.7.3)
+  ruby-lsp
   sass-rails
   sdoc
   slim

@@ -20,22 +20,18 @@ table
   thead
     th.id = "Идентификатор"
     th.text = "Название"
-    th.difficulty = "Сложность"
     th.answers = "Варианты ответов"
+    th.difficulty = "Сложность"
   tbody
-    - @questions.each do |q|
+    - @questions.each_with_index do |q, i|
       tr
-        td.id = q.id
+        td title="#{q.id}" #{i+1}
         td.text = q.text
-        td.difficulty = q.difficulty
         td.answers
-          table
-            tbody
-              - q.ka_answer.each do |a|
-                tr
-                  td
-                    - if a.correct == 1
-                      b = a.text
-                    - else
-                      = a.text
-
+          - q.ka_answer.each do |a|
+            div
+              - if a.correct == 1
+                b + #{a.text}
+              - else
+                div - #{a.text}
+        td.difficulty = q.difficulty

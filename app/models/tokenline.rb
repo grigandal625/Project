@@ -175,9 +175,9 @@ class Tokenline
     if (count != 0)
       self.mistakes << 203
     end
-    print ("lexem : ")
-    print( lexem)
-    print("exeption  : " + exeption.to_s)
+    puts ("lexem : ")
+    puts( lexem)
+    puts("exeption  : " + exeption.to_s)
     if exeption != 0
 
     end

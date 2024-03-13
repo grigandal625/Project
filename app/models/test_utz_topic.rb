@@ -90,4 +90,13 @@ class TestUtzTopic < ApplicationRecord
   def ett=(v)
     self.utz = v
   end
+
+  def serializable_hash(options={})
+    if options.nil? 
+      options = {}
+    end
+    res = super(options.merge(include: [:ett]))
+    res["ett_type"] = self.ett_type
+    return res
+  end
 end

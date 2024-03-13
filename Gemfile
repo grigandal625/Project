@@ -88,3 +88,8 @@ gem 'webpacker'
 gem 'psych', '~> 3.3.0'
 gem 'byebug'
 gem 'ancestry'
+gem 'readapt'
+group :development do
+  gem "ruby-lsp", require: false
+  gem "rdbg", require: false
+end

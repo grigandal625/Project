@@ -17,7 +17,9 @@ const loadVertexes = async (setVertexes) => {
         headers: {
             Authorization: `Token ${cookies.get("auth_token")}`,
             "Content-Type": "application/json",
-            "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+            "X-CSRF-Token": window.document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute("content"),
         },
     });
 
@@ -25,7 +27,8 @@ const loadVertexes = async (setVertexes) => {
     setVertexes(data);
 };
 
-export default ({ value, setter }) => {
+export default ({ value, setter, single }) => {
+    let multiple = !single;
     const [vertexes, setVertexes] = useState(null);
     useEffect(() => {
         loadVertexes(setVertexes);
@@ -38,16 +41,21 @@ export default ({ value, setter }) => {
         <div>
             {data ? (
                 <TreeSelect
-                    multiple
+                    multiple={multiple}
                     allowClear
                     treeData={data}
                     onChange={(e) => setter(e)}
-                    selectionMode="multiple"
+                    selectionMode={multiple ? "multiple" : null}
                     style={{ width: "100%" }}
                     transitionName="rc-tree-select-dropdown-slide-up"
                     choiceTransitionName="rc-tree-select-selection__choice-zoom"
-                    dropdownStyle={{ maxHeight: 200, overflow: "auto", zIndex: 500 }}
+                    dropdownStyle={{
+                        maxHeight: 200,
+                        overflow: "auto",
+                        zIndex: 500,
+                    }}
                     treeNodeFilterProp="label"
+                    value={value}
                 />
             ) : (
                 <Spinner />

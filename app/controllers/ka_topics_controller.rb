@@ -153,6 +153,36 @@ class KaTopicsController < ApplicationController
     end
   end
 
+  def children
+    @topic = KaTopic.find(params[:id])
+    render json: @topic.children
+  end
+
+  def questions
+    @topic = KaTopic.find(params[:id])
+    render json: @topic.ka_question
+  end
+
+  def competences
+    @topic = KaTopic.find(params[:id])
+    render json: @topic.topic_competences
+  end
+
+  def components
+    @topic = KaTopic.find(params[:id])
+    render json: @topic.topic_components
+  end
+
+  def constructs
+    @topic = KaTopic.find(params[:id])
+    render json: @topic.topic_constructs
+  end
+
+  def etts
+    @topic = KaTopic.find(params[:id])
+    render json: @topic.test_utz_topic
+  end
+
   def new
     topic = KaTopic.new
     topic.text = params[:text]

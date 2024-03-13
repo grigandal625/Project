@@ -8,8 +8,24 @@ class KaQuestionsController < ApplicationController
       question = KaQuestion.new
       question.ka_topic_id = params[:topic_id]
       question.text = params[:text]
-      question.difficulty = params[:difficulty]
+      question.difficulty = params[:difficulty].to_i
       question.save
+      c = 0
+      while params.has_key?(('answer_' + c.to_s + '_text').to_sym)
+        text = params[('answer_' + c.to_s + '_text').to_sym]
+        correct = params[('answer_' + c.to_s + '_correct').to_sym]
+        if correct == 'on'
+          correct = 1
+        else
+          correct = 0
+        end
+        a = KaAnswer.new
+        a.ka_question_id = question.id
+        a.text = text
+        a.correct = correct
+        a.save
+        c = c + 1
+      end
     end
     redirect_to :back
   end

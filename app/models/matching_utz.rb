@@ -13,4 +13,11 @@ class MatchingUtz < ActiveRecord::Base
   def self.label
     return "расстановка соответствий между блоками"
   end
+
+  def serializable_hash(options={})
+    if options.nil? 
+      options = {}
+    end
+    super(options)
+  end
 end

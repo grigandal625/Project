@@ -123,8 +123,8 @@ class FrameSolver
     eachTax   = sizeOfSFrames > sizeOfEFrames ? eachBonus * (sizeOfSFrames - sizeOfEFrames) : 0
     for ef in eframes
       for sf in sframes
-	if ef.name == sf.name
-	  foundFrames += 1
+	      if ef.name == sf.name
+	        foundFrames += 1
         end
       end
     end
@@ -166,8 +166,8 @@ class FrameSolver
     foundFrames = 0
     for ef in eframes
       for sf in sframes
-	if ef.name == sf.name
-	  foundFrames += 1
+	      if ef.name == sf.name
+	        foundFrames += 1
         end
       end
     end

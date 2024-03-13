@@ -23,6 +23,8 @@ class KaTopic < ActiveRecord::Base
   has_many :text_correction_utzs, dependent: :destroy
   has_many :images_sort_utzs, dependent: :destroy
   has_many :component_elements, through: :component_element_topic
+  has_many :test_utz_topic, dependent: :destroy
+
 
   has_many :triades, through: :root_topic
   has_ancestry # :ancestry_column => :parent_id

@@ -96,4 +96,31 @@ class CompetencesController < ApplicationController
     TopicCompetence.delete_all(ka_topic_id: params[:t_id], competence_id: params[:c_id])
     redirect_to :back
   end
+
+  def related_questions
+    @competence = Competence.find(params[:id])
+    topic_competences = TopicCompetence.where(competence_id: params[:id])
+    @found_questions = []
+    if params.has_key?(:ka_topic_id) and not params[:ka_topic_id].nil?
+      topic_competences = topic_competences.where('weight >= ' + params[:min_weight].to_s)
+      search_parent = KaTopic.find(params[:ka_topic_id])
+      topic_competences.each do |tc|
+        parent_found = false
+        p = tc.ka_topic
+        while not p.parent.nil?
+          if p.parent == search_parent
+            parent_found = true
+            break
+          end
+          p = p.parent
+        end
+        if parent_found
+          questions = tc.ka_topic.ka_question
+          questions.each do |q|
+            @found_questions.push(q)
+          end
+        end
+      end
+    end  
+  end
 end

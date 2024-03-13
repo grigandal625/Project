@@ -28,4 +28,11 @@ class TopicRelation < ActiveRecord::Base
     end
     return nil
   end
+
+  def serializable_hash(options={})
+    if options.nil? 
+      options = {}
+    end
+    super(options.merge(include: [:ka_topic, :related_topic]))
+  end
 end

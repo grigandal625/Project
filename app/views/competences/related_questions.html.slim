@@ -1,0 +1,35 @@
+= csrf_meta_tags
+h1 Компетенция #{@competence.code}
+p #{@competence.description}
+
+h2 Связанные вопросы (#{@found_questions.count})
+
+
+
+form action="#{competence_related_questions_path(@competence)}"
+    p Выберите корневую тему
+    div id="topic-tree-single"
+    br
+    p Укажите минимальный вес
+    input name="min_weight" type="number" min="0" max="100" step="1"
+    br
+    input type="submit" class="button postfix" value="Отобразить"
+= javascript_pack_tag 'topic_tree_single', 'data-turbolinks-track': 'reload'
+
+- if @found_questions.count
+    table
+        tr 
+            th № - Идентификатор
+            th Задание 
+            th Варианты ответов
+            th Время для ответа, мин
+        - @found_questions.each_with_index do |q, i|
+            tr
+                td #{i+1} - #{q.id}
+                td #{q.text}
+                td 
+                    - q.ka_answer.each do |ans|
+                        div #{['-', '+'][ans.correct]} #{' '} #{ans.text}
+                td #{q.difficulty}
+- else 
+    p Вопросов не найдено

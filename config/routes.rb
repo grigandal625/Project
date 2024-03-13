@@ -73,6 +73,13 @@ UIR::Application.routes.draw do
   get "/ka_topics/full_tree", to: "ka_topics#full_tree", as: :ka_topics_full_tree
   get "/ka_topics/nodes_and_edges/:id", to: "ka_topics#nodes_and_edges", as: :ka_topics_nodes_and_edges
   get "/ka_topics/:id", to: "ka_topics#show", as: :ka_topic
+  get "/ka_topics/:id/children", to: "ka_topics#children", as: :ka_topic_children
+  get "/ka_topics/:id/questions", to: "ka_topics#questions", as: :ka_topic_questions
+  get "/ka_topics/:id/competences", to: "ka_topics#competences", as: :ka_topic_competences
+  get "/ka_topics/:id/components", to: "ka_topics#components", as: :ka_topic_components
+  get "/ka_topics/:id/constructs", to: "ka_topics#constructs", as: :ka_topic_constructs
+  get "/ka_topics/:id/etts", to: "ka_topics#etts", as: :ka_topic_etts
+
   get "/ka_topics/show_all_relations/:id", to: "ka_topics#show_all_relations", as: :show_all_relations
   get "/ka_topics/destroy/:id", to: "ka_topics#destroy", as: :ka_topic_destroy
   post "/ka_topics/new", to: "ka_topics#new", as: :new_ka_topic
@@ -114,6 +121,7 @@ UIR::Application.routes.draw do
   get "competence/:c_id/detach_from/:t_id" => "competences#detach", as: :competence_detach
   get "competences_execute" => "competences#execute"
   get "competences_commit" => "competences#commit", as: :competences_commit
+  get "competences/:id/related_questions" => "competences#related_questions", as: :competence_related_questions
 
   get "ka_topics_execute" => "ka_topics#execute"
   get "ka_topics_commit" => "ka_topics#commit", as: :ka_topics_commit

@@ -64,8 +64,8 @@ class Frame
       )
     )
   )
- (ako (value имя фрейма))
-  (classification (generic/individual))
+ (ako (value (имя фрейма)))
+  (classification (value(generic/individual)))
 )
 =end
 
@@ -536,8 +536,16 @@ class Frame
     addframenames = []
     for fr in slot.children
       print(fr.to_json)
-      for frname in fr.struct[1..-1]
-        addframenames.push(frname)
+      if fr.struct[0] == 'value'
+        for subfr in fr.children
+          for frname in subfr.struct
+            addframenames.push(frname)
+          end
+        end
+      else
+        for frname in fr.struct[1..-1]
+          addframenames.push(frname)
+        end
       end
     end
     
@@ -658,8 +666,12 @@ class Frame
   def fassert_classification(slot, frame)
     if not islinktype?(frame, "classification")
       if (slot.children.size == 1 )
-        if slot.children[0].struct.size == 1 and classification.include?(slot.children[0].struct[0])
-          lastslot = Frameobject.new(slot.children[0].struct[0], "classification", [])
+        slot_value = slot.children[0].struct[0]
+        if slot_value == 'value'
+          slot_value = slot.children[0].children[0].struct[0]
+        end
+        if slot.children[0].struct.size == 1 and classification.include?(slot_value)
+          lastslot = Frameobject.new(slot_value, "classification", [])
           frame.children.push(lastslot)
         else
           makemistake(10)

@@ -28,6 +28,8 @@ h1 Компетенции
           td
             a href="#{edit_competence_path(c.id)}" Редактировать
           td
+            a target="_blank" href="#{competence_related_questions_path(c)}" Вопросы, связанные с компетенцией
+          td
             form action="#{competence_path(c)}" method="POST"
               input type="hidden" name="_method" value="DELETE"
               button type="submit" class="alert button postfix" Удалить 

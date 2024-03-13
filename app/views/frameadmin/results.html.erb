@@ -33,14 +33,9 @@
   </tr>
   </thead>
   <% @results.each do |test| %>
-
-
-
-
-
           <tr>
             <td><%= test.student.fio %></td>
-            <td><%= test.result %></td>
+            <td><% res = test.result.to_f.nan? ? test.result : test.result.to_f.round %><%= res %></td>
 
             <td><%
                 nameetalon = ""
@@ -53,26 +48,11 @@
             %>
               <%= nameetalon%>
             </td>
-
-
             <td><%= test.created_at.to_date %></td>
             <td><%= test.student.group.number %></td>
             <td><%= test.isfinish?%></td>
             <td><%= (test.created_at.min + 2 > Time.now.min)%></td>
             <td><%= link_to  "Удалить", framestudent_path(test), method: :delete , data: { confirm: 'Вы уверены?' }%></td>
-
-
           </tr>
-
-
-
-
-
-
-
-
-
-
-
   <% end %>
 </table>
