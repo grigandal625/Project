@@ -168,6 +168,28 @@ class KaTopicsController < ApplicationController
     render json: @topic.topic_competences
   end
 
+  def set_competence_relation
+    topic = KaTopic.find(params[:id])
+    competence = Competence.find(params[:competence_id])
+    weight = params[:weight].to_i
+
+    if TopicCompetence.where(ka_topic: topic, competence: competence).empty?
+      t = TopicCompetence.create(ka_topic: topic, competence: competence, weight: weight)
+    else
+      t = TopicCompetence.find_by(ka_topic: topic, competence: competence)
+      t.weight = weight
+      t.save
+    end
+    render json: t.as_json
+  end
+
+  def delete_competence_relation
+    topic = KaTopic.find(params[:id])
+    competence = Competence.find(params[:competence_id])
+    TopicCompetence.where(ka_topic: topic, competence: competence).destroy_all
+    render json: {success: true}
+  end
+
   def components
     @topic = KaTopic.find(params[:id])
     render json: @topic.topic_components

@@ -86,6 +86,8 @@ UIR::Application.routes.draw do
   get "/ka_topics/edit/:id", to: "ka_topics#edit", as: :edit_ka_topic
   post "/ka_topics/edit_text/:id", to: "ka_topics#edit_text", as: :edit_ka_topic_text
   post "/ka_topics/delete_utz_connection", to: "ka_topics#delete_utz_connection", as: :delete_utz_topic_connection
+  post "/ka_topics/:id/set_competence_relation/:competence_id", to: "ka_topics#set_competence_relation", as: :ka_topic_set_competence_relation
+  get "/ka_topics/:id/delete_competence_relation/:competence_id", to: "ka_topics#delete_competence_relation", as: :ka_topic_delete_competence_relation
 
   get "/ka_questions", to: "ka_questions#index", as: :ka_questions
   get "/ka_questions/:id", to: "ka_questions#show", as: :ka_question

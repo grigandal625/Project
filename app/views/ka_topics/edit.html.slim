@@ -12,247 +12,247 @@
 
     div id="topic-data-tabs"
 
-/ = javascript_pack_tag 'edit_topic_data_tabs', 'data-turbolinks-track': 'reload'
+= javascript_pack_tag 'edit_topic_data_tabs', 'data-turbolinks-track': 'reload'
 
 
-div
-  - if !@task.nil? && @task.executor == "ka_topics"
-    = link_to "Завершить построение онтологии", ka_topics_commit_path
+/ div
+/   - if !@task.nil? && @task.executor == "ka_topics"
+/     = link_to "Завершить построение онтологии", ka_topics_commit_path
 
-  h3 Новая подтема
-  form method="post" action="#{new_ka_topic_path}"
-    div class="row"
-      div class="large-12 columns"
-        div class=""
-          input type="hidden" name="parent_id" value="#{@topic.id}"
-          div class="small-10 columns"
-            input type="text" name="text" placeholder="Название темы"
-          div class="small-2 columns"
-            input type="submit" class="button postfix"
-  h3 Новый вопрос
-  form method="post" action="#{new_ka_question_path}"
-    div class="row"
-      div class="large-12 columns"
-        div class=""
-          input type="hidden" name="topic_id" value="#{@topic.id}"
-          div class="small-8 columns"
-            input type="text" name="text" placeholder="Текст вопроса"
-          div class="small-2 columns"
-            input type="number" name="difficulty" placeholder="Сложность"
-          div class="small-2 columns"
-            input type="submit" class="button postfix"
+/   h3 Новая подтема
+/   form method="post" action="#{new_ka_topic_path}"
+/     div class="row"
+/       div class="large-12 columns"
+/         div class=""
+/           input type="hidden" name="parent_id" value="#{@topic.id}"
+/           div class="small-10 columns"
+/             input type="text" name="text" placeholder="Название темы"
+/           div class="small-2 columns"
+/             input type="submit" class="button postfix"
+/   h3 Новый вопрос
+/   form method="post" action="#{new_ka_question_path}"
+/     div class="row"
+/       div class="large-12 columns"
+/         div class=""
+/           input type="hidden" name="topic_id" value="#{@topic.id}"
+/           div class="small-8 columns"
+/             input type="text" name="text" placeholder="Текст вопроса"
+/           div class="small-2 columns"
+/             input type="number" name="difficulty" placeholder="Сложность"
+/           div class="small-2 columns"
+/             input type="submit" class="button postfix"
 
-  h3 Новая компетенция
-  form method="post" action="#{competences_attach_path}"
-    div class="row"
-      div class="large-12 columns"
-        div class=""
-          input type="hidden" name="topic_id" value="#{@topic.id}"
-          div class="small-8 columns"
-            select name="competence_id"
-              - @competences.each do |c|
-                option value="#{c.id}"
-                  = c.code
-          div class="small-2 columns"
-            input type="number" name="weight" placeholder="Вес"
-          div class="small-2 columns"
-            input type="submit" class="button postfix"
-
-
-  h3 Новый конструкт
-  form method="post" action="#{constructs_attach_path}"
-    div class="row"
-      div class="large-12 columns"
-        div class=""
-          input type="hidden" name="topic_id" value="#{@topic.id}"
-          div class="small-8 columns"
-            select name="construct_id"
-              - @constructs.each do |c|
-                option value="#{c.id}"
-                  = c.name
-          div class="small-2 columns"
-            input type="number" name="mark" placeholder="Оценка"
-          div class="small-2 columns"
-            input type="submit" class="button postfix"
-
-  h3 Новый компонент выявления умений
-  form method="post" action="#{components_attach_path}"
-    div class="row"
-      div class="large-12 columns"
-        div class=""
-          input type="hidden" name="topic_id" value="#{@topic.id}"
-
-          div class="small-12 columns"
-            select name="component_id"
-              - @components.each do |c|
-                option value="#{c.id}"
-                  = c.name
-
-          div class="small-4 columns"
-            select name="rel" placeholder="Тип связи" value="null"
-                  option value=0 Сильная
-                  option value=1 Средняя
-                  option value=2 Слабая
-          div class="small-3 columns"
-            input type="number" name="rad" placeholder="Область привязки"
-
-          div class="small-3 columns"
-            input type="number" name="weight" placeholder="Вес компонента"
-
-          div class="small-2 columns"
-            input type="submit" class="button postfix"
+/   h3 Новая компетенция
+/   form method="post" action="#{competences_attach_path}"
+/     div class="row"
+/       div class="large-12 columns"
+/         div class=""
+/           input type="hidden" name="topic_id" value="#{@topic.id}"
+/           div class="small-8 columns"
+/             select name="competence_id"
+/               - @competences.each do |c|
+/                 option value="#{c.id}"
+/                   = c.code
+/           div class="small-2 columns"
+/             input type="number" name="weight" placeholder="Вес"
+/           div class="small-2 columns"
+/             input type="submit" class="button postfix"
 
 
+/   h3 Новый конструкт
+/   form method="post" action="#{constructs_attach_path}"
+/     div class="row"
+/       div class="large-12 columns"
+/         div class=""
+/           input type="hidden" name="topic_id" value="#{@topic.id}"
+/           div class="small-8 columns"
+/             select name="construct_id"
+/               - @constructs.each do |c|
+/                 option value="#{c.id}"
+/                   = c.name
+/           div class="small-2 columns"
+/             input type="number" name="mark" placeholder="Оценка"
+/           div class="small-2 columns"
+/             input type="submit" class="button postfix"
 
-  h3 Новое УТЗ
-  form method="post" action="#{edit_utz_path}"
-    div class="row"
-      div class="large-12 columns"
-        div class=""
-          div class="small-8 columns"
-            select name="utz_data"
-              - @quizzes.each do |t|
-                = content_tag(:option, t[:label] + ': ' + t[:data].name, value: "#{t[:type]},#{t[:data].id}")
-          div class="small-2 columns"
-            input type="number" name="weight" min="0" max="100" placeholder="Вес УТЗ"
-          div class="small-2 columns"
-            input type="submit" class="button postfix"
+/   h3 Новый компонент выявления умений
+/   form method="post" action="#{components_attach_path}"
+/     div class="row"
+/       div class="large-12 columns"
+/         div class=""
+/           input type="hidden" name="topic_id" value="#{@topic.id}"
 
-  h3 Подтемы
-  table
-    thead
-      tr
-        th.id = "Идентификатор"
-        th.text = "Текст"
-    tbody
-      - KaTopic.where(parent_id: @topic.id).each do |t|
-        tr
-          td.id = t.id
-          td.text = t.text
-          td
-            a href="#{edit_ka_topic_path(t.id)}" Редактировать
-          td
-            a href="#{ka_topic_destroy_path(t.id)}" Удалить
-  h3 Вопросы
-  table
-    thead
-      tr
-        th.id = "Идентификатор"
-        th.text = "Текст"
-        th.difficulty = "Сложность"
-    tbody
-      - KaQuestion.where(ka_topic_id: @topic.id).each do |t|
-        tr
-          td.id = t.id
-          td.text = t.text
-          td.difficulty = t.difficulty
-          td
-            a target="_blank" href="#{show_ka_question_path(t.id)}" Редактировать
-          td
-            a href="#{ka_question_destroy_path(t.id)}" Удалить
+/           div class="small-12 columns"
+/             select name="component_id"
+/               - @components.each do |c|
+/                 option value="#{c.id}"
+/                   = c.name
+
+/           div class="small-4 columns"
+/             select name="rel" placeholder="Тип связи" value="null"
+/                   option value=0 Сильная
+/                   option value=1 Средняя
+/                   option value=2 Слабая
+/           div class="small-3 columns"
+/             input type="number" name="rad" placeholder="Область привязки"
+
+/           div class="small-3 columns"
+/             input type="number" name="weight" placeholder="Вес компонента"
+
+/           div class="small-2 columns"
+/             input type="submit" class="button postfix"
 
 
-  h3 Связи с УТЗ
-  table
-    thead
-      th.text = "Наименование"
-      th.type = "Тип"
-      th.weight = "Вес"
-      th colspan='2'
-    tbody
-      - @topic_utz_set.each do |topic_utz|
-        tr
-          td.text = topic_utz[:data].utz.name
-          td.type = topic_utz[:data].utz_type_label
-          td.weight = topic_utz[:data].weight
-          td
-            a href="#{send(topic_utz[:data].utz_type + "_path", topic_utz[:data].utz)}"
-              | Перейти
-          td
-            form action="#{delete_utz_topic_connection_path}" method="post"
-              input type="hidden" name="utz_data" value="#{topic_utz[:data].id},#{topic_utz[:type]}"
-              input type="submit" value="Удалить"
+
+/   h3 Новое УТЗ
+/   form method="post" action="#{edit_utz_path}"
+/     div class="row"
+/       div class="large-12 columns"
+/         div class=""
+/           div class="small-8 columns"
+/             select name="utz_data"
+/               - @quizzes.each do |t|
+/                 = content_tag(:option, t[:label] + ': ' + t[:data].name, value: "#{t[:type]},#{t[:data].id}")
+/           div class="small-2 columns"
+/             input type="number" name="weight" min="0" max="100" placeholder="Вес УТЗ"
+/           div class="small-2 columns"
+/             input type="submit" class="button postfix"
+
+/   h3 Подтемы
+/   table
+/     thead
+/       tr
+/         th.id = "Идентификатор"
+/         th.text = "Текст"
+/     tbody
+/       - KaTopic.where(parent_id: @topic.id).each do |t|
+/         tr
+/           td.id = t.id
+/           td.text = t.text
+/           td
+/             a href="#{edit_ka_topic_path(t.id)}" Редактировать
+/           td
+/             a href="#{ka_topic_destroy_path(t.id)}" Удалить
+/   h3 Вопросы
+/   table
+/     thead
+/       tr
+/         th.id = "Идентификатор"
+/         th.text = "Текст"
+/         th.difficulty = "Сложность"
+/     tbody
+/       - KaQuestion.where(ka_topic_id: @topic.id).each do |t|
+/         tr
+/           td.id = t.id
+/           td.text = t.text
+/           td.difficulty = t.difficulty
+/           td
+/             a target="_blank" href="#{show_ka_question_path(t.id)}" Редактировать
+/           td
+/             a href="#{ka_question_destroy_path(t.id)}" Удалить
+
+
+/   h3 Связи с УТЗ
+/   table
+/     thead
+/       th.text = "Наименование"
+/       th.type = "Тип"
+/       th.weight = "Вес"
+/       th colspan='2'
+/     tbody
+/       - @topic_utz_set.each do |topic_utz|
+/         tr
+/           td.text = topic_utz[:data].utz.name
+/           td.type = topic_utz[:data].utz_type_label
+/           td.weight = topic_utz[:data].weight
+/           td
+/             a href="#{send(topic_utz[:data].utz_type + "_path", topic_utz[:data].utz)}"
+/               | Перейти
+/           td
+/             form action="#{delete_utz_topic_connection_path}" method="post"
+/               input type="hidden" name="utz_data" value="#{topic_utz[:data].id},#{topic_utz[:type]}"
+/               input type="submit" value="Удалить"
         
-  h3 Компетенции
-  table
-    thead
-      tr
-        th.id = "Идентификатор"
-        th.code = "Код"
-        th.description = "Описание"
-        th.weight = "Вес"
-    tbody
-      - TopicCompetence.where(ka_topic_id: @topic.id).each do |c|
-        tr
-          td.id = c.competence_id
-          td.code = Competence.find(c.competence_id).code
-          td.description = Competence.find(c.competence_id).description
-          td.weight = c.weight
-          td
-            a href="#{competence_detach_path(c.competence_id, @topic.id)}" Удалить
+/   h3 Компетенции
+/   table
+/     thead
+/       tr
+/         th.id = "Идентификатор"
+/         th.code = "Код"
+/         th.description = "Описание"
+/         th.weight = "Вес"
+/     tbody
+/       - TopicCompetence.where(ka_topic_id: @topic.id).each do |c|
+/         tr
+/           td.id = c.competence_id
+/           td.code = Competence.find(c.competence_id).code
+/           td.description = Competence.find(c.competence_id).description
+/           td.weight = c.weight
+/           td
+/             a href="#{competence_detach_path(c.competence_id, @topic.id)}" Удалить
 
-  h3 Конструкты
-  a href="#{calc_rel_path(@topic.id)}" Рассчитать связи
-  table
-    thead
-      tr
-        th.id = "Идентификатор"
-        th.name = "Название"
-        th.mark = "Оценка"
-    tbody
-      - TopicConstruct.where(ka_topic_id: @topic.id).each do |c|
-        tr
-          td.id = c.construct_id
-          td.name = Construct.find(c.construct_id).name
-          td.mark = c.mark
-          td
-            a href="#{construct_detach_path(c.construct_id, @topic.id)}" Удалить
+/   h3 Конструкты
+/   a href="#{calc_rel_path(@topic.id)}" Рассчитать связи
+/   table
+/     thead
+/       tr
+/         th.id = "Идентификатор"
+/         th.name = "Название"
+/         th.mark = "Оценка"
+/     tbody
+/       - TopicConstruct.where(ka_topic_id: @topic.id).each do |c|
+/         tr
+/           td.id = c.construct_id
+/           td.name = Construct.find(c.construct_id).name
+/           td.mark = c.mark
+/           td
+/             a href="#{construct_detach_path(c.construct_id, @topic.id)}" Удалить
 
-  h3 Компоненты выявления умений
-  - if TopicComponent.where(ka_topic_id: @topic.id).count != 0
-    table
-      thead
-        tr
-          th.name = "Название"
-          th.weight = "Вес"
-      tbody
-        - TopicComponent.where(ka_topic_id: @topic.id).each do |c|
-          tr
-            td.name = link_to c.component.name, component_edit_view_path(c.component)
-            td.weight = c.weight
-            td
-              a href="#{component_detach_path(c.component_id, @topic.id)}" Удалить
-  - else
-    p Пока ни один компонент не привязан
+/   h3 Компоненты выявления умений
+/   - if TopicComponent.where(ka_topic_id: @topic.id).count != 0
+/     table
+/       thead
+/         tr
+/           th.name = "Название"
+/           th.weight = "Вес"
+/       tbody
+/         - TopicComponent.where(ka_topic_id: @topic.id).each do |c|
+/           tr
+/             td.name = link_to c.component.name, component_edit_view_path(c.component)
+/             td.weight = c.weight
+/             td
+/               a href="#{component_detach_path(c.component_id, @topic.id)}" Удалить
+/   - else
+/     p Пока ни один компонент не привязан
 
 
-  h3 Построенные связи
-  table
-    thead
-      tr
-        th.name = "Связанная тема"
-        th.rel_type = "Тип связи"
-    tbody 
-      - TopicRelation.where(ka_topic_id: @topic.id).each do |r|
-        tr 
-          td 
-            a href="#{edit_ka_topic_path(r.related_topic.id)}" = r.related_topic.text
-          - if r.rel_type == 0
-            td = "Сильная"
-          - if r.rel_type == 1
-            td = "Средняя"
-          - if r.rel_type == 2
-            td = "Слабая"
+/   h3 Построенные связи
+/   table
+/     thead
+/       tr
+/         th.name = "Связанная тема"
+/         th.rel_type = "Тип связи"
+/     tbody 
+/       - TopicRelation.where(ka_topic_id: @topic.id).each do |r|
+/         tr 
+/           td 
+/             a href="#{edit_ka_topic_path(r.related_topic.id)}" = r.related_topic.text
+/           - if r.rel_type == 0
+/             td = "Сильная"
+/           - if r.rel_type == 1
+/             td = "Средняя"
+/           - if r.rel_type == 2
+/             td = "Слабая"
 
-      - TopicRelation.where(related_topic_id: @topic.id).each do |r|
-        tr 
-          td
-            a href="#{edit_ka_topic_path(r.ka_topic.id)}" = r.ka_topic.text
-          - if r.rel_type == 0
-            td = "Сильная"
-          - if r.rel_type == 1
-            td = "Средняя"
-          - if r.rel_type == 2
-            td = "Слабая"
+/       - TopicRelation.where(related_topic_id: @topic.id).each do |r|
+/         tr 
+/           td
+/             a href="#{edit_ka_topic_path(r.ka_topic.id)}" = r.ka_topic.text
+/           - if r.rel_type == 0
+/             td = "Сильная"
+/           - if r.rel_type == 1
+/             td = "Средняя"
+/           - if r.rel_type == 2
+/             td = "Слабая"
 
 

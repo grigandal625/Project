@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
-import { Spinner, Container } from "react-bootstrap";
+import { Spinner, Container, ModalHeader } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 const loadRelatedCompetences = async (ka_topic_id, setRelatedCompetences) => {
     let cookies = new Cookies();
@@ -34,9 +35,29 @@ const loadCompetences = async (setCompetences) => {
     setCompetences(data);
 };
 
+const CompetenceRelationModal = ({ka_topic_id, competence, close}) =>{
+    return <Modal show={competence} onHide={close}>
+        <Modal.Header>
+            
+        </Modal.Header>
+        <Modal.Body>
+
+        </Modal.Body>
+        <Modal.Footer>
+
+        </Modal.Footer>
+    </Modal>
+
+}
 export default ({ ka_topic_id }) => {
     const [competences, setCompetences] = useState();
     const [relatedCompetences, setRelatedCompetences] = useState();
+    const [currentCompetence, setCurrentCompetence] = useState();
+
+    const closeModal = () => {
+        debugger;
+        setCurrentCompetence()
+    }
     useEffect(() => {
         loadRelatedCompetences(ka_topic_id, setRelatedCompetences).then(() =>
             loadCompetences(setCompetences)
@@ -78,7 +99,7 @@ export default ({ ka_topic_id }) => {
                                     Удалить связь
                                 </a>
                             ) : (
-                                <a className="text-decoration-none">
+                                <a className="text-decoration-none" onClick={() => setCurrentCompetence(competence)}>
                                     Добавить связь
                                 </a>
                             )}
@@ -86,6 +107,8 @@ export default ({ ka_topic_id }) => {
                     </tr>
                 ))}
             </table>
+            <CompetenceRelationModal ka_topic_id={ka_topic_id} competence={currentCompetence} close={closeModal} /> 
+            
         </Container>
     ) : (
         <Spinner />
