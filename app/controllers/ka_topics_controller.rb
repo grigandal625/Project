@@ -168,6 +168,11 @@ class KaTopicsController < ApplicationController
     render json: @topic.topic_competences
   end
 
+  def constructs
+    @topic = KaTopic.find(params[:id])
+    render json: @topic.topic_constructs
+  end
+
   def set_competence_relation
     topic = KaTopic.find(params[:id])
     competence = Competence.find(params[:competence_id])
@@ -180,14 +185,21 @@ class KaTopicsController < ApplicationController
       t.weight = weight
       t.save
     end
-    render json: t.as_json
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render json: t.as_json }
+    end
   end
 
   def delete_competence_relation
-    topic = KaTopic.find(params[:id])
-    competence = Competence.find(params[:competence_id])
-    TopicCompetence.where(ka_topic: topic, competence: competence).destroy_all
-    render json: {success: true}
+    ka_topic_id = params[:id].to_i
+    competence_id = params[:competence_id].to_i
+    all_relations = TopicCompetence.where(ka_topic_id: ka_topic_id, competence_id: competence_id)
+    all_relations.delete_all
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render json: { "success": true } }
+    end
   end
 
   def components
@@ -273,7 +285,7 @@ class KaTopicsController < ApplicationController
     weight = params[:weight]
     ett_class = TestUtzTopic.ett_types_mapping[type.to_sym][:model]
     ett = ett_class.find(utz_id)
-    ett_arg = {type.to_sym => ett}
+    ett_arg = { type.to_sym => ett }
     if TestUtzTopic.where(ka_topic: topic, **ett_arg).empty?
       TestUtzTopic.create(ka_topic: topic, weight: weight, **ett_arg)
     else

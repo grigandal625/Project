@@ -40,7 +40,7 @@ const CreateQuestionModal = ({ ka_topic_id, show, handleClose }) => {
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Stack direction="horizontal" gap={2}>
-                                <Form.Label className="m-0" >Сложность</Form.Label>
+                                <Form.Label className="m-0">Сложность</Form.Label>
                                 <Form.Control
                                     className="m-0 rounded"
                                     name="difficulty"
@@ -123,10 +123,28 @@ const CreateQuestionModal = ({ ka_topic_id, show, handleClose }) => {
     );
 };
 
+const RemoveQuestionConfirm = ({ question_id, show, handleClose }) => (
+    <Modal show={show} onHide={handleClose}>
+        <Modal.Header>Удалить вопрос?</Modal.Header>
+        <Modal.Footer>
+            <a className="text-decoration-none" href={`/ka_questions/destroy/${question_id}`}>
+                <Button variant="danger">Удалить</Button>
+            </a>
+            <Button onClick={handleClose} variant="secondary-outline">
+                Отмена
+            </Button>
+        </Modal.Footer>
+    </Modal>
+);
+
 export default ({ ka_topic_id }) => {
     const [questions, setQuestions] = useState();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
+
+    const [confirmingId, setDeleteShow] = useState(false);
+    const handleDeleteClose = () => setDeleteShow(false);
+
     useEffect(() => {
         loadQuestions(ka_topic_id, setQuestions);
     }, []);
@@ -154,7 +172,7 @@ export default ({ ka_topic_id }) => {
                             </td>
                             <td>{q.difficulty}</td>
                             <td>
-                                <a className="text-decoration-none" href={`/ka_questions/destroy/${q.id}`}>
+                                <a className="text-decoration-none" onClick={() => setDeleteShow(q.id)}>
                                     Удалить
                                 </a>
                             </td>
@@ -165,6 +183,7 @@ export default ({ ka_topic_id }) => {
                 <Alert variant="primary">Вопросов не добавлено</Alert>
             )}
             <CreateQuestionModal ka_topic_id={ka_topic_id} show={show} handleClose={handleClose} />
+            <RemoveQuestionConfirm question_id={confirmingId} show={confirmingId} handleClose={handleDeleteClose} />
         </Container>
     ) : (
         <Spinner />

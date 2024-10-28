@@ -5,6 +5,10 @@ class ConstructsController < ApplicationController
   layout "ka_application"
 
   def index
+    respond_to do |format|
+      format.html { }
+      format.json { render json: Construct.all }
+    end
   end
 
   def create
@@ -34,12 +38,19 @@ class ConstructsController < ApplicationController
       TopicConstruct.where(ka_topic_id: params[:topic_id], construct_id: params[:construct_id]).update_all(mark: params[:mark].to_i)
     end
 
-    redirect_to :back
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render json: params }
+    end
+    
   end
 
   def detach
     #Внимание: используется delete_all (т.к. у модели нет первичных ключей)
     TopicConstruct.delete_all(ka_topic_id: params[:t_id], construct_id: params[:c_id])
-    redirect_to :back
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render json: params }
+    end
   end
 end

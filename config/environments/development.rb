@@ -10,7 +10,7 @@ UIR::Application.configure do
   config.eager_load = false
 
   # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send.
@@ -29,6 +29,8 @@ UIR::Application.configure do
   config.assets.unknown_assets_fallback = true
   config.assets.check_precompiled_asset = false
 
-  config.planning_bin = Rails.root.join('bin', 'fd').to_s
-  config.planning_kb = Rails.root.join('planning_kb').to_s
+  config.webpacker.check_yarn_integrity = false
+
+  config.planning_bin = Rails.root.join("bin", "fd").to_s
+  config.planning_kb = Rails.root.join("planning_kb").to_s
 end
