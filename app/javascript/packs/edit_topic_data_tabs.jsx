@@ -8,6 +8,7 @@ import Questions from "../src/ka_topics/Questions";
 import SubTopics from "../src/ka_topics/SubTopics";
 import Competences from "../src/ka_topics/Competences";
 import Constructs from "../src/ka_topics/Constructs";
+import Relations from "../src/ka_topics/Relations";
 
 const TabSetGenerator = ({
     params,
@@ -80,7 +81,7 @@ const TopicDataTabs = ({ ka_topic_id, opened_tab }) => {
                         className: "border rounded",
                         title: "Построенные связи",
                     },
-                    content: <>Построенные связи</>,
+                    content: <Relations ka_topic_id={ka_topic_id}/>,
                 },
             },
         },

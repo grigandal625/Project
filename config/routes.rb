@@ -31,6 +31,7 @@ UIR::Application.routes.draw do
   get "triade/:id/start", to: "triade#start", as: "triade_start"
 
   get "triade/:id/show_grid", to: "triade#show_grid", as: "triade_show_grid"
+  get "triade/:id/show_grid_print", to: "triade#show_grid_print", as: "triade_show_grid_print"
   post "triade/update_grid", to: "triade#update_grid", as: "update_grid"
 
   get "likert_utz/new"

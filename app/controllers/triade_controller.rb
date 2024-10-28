@@ -57,6 +57,13 @@ class TriadeController < ApplicationController
     render :layout => "layout_for_show_only"
   end
 
+  def show_grid_print
+    @root = KaTopic.find(params[:id])
+    @all_topics = @root.get_tree
+    @constructs = Construct.all
+    render :layout => "layout_for_show_only"
+  end
+
   def update_grid
     topic_construct = TopicConstruct.where(ka_topic_id: params[:ka_topic_id], construct_id: params[:construct_id])[0]
     mark = params[:mark]

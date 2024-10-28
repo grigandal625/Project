@@ -321,20 +321,29 @@ class KaTopicsController < ApplicationController
 
   def show_all_relations
     topic = KaTopic.find(params[:id])
-    root = topic.get_root
+    root = topic
     @rt = root
     rel_type_mapping = ["Сильная", "Средняя", "Слабая"]
 
     @output = []
+    @json_output = []
 
-    TopicRelation.where(root_topic_id: root.id).each do |r|
+    TopicRelation.where(ka_topic_id: root.id).each do |r|
       @output.push({
         topic: r.ka_topic.text,
         related_topic: r.related_topic.text,
         relation_type: rel_type_mapping[r.rel_type],
       })
+      @json_output.push({
+        topic: {id: r.ka_topic.id, text: r.ka_topic.text},
+        related_topic: {id: r.related_topic.id, text: r.related_topic.text},
+        relation_type: r.rel_type,
+      })
     end
-    render "execute_amrr"
+    respond_to do |format|
+      format.html { render "execute_amrr" }
+      format.json { render json: @json_output }
+    end
   end
 
   def execute_amrr
@@ -348,21 +357,32 @@ class KaTopicsController < ApplicationController
     @rt = root
 
     @output = []
+    @json_output = []
     ActiveRecord::Base.transaction do
-      for i in 0..(count - 2)
-        for j in (i + 1)..(count - 1)
-          relation = TopicRelation.calculate_relation(topics[i], topics[j])
+      for i in 0..(count - 1)
+        if !topics[i].nil?
+          relation = TopicRelation.calculate_relation(topic, topics[i])
           puts(relation)
           if !relation.nil?
             relation.save
             @output.push({
-              topic: topics[i].text,
-              related_topic: topics[j].text,
+              topic: relation.ka_topic.text,
+              related_topic: relation.related_topic.text,
               relation_type: rel_type_mapping[relation.rel_type],
+            })
+            @json_output.push({
+              topic: {id: relation.ka_topic.id, text: relation.ka_topic.text},
+              related_topic: {id: relation.related_topic.id, text: relation.related_topic.text},
+              relation_type: relation.rel_type,
             })
           end
         end
       end
+    end
+
+    respond_to do |format|
+      format.html { }
+      format.json { render json: @json_output }
     end
   end
 
