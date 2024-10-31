@@ -13,7 +13,9 @@ table
         - t.ka_question.each do |q|
           - if q.disable == 0
             - @arr.push(q.id)
-        td.questions = @arr.join(", ")
+        td.questions
+          - @arr.each do |q_id|
+            a style="margin-right: 5px" target="_blank" href="#{show_ka_question_path(q_id)}" #{q_id}
 
 h3 Перечень активных вопросов
 table
@@ -25,7 +27,8 @@ table
   tbody
     - @questions.each_with_index do |q, i|
       tr
-        td title="#{q.id}" #{i+1}
+        td 
+          a target="_blank" href="#{show_ka_question_path(q.id)}" #{q.id}
         td.text = q.text
         td.answers
           - q.ka_answer.each do |a|

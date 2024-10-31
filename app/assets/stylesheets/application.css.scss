@@ -15,6 +15,10 @@
  *= require font-awesome.min
 */
 
+@media print{
+    a[href]:after { display:none; }
+}
+
 #bs-example-navbar-collapse-1
 {
 	background-color: black;

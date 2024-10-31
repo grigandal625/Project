@@ -1,4 +1,6 @@
 h2 #{@question.text}
+h5 
+  a href="#{edit_ka_topic_path(@question.ka_topic)}" Редактировать вершину онтологии
 h3 Редактировать
 form method="post" action="#{edit_ka_question_path(@question.id)}"
   div class="row"
@@ -49,6 +51,6 @@ h3 Ответы
           div class="small-1 columns"
             span class="prefix"
               a href="#{ka_answer_destroy_path(t.id)}"
-                input type="button" value="X"
+                input style="background: #ff6b6b" type="button" value="X"
           div class="small-2 columns"
             input type="submit" class="button postfix"

@@ -118,7 +118,7 @@ export default ({ ka_topic_id }) => {
 
     return constructs && relatedConstructs ? (
         <Container>
-            <h3 className="my-3">Оценки связей с конструктами</h3>
+            <Stack><h3 className="my-3">Оценки связей с конструктами</h3><a href={`/triade/${ka_topic_id}/show_grid`} target="_blank">Редактировать репертуарную решетку</a></Stack>
             <table className="w-100 border-0 border-top">
                 <tr className="p-2">
                     <th>Конструкт</th>

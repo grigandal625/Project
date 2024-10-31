@@ -8,6 +8,7 @@ html
     script src="/js/foundation.min.js"
     script src="/js/table2CSV.js"
       = javascript_include_tag 'application'
+      = stylesheet_link_tag "no_href_print", "data-turbo-track": "reload"
   body
     = render "layouts/header"
     == yield :outer_row

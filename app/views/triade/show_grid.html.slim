@@ -1,9 +1,14 @@
 div class="row"
     div class="large-12 columns"
-        h1 Репертуарная решетка 
+        h1 Репертуарная решетка (РР)
         h3 #{@root.text}
         h5 
-            a href="#{triade_show_grid_print_path(@root.id)}" Версия для печати
+            a style="margin-right: 10px" href="#{triade_show_grid_print_path(@root.id)}" Версия для печати
+            a href="#{edit_ka_topic_path(@root.id)}" target="_blank" Редактировать вершину онтологии
+        - if @root.parent
+            h5
+                a style="margin-right: 10px" href="#{triade_show_grid_path(@root.parent.id)}" Редактировать РР для родительской вершины
+                a href="#{triade_show_grid_path(@root.get_root.id)}" Редактировать РР для корневой вершины
 
 table 
     thead
