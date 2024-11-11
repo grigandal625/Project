@@ -11,6 +11,14 @@ div class="row"
                 a style="margin-right: 10px" href="#{triade_show_grid_print_path(@root.parent.id)}" Посмотреть РР для родительской вершины
                 a href="#{triade_show_grid_print_path(@root.get_root.id)}" Посмотреть РР для корневой вершины
 
+
+style
+    | @media print {
+    |   a:after {
+    |     display: none;
+    |   }
+    | }
+
 table style="border-collapse: collapse;"
     thead
         tr style="background: ##ededed"

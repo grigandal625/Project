@@ -25,11 +25,16 @@ form action="#{competence_related_questions_path(@competence)}"
             th Время для ответа, мин
         - @found_questions.each_with_index do |q, i|
             tr
-                td #{i+1} - #{q.id}
+                td 
+                    span #{i+1} - 
+                    a href="#{show_ka_question_path(q.id)}"  #{q.id}
                 td #{q.text}
                 td 
                     - q.ka_answer.each do |ans|
-                        div #{['-', '+'][ans.correct]} #{' '} #{ans.text}
+                        - if ans.correct == 0
+                            div #{['-', '+'][ans.correct]} #{' '} #{ans.text}
+                        - else 
+                            b #{['-', '+'][ans.correct]} #{' '} #{ans.text}
                 td #{q.difficulty}
 - else 
     p Вопросов не найдено

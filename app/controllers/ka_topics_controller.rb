@@ -395,6 +395,7 @@ class KaTopicsController < ApplicationController
   def show_all_competences
     @root = KaTopic.find(params[:root_id])
     @topics = @root.get_tree
+    render :layout => "layout_for_show_only"
   end
 
   def show_all_constructs

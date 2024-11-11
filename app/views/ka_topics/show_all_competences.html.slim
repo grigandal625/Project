@@ -1,16 +1,30 @@
-h2 = @root.text
-h3 Компетенции
-/Временное допущение, должны выводиться только те компетенции, которые относятся к данному курсу
-table
+div class="row"
+  div class="large-12 columns"
+    h2 = @root.text
+    h3 Компетенции
+
+style
+  | @media print {
+  |   a:after {
+  |     display: none;
+  |   }
+  | }
+
+table style="border-collapse: collapse;"
   thead
-    th.id = "Идентификатор"
-    th.text = "Название"
+    th style="border: 1px solid silver" Тема/компетенция
     - Competence.all.each do |c|
-      th = c.code
+      th style="border: 1px solid silver" 
+        a title="#{c.description}" href="#{edit_competence_path(c.id)}" #{c.code}
   tbody
     - @topics.each do |t|
       tr
-        td.id = t.id
-        td.text = t.text
-        - t.topic_competences.each do |c|
-          td = c.weight
+        td style="border: 1px solid silver" 
+          a href="#{edit_ka_topic_path(t.id)}" #{t.text}
+        - Competence.all.each do |c|
+          td style="border: 1px solid silver" 
+            - if t.topic_competences.where(competence_id: c.id).count > 0
+              span #{t.topic_competences.where(competence_id: c.id).first.weight}
+            - else
+              span -
+            
