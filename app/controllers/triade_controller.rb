@@ -65,6 +65,7 @@ class TriadeController < ApplicationController
   end
 
   def update_grid
+    TopicConstruct.delete_all(:ka_topic_id => params[:ka_topic_id], :construct_id => params[:construct_id])
     topic_construct = TopicConstruct.where(ka_topic_id: params[:ka_topic_id], construct_id: params[:construct_id])[0]
     mark = params[:mark]
 
@@ -74,17 +75,9 @@ class TriadeController < ApplicationController
       mark = mark.to_i
     end
 
-    if mark.nil? && !topic_construct.nil?
-      TopicConstruct.delete_all(:ka_topic_id => params[:ka_topic_id], :construct_id => params[:construct_id])
-    else
-      if topic_construct.nil?
-        topic_construct = TopicConstruct.new(ka_topic_id: params[:ka_topic_id], construct_id: params[:construct_id], mark: mark)
-      else
-        topic_construct.mark = mark
-      end
-      if !mark.nil?
-        topic_construct.save
-      end
+    if !mark.nil?
+      topic_construct = TopicConstruct.new(ka_topic_id: params[:ka_topic_id], construct_id: params[:construct_id], mark: mark)
+      topic_construct.save
     end
     redirect_to :back
     
