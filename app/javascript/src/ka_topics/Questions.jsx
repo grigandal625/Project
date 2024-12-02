@@ -149,7 +149,7 @@ export default ({ ka_topic_id }) => {
         loadQuestions(ka_topic_id, setQuestions);
     }, []);
     return questions ? (
-        <Container>
+        <div fluid>
             <Stack className="my-3" direction="horizontal" gap={2}>
                 <h3>Список вопросов</h3>
                 <div className="ms-auto">
@@ -184,7 +184,7 @@ export default ({ ka_topic_id }) => {
             )}
             <CreateQuestionModal ka_topic_id={ka_topic_id} show={show} handleClose={handleClose} />
             <RemoveQuestionConfirm question_id={confirmingId} show={confirmingId} handleClose={handleDeleteClose} />
-        </Container>
+        </div>
     ) : (
         <Spinner />
     );

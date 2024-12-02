@@ -117,7 +117,7 @@ export default ({ ka_topic_id }) => {
     const closeRemove = () => setRemovingConstructId();
 
     return constructs && relatedConstructs ? (
-        <Container>
+        <div fluid>
             <Stack><h3 className="my-3">Оценки связей с конструктами</h3><a href={`/triade/${ka_topic_id}/show_grid`} target="_blank">Редактировать репертуарную решетку</a></Stack>
             <table className="w-100 border-0 border-top">
                 <tr className="p-2">
@@ -149,7 +149,7 @@ export default ({ ka_topic_id }) => {
             </table>
             <AddConstructModal ka_topic_id={ka_topic_id} construct={currentConstruct} handleClose={closeModal} />
             <RemoveMarkConfirm ka_topic_id={ka_topic_id} construct_id={removingConstructId} show={removingConstructId} handleClose={closeRemove} />
-        </Container>
+        </div>
     ) : (
         <Spinner />
     );

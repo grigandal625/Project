@@ -50,6 +50,19 @@ class KaTopic < ActiveRecord::Base
     return topics
   end
 
+  def get_struct
+    topic = {
+      id: self.id,
+      text: self.text,
+      name: self.text,
+      children: []
+    }
+    self.children.each do |child|
+      topic[:children] += [child.get_struct]
+    end
+    return topic
+  end
+
   def get_tree_utz(depth, limit)
 	topics = []
         topics.push(self.id)

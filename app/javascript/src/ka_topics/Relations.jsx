@@ -43,7 +43,7 @@ export default ({ ka_topic_id }) => {
     };
 
     return (
-        <Container>
+        <div fluid>
             <h3 className="my-3">Построенные связи между элементами курса</h3>
             {relations ? (
                 <>
@@ -80,6 +80,6 @@ export default ({ ka_topic_id }) => {
             ) : (
                 <Spinner />
             )}
-        </Container>
+        </div>
     );
 };

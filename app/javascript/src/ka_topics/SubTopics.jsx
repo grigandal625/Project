@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
-import { Spinner, Container, Alert, Button, Stack, Modal } from "react-bootstrap";
+import "./SubTopics.css";
+import { Button, Empty, Skeleton, Tree, Modal, Form, Input, Space } from "antd";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
 const loadChildren = async (ka_topic_id, setChildren) => {
     let cookies = new Cookies();
@@ -16,33 +18,22 @@ const loadChildren = async (ka_topic_id, setChildren) => {
     setChildren(data);
 };
 
-const RemoveSubTopicConfirm = ({ topic_id, show, handleClose }) => (
-    <Modal show={show} onHide={handleClose}>
-        <Modal.Header>Удалить подтему и все дочерние подтемы/разделы/подразделы/понятия?</Modal.Header>
-        <Modal.Footer>
-            <a className="text-decoration-none" href={`/ka_topics/destroy/${topic_id}`}>
-                <Button variant="danger">Удалить</Button>
-            </a>
-            <Button onClick={handleClose} variant="secondary-outline">
-                Отмена
-            </Button>
-        </Modal.Footer>
-    </Modal>
-);
+const loadStruct = async (ka_topic_id, setStruct) => {
+    let cookies = new Cookies();
+    let response = await fetch(`/ka_topics/${ka_topic_id}/get_struct`, {
+        headers: {
+            Authorization: `Token ${cookies.get("auth_token")}`,
+            "Content-Type": "application/json",
+            "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+        },
+    });
 
-export default ({ ka_topic_id }) => {
-    const [children, setChildren] = useState();
-    useEffect(() => {
-        loadChildren(ka_topic_id, setChildren);
-    }, []);
+    let data = await response.json();
+    setStruct(data);
+};
 
-    const [confirmDeleteTopicId, setDeleteShow] = useState(false);
-    const handleDeleteClose = () => setDeleteShow(false);
-
-    return children ? (
-        <Container>
-            <h3 className="my-3">Создать подтему</h3>
-            <form method="post" action="/ka_topics/new">
+/*
+<form method="post" action="/ka_topics/new">
                 <input type="hidden" name="parent_id" value={ka_topic_id}></input>
                 <Stack className="my-4" direction="horizontal" gap={2}>
                     <input
@@ -58,38 +49,71 @@ export default ({ ka_topic_id }) => {
                     </div>
                 </Stack>
             </form>
-            <h3 className="my-3">Список подтем</h3>
-            {children.length ? (
-                <table className="w-100 border-0 border-top border-bottom">
-                    <tr>
-                        <th>Подтема</th>
-                        <th>Действия</th>
-                    </tr>
-                    {children.map((child) => (
-                        <tr>
-                            <td>
-                                <a className="text-decoration-none" href={`/ka_topics/edit/${child.id}`}>
-                                    {child.text}
-                                </a>
-                            </td>
-                            <td>
-                                <a className="text-decoration-none" onClick={() => setDeleteShow(child.id)}>
-                                    Удалить
-                                </a>
-                            </td>
-                        </tr>
-                    ))}
-                </table>
+*/
+
+export default ({ ka_topic_id }) => {
+    const [struct, setStruct] = useState();
+    useEffect(() => {
+        loadStruct(ka_topic_id, setStruct);
+    }, []);
+
+    const [modal, contextHolder] = Modal.useModal();
+
+    const goTo = (link) => {
+        const a = document.createElement("a");
+        a.href = link;
+        a.click();
+    };
+
+    const confirmDelete = (topic) => () => {
+        modal.confirm({
+            title: "Подтвердите действие",
+            content: (
+                <>
+                    Удалить вершину <b>{topic.name}</b>?
+                </>
+            ),
+            okText: "Удалить",
+            okButtonProps: { danger: true },
+            cancelText: "Отмена",
+            onOk: () => goTo(`/ka_topics/destroy/${topic.id}`),
+        });
+    };
+
+    const prepareChildren = (children) =>
+        children.map((child) => ({
+            title: (
+                <Space>
+                    <a href={`/ka_topics/edit/${child.id}`}>{child.name}</a>
+                    <Button danger size="small" type="link" onClick={confirmDelete(child)} icon={<DeleteOutlined />} />
+                </Space>
+            ),
+            children: prepareChildren(child.children || []),
+        }));
+    const treeData = prepareChildren(struct?.children || []);
+
+    return struct ? (
+        <div>
+            <h5 className="my-3">Подтемы</h5>
+            {struct.children && struct.children.length ? (
+                <div>
+                    <div>
+                        <Button icon={<PlusOutlined />} style={{ width: "100%", marginBottom: 5 }}>
+                            Добавить
+                        </Button>
+                    </div>
+                    <div>
+                        <Tree treeData={treeData} />
+                    </div>
+                </div>
             ) : (
-                <Alert variant="primary">Подтем не добавлено</Alert>
+                <Empty description="Подтемы не созданы">
+                    <Button icon={<PlusOutlined />}>Добавить</Button>
+                </Empty>
             )}
-            <RemoveSubTopicConfirm
-                show={confirmDeleteTopicId}
-                topic_id={confirmDeleteTopicId}
-                handleClose={handleDeleteClose}
-            />
-        </Container>
+            {contextHolder}
+        </div>
     ) : (
-        <Spinner />
+        <Skeleton />
     );
 };

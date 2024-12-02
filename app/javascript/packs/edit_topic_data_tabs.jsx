@@ -1,49 +1,35 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
+import { Row, Col, Tabs } from "antd";
 import Questions from "../src/ka_topics/Questions";
 import SubTopics from "../src/ka_topics/SubTopics";
 import Competences from "../src/ka_topics/Competences";
 import Constructs from "../src/ka_topics/Constructs";
 import Relations from "../src/ka_topics/Relations";
 
-const TabSetGenerator = ({
-    params,
-    activeKeyStack,
-    parents,
-    onSelect,
-    ...tabs
-}) => (
-    <Tabs
-        defaultActiveKey={
-            Object.keys(tabs).includes(activeKeyStack[0])
-                ? activeKeyStack[0]
-                : Object.keys(tabs)[0]
-        }
-        {...params}
-        onSelect={(key) => onSelect(key, parents)}
-    >
-        {Object.entries(tabs).map(([eventKey, tab]) => (
-            <Tab eventKey={eventKey} {...tab.params}>
-                {tab.content ? (
-                    tab.content
-                ) : tab.subtabs ? (
-                    <TabSetGenerator
-                        parents={(parents || []).concat([eventKey])}
-                        onSelect={onSelect}
-                        activeKeyStack={activeKeyStack.slice(1)}
-                        {...tab.subtabs}
-                    ></TabSetGenerator>
-                ) : (
-                    <></>
-                )}
-            </Tab>
-        ))}
-    </Tabs>
-);
+const TabSetGenerator = ({ params, activeKeyStack, parents, onSelect, ...tabs }) => {
+    const items = Object.entries(tabs).map(([key, tab]) => ({
+        key,
+        label: tab.params.title,
+        children: tab.content ? (
+            tab.content
+        ) : tab.subtabs ? (
+            <TabSetGenerator parents={(parents || []).concat([key])} onSelect={onSelect} activeKeyStack={activeKeyStack.slice(1)} {...tab.subtabs} />
+        ) : (
+            <></>
+        ),
+    }));
+
+    return (
+        <Tabs
+            defaultActiveKey={Object.keys(tabs).includes(activeKeyStack[0]) ? activeKeyStack[0] : Object.keys(tabs)[0]}
+            {...params}
+            onSelect={(key) => onSelect(key, parents)}
+            items={items}
+        />
+    );
+};
 
 const TopicDataTabs = ({ ka_topic_id, opened_tab }) => {
     const tabs = {
@@ -51,10 +37,6 @@ const TopicDataTabs = ({ ka_topic_id, opened_tab }) => {
         questions: {
             params: { className: "border rounded", title: "Вопросы" },
             content: <Questions ka_topic_id={ka_topic_id} />,
-        },
-        children: {
-            params: { className: "border rounded", title: "Подтемы" },
-            content: <SubTopics ka_topic_id={ka_topic_id} />,
         },
         competences: {
             params: { className: "border rounded", title: "Компетенции" },
@@ -74,14 +56,14 @@ const TopicDataTabs = ({ ka_topic_id, opened_tab }) => {
                         className: "border rounded",
                         title: "Конструкты (АМРР)",
                     },
-                    content: <Constructs ka_topic_id={ka_topic_id}/>,
+                    content: <Constructs ka_topic_id={ka_topic_id} />,
                 },
                 calculated: {
                     params: {
                         className: "border rounded",
                         title: "Построенные связи",
                     },
-                    content: <Relations ka_topic_id={ka_topic_id}/>,
+                    content: <Relations ka_topic_id={ka_topic_id} />,
                 },
             },
         },
@@ -138,28 +120,26 @@ const TopicDataTabs = ({ ka_topic_id, opened_tab }) => {
     };
 
     const onSelect = (key, parents) => {
-        localStorage.setItem(
-            "activeTabs",
-            (parents || []).join("-") + (parents ? "-" : "") + key
-        );
+        localStorage.setItem("activeTabs", (parents || []).join("-") + (parents ? "-" : "") + key);
     };
 
     const activeTabs = localStorage.getItem("activeTabs");
     const activeKeyStack = activeTabs ? activeTabs.split("-") : [];
-    return (
-        <TabSetGenerator
-            activeKeyStack={activeKeyStack}
-            onSelect={onSelect}
-            {...tabs}
-        ></TabSetGenerator>
-    );
+    return <TabSetGenerator activeKeyStack={activeKeyStack} onSelect={onSelect} {...tabs}></TabSetGenerator>;
 };
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("READY");
     const ka_topic_id = window.location.pathname.split("/").slice(-1)[0];
     ReactDOM.render(
-        <TopicDataTabs ka_topic_id={ka_topic_id} />,
+        <Row gutter={5}>
+            <Col span={7}>
+                <SubTopics ka_topic_id={ka_topic_id} />
+            </Col>
+            <Col span={17}>
+                <TopicDataTabs ka_topic_id={ka_topic_id} />
+            </Col>
+        </Row>,
         document.getElementById("topic-data-tabs")
     );
 });

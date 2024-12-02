@@ -158,6 +158,16 @@ class KaTopicsController < ApplicationController
     render json: @topic.children
   end
 
+  def get_tree
+    @topic = KaTopic.find(params[:id])
+    render json: @topic.get_tree
+  end
+
+  def get_struct
+    @topic = KaTopic.find(params[:id])
+    render json: @topic.get_struct
+  end
+
   def questions
     @topic = KaTopic.find(params[:id])
     render json: @topic.ka_question

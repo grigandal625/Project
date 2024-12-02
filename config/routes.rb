@@ -79,6 +79,8 @@ UIR::Application.routes.draw do
   get "/ka_topics/:id/competences", to: "ka_topics#competences", as: :ka_topic_competences
   get "/ka_topics/:id/components", to: "ka_topics#components", as: :ka_topic_components
   get "/ka_topics/:id/constructs", to: "ka_topics#constructs", as: :ka_topic_constructs
+  get "/ka_topics/:id/get_tree", to: "ka_topics#get_tree", as: :ka_topic_get_tree
+  get "/ka_topics/:id/get_struct", to: "ka_topics#get_struct", as: :ka_topic_get_struct
   get "/ka_topics/:id/etts", to: "ka_topics#etts", as: :ka_topic_etts
 
   get "/ka_topics/show_all_relations/:id", to: "ka_topics#show_all_relations", as: :show_all_relations

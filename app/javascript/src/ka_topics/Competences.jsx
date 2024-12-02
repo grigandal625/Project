@@ -92,7 +92,7 @@ export default ({ ka_topic_id }) => {
         loadRelatedCompetences(ka_topic_id, setRelatedCompetences).then(() => loadCompetences(setCompetences));
     }, []);
     return competences && relatedCompetences ? (
-        <Container>
+        <div fluid>
             <h3 className="my-3">Связи с компетенциями</h3>
             <a href={`/ka_topics/${ka_topic_id}/all_competences`}>Посмотреть все связи компетенций с элементами курса</a>
             <table className="w-100 border-0 border-top">
@@ -137,7 +137,7 @@ export default ({ ka_topic_id }) => {
                 handleClose={closeRemoving}
                 show={removingCompetenceId}
             />
-        </Container>
+        </div>
     ) : (
         <Spinner />
     );

@@ -1,55 +1,34 @@
 - if not @user
-  nav class="top-bar"
-    section class="top-bar-section"
-      ul class="right"
-        li
-          a class="text-decoration-none" href="#{login_path}" Вход
-        li
-          a class="text-decoration-none" href="#{new_user_path}" Регистрация
+  script 
+    | window.__MENU__ = [{path: "#{login_path}", label: "Вход"}, {path: "#{new_user_path}", label: "Регистрация"}]
 - elsif @user.role != 'admin'
-  nav class="top-bar"
-    section class="top-bar-section"
-      ul class="left"
-        li
-          a class="text-decoration-none" href="#{root_path}" Главная
-        li
-          a class="text-decoration-none" href="#{ka_welcome_path}" Пройти тест
-      ul class="right"
-        li
-          a class="text-decoration-none" href="#{get_logout_path}" Выход
+  script 
+    | window.__MENU__ = [{path: "#{root_path}", label: "Главная"}, {path: "#{ka_welcome_path}", label: "Пройти тест"}, {path: "#{get_logout_path}", label: "Выход"}]
 - else
-  nav class="top-bar"
-    section class="top-bar-section"
-      ul class="left"
-        li
-          a class="text-decoration-none" href="#{root_path}" Главная
-        li
-          a class="text-decoration-none" href="#{ka_welcome_path}" Пройти тест
-        li
-          a class="text-decoration-none" href="#{ka_topics_path}" Редактор
-        li
-          a class="text-decoration-none" href="#{all_ka_topics_path}" Темы
-        li
-          a class="text-decoration-none" href="#{ka_questions_path}" Вопросы
-        li
-          a class="text-decoration-none" href="#{competences_path}" Компетенции
-        li
-          a class="text-decoration-none" href="#{triade_formate_path}" АМРР
-        li
-          a class="text-decoration-none" href="#{constructs_path}" Конструкты
-        li
-          a class="text-decoration-none" href="#{components_path}" Компоненты
-        li
-          a class="text-decoration-none" href="#{new_ka_test_path}" Генератор
-        li
-          a class="text-decoration-none" href="#{ka_tests_path}" Тесты
-        li
-          a class="text-decoration-none" href="#{ka_results_path}" Результаты
-        li
-          a class="text-decoration-none" href="#{ontology_rules_path}" Интерпретация связей
-    section class="top-bar-section"
-      ul class="right"
-        li
-          a class="text-decoration-none" href="#{get_logout_path}" Выход
-/       li
-/          a class="text-decoration-none" href="#{users_path}" Пользователи
+  
+  script type="text/javascript"
+    | 
+      window.__MENU__ = [
+        {path: "#{root_path}", label: "Главная"}, 
+        {path: "#{ka_welcome_path}", label: "Пройти тест"}, 
+        {path: "#{ka_topics_path}", label: "Редактор"}, 
+        {path: "#{all_ka_topics_path}", label: "Темы"}, 
+        {path: "#{ka_questions_path}", label: "Вопросы"}, 
+        {path: "#{competences_path}", label: "Компетенции"}, 
+        {path: "#{triade_formate_path}", label: "АМРР"}, 
+        {path: "#{constructs_path}", label: "Конструкты"}, 
+        {path: "#{components_path}", label: "Компоненты"}, 
+        {path: "#{constructs_path}", label: "Генератор"}, 
+        {path: "#{constructs_path}", label: "Тесты"}, 
+        {path: "#{constructs_path}", label: "Результаты"}, 
+        {path: "#{constructs_path}", label: "Интерпретация связей"}, 
+        {path: "#{get_logout_path}", label: "Выход"}
+      ]
+
+div id="main_menu"
+
+= javascript_pack_tag 'ka_menu', 'data-turbolinks-track': 'reload'
+
+
+div class="content"
+  == yield
