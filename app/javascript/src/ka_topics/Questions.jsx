@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
-import { Spinner, Container, Stack, Button, Alert, Modal, Form } from "react-bootstrap";
+import { Spinner, Container, Stack, Alert } from "react-bootstrap";
+import { Form, Input, InputNumber, Checkbox, Row, Col, Table, Button, Space, Modal } from "antd";
+import { DeleteOutlined, PlusCircleOutlined } from "@ant-design/icons";
+
+const requiredRule = { required: true, message: "Заполните" };
 
 const loadQuestions = async (ka_topic_id, setQuestions) => {
     let cookies = new Cookies();
@@ -14,6 +18,64 @@ const loadQuestions = async (ka_topic_id, setQuestions) => {
 
     let data = await response.json();
     setQuestions(data);
+};
+
+const CheckboxField = ({ value, onChange, ...props }) => <Checkbox {...props} checked={value} onChange={(e) => onChange(e.target.checked)} />;
+
+const Answers = ({ fields, add, remove }) => {
+    const columns = [
+        {
+            title: "Текст ответа",
+            key: "answerText",
+            render: (field, _, i) => (
+                <Form.Item {...field} name={`answer_${i}_text`} rules={[requiredRule]}>
+                    <Input placeholder="Введите текст ответа" />
+                </Form.Item>
+            ),
+        },
+        {
+            title: "Корректность",
+            key: "answerCorrect",
+            render: (field, _, i) => (
+                <Form.Item {...field} name={`answer_${i}_correct`}>
+                    <CheckboxField />
+                </Form.Item>
+            ),
+        },
+        {
+            title: (
+                <Space>
+                    <span>Действия</span>
+                    <Button type="link" onClick={add} icon={<PlusCircleOutlined />} />
+                </Space>
+            ),
+            key: "answerDelete",
+            render: (_, __, i) => <Button danger type="link" icon={<DeleteOutlined />} onClick={() => remove(i)} />,
+        },
+    ];
+    return <Table columns={columns} dataSource={fields} />;
+};
+
+const QuestionForm = ({ form, ...props }) => {
+    return (
+        <Form layout="vertical" form={form} {...props}>
+            <Row wrap={false} gutter={5}>
+                <Col flex="auto">
+                    <Form.Item name="text" label="Текст вопроса" rules={[requiredRule]}>
+                        <Input placeholder="Введите текст вопроса" />
+                    </Form.Item>
+                </Col>
+                <Col>
+                    <Form.Item name="difficulty" label="Текст вопроса" rules={[requiredRule]}>
+                        <InputNumber min={1} max={3} step={1} placeholder="Укажите сложность вопроса" />
+                    </Form.Item>
+                </Col>
+            </Row>
+            <Form.Item>
+                <Form.List>{(fields, { add, remove }) => <Answers fields={fields} add={add} remove={remove} />}</Form.List>
+            </Form.Item>
+        </Form>
+    );
 };
 
 const CreateQuestionModal = ({ ka_topic_id, show, handleClose }) => {
@@ -30,24 +92,13 @@ const CreateQuestionModal = ({ ka_topic_id, show, handleClose }) => {
                         <Form.Group className="mb-3">
                             <Stack direction="horizontal" gap={2}>
                                 <Form.Label className="m-0">Текст вопроса</Form.Label>
-                                <Form.Control
-                                    className="m-0"
-                                    name="text"
-                                    required
-                                    placeholder="Введите вопрос"
-                                ></Form.Control>
+                                <Form.Control className="m-0" name="text" required placeholder="Введите вопрос"></Form.Control>
                             </Stack>
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Stack direction="horizontal" gap={2}>
                                 <Form.Label className="m-0">Сложность</Form.Label>
-                                <Form.Control
-                                    className="m-0 rounded"
-                                    name="difficulty"
-                                    required
-                                    type="number"
-                                    placeholder="Введите сложность"
-                                ></Form.Control>
+                                <Form.Control className="m-0 rounded" name="difficulty" required type="number" placeholder="Введите сложность"></Form.Control>
                             </Stack>
                         </Form.Group>
                     </Stack>
@@ -57,10 +108,7 @@ const CreateQuestionModal = ({ ka_topic_id, show, handleClose }) => {
                             <th>Текст ответа</th>
                             <th>Корректность</th>
                             <td>
-                                <a
-                                    className="text-decoration-none"
-                                    onClick={() => setAnswers(answers.concat([{ text: "", correct: false }]))}
-                                >
+                                <a className="text-decoration-none" onClick={() => setAnswers(answers.concat([{ text: "", correct: false }]))}>
                                     Добавить ответ
                                 </a>
                             </td>
@@ -76,11 +124,7 @@ const CreateQuestionModal = ({ ka_topic_id, show, handleClose }) => {
                                             className="border-0"
                                             value={answer.text}
                                             onChange={(e) => {
-                                                setAnswers(
-                                                    answers.map((a, idx) =>
-                                                        idx == i ? { ...a, text: e.target.value } : a
-                                                    )
-                                                );
+                                                setAnswers(answers.map((a, idx) => (idx == i ? { ...a, text: e.target.value } : a)));
                                             }}
                                         ></Form.Control>
                                     </Form.Group>
@@ -90,21 +134,14 @@ const CreateQuestionModal = ({ ka_topic_id, show, handleClose }) => {
                                         <Form.Check
                                             name={`answer_${i}_correct`}
                                             onChange={(e) => {
-                                                setAnswers(
-                                                    answers.map((a, idx) =>
-                                                        idx == i ? { ...a, correct: e.target.checked } : a
-                                                    )
-                                                );
+                                                setAnswers(answers.map((a, idx) => (idx == i ? { ...a, correct: e.target.checked } : a)));
                                             }}
                                             checked={answer.correct}
                                         ></Form.Check>
                                     </Form.Group>
                                 </td>
                                 <td>
-                                    <a
-                                        onClick={() => setAnswers(answers.filter((a, idx) => idx !== i))}
-                                        className="text-decoration-none"
-                                    >
+                                    <a onClick={() => setAnswers(answers.filter((a, idx) => idx !== i))} className="text-decoration-none">
                                         Удалить
                                     </a>
                                 </td>
@@ -148,12 +185,25 @@ export default ({ ka_topic_id }) => {
     useEffect(() => {
         loadQuestions(ka_topic_id, setQuestions);
     }, []);
+
+    const [modal, contextHolder] = Modal.useModal();
+    const [questionForm] = Form.useForm()
+
+    const handleAdd = () => {
+        questionForm.setFieldsValue({});
+        modal.confirm({
+            title: "Создание вопроса к вершине",
+            content: <QuestionForm form={questionForm} />,
+            width: 700
+        })
+    }
+
     return questions ? (
         <div fluid>
             <Stack className="my-3" direction="horizontal" gap={2}>
                 <h3>Список вопросов</h3>
                 <div className="ms-auto">
-                    <Button onClick={() => setShow(true)}>Добавить</Button>
+                    <Button onClick={handleAdd}>Добавить</Button>
                 </div>
             </Stack>
             {questions.length ? (
@@ -182,8 +232,7 @@ export default ({ ka_topic_id }) => {
             ) : (
                 <Alert variant="primary">Вопросов не добавлено</Alert>
             )}
-            <CreateQuestionModal ka_topic_id={ka_topic_id} show={show} handleClose={handleClose} />
-            <RemoveQuestionConfirm question_id={confirmingId} show={confirmingId} handleClose={handleDeleteClose} />
+            {contextHolder}
         </div>
     ) : (
         <Spinner />
