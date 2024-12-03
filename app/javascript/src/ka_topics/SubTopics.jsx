@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import "./SubTopics.css";
-import { Button, Empty, Skeleton, Tree, Modal, Form, Input, Space } from "antd";
+import { Button, Empty, Skeleton, Tree, Modal, Form, Input, Row, Col, Typography } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
 const loadChildren = async (ka_topic_id, setChildren) => {
@@ -31,6 +31,14 @@ const loadStruct = async (ka_topic_id, setStruct) => {
     let data = await response.json();
     setStruct(data);
 };
+
+const NewTopicForm = ({ form, ...props }) => (
+    <Form form={form} {...props}>
+        <Form.Item name="text" label="Название вершины" rules={[{ required: true, message: "Заполните" }]}>
+            <Input placeholder="Укажите название вершины" />
+        </Form.Item>
+    </Form>
+);
 
 /*
 <form method="post" action="/ka_topics/new">
@@ -80,25 +88,59 @@ export default ({ ka_topic_id }) => {
         });
     };
 
+    const [form] = Form.useForm();
+
+    const handleAdd = () =>
+        modal.info({
+            title: "Добавление подтемы",
+            content: <NewTopicForm layout="vertical" form={form} />,
+            okText: "Создать",
+            cancelText: "Отмена",
+            okCancel: true,
+            onOk: async () => {
+                const data = await form.validateFields();
+                const cookies = new Cookies();
+                const response = await fetch("/ka_topics/new", {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Token ${cookies.get("auth_token")}`,
+                        "Content-Type": "application/json",
+                        "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify({...data, parent_id: ka_topic_id}),
+                });
+                if (response.ok) {
+                    const newTopic = await response.json();
+                    setStruct({...struct, children: [...struct.children, newTopic]})
+                }
+            },
+        });
+
     const prepareChildren = (children) =>
         children.map((child) => ({
             title: (
-                <Space>
-                    <a href={`/ka_topics/edit/${child.id}`}>{child.name}</a>
-                    <Button danger size="small" type="link" onClick={confirmDelete(child)} icon={<DeleteOutlined />} />
-                </Space>
+                <Row wrap={false}>
+                    <Col flex="auto">
+                        <a href={`/ka_topics/edit/${child.id}`}>{child.name}</a>
+                    </Col>
+                    <Col>
+                        <Button danger size="small" type="link" onClick={confirmDelete(child)} icon={<DeleteOutlined />} />
+                    </Col>
+                </Row>
             ),
             children: prepareChildren(child.children || []),
+            style: { width: "100%" },
         }));
     const treeData = prepareChildren(struct?.children || []);
 
     return struct ? (
         <div>
-            <h5 className="my-3">Подтемы</h5>
+            <Typography.Title level={3}>Подтемы</Typography.Title>
             {struct.children && struct.children.length ? (
                 <div>
                     <div>
-                        <Button icon={<PlusOutlined />} style={{ width: "100%", marginBottom: 5 }}>
+                        <Button icon={<PlusOutlined />} onClick={handleAdd} style={{ width: "100%", marginBottom: 5 }}>
                             Добавить
                         </Button>
                     </div>
@@ -108,7 +150,9 @@ export default ({ ka_topic_id }) => {
                 </div>
             ) : (
                 <Empty description="Подтемы не созданы">
-                    <Button icon={<PlusOutlined />}>Добавить</Button>
+                    <Button onClick={handleAdd} icon={<PlusOutlined />}>
+                        Добавить
+                    </Button>
                 </Empty>
             )}
             {contextHolder}

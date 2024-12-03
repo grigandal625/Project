@@ -1,17 +1,23 @@
 = csrf_meta_tags
+script type="text/javascript"
+  |
+    window.__TOPIC__ = {id: "#{@topic.id}", text: "#{@topic.text}", parent: "#{@topic.parent_id}"}
+
 = content_for :outer_row do 
-  div style="width: 100%; margin-left: auto; margin-right: auto; margin-top: 0; margin-bottom: 0; max-width: 62.5rem;"
-    h1 class="mt-3" Тема #{'"'+ @topic.text + '"'}
-    - if not @topic.parent_id.nil?
-      div class="my-3"
-        a class="text-decoration-none" href="#{edit_ka_topic_path(@topic.parent_id)}" <<< К родительской вершине (#{@topic.parent.text})
-    form method="post" action="#{edit_ka_topic_text_path(@topic.id)}"
-      div class="hstack gap-2 my-4"
-        input class="rounded m-0" type="text" name="text" placeholder="Новое название темы" value="#{@topic.text}"
-        input type="submit" class="btn btn-primary rounded" value="Переименовать"
+  / div style="width: 100%; margin-left: auto; margin-right: auto; margin-top: 0; margin-bottom: 0; max-width: 62.5rem;"
+  /   h1 class="mt-3" Тема #{'"'+ @topic.text + '"'}
+  /   - if not @topic.parent_id.nil?
+  /     div class="my-3"
+  /       a class="text-decoration-none" href="#{edit_ka_topic_path(@topic.parent_id)}" <<< К родительской вершине (#{@topic.parent.text})
+  /   form method="post" action="#{edit_ka_topic_text_path(@topic.id)}"
+  /     div class="hstack gap-2 my-4"
+  /       input class="rounded m-0" type="text" name="text" placeholder="Новое название темы" value="#{@topic.text}"
+  /       input type="submit" class="btn btn-primary rounded" value="Переименовать"
 
   div style="padding: 20px"
     div id="topic-data-tabs"
+
+
 
   = javascript_pack_tag 'edit_topic_data_tabs', 'data-turbolinks-track': 'reload'
 

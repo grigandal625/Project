@@ -235,7 +235,11 @@ class KaTopicsController < ApplicationController
       topic.parent = parent
     end
     topic.save!
-    redirect_to :back
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render json: {id: topic.id, text: topic.text, name: topic.text, children: []} }
+    end
+    
   end
 
   def create
@@ -284,7 +288,11 @@ class KaTopicsController < ApplicationController
       topic.text = params[:text]
       topic.save
     end
-    redirect_to :back
+    
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render json: {id: topic.id, text: topic.text} }
+    end
   end
 
   def edit_utz

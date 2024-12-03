@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-import { Row, Col, Tabs } from "antd";
+import { Row, Col, Tabs, Form, Input, Button, Typography, Space, message } from "antd";
 import Questions from "../src/ka_topics/Questions";
 import SubTopics from "../src/ka_topics/SubTopics";
 import Competences from "../src/ka_topics/Competences";
 import Constructs from "../src/ka_topics/Constructs";
 import Relations from "../src/ka_topics/Relations";
+import { BackwardOutlined } from "@ant-design/icons";
+import Cookies from "universal-cookie";
 
 const TabSetGenerator = ({ params, activeKeyStack, parents, onSelect, ...tabs }) => {
     const items = Object.entries(tabs).map(([key, tab]) => ({
@@ -128,18 +130,83 @@ const TopicDataTabs = ({ ka_topic_id, opened_tab }) => {
     return <TabSetGenerator activeKeyStack={activeKeyStack} onSelect={onSelect} {...tabs}></TabSetGenerator>;
 };
 
+const TopicNameForm = ({ topic, setTopic }) => {
+    const cookies = new Cookies();
+    return <Form
+        onFinish={async (data) => {
+            const response = await fetch(`/ka_topics/edit_text/${topic.id}`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Token ${cookies.get("auth_token")}`,
+                    "Content-Type": "application/json",
+                    "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                    Accept: "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            if (response.ok) {
+                message.success("Данные обновлены");
+                const json = await response.json();
+                setTopic({ ...topic, ...json });
+            }
+        }}
+        initialValues={topic}
+    >
+        <Row wrap={false} gutter={10}>
+            <Col flex="auto" style={{ whiteSpace: "nowrap" }}>
+                <Form.Item label="Название вершины" rules={[{ required: true, message: "Заполните" }]} name="text">
+                    <Input style={{ width: "100%" }} placeholder="Укажите название" />
+                </Form.Item>
+            </Col>
+            <Form.Item>
+                <Button htmlType="submit" type="primary">
+                    Переименовать
+                </Button>
+            </Form.Item>
+        </Row>
+    </Form>
+};
+
+const TopicHeader = () => {
+    const [topic, setTopic] = useState(window.__TOPIC__);
+
+    return topic ? (
+        <>
+            <div>
+                {topic.parent ? (
+                    <a href={`/ka_topics/edit/${topic.parent}`}>
+                        <Space>
+                            <BackwardOutlined />
+                            <span>К родителской теме</span>
+                        </Space>
+                    </a>
+                ) : (
+                    <></>
+                )}{" "}
+            </div>
+            <Typography.Title level={2}>{topic.text}</Typography.Title>
+            <TopicNameForm topic={topic} setTopic={setTopic} />
+        </>
+    ) : (
+        <></>
+    );
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     console.log("READY");
     const ka_topic_id = window.location.pathname.split("/").slice(-1)[0];
     ReactDOM.render(
-        <Row gutter={5}>
-            <Col span={7}>
-                <SubTopics ka_topic_id={ka_topic_id} />
-            </Col>
-            <Col span={17}>
-                <TopicDataTabs ka_topic_id={ka_topic_id} />
-            </Col>
-        </Row>,
+        <div>
+            <TopicHeader />
+            <Row gutter={15}>
+                <Col span={7}>
+                    <SubTopics ka_topic_id={ka_topic_id} />
+                </Col>
+                <Col span={17}>
+                    <TopicDataTabs ka_topic_id={ka_topic_id} />
+                </Col>
+            </Row>
+        </div>,
         document.getElementById("topic-data-tabs")
     );
 });
