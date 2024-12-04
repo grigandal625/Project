@@ -170,7 +170,7 @@ class KaTopicsController < ApplicationController
 
   def questions
     @topic = KaTopic.find(params[:id])
-    render json: @topic.ka_question
+    render json: @topic.ka_question.as_json(include: :ka_answer)
   end
 
   def competences

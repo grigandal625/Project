@@ -27,7 +27,10 @@ class KaQuestionsController < ApplicationController
         c = c + 1
       end
     end
-    redirect_to :back
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render json: question.as_json }
+    end
   end
 
   def edit
@@ -41,7 +44,20 @@ class KaQuestionsController < ApplicationController
       end
       question.save
     end
-    redirect_to :back
+    if params.has_key?(:answers)
+      KaAnswer.where(ka_question_id: params[:id]).destroy_all
+      params[:answers].each do |answer|
+        a = KaAnswer.new
+        a.ka_question_id = params[:id]
+        a.text = answer[:text]
+        a.correct = answer[:correct]
+        a.save
+      end
+    end
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render json: question.as_json(include: :ka_answer) }
+    end
   end
 
   def index
@@ -49,6 +65,10 @@ class KaQuestionsController < ApplicationController
 
   def show
     @question = KaQuestion.find(params[:id])
+    respond_to do |format|
+      format.html { }
+      format.json { render json: @question.as_json(include: :ka_answer) }
+    end
   end
 
   def destroy
@@ -56,6 +76,9 @@ class KaQuestionsController < ApplicationController
     if question
       question.destroy
     end
-    redirect_to :back
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render json: params }
+    end
   end
 end

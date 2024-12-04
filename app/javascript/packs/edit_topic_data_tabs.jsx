@@ -132,39 +132,41 @@ const TopicDataTabs = ({ ka_topic_id, opened_tab }) => {
 
 const TopicNameForm = ({ topic, setTopic }) => {
     const cookies = new Cookies();
-    return <Form
-        onFinish={async (data) => {
-            const response = await fetch(`/ka_topics/edit_text/${topic.id}`, {
-                method: "POST",
-                headers: {
-                    Authorization: `Token ${cookies.get("auth_token")}`,
-                    "Content-Type": "application/json",
-                    "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-                    Accept: "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-            if (response.ok) {
-                message.success("Данные обновлены");
-                const json = await response.json();
-                setTopic({ ...topic, ...json });
-            }
-        }}
-        initialValues={topic}
-    >
-        <Row wrap={false} gutter={10}>
-            <Col flex="auto" style={{ whiteSpace: "nowrap" }}>
-                <Form.Item label="Название вершины" rules={[{ required: true, message: "Заполните" }]} name="text">
-                    <Input style={{ width: "100%" }} placeholder="Укажите название" />
+    return (
+        <Form
+            onFinish={async (data) => {
+                const response = await fetch(`/ka_topics/edit_text/${topic.id}`, {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Token ${cookies.get("auth_token")}`,
+                        "Content-Type": "application/json",
+                        "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
+                if (response.ok) {
+                    message.success("Данные обновлены");
+                    const json = await response.json();
+                    setTopic({ ...topic, ...json });
+                }
+            }}
+            initialValues={topic}
+        >
+            <Row wrap={false} gutter={10}>
+                <Col flex="auto" style={{ whiteSpace: "nowrap" }}>
+                    <Form.Item label="Название вершины" rules={[{ required: true, message: "Заполните" }]} name="text">
+                        <Input style={{ width: "100%" }} placeholder="Укажите название" />
+                    </Form.Item>
+                </Col>
+                <Form.Item>
+                    <Button htmlType="submit" type="primary">
+                        Переименовать
+                    </Button>
                 </Form.Item>
-            </Col>
-            <Form.Item>
-                <Button htmlType="submit" type="primary">
-                    Переименовать
-                </Button>
-            </Form.Item>
-        </Row>
-    </Form>
+            </Row>
+        </Form>
+    );
 };
 
 const TopicHeader = () => {
@@ -172,19 +174,21 @@ const TopicHeader = () => {
 
     return topic ? (
         <>
-            <div>
-                {topic.parent ? (
-                    <a href={`/ka_topics/edit/${topic.parent}`}>
-                        <Space>
-                            <BackwardOutlined />
-                            <span>К родителской теме</span>
-                        </Space>
-                    </a>
-                ) : (
-                    <></>
-                )}{" "}
-            </div>
-            <Typography.Title level={2}>{topic.text}</Typography.Title>
+            <Typography.Title level={2}>
+                <Space>
+                    <span>{topic.text}</span>
+                    {topic.parent ? (
+                        <Typography.Link href={`/ka_topics/edit/${topic.parent}`}>
+                            <Space>
+                                <BackwardOutlined />
+                                <span>К родительской теме</span>
+                            </Space>
+                        </Typography.Link>
+                    ) : (
+                        <></>
+                    )}
+                </Space>
+            </Typography.Title>
             <TopicNameForm topic={topic} setTopic={setTopic} />
         </>
     ) : (
@@ -198,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ReactDOM.render(
         <div>
             <TopicHeader />
-            <Row gutter={15}>
+            <Row gutter={30}>
                 <Col span={7}>
                     <SubTopics ka_topic_id={ka_topic_id} />
                 </Col>
