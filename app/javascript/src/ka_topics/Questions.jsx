@@ -67,7 +67,7 @@ const Answers = ({ fields, add, remove }) => {
     );
 };
 
-const QuestionForm = ({ form, ...props }) => {
+export const QuestionForm = ({ form, ...props }) => {
     return (
         <Form layout="vertical" form={form} {...props}>
             <Row wrap={false} gutter={5}>

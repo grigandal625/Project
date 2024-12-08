@@ -5,3 +5,5 @@ html
   body style="margin: 0px;"
     = render "layouts/header"
     == yield :outer_row
+    div class="content"
+      == yield
