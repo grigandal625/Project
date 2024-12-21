@@ -1,18 +1,22 @@
 script src="/js/jquery.min.js"
 script src="/js/jquery.rest.js"
+link rel="stylesheet" href="/css/foundation.min.css"
+script src="/js/foundation.min.js"
+script src="/js/table2CSV.js"
 
-h3 #{@test.text}
-form method="post" action="#{check_ka_variant_path(@variant.id)}"
-  div class="fixed"
-    input type="submit" class="button expand" id="button" value="Отправить #{@test.minutes}:00"
-  - @questions.each do |number, question, answers|
-    h5 #{number}. #{question.text}
-    table
-      - answers.each do |a|
-        tr
-          td
-            input type="checkbox" name="answer_id:#{a.id}"
-          td.answer = a.text
+div class="row"
+  h3 #{@test.text}
+  form method="post" action="#{check_ka_variant_path(@variant.id)}"
+    div class="fixed"
+      input type="submit" class="button expand" id="button" value="Отправить #{@test.minutes}:00"
+    - @questions.each do |number, question, answers|
+      h5 #{number}. #{question.text}
+      table
+        - answers.each do |a|
+          tr
+            td
+              input type="checkbox" name="answer_id:#{a.id}"
+            td.answer = a.text
 
 javascript:
   setInterval(function() {

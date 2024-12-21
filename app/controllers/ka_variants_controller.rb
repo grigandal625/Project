@@ -7,10 +7,10 @@ class KaVariantsController < ApplicationController
   def check
     variant = KaVariant.find(params[:id])
     @error = 0
-    # if KaResult.where(user_id: @user.id, ka_test_id: variant.ka_test.id).count > 0 and @user.role != "admin"
-    #   @error = 1
-    #   return
-    # end
+    if KaResult.where(user_id: @user.id, ka_test_id: variant.ka_test.id).count > 0 and @user.role != "admin"
+      @error = 1
+      return
+    end
 
     @assessment = 0
     answers = {}

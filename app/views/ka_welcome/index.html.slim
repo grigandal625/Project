@@ -1,11 +1,17 @@
-h2 Включенные тесты
-table
-  thead
-    th.test = "Тест"
-  tbody
-    - KaTest.where(on: 1).each do |t|
-      form method="get"
-        tr
-          td.test = t.text
-          td
-            a href="#{run_ka_test_path(t.id)}" Пройти
+link rel="stylesheet" href="/css/foundation.min.css"
+script src="/js/jquery.min.js"
+script src="/js/jquery.rest.js"
+script src="/js/foundation.min.js"
+script src="/js/table2CSV.js"
+div class="row"
+  h2 Включенные тесты
+  table
+    thead
+      th.test = "Тест"
+    tbody
+      - KaTest.where(on: 1).each do |t|
+        form method="get"
+          tr
+            td.test = t.text
+            td
+              a href="#{run_ka_test_path(t.id)}" Пройти
