@@ -108,11 +108,11 @@ export default ({ ka_topic_id }) => {
                         "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
                         Accept: "application/json",
                     },
-                    body: JSON.stringify({...data, parent_id: ka_topic_id}),
+                    body: JSON.stringify({ ...data, parent_id: ka_topic_id }),
                 });
                 if (response.ok) {
                     const newTopic = await response.json();
-                    setStruct({...struct, children: [...struct.children, newTopic]})
+                    setStruct({ ...struct, children: [...struct.children, newTopic] });
                 }
             },
         });
@@ -120,9 +120,10 @@ export default ({ ka_topic_id }) => {
     const prepareChildren = (children) =>
         children.map((child) => ({
             title: (
-                <Row wrap={false}>
-                    <Col flex="auto">
-                        <a href={`/ka_topics/edit/${child.id}`}>{child.name}</a>
+                <Row wrap={false} gutter={10}>
+                    <Col flex="auto">{child.name}</Col>
+                    <Col>
+                        <a href={`/ka_topics/edit/${child.id}`}>Редактировать</a>
                     </Col>
                     <Col>
                         <Button danger size="small" type="link" onClick={confirmDelete(child)} icon={<DeleteOutlined />} />

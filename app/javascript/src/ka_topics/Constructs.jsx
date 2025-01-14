@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
-import { Spinner, Container, Stack, Button } from "react-bootstrap";
-import { Modal } from "react-bootstrap";
+import { Col, Row, Skeleton, Typography, Button, Table, Modal, message, Form, InputNumber } from "antd";
 
 const loadRelatedConstructs = async (ka_topic_id, setRelatedConstructs) => {
     let cookies = new Cookies();
@@ -44,113 +43,136 @@ const attachConstruct = async ({ topic_id, construct_id, mark }) => {
         body: JSON.stringify({ topic_id, construct_id, mark }),
     });
 
-    let data = await response.json();
-    return data;
+    return response;
 };
 
-const RemoveMarkConfirm = ({ ka_topic_id, construct_id, show, handleClose }) => (
-    <Modal show={show} onHide={handleClose}>
-        <Modal.Header>Удалить оценку?</Modal.Header>
-        <Modal.Footer>
-            <a className="text-decoration-none" href={`/constructs/${construct_id}/detach_from/${ka_topic_id}`}>
-                <Button variant="danger">Удалить</Button>
-            </a>
-            <Button onClick={handleClose} variant="secondary-outline">
-                Отмена
-            </Button>
-        </Modal.Footer>
-    </Modal>
-);
-
-const AddConstructModal = ({ ka_topic_id, construct, handleClose }) => {
-    const [mark, setMark] = useState();
-    const close = () => handleClose();
-
-    const submit = async () => {
-        await attachConstruct({ topic_id: ka_topic_id, construct_id: construct.id, mark });
-        handleClose();
-    };
+const MarkForm = ({ form, construct, ...props }) => {
+    const [actualForm] = form ? [form] : Form.useForm();
 
     return (
-        <Modal show={construct} onHide={close}>
-            <Modal.Header>Добавление оценки связи между элементом курса и конструктом {construct?.text || construct?.name}</Modal.Header>
-            <Modal.Body>
-                <Stack className="my-4" direction="horizontal" gap={2}>
-                    <label>Оценка связи</label>
-                    <input
-                        type="number"
-                        min={0}
-                        step={1}
-                        value={mark}
-                        onChange={(e) => setMark(e.target.value)}
-                        className="m-0 rounded"
-                        name="weight"
-                        placeholder="Введите оценку связи"
-                    ></input>
-                </Stack>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={submit}>Добавить оценку</Button>
-                <Button onClick={close} variant="secondary-outline">
-                    Отмена
-                </Button>
-            </Modal.Footer>
-        </Modal>
+        <>
+            <Typography.Title level={5}>Добавление оценки конструкта {construct?.text || construct?.name} для вершины</Typography.Title>
+            <Form form={actualForm} {...props}>
+                <Form.Item name="mark" label="Оценка" rules={[{ required: true, message: "Укажите оценку" }]}>
+                    <InputNumber style={{width: "100%"}} min={0} max={100} precision={0} placeholder="Укажите оценку" />
+                </Form.Item>
+            </Form>
+        </>
     );
 };
 
 export default ({ ka_topic_id }) => {
     const [constructs, setConstructs] = useState();
     const [relatedConstructs, setRelatedConstructs] = useState();
-    const [currentConstruct, setCurrentConstruct] = useState();
-    const [removingConstructId, setRemovingConstructId] = useState();
+    const [modal, contextHolder] = Modal.useModal();
 
     useEffect(() => {
         loadRelatedConstructs(ka_topic_id, setRelatedConstructs).then(loadConstructs(setConstructs));
     }, []);
 
-    const closeModal = () => {
-        setCurrentConstruct();
-        loadRelatedConstructs(ka_topic_id, setRelatedConstructs).then(loadConstructs(setConstructs));
+    const performDelete = (construct) => async () => {
+        let cookies = new Cookies();
+        let response = await fetch(`/constructs/${construct.id}/detach_from/${ka_topic_id}`, {
+            headers: {
+                Authorization: `Token ${cookies.get("auth_token")}`,
+                "Content-Type": "application/json",
+                "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+            },
+        });
+        if (response.ok) {
+            setRelatedConstructs(relatedConstructs.filter((r) => r.construct_id !== construct.id));
+        } else {
+            const text = await response.text();
+            console.error(text);
+            message.error("Ошибка");
+        }
     };
 
-    const closeRemove = () => setRemovingConstructId();
+    const handleDelete = (construct) => {
+        modal.confirm({
+            title: "Удаление оценки конструкта",
+            content: (
+                <Typography.Text>
+                    Удалить оценку конструкта <b>{construct.name}</b> для данной вершины?
+                </Typography.Text>
+            ),
+            onOk: performDelete(construct),
+            okText: "Удалить",
+            cancelText: "Отмена",
+            okButtonProps: { danger: true },
+        });
+    };
+
+    const [form] = Form.useForm();
+
+    const performCreate = (construct) => async () => {
+        const data = await form.validateFields();
+        const response = await attachConstruct({ topic_id: ka_topic_id, construct_id: construct.id, ...data });
+        if (response.ok) {
+            setRelatedConstructs([...relatedConstructs, { construct_id: construct.id, ...data }]);
+        } else {
+            const text = await response.text();
+            console.error(text);
+            message.error("Ошибка");
+        }
+    };
+
+    const handleCreate = (construct) => {
+        form.resetFields();
+        modal
+            .confirm({
+                title: "Добавление оценки конструкта",
+                content: <MarkForm form={form} construct={construct} />,
+                onOk: performCreate(construct),
+                okText: "Добавить",
+                cancelText: "Отмена",
+            })
+            .then()
+            .catch();
+    };
+
+    const columns = [
+        {
+            key: "construct",
+            title: "Конструкт",
+            dataIndex: "name",
+        },
+        {
+            key: "mark",
+            title: "Оценка",
+            render: (construct) => relatedConstructs.find((c) => c.construct_id == construct.id)?.mark.toString() || "Оценка не задана",
+        },
+        {
+            key: "actions",
+            title: "Действия",
+            render: (construct) => relatedConstructs.find((c) => c.construct_id == construct.id) ? (
+                <Button type="link" danger onClick={() => handleDelete(construct)}>
+                    Удалить оценку
+                </Button>
+            ) : (
+                <Button type="link" onClick={() => handleCreate(construct)}>
+                    Добавить оценку
+                </Button>
+            ),
+        },
+    ];
 
     return constructs && relatedConstructs ? (
-        <div fluid>
-            <Stack><h3 className="my-3">Оценки связей с конструктами</h3><a href={`/triade/${ka_topic_id}/show_grid`} target="_blank">Редактировать репертуарную решетку</a></Stack>
-            <table className="w-100 border-0 border-top">
-                <tr className="p-2">
-                    <th>Конструкт</th>
-                    <th>Оценка</th>
-                    <th>Действия</th>
-                </tr>
-                {constructs.map((construct) => (
-                    <tr>
-                        <td>{construct.name}</td>
-                        <td>
-                            {relatedConstructs.find((c) => c.construct_id == construct.id)
-                                ? relatedConstructs.find((c) => c.construct_id == construct.id).mark
-                                : "Оценка не задана"}
-                        </td>
-                        <td>
-                            {relatedConstructs.find((c) => c.construct_id == construct.id) ? (
-                                <a className="text-decoration-none cursor-pointer" onClick={() => setRemovingConstructId(construct.id)}>
-                                    Удалить оценку
-                                </a>
-                            ) : (
-                                <a className="text-decoration-none cursor-pointer" onClick={() => setCurrentConstruct(construct)}>
-                                    Добавить оценку
-                                </a>
-                            )}
-                        </td>
-                    </tr>
-                ))}
-            </table>
-            <AddConstructModal ka_topic_id={ka_topic_id} construct={currentConstruct} handleClose={closeModal} />
-            <RemoveMarkConfirm ka_topic_id={ka_topic_id} construct_id={removingConstructId} show={removingConstructId} handleClose={closeRemove} />
+        <div>
+            <Row gutter={10} align="bottom">
+                <Col flex="auto">
+                    <Typography.Title level={5}>Оценки связей с конструктами</Typography.Title>
+                </Col>
+                <Col>
+                    <Typography.Link href={`/triade/${ka_topic_id}/show_grid`} target="_blank">
+                        Редактировать репертуарную решетку
+                    </Typography.Link>
+                </Col>
+            </Row>
+            <Table size="small" dataSource={constructs} columns={columns} pagination={false} />
+            {contextHolder}
         </div>
     ) : (
-        <Spinner />
+        <Skeleton active />
     );
 };

@@ -1,5 +1,5 @@
+import { Tag, Table, Button, Skeleton, Typography, Empty, Row, Col } from "antd";
 import React, { useState, useEffect } from "react";
-import { Spinner, Container, Button } from "react-bootstrap";
 import Cookies from "universal-cookie";
 
 const loadRelations = async (ka_topic_id, setRelations) => {
@@ -42,43 +42,51 @@ export default ({ ka_topic_id }) => {
         await execAmrr(ka_topic_id, setRelations);
     };
 
+    const columns = [
+        {
+            key: "vertex",
+            title: "Текущая вершина",
+            render: (rel) => rel.topic.text,
+        },
+        {
+            key: "relatedVertex",
+            title: "Связанная вершина",
+            render: (rel) => (
+                <a href={`/ka_topics/edit/${rel.related_topic.id}`} target="_blank">
+                    {rel.related_topic.text}
+                </a>
+            ),
+        },
+        {
+            key: "relationType",
+            title: "Тип связи",
+            render: (rel) => (
+                <Tag color={{ 0: "red", 1: "yellow", 2: "green" }[rel.relation_type]}>
+                    {{ 0: "Агрегация (сильная)", 1: "Ассоциация (средняя)", 2: "Слабая" }[rel.relation_type]}
+                </Tag>
+            ),
+        },
+    ];
+
     return (
-        <div fluid>
-            <h3 className="my-3">Построенные связи между элементами курса</h3>
+        <div>
             {relations ? (
                 <>
-                    <div className="p-1">
-                        <Button onClick={calcRels}>Пересчитать связи (АМРР)</Button>
-                    </div>
-                    {relations.length ? (
-                        <table className="w-100 border-0 border-top">
-                            <thead>
-                                <tr className="p-2">
-                                    <th>Текущая вершина</th>
-                                    <th>Связанная вершина</th>
-                                    <th>Тип связи</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {relations.map((rel) => (
-                                    <tr>
-                                        <td>{rel.topic.text}</td>
-                                        <td>
-                                            <a href={`/ka_topics/edit/${rel.related_topic.id}`} target="_blank">
-                                                {rel.related_topic.text}
-                                            </a>
-                                        </td>
-                                        <td>{{ 0: "Агрегация (сильная)", 1: "Ассоциация (средняя)", 2: "Слабая" }[rel.relation_type]}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        <div>Нет связей</div>
-                    )}
+                    <Row wrap={false} gutter={10} align="bottom">
+                        <Col flex="auto">
+                            <Typography.Title level={5}>Построенные связи между элементами курса</Typography.Title>
+                        </Col>
+                        <Col>
+                            <Button type="primary" onClick={calcRels}>
+                                Пересчитать связи (АМРР)
+                            </Button>
+                        </Col>
+                    </Row>
+
+                    {relations.length ? <Table size="small" dataSource={relations} columns={columns} pagination={false} /> : <Empty description="Нет связей" />}
                 </>
             ) : (
-                <Spinner />
+                <Skeleton active />
             )}
         </div>
     );

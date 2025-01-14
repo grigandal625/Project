@@ -7,8 +7,8 @@ import SubTopics from "../src/ka_topics/SubTopics";
 import Competences from "../src/ka_topics/Competences";
 import Constructs from "../src/ka_topics/Constructs";
 import Relations from "../src/ka_topics/Relations";
-import { BackwardOutlined } from "@ant-design/icons";
 import Cookies from "universal-cookie";
+import Navigation from "../src/ka_topics/Navigation";
 
 const TabSetGenerator = ({ params, activeKeyStack, parents, onSelect, ...tabs }) => {
     const items = Object.entries(tabs).map(([key, tab]) => ({
@@ -174,21 +174,10 @@ const TopicHeader = () => {
 
     return topic ? (
         <>
-            <Typography.Title level={2}>
-                <Space>
-                    <span>{topic.text}</span>
-                    {topic.parent ? (
-                        <Typography.Link href={`/ka_topics/edit/${topic.parent}`}>
-                            <Space>
-                                <BackwardOutlined />
-                                <span>К родительской теме</span>
-                            </Space>
-                        </Typography.Link>
-                    ) : (
-                        <></>
-                    )}
-                </Space>
-            </Typography.Title>
+            <Typography.Title level={2}>{topic.text}</Typography.Title>
+            <div style={{marginBottom: 20}}>
+                <Navigation ka_topic_id={topic.id} />
+            </div>
             <TopicNameForm topic={topic} setTopic={setTopic} />
         </>
     ) : (

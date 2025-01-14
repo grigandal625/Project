@@ -19,6 +19,20 @@ const loadQuestions = async (ka_topic_id, setQuestions) => {
     setQuestions(data);
 };
 
+export const loadQuestion = async (id) => {
+    let cookies = new Cookies();
+    let response = await fetch(`/ka_questions/show/${id}`, {
+        headers: {
+            Authorization: `Token ${cookies.get("auth_token")}`,
+            "Content-Type": "application/json",
+            "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+        },
+    });
+
+    let data = await response.json();
+    return data;
+};
+
 const CheckboxField = ({ value, onChange, ...props }) => <Checkbox {...props} checked={value} onChange={(e) => onChange(e.target.checked)} />;
 
 const Answers = ({ fields, add, remove }) => {
@@ -88,6 +102,21 @@ export const QuestionForm = ({ form, ...props }) => {
         </Form>
     );
 };
+
+export const updateQuestion = async (id, question) => {
+    const cookies = new Cookies();
+    const response = await fetch(`/ka_questions/edit/${id}`, {
+        method: "POST",
+        headers: {
+            Authorization: `Token ${cookies.get("auth_token")}`,
+            "Content-Type": "application/json",
+            "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+            Accept: "application/json",
+        },
+        body: JSON.stringify(question),
+    });
+    return response;
+}
 
 export default ({ ka_topic_id }) => {
     const [questions, setQuestions] = useState();

@@ -1,56 +1,63 @@
-h2 #{@question.text}
-h5 
-  a href="#{edit_ka_topic_path(@question.ka_topic)}" Редактировать вершину онтологии
-h3 Редактировать
-form method="post" action="#{edit_ka_question_path(@question.id)}"
-  div class="row"
-    div class="large-12 columns"
-      div class="row collapse"
-        div class="small-6 columns"
-          input type="text" name="text" placeholder="Новый текст" value="#{@question.text}"
-        div class="small-2 columns"
-          input type="number" name="difficulty" placeholder="Сложность" value="#{@question.difficulty}"
-        div class="small-2 columns"
-          span class="prefix"
-            - if @question.disable != 0
-              input type="checkbox" id="disable" name="disable" checked="checked"
-            - else
-              input type="checkbox" id="disable" name="disable"
-            label for="disable" Отключить
-        div class="small-2 columns"
-          input type="submit" class="button postfix"
-h3 Новый ответ
-form method="post" action="#{new_ka_answer_path}"
-  div class="row"
-    div class="large-12 columns"
-      div class="row collapse"
-        input type="hidden" name="question_id" value="#{@question.id}"
-        div class="small-8 columns"
-          input type="text" name="text" placeholder="Текст ответа"
-        div class="small-2 columns"
-          span class="prefix"
-            input type="checkbox" id="checkbox1" name="correct"
-            label for="checkbox1" Коректность
-        div class="small-2 columns"
-          input type="submit" class="button postfix"
-h3 Ответы
-- KaAnswer.where(ka_question_id: @question.id).each do |t|
-  form method="post" action="#{edit_ka_answer_path(t.id)}"
-    div class="row"
-      div class="large-12 columns"
-        div class="row collapse"
-          div class="small-7 columns"
-            input type="text" name="text" placeholder="Текст ответа" value="#{t.text}"
-          div class="small-2 columns"
-            span class="prefix"
-              - if t.correct != 0
-                input type="checkbox" id="box#{t.id}" name="correct" checked="checked"
-              - else
-                input type="checkbox" id="box#{t.id}" name="correct"
-              label for="box#{t.id}" Коректность
-          div class="small-1 columns"
-            span class="prefix"
-              a href="#{ka_answer_destroy_path(t.id)}"
-                input style="background: #ff6b6b" type="button" value="X"
-          div class="small-2 columns"
-            input type="submit" class="button postfix"
+/ h2 #{@question.text}
+/ h5 
+/   a href="#{edit_ka_topic_path(@question.ka_topic)}" Редактировать вершину онтологии
+/ h3 Редактировать
+/ form method="post" action="#{edit_ka_question_path(@question.id)}"
+/   div class="row"
+/     div class="large-12 columns"
+/       div class="row collapse"
+/         div class="small-6 columns"
+/           input type="text" name="text" placeholder="Новый текст" value="#{@question.text}"
+/         div class="small-2 columns"
+/           input type="number" name="difficulty" placeholder="Сложность" value="#{@question.difficulty}"
+/         div class="small-2 columns"
+/           span class="prefix"
+/             - if @question.disable != 0
+/               input type="checkbox" id="disable" name="disable" checked="checked"
+/             - else
+/               input type="checkbox" id="disable" name="disable"
+/             label for="disable" Отключить
+/         div class="small-2 columns"
+/           input type="submit" class="button postfix"
+/ h3 Новый ответ
+/ form method="post" action="#{new_ka_answer_path}"
+/   div class="row"
+/     div class="large-12 columns"
+/       div class="row collapse"
+/         input type="hidden" name="question_id" value="#{@question.id}"
+/         div class="small-8 columns"
+/           input type="text" name="text" placeholder="Текст ответа"
+/         div class="small-2 columns"
+/           span class="prefix"
+/             input type="checkbox" id="checkbox1" name="correct"
+/             label for="checkbox1" Коректность
+/         div class="small-2 columns"
+/           input type="submit" class="button postfix"
+/ h3 Ответы
+/ - KaAnswer.where(ka_question_id: @question.id).each do |t|
+/   form method="post" action="#{edit_ka_answer_path(t.id)}"
+/     div class="row"
+/       div class="large-12 columns"
+/         div class="row collapse"
+/           div class="small-7 columns"
+/             input type="text" name="text" placeholder="Текст ответа" value="#{t.text}"
+/           div class="small-2 columns"
+/             span class="prefix"
+/               - if t.correct != 0
+/                 input type="checkbox" id="box#{t.id}" name="correct" checked="checked"
+/               - else
+/                 input type="checkbox" id="box#{t.id}" name="correct"
+/               label for="box#{t.id}" Коректность
+/           div class="small-1 columns"
+/             span class="prefix"
+/               a href="#{ka_answer_destroy_path(t.id)}"
+/                 input style="background: #ff6b6b" type="button" value="X"
+/           div class="small-2 columns"
+/             input type="submit" class="button postfix"
+
+div style="padding: 20px"
+  div id="question-root"
+
+
+
+= javascript_pack_tag 'edit_question_page', 'data-turbolinks-track': 'reload'
