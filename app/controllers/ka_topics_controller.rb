@@ -173,6 +173,19 @@ class KaTopicsController < ApplicationController
     render json: @topic.ka_question.as_json(include: :ka_answer)
   end
 
+  def parents
+    topic = KaTopic.find(params[:id])
+    render json: get_topic_with_parents(topic)
+  end
+
+  def get_topic_with_parents(topic)
+    result = {id: topic.id, text: topic.text, parent: nil }
+    if topic.parent
+      result[:parent] = get_topic_with_parents(topic.parent)
+    end
+    return result
+  end
+
   def competences
     @topic = KaTopic.find(params[:id])
     render json: @topic.topic_competences

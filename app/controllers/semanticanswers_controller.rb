@@ -60,12 +60,12 @@ include PlanningHelper
     @semantic = Semanticnetwork.find(params[:id])
   	@semantic.mistakes = ""
     @user = User.find (session["user_id"])
-  	if (@user.role == 'admin' || (@user.role == 'student' && !@semantic.iscomplite))
+  	if (true)
   		@semantic.json = params[:json]
   			
       obj = @semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson)
 		  result = obj[0]
-      @semantic.mistakes = obj[1]
+      @semantic.mistakes = obj[1]+
       @semantic.rating = result
       @semantic.iscomplite = true
 	    @semantic.save()

@@ -16,7 +16,12 @@ class TriadeController < ApplicationController
   end
 
   def formate
-    @roots = KaTopic.where(parent_id: nil)
+    @roots = []
+    KaTopic.all().each do |r|
+      if r.parent.nil?
+        @roots.push(r)
+      end
+    end
   end
 
   def list

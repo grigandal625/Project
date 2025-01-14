@@ -14,10 +14,13 @@ class KaQuestionsController < ApplicationController
       while params.has_key?(('answer_' + c.to_s + '_text').to_sym)
         text = params[('answer_' + c.to_s + '_text').to_sym]
         correct = params[('answer_' + c.to_s + '_correct').to_sym]
-        if correct == 'on'
-          correct = 1
-        else
-          correct = 0
+
+        if correct.class == String
+          if correct == 'on'
+            correct = 1
+          else
+            correct = 0
+          end
         end
         a = KaAnswer.new
         a.ka_question_id = question.id
@@ -29,7 +32,7 @@ class KaQuestionsController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to :back }
-      format.json { render json: question.as_json }
+      format.json { render json: question.as_json(include: :ka_answer) }
     end
   end
 
