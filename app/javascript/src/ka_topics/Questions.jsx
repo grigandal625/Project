@@ -25,6 +25,7 @@ export const loadQuestion = async (id) => {
         headers: {
             Authorization: `Token ${cookies.get("auth_token")}`,
             "Content-Type": "application/json",
+            Accept: "application/json",
             "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
         },
     });

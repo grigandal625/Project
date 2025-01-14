@@ -1,12 +1,14 @@
 import React from "react";
 import { loadQuestion, QuestionForm, updateQuestion } from "../src/ka_topics/Questions";
-import { Typography, Button, Skeleton, Form, Row, Col, message } from "antd";
+import { Typography, Button, Skeleton, Form, message, Row, Col } from "antd";
 import { useState } from "react";
 import { useEffect } from "react";
+import ReactDOM from "react-dom";
 
 const QuestionEditor = ({ question_id }) => {
     const [question, setQuestion] = useState();
     const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         loadQuestion(question_id).then((question) => {
@@ -17,18 +19,9 @@ const QuestionEditor = ({ question_id }) => {
     }, [question_id]);
 
     const handleSubmit = async () => {
-        const question = await questionForm.validateFields();
-        const cookies = new Cookies();
-        const response = await fetch(`/ka_questions/edit/${id}`, {
-            method: "POST",
-            headers: {
-                Authorization: `Token ${cookies.get("auth_token")}`,
-                "Content-Type": "application/json",
-                "X-CSRF-Token": window.document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-                Accept: "application/json",
-            },
-            body: JSON.stringify(question),
-        });
+        setLoading(true)
+        const question = await form.validateFields();
+        const response = await updateQuestion(question_id, question);
         if (response.ok) {
             let data = await response.json();
             setQuestion(data);
@@ -36,14 +29,41 @@ const QuestionEditor = ({ question_id }) => {
         } else {
             message.error("Ошибка");
         }
+        setLoading(false)
     };
 
     return question ? (
         <>
-            <Typography.Title level={5}>Редактирование вопроса</Typography.Title>
-            <Typography.Link href={`/ka_topics/edit/${question.ka_topic_id}`}>Редактировать вершину онтологии</Typography.Link>
+            <Row style={{marginBottom: 20}} wrap={false} gutter={10} align="bottom">
+                <Col flex="auto">
+                    <Typography.Title style={{ margin: 0 }} level={5}>
+                        Редактирование вопроса
+                    </Typography.Title>
+                </Col>
+                <Col>
+                    <Button loading={loading} onClick={handleSubmit} type="primary">
+                        Сохранить
+                    </Button>
+                </Col>
+                <Col>
+                    <a href={`/ka_topics/edit/${question.ka_topic_id}`}>
+                        <Button type="link">Редактировать вершину онтологии</Button>
+                    </a>
+                </Col>
+            </Row>
             <QuestionForm form={form} />
-            <Button onClick={handleSubmit} type="primary" />
+            <Row gutter={10}>
+                <Col>
+                    <Button loading={loading} onClick={handleSubmit} type="primary">
+                        Сохранить
+                    </Button>
+                </Col>
+                <Col>
+                    <a href={`/ka_topics/edit/${question.ka_topic_id}`}>
+                        <Button type="link">Редактировать вершину онтологии</Button>
+                    </a>
+                </Col>
+            </Row>
         </>
     ) : (
         <Skeleton active />
