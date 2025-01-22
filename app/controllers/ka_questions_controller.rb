@@ -50,10 +50,11 @@ class KaQuestionsController < ApplicationController
     if params.has_key?(:answers)
       KaAnswer.where(ka_question_id: params[:id]).destroy_all
       params[:answers].each do |answer|
-        a = KaAnswer.new
-        a.ka_question_id = params[:id]
-        a.text = answer[:text]
-        a.correct = answer[:correct]
+        correct = answer[:correct]
+        if correct.nil?
+          correct = false
+        end
+        a = KaAnswer.new(ka_question: question, text: answer[:text], correct: correct)
         a.save
       end
     end
