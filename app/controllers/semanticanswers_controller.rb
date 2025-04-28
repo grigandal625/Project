@@ -65,7 +65,7 @@ include PlanningHelper
   			
       obj = @semantic.check_predicat(@semantic.json, @semantic.etalon.etalonjson)
 		  result = obj[0]
-      @semantic.mistakes = obj[1]+
+      @semantic.mistakes = obj[1]
       @semantic.rating = result
       @semantic.iscomplite = true
 	    @semantic.save()
