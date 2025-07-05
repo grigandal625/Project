@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import VertexParameter from "../src/ontology_rules/criterias/parameters/VertexParameter";
+import { createRoot } from "react-dom/client";
 
 const TopicTreeSingle = () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -24,9 +25,8 @@ const TopicTreeSingle = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("READY");
-    ReactDOM.render(
-        <TopicTreeSingle />,
-        document.getElementById("topic-tree-single")
+    createRoot(document.getElementById("topic-tree-single")).render(
+        <TopicTreeSingle />
     );
     const urlParams = new URLSearchParams(window.location.search);
     const minWeight =

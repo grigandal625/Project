@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Cookies from "universal-cookie";
 import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
 const QuestionEditor = ({ question_id }) => {
     const [question, setQuestion] = useState();
@@ -118,5 +119,5 @@ const QuestionEditor = ({ question_id }) => {
 document.addEventListener("DOMContentLoaded", () => {
     console.log("READY");
     const question_id = window.location.pathname.split("/").slice(-1)[0];
-    ReactDOM.render(<QuestionEditor question_id={question_id} />, document.getElementById("question-root"));
+    createRoot(document.getElementById("question-root")).render(<QuestionEditor question_id={question_id} />);
 });

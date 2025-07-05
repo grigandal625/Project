@@ -1,0 +1,12 @@
+x-backend: &backend
+  build:
+    context: .
+    dockerfile: ./docker/Dockerfile
+  
+
+services:
+  backend:
+    <<: *backend
+    command: bundle exec rails server -b 0000 -p 1841
+    ports:
+      - 1841:1841

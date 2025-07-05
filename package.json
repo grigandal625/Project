@@ -16,7 +16,9 @@
     "react-draggable": "^4.4.5",
     "react-dropdown-tree-select": "^2.8.0",
     "react-foundation": "^0.9.7",
-    "universal-cookie": "^4.0.4"
+    "universal-cookie": "^4.0.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator":"^7.18.6"
   },
   "devDependencies": {
     "webpack-dev-server": "^4.11.1"

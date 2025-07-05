@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom";
 import React from "react";
 import GroupWrapper from "../src/sort_elems/GroupsWrapper";
+import { createRoot } from "react-dom/client";
 
 const elements = [
     "декада",
@@ -41,7 +42,7 @@ const elements = [
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
-    ReactDOM.render(
+    createRoot(document.getElementById("root")).render(
         <>
             <h4 style={{ color: "white" }}>
                 Сейчас будет предложен набор карточек с написанными на них
@@ -52,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 Количество групп и число карточек в них может быть <b>любым</b>.
             </h4>
             <GroupWrapper elements={elements}></GroupWrapper>
-        </>,
-        document.getElementById("root")
+        </>
     );
 });
