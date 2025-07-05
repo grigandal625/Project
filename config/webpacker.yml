@@ -8,6 +8,13 @@ default: &default
   cache_path: tmp/cache/webpacker
   check_yarn_integrity: false
   webpack_compile_output: true
+  source_entry_extensions: # Add this section
+    - .js
+    - .jsx
+    - .ts
+    - .tsx
+    - .mjs
+    - .coffee
 
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']

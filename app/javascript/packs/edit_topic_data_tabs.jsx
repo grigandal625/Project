@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
 import { Row, Col, Tabs, Form, Input, Button, Typography, Space, message } from "antd";
 import Questions from "../src/ka_topics/Questions";
@@ -188,7 +189,7 @@ const TopicHeader = () => {
 document.addEventListener("DOMContentLoaded", () => {
     console.log("READY");
     const ka_topic_id = window.location.pathname.split("/").slice(-1)[0];
-    ReactDOM.render(
+    createRoot(document.getElementById("topic-data-tabs")).render(
         <div>
             <TopicHeader />
             <Row gutter={30}>

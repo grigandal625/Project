@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
 const getTopicsTree = async (setTree) => {
     let cookies = new Cookies();
@@ -190,5 +191,5 @@ const TopicTree = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("READY");
-    ReactDOM.render(<TopicTree />, document.getElementById("topic-tree"));
+    createRoot(document.getElementById("topic-tree")).render(<TopicTree />);
 });
