@@ -27,3 +27,4 @@ RUN bundle exec rails webpacker:install:react
 RUN sed -i '/plugins: \[/a \    "@babel\/plugin-proposal-optional-chaining",\n    "@babel\/plugin-proposal-nullish-coalescing-operator",' babel.config.js
 # RUN cat babel.config.js
 RUN NODE_OPTIONS=--openssl-legacy-provider bundle exec rails webpacker:compile
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "1841"]
