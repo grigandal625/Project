@@ -17,3 +17,7 @@ cptests:
 	cp tmp/output/topics.txt ../task_generator_mephi/ext/tasks_generator/tests/inputs
 	cp tmp/output/questions.txt ../task_generator_mephi/ext/tasks_generator/tests/inputs
 	
+build:
+	docker buildx build -f ./docker/Dockerfile -t at-tutoring-old:latest . 
+run:
+	docker run --name at_tutoring_old -d -p 1841:1841 at-tutoring-old:latest 
