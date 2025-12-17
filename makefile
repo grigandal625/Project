@@ -21,9 +21,9 @@ build:
 	docker buildx build -f ./docker/Dockerfile -t at-tutoring-old:latest . 
 run:
 	docker rm -f at_tutoring_old 2>/dev/null || true
-	docker run --name at_tutoring_old -v "db:/app/db" -d -p 1841:1841 at-tutoring-old:latest 
+	docker run --name at_tutoring_old -v "./db:/app/db" -d -p 1841:1841 at-tutoring-old:latest 
 down:
 	docker rm -f at_tutoring_old 2>/dev/null || true
 active:
 	docker rm -f at_tutoring_old 2>/dev/null || true
-	docker run --name at_tutoring_old -v "db:/app/db" -p 1841:1841 at-tutoring-old:latest 
+	docker run --name at_tutoring_old -v "./db:/app/db" -p 1841:1841 at-tutoring-old:latest 
