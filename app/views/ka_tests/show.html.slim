@@ -4,7 +4,7 @@ script src="/js/jquery.rest.js"
 script src="/js/foundation.min.js"
 script src="/js/table2CSV.js"
 h2 #{@test.text}
-- for number in 1...@test.variants_count + 1
+- for number in 1...KaVariant.where(ka_test_id: @test.id).count + 1
   h4 Вариант #{number}
   table
     thead
