@@ -4,8 +4,8 @@ script src="/js/jquery.rest.js"
 script src="/js/foundation.min.js"
 script src="/js/table2CSV.js"
 h2 #{@test.text}
-- for number in 1...KaVariant.where(ka_test_id: @test.id).count + 1
-  h4 Вариант #{number}
+- KaVariant.where(ka_test_id: @test.id).each do |var|
+  h4 Вариант #{var.number}
   table
     thead
       tr
@@ -13,7 +13,7 @@ h2 #{@test.text}
         th.name = "Вопрос"
         th.difficulty = "Сложность"
     tbody
-      - KaVariant.find_by(ka_test_id: @test.id, number: number).ka_question.each do |v|
+      - var.ka_question.each do |v|
         tr
           td.topic = topics_list(KaQuestion.find(v.id).ka_topic_id)
           td.name = KaQuestion.find(v.id).text
