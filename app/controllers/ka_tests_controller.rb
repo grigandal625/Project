@@ -175,7 +175,7 @@ class KaTestsController < ApplicationController
       redirect_to :back and return
     end
     # TODO: Check current test is running
-    @variant = KaVariant.find_by(ka_test_id: @test.id, number: rand(@test.variants_count) + 1)
+    @variant = KaVariant.where(ka_test_id: @test.id).order('RANDOM()').first
     @variants = @variant.ka_question.shuffle
     @questions = []
     @variants.each do |v|
