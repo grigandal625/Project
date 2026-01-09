@@ -23,8 +23,14 @@ table id="table"
         tr
           td.name = r.user.student.fio
           td.group = r.user.student.group.number
-          td.variant = r.ka_variant.number
+          - if r.ka_variant.nil?
+            td.variant = "удален"
+          - else
+            td.variant = r.ka_variant.number
           td.created_at = r.created_at.to_time.strftime('%d-%m-%Y %H:%M:%S')
           td.assessment = r.assessment
           td
-            a href="#{show_detail_ka_result_path(r.id)}" Подробнее
+            - if r.ka_variant.nil?
+              (не доступно)
+            - else
+              a href="#{show_detail_ka_result_path(r.id)}" Подробнее
