@@ -342,7 +342,6 @@ DEPENDENCIES
   solargraph (~> 0.44.0)
   spreadsheet
   sqlite3 (~> 1.3.0)
-  tasks_generator!
   therubyracer
   translit
   turbolinks
